@@ -45,7 +45,7 @@ Vue.use(jvuewheel);
 2.  电子屏数字（JElectronicNumber）：[https://blog.csdn.net/Twinkle_sone/article/details/120582994](https://blog.csdn.net/Twinkle_sone/article/details/120582994)
 3.  流程图组件（JFlowchart）
 4.  表格组件（JTable）
-5.  代码高亮组件（JCodeHeightLight）
+5.  代码高亮组件（JCodeHeightLight）：[https://blog.csdn.net/Twinkle_sone/article/details/121964878](https://blog.csdn.net/Twinkle_sone/article/details/121964878)
 6.  canvas画板组件（JCanvasBroad）：[https://blog.csdn.net/Twinkle_sone/article/details/121476250](https://blog.csdn.net/Twinkle_sone/article/details/121476250)
 7.  数字滚动变化效果（JNumRolling）：[https://blog.csdn.net/Twinkle_sone/article/details/121541104](https://blog.csdn.net/Twinkle_sone/article/details/121541104)
 8.  对话弹窗（JDialog）
