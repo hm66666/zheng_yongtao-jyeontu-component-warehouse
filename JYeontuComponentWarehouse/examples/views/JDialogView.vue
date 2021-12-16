@@ -173,7 +173,7 @@ export default {
     mounted() {},
     methods: {
         confirm() {
-            console.log("confirm");
+            // console.log("confirm");
             this.$refs.JDialog.closeDialog();
         }
     }
