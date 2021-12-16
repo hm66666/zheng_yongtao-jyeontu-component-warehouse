@@ -279,7 +279,6 @@ export default {
             this.startAxisY = stopAxisY;
         },
         createImage() {
-            console.log("-------");
             const canvas = document.getElementById("canvas"); //获取canvas标签
             const img_png_src = canvas.toDataURL("image/png"); //将画板保存为图片格式的函数
             // console.log('=====',img_png_src);//data:image/png;base64,iVBOR.....

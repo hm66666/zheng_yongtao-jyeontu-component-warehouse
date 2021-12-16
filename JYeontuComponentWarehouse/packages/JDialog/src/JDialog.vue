@@ -74,12 +74,10 @@ export default {
     },
     methods: {
         getStyle(obj) {
-            console.log(obj);
             let res = "";
             for (let k in obj) {
                 res += camelTo_(k) + ":" + obj[k] + ";";
             }
-            console.log(res);
             return res;
         },
         doClick(flag = "") {

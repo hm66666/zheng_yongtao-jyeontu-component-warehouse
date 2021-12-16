@@ -186,7 +186,7 @@ export default {
             this.initData();
             let jSteps = document.getElementById("j-steps");
             parent = jSteps.parentElement;
-            console.log("---", jSteps, parent, parent.offsetWidth);
+            // console.log("---", jSteps, parent, parent.offsetWidth);
         },
         initData() {
             if (this.sortBy) {

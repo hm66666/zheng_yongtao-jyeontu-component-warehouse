@@ -129,7 +129,7 @@ export const numberToChineseWords = money => {
         integerNum = parts[0];
         decimalNum = parts[1].substr(0, 4);
     }
-    console.log(integerNum, decimalNum);
+    // console.log(integerNum, decimalNum);
     // 获取整型部分转换
     if (parseInt(integerNum, 10) > 0) {
         var zeroCount = 0;
