@@ -1,5 +1,5 @@
 <template>
-    <td class="j-tr-content" :colspan="title.length" :style="getMargin()">
+    <td class="j-tr-content" :colspan="title.length" :style="getPadding()">
         <template v-for="(item, index) in tableData">
             <tr
                 class="j-table-tr j-table-title"
@@ -51,13 +51,24 @@
                     </span>
                 </td>
             </tr>
-            <j-tr
-                v-if="expendList.indexOf(tableId + '-' + index) != -1"
-                :key="tableId + '-' + index"
-                :tableId="tableId + '-' + index"
-                :tableData="item.children.data"
-                :title="item.children.title"
-            ></j-tr>
+            <template v-if="expendList.indexOf(tableId + '-' + index) != -1">
+                <tr
+                    v-if="item.children.type == 'text'"
+                    :key="tableId + '-' + index"
+                    :style="getPadding(1) + 'border-top: 1px solid skyblue;'"
+                >
+                    <td :colspan="title.length">
+                        {{ item.children.text }}
+                    </td>
+                </tr>
+                <j-tr
+                    v-else
+                    :key="tableId + '-' + index"
+                    :tableId="tableId + '-' + index"
+                    :tableData="item.children.data"
+                    :title="item.children.title"
+                ></j-tr>
+            </template>
         </template>
     </td>
 </template>
@@ -96,9 +107,9 @@ export default {
         };
     },
     methods: {
-        getMargin() {
-            let ind = this.tableId.split("-").length - 1;
-            return "padding-left:" + 0.4 * ind + "rem";
+        getPadding(n = 0) {
+            let ind = this.tableId.split("-").length - 1 + n;
+            return "padding-left:" + 0.4 * ind + "rem;";
         },
         getShow(index) {
             let flag = this.tableId + "-" + index;

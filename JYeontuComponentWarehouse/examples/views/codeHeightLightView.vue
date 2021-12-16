@@ -83,7 +83,7 @@ export default {
                     parameter: "color",
                     field: "关键字颜色配置",
                     type: "Object",
-                    describe: "详细参数如下"
+                    describe: "详细参数可展开查看"
                 },
                 {
                     parameter: "keyWords",
@@ -101,12 +101,95 @@ export default {
     //监控data中的数据变化",
     watch: {},
     //方法集合",
-    methods: {},
+    methods: {
+        initData() {
+            const title1 = [...this.title1];
+            let tableData1 = this.tableData1;
+            let colorObj = {
+                title: title1,
+                data: [
+                    {
+                        parameter: "keyWord",
+                        field: "js关键字颜色",
+                        type: "String",
+                        describe: "设置js关键字颜色，默认值为orange"
+                    },
+                    {
+                        parameter: "varWord",
+                        field: "js变量颜色",
+                        type: "String",
+                        describe: "设置js变量颜色，默认值为purple"
+                    },
+                    {
+                        parameter: "tagWord",
+                        field: "html标签颜色",
+                        type: "String",
+                        describe: "设置html标签颜色，默认值为#F9273F"
+                    },
+                    {
+                        parameter: "attrWord",
+                        field: "html属性颜色",
+                        type: "String",
+                        describe: "设置html属性颜色，默认值为green"
+                    },
+                    {
+                        parameter: "attrValue",
+                        field: "html属性值颜色",
+                        type: "String",
+                        describe: "设置html属性值颜色，默认值为yellow"
+                    },
+                    {
+                        parameter: "strWord",
+                        field: "字符串变量值颜色",
+                        type: "String",
+                        describe: "设置字符串变量值颜色，默认值为green"
+                    },
+                    {
+                        parameter: "methodkeyWord",
+                        field: "js方法名颜色",
+                        type: "String",
+                        describe: "设置js方法名颜色，默认值为#74759b"
+                    },
+                    {
+                        parameter: "functionkeyWord",
+                        field: "自定义函数名颜色",
+                        type: "String",
+                        describe: "设置自定义函数名颜色，默认值为#2c9678"
+                    },
+                    {
+                        parameter: "note",
+                        field: "注释颜色",
+                        type: "String",
+                        describe: "设置注释颜色，默认值为grey"
+                    }
+                ]
+            };
+            let keyWordObj = {
+                title: title1,
+                data: [
+                    {
+                        parameter: "value",
+                        field: "关键字",
+                        type: "String",
+                        describe: "自定义关键字"
+                    },
+                    {
+                        parameter: "color",
+                        field: "关键字颜色",
+                        type: "String",
+                        describe: "设置自定义关键字颜色"
+                    }
+                ]
+            };
+            tableData1[1].children = colorObj;
+            tableData1[2].children = keyWordObj;
+        }
+    },
     //生命周期 - 创建之前",数据模型未加载,方法未加载,html模板未加载
     beforeCreate() {},
-
     //生命周期 - 创建完成（可以访问当前this实例）",数据模型已加载，方法已加载,html模板已加载,html模板未渲染
     created() {
+        this.initData();
         this.code = `
 		<j-code-height-light :code = "code" 
 				:keyWords = "keyWords" 
