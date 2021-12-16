@@ -21,12 +21,14 @@
             </div>
         </template>
         <template v-slot:right-p>
-            <j-table
-                :title="tableTitle"
-                :tableData="tableData"
-                style="height: 500px;"
-            >
-            </j-table>
+            <div>
+                <j-table
+                    :title="tableTitle"
+                    :tableData="tableData"
+                    style="height: 500px;"
+                >
+                </j-table>
+            </div>
         </template>
         <template v-slot:footer-p>
             <j-code-height-light :code="code" class="footer">

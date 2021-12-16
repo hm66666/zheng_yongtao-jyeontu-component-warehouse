@@ -12,10 +12,9 @@
                 <j-flow-chart :chartData="chartData"></j-flow-chart>
             </div>
             <div class="table-body">
-                <div>流程图chartData配置表</div>
-                <j-table :title="title" :tableData="tableData"> </j-table>
-                <div style="margin-top: 2rem;">流程项data配置表</div>
-                <j-table :title="title" :tableData="tableData1"> </j-table>
+                <div>
+                    <j-table :title="title" :tableData="tableData"> </j-table>
+                </div>
             </div>
         </div>
         <j-code-height-light :code="code"></j-code-height-light>
@@ -170,11 +169,14 @@ export default {
     created() {
         // let chartData = this.chartData;
         let data = this.chartData.data;
+        this.tableData[3].children = {
+            title: this.title,
+            data: this.tableData1
+        };
         this.chartData.data = this.chartData.data.concat([...data]);
         this.chartData.data = this.chartData.data.concat([...data]);
         this.code = `
           <j-flow-chart :chartData="chartData"></j-flow-chart>
-
           chartData:{
             title:'可拖拽流程图',
             dragAble:true,

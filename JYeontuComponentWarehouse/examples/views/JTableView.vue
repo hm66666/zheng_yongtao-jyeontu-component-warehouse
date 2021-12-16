@@ -9,17 +9,26 @@
             </div>
         </template>
         <template v-slot:left-p>
-            <j-table :tableId="'t1'" ref="t1" :title="title" :tableData="tableData">
-            </j-table>
+            <div>
+                <j-table
+                    :tableId="'t1'"
+                    ref="t1"
+                    :title="title"
+                    :tableData="tableData"
+                >
+                </j-table>
+            </div>
         </template>
         <template v-slot:right-p>
-            <j-table
-                :tableId="'t2'"
-                ref="t2"
-                :title="title1"
-                :tableData="tableData1"
-            >
-            </j-table>
+            <div>
+                <j-table
+                    :tableId="'t2'"
+                    ref="t2"
+                    :title="title1"
+                    :tableData="tableData1"
+                >
+                </j-table>
+            </div>
         </template>
         <template v-slot:footer-p>
             <j-code-height-light :code="code" class="footer">
@@ -131,7 +140,11 @@ export default {
                 {
                     name: "李四",
                     age: "18",
-                    work: "学生"
+                    work: "学生",
+                    children: {
+                        type: "text",
+                        text: "测试text"
+                    }
                 },
                 {
                     name: "王五",
@@ -269,6 +282,11 @@ export default {
                         title: title1,
                         data: titleObj
                     };
+                } else if (tableData[i].parameter === "tableData") {
+                    tableData[i].children = {
+                        type: "text",
+                        text: "children:{type:'text',text:'展示数据'}"
+                    };
                 }
             }
         }
@@ -290,7 +308,8 @@ export default {
                         /**
                          * title中的title字段会作为表头显示
                          * title中key值代表列名 与 tableData中数据属性对应 
-                         * tableData的属性由title的key集合加children组成 children为下级数据,同样包含title(可空)和data属性
+                         * tableData的属性由title的key集合加children组成 children为下级数据
+                         * children的属性同样包含title(可空)和data，另外增加了type（指定下级类型，默认为table）和text（type为text时展示）
                          * 可以递归嵌套
                          */
                         title:[
@@ -385,7 +404,11 @@ export default {
                             {
                                 name: "李四",
                                 age: "18",
-                                work: "学生"
+                                work: "学生",
+                                children: {
+                                    type: "text",
+                                    text: "测试text"
+                                }
                             },
                             {
                                 name: "王五",

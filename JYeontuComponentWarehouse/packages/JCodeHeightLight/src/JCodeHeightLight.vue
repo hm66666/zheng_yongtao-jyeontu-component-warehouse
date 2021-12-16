@@ -249,6 +249,7 @@ export default {
                         colors.note +
                         ';"><span><</span><span>!--</span>$2<span>--</span><span>></span>'
                 );
+                textCode = textCode.replace(/空格符/g, "&nbsp;");
                 textCode = textCode.replace(/换行符/g, "<br/>");
                 textCode = textCode.replace(/缩进符/g, "&nbsp;&nbsp;");
                 contentCodeHtml.innerHTML = textCode;
