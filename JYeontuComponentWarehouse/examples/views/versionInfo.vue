@@ -5,7 +5,7 @@
                 <div class="title">
                     版本介绍（jvuewheel）
                     <div class="detail">
-                        目前最新版本为0.1.4
+                        目前最新版本为0.1.4，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
