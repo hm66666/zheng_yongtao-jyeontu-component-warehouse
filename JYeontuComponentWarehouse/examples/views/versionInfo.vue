@@ -53,7 +53,7 @@ export default {
             dataList: [
                 {
                     title: "未定版本（todoList）",
-                    descript: "增加：进度条组件……",
+                    descript: "增加：进度条组件……；优化：代码编写，项目结构",
                     time: "未定",
                     icon: "未"
                 },
