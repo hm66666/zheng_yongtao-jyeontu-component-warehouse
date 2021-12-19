@@ -8,7 +8,26 @@
         >
         </j-electronic-number>
         <span id="username" class="username">JYeontu</span>
-        <img class="avatar" src="../../assets/logo.png" alt="" />
+        <div class="hover-boards">
+            <img class="avatar" src="../../assets/logo.png" alt="" />
+            <div class="hover-board">
+                <div class="board-header"></div>
+                <div class="board-body">
+                    <div
+                        v-for="(item, index) in boardList"
+                        :key="index"
+                        class="board-list"
+                    >
+                        <div
+                            v-if="item.type === 'router'"
+                            @click="goRoute(item)"
+                        >
+                            {{ item.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -21,10 +40,27 @@ export default {
         return {
             numbers: [],
             numberColor: "pink",
-            numberSize: "0.6rem"
+            numberSize: "0.6rem",
+            boardList: [
+                {
+                    name: "文档",
+                    type: "router",
+                    value: "homePage",
+                    click: "clickDoc"
+                },
+                {
+                    name: "博客",
+                    type: "router",
+                    value: "blog",
+                    click: "clickBlog"
+                }
+            ]
         };
     },
     methods: {
+        goRoute(item) {
+            this.$router.push(item.value);
+        },
         getTime() {
             let day = getToday("yyyy-mm-dd hh:MM:ss");
             this.numbers = [day];
@@ -42,7 +78,7 @@ export default {
             /\S/g,
             "<span>$&</span>"
         );
-        document.querySelectorAll("span").forEach((span, index) => {
+        username.querySelectorAll("span").forEach((span, index) => {
             span.style.setProperty("--delay", `${index * 0.1}s`);
         });
     }
@@ -50,6 +86,32 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.avatar:hover + .hover-board {
+    display: block;
+}
+.hover-board {
+    display: none;
+    position: absolute;
+    text-align: center;
+    padding: 0px 15px 15px 10px;
+    top: 30px;
+    color: whitesmoke;
+    .board-header {
+        height: 25px;
+        background-color: none;
+    }
+    .board-body {
+        background-color: #111827;
+        padding: 0px 15px 15px 10px;
+    }
+    .board-list {
+        margin-top: 5px;
+        cursor: pointer;
+    }
+    &:hover {
+        display: block;
+    }
+}
 .avatar {
     width: 40px;
     height: 40px;
@@ -90,7 +152,7 @@ export default {
     display: inline-block;
     animation-name: blink;
     /*取出style中的--delay属性值*/
-    /*animation-delay: var(--delay);*/
+    animation-delay: var(--delay);
     animation-timing-function: ease-in-out;
     animation-duration: 0.4s;
 }

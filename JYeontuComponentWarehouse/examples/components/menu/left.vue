@@ -11,6 +11,12 @@ export default {
             menu: []
         };
     },
+    watch: {
+        $route(to, from) {
+            // console.log(to, from);
+            this.findNodeByName(this.menu, to.name);
+        }
+    },
     methods: {
         getNewMenu() {
             let menu = [];
@@ -36,6 +42,21 @@ export default {
             // this.$router.push('/homePage')
             this.getNewMenu();
             this.chooseNode(jyeontuRouteId);
+        },
+        findNodeByName(node, name) {
+            for (let i = 0; i < node.length; i++) {
+                if (name.toString() === node[i].name.toString()) {
+                    chooseNode(node[i].id);
+                    if (node[i].children && node[i].children.length > 0) {
+                        this.findNodeByName(node[i].children, name);
+                    }
+                } else {
+                    node[i].selected = false;
+                    if (node[i].children && node[i].children.length > 0) {
+                        this.findNodeByName(node[i].children, name);
+                    }
+                }
+            }
         },
         findNodeById(node, id) {
             for (let i = 0; i < node.length; i++) {
@@ -90,9 +111,13 @@ export default {
                     if (menu[i].iconColor) {
                         iconColor = menu[i].iconColor;
                     }
-                    temp += `<i class="${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="${
+                        menu[i].icon
+                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
                 } else if (menu[i].icon.split("-")[0] === "icon") {
-                    temp += `<i class="iconfont ${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="iconfont ${
+                        menu[i].icon
+                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
                 }
                 temp += `${menu[i].label.trim()}`;
                 if (
