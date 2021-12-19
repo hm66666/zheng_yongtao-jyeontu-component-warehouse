@@ -5,7 +5,7 @@
                 <div class="title">
                     版本介绍（jvuewheel）
                     <div class="detail">
-                        目前最新版本为0.1.4
+                        目前最新版本为0.1.4，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
@@ -18,6 +18,7 @@
                 :timeStyle="timeStyle"
                 :descriptStyle="dataList"
                 :lineStyle="lineStyle"
+                :iconStyle="iconStyle"
             >
             </j-steps>
         </div>
@@ -34,9 +35,11 @@ export default {
     data() {
         return {
             iconWidth: 50,
+            iconStyle: {},
             lineStyle: {
                 color: "skyblue",
-                height: "100px"
+                height: "100px",
+                width: "2px"
             },
             titleStyle: {
                 color: "black",
@@ -48,6 +51,12 @@ export default {
                 fontWeight: "bold"
             },
             dataList: [
+                {
+                    title: "未定版本（todoList）",
+                    descript: "增加：进度条组件……；优化：代码编写，项目结构",
+                    time: "未定",
+                    icon: "未"
+                },
                 {
                     title: "版本0.1.5（待发布）",
                     descript:
@@ -78,7 +87,7 @@ export default {
                     descript:
                         "项目搭建，导入：日历组件、电子屏数字组件、流程图组件、表格组件、代码高亮组件、canvas画板组件",
                     time: "2021-11-24",
-                    icon: "图标"
+                    icon: "24"
                 },
                 {
                     title: "版本0.1.0（已发布）",

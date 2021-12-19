@@ -1,5 +1,5 @@
 <template>
-    <div class="template">
+    <div class="template" :id="id">
         <div id="header" class="header">
             <div class="header-title">{{ title }}</div>
             <div class="btn-list">
@@ -38,6 +38,10 @@
 export default {
     name: "JCalendar",
     props: {
+        id: {
+            type: String,
+            default: "j-canlendar"
+        },
         title: {
             type: String,
             default: "日历"
@@ -67,7 +71,8 @@ export default {
         },
         setBg() {
             let src = this.bgSrc;
-            let box = document.getElementById("header");
+            const dom = document.getElementById(this.id);
+            let box = dom.getElementById("header");
             box.style.backgroundImage = "url(" + src + ")";
             box.style.backgroundRepeat = "no-repeat";
             box.style.backgroundSize = "100%";

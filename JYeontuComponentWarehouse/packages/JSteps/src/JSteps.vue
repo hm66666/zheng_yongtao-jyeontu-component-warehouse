@@ -32,7 +32,9 @@
                         </div>
                     </template>
                 </div>
-                <div class="item-icon">{{ item.icon }}</div>
+                <div class="item-icon" :style="obj2Style(iconStyle)">
+                    {{ item.icon }}
+                </div>
                 <div class="right-box">
                     <template v-if="index % 2 == 1">
                         <div class="top-box" :style="obj2Style(titleStyle)">
@@ -92,6 +94,14 @@ export default {
         sortBy: {
             type: String,
             default: "time"
+        },
+        iconStyle: {
+            type: Object,
+            default: () => {
+                return {
+                    color: "black"
+                };
+            }
         },
         lineStyle: {
             type: Object,
@@ -176,7 +186,7 @@ export default {
             this.initData();
             let jSteps = document.getElementById("j-steps");
             parent = jSteps.parentElement;
-            console.log("---", jSteps, parent, parent.offsetWidth);
+            // console.log("---", jSteps, parent, parent.offsetWidth);
         },
         initData() {
             if (this.sortBy) {
@@ -201,6 +211,7 @@ export default {
                     res += "min-height:" + lineStyle["height"] + ";";
                 } else if (k == "color") {
                     res += "border:1px solid " + lineStyle["color"] + ";";
+                    res += "background-color:" + lineStyle["color"] + ";";
                 } else {
                     res += camelTo_(k) + ":" + lineStyle[k] + ";";
                 }

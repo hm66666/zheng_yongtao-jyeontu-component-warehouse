@@ -26,7 +26,9 @@
             </div>
         </template>
         <template v-slot:right-p>
-            <j-table :title="tableTitle" :tableData="tableData"> </j-table>
+            <div>
+                <j-table :title="tableTitle" :tableData="tableData"> </j-table>
+            </div>
         </template>
         <template v-slot:footer-p>
             <j-code-height-light :code="code" class="footer">
@@ -171,7 +173,7 @@ export default {
     mounted() {},
     methods: {
         confirm() {
-            console.log("confirm");
+            // console.log("confirm");
             this.$refs.JDialog.closeDialog();
         }
     }
