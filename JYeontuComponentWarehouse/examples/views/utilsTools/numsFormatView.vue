@@ -162,19 +162,17 @@ export default {
     },
     created() {
         this.code = `
-		/*
-		*数字处理函数
-		*/
-	   
-		var numsFormat = require('@/utils/numsFormat.js');//引入函数
-		
-		//使用函数
-		numsFormat.numberToWords('321123');//数字转换为英文表示
-		numsFormat.numberToChineseWords('321123');//数字转换为大写中文表示
-		numsFormat.numberToSplitWords('321123',',');//数字千分位分隔
-		numsFormat.intToRoman('123');//整数转罗马数字
-		numsFormat.romanToInt('CCCXII');//罗马数字转整数
-			`;
+        /*
+        *数字处理函数
+        */
+        var numsFormat = require('@/utils/numsFormat.js');//引入函数
+        //使用函数
+        numsFormat.numberToWords('321123');//数字转换为英文表示
+        numsFormat.numberToChineseWords('321123');//数字转换为大写中文表示
+        numsFormat.numberToSplitWords('321123',',');//数字千分位分隔
+        numsFormat.intToRoman('123');//整数转罗马数字
+        numsFormat.romanToInt('CCCXII');//罗马数字转整数
+        `;
     },
     methods: {}
 };
