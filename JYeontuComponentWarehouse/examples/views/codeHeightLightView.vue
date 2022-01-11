@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 代码高亮组件（JCodeHeightLight）
-                <div class="detail">
+                <div class="j-detail">
                     自定义代码关键字高亮组件
                 </div>
             </div>

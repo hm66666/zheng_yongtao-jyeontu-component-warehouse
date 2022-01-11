@@ -8,7 +8,7 @@
             <div
                 v-for="(column, columnIndex) in getShowNum(number)"
                 :key="columnIndex"
-                class="column"
+                class="j-column"
             >
                 <div
                     v-for="(row, rowIndex) in column"
@@ -253,7 +253,7 @@ export default {
     flex-wrap: wrap;
     .number-style {
         flex-wrap: wrap;
-        .column {
+        .j-column {
             display: flex;
             .black {
                 background-color: black;
