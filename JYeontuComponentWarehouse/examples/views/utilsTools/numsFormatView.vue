@@ -183,11 +183,11 @@ export default {
 <style lang="scss" scoped>
 .numsFormatView {
     padding: 0.2rem;
-    .title {
+    .j-title {
         font-size: x-large;
         text-align: left;
         margin-bottom: 1rem;
-        .detail {
+        .j-detail {
             font-size: medium;
             color: dimgrey;
             margin-top: 1rem;
