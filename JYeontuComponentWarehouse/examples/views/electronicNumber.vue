@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 电子屏数字（JElectronicNumber）
-                <div class="detail">
+                <div class="j-detail">
                     电子屏风格数字组件
                 </div>
             </div>

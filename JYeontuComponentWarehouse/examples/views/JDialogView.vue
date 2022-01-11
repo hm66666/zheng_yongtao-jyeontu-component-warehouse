@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 对话弹窗（JDialog）
-                <div class="detail">
+                <div class="j-detail">
                     页面弹出窗口
                 </div>
             </div>

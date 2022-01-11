@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 表格组件（JTable）
-                <div class="detail">
+                <div class="j-detail">
                     表格组件,支持指定行排序，展开行
                 </div>
             </div>

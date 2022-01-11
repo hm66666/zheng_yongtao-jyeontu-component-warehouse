@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="title">
+        <div class="j-title">
             流程图组件（JFlowchart）
-            <div class="detail">
+            <div class="j-detail">
                 可拖拽流程图组件
             </div>
         </div>
