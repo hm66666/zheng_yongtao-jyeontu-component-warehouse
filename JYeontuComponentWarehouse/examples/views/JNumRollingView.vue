@@ -9,7 +9,7 @@
             </div>
         </template>
         <template v-slot:left-p>
-            <div class="content">
+            <div class="j-content">
                 <j-num-rolling
                     :nums="nums"
                     :fixNum="2"
@@ -190,7 +190,7 @@ export default {
         margin-top: 1rem;
     }
 }
-.content {
+.j-content {
     margin: auto auto;
     // width: 50%;
 }

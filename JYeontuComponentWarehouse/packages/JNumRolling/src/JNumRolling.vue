@@ -96,30 +96,33 @@ export default {
                 if (num >= 0 && num <= 9) {
                     if (num > 0) flag = false;
                     dom += `
-						<div class="j-num-rolling-body" style="${(flag ? "display:none;" : "") +
+                        <div class="j-num-rolling-body" style="${(flag
+                            ? "display:none;"
+                            : "") +
                             this.getStyle() +
                             this.getNumStyle()}">
-							<div id="num-content${i}" 
-								style="bottom:${num * this.fontSize}rem;${this.getStyle()}" 
-								class="num-content">
-						`;
+                        <div id="j-num-content${i}" 
+                        style="bottom:${num *
+                            this.fontSize}rem;${this.getStyle()}" 
+                        class="j-num-content">
+                        `;
                     for (let j = 0; j < 20; j++) {
                         dom += `
-								<div style="${this.getStyle()}">${j % 10}</div>
-							`;
+                        <div style="${this.getStyle()}">${j % 10}</div>
+                        `;
                     }
                     dom += `
-							</div>
-						</div>
-						`;
+                        </div>
+                        </div>
+                        `;
                 } else {
                     dom += `
-						<div class="j-num-rolling-body" style="${this.getStyle()}">
-							<div class="num-content" style="${this.getStyle()}">
-								<div  style="${this.getStyle()}">${this.numArr[i]}</div>
-							</div>
-						</div>
-						`;
+                        <div class="j-num-rolling-body" style="${this.getStyle()}">
+                        <div class="j-num-content" style="${this.getStyle()}">
+                        <div  style="${this.getStyle()}">${this.numArr[i]}</div>
+                        </div>
+                        </div>
+                        `;
                 }
             }
             document.getElementById("j-num-rolling").innerHTML = dom;
@@ -185,7 +188,7 @@ export default {
                 oldVal.unshift("0");
                 headNum--;
                 document.getElementById(
-                    "num-content" + headNum
+                    "j-num-content" + headNum
                 ).parentNode.style.display = "flex";
             }
             //修改前置位标记数
@@ -196,7 +199,7 @@ export default {
                     let oldV = parseFloat(oldVal[i]),
                         newV = parseFloat(newVal[i]);
                     if (oldV > newV) newV += 10;
-                    this.chang(oldV, newV, "num-content" + (i + headNum));
+                    this.chang(oldV, newV, "j-num-content" + (i + headNum));
                 }
             }
         }
@@ -204,7 +207,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="scss">
 .j-num-rolling {
     display: flex;
     .j-num-rolling-body {
@@ -213,7 +216,7 @@ export default {
         width: 1rem;
         overflow: hidden;
         margin-left: 0.2rem;
-        .num-content {
+        .j-num-content {
             width: 1rem;
             position: relative;
             bottom: 0rem;

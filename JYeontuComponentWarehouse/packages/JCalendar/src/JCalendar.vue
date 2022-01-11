@@ -1,9 +1,9 @@
 <template>
     <div class="template" :id="id">
-        <div id="header" class="header">
-            <div class="header-title">{{ title }}</div>
-            <div class="btn-list">
-                <div class="btn-list-left">
+        <div id="j-header" class="j-header">
+            <div class="j-header-title">{{ title }}</div>
+            <div class="j-btn-list">
+                <div class="j-btn-list-left">
                     <div class="btn-pre" @click="toPreMonth()"><</div>
                     <div class="select-month">{{ selectMonth }}</div>
                     <div class="btn-next" @click="toNextMonth()">></div>
@@ -11,8 +11,8 @@
                 <div class="btn-today" @click="toNowDay()">回到今天</div>
             </div>
         </div>
-        <div class="content" id="content">
-            <div class="calendar-content">
+        <div class="j-content" id="j-content">
+            <div class="calendar-j-content">
                 <div
                     class="grid-week grid"
                     v-for="(item, index) in weeks"
@@ -72,7 +72,7 @@ export default {
         setBg() {
             let src = this.bgSrc;
             const dom = document.getElementById(this.id);
-            let box = dom.getElementById("header");
+            let box = dom.getElementById("j-header");
             box.style.backgroundImage = "url(" + src + ")";
             box.style.backgroundRepeat = "no-repeat";
             box.style.backgroundSize = "100%";
@@ -222,7 +222,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
 @media screen and (max-width: 500px) {
-    .header {
+    .j-header {
         height: calc(100vw * 9 / 16);
     }
     .select-month {
@@ -231,20 +231,20 @@ export default {
         font-weight: bold !important;
     }
 }
-.header {
+.j-header {
     display: flex;
     flex-direction: column;
-    .header-title {
+    .j-header-title {
         line-height: 5rem;
         font-size: larger;
         font-weight: bold;
     }
-    .btn-list {
+    .j-btn-list {
         display: flex;
         padding: 1rem;
         margin-top: auto;
         cursor: pointer;
-        .btn-list-left {
+        .j-btn-list-left {
             padding: 0.5rem;
             width: 40%;
             display: flex;
@@ -272,47 +272,51 @@ export default {
         }
     }
 }
-.calendar-content {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    .selected {
-        background-color: #007faa;
-    }
-    .grid {
-        width: calc((100% - 9px) / 7);
-        height: 3rem;
-        line-height: 3rem;
-        border-left: #005599 solid 1px;
-        border-bottom: #005599 solid 1px;
-    }
-    .grid-week {
-        border-top: #005599 solid 1px;
-        background-color: skyblue;
-    }
-    .grid-day {
-        cursor: pointer;
-    }
-    .grid-week:nth-child(7) {
-        border-right: #005599 solid 1px;
-    }
-    .grid-day:nth-child(14) {
-        border-right: #005599 solid 1px;
-    }
-    .grid-day:nth-child(21) {
-        border-right: #005599 solid 1px;
-    }
-    .grid-day:nth-child(28) {
-        border-right: #005599 solid 1px;
-    }
-    .grid-day:nth-child(35) {
-        border-right: #005599 solid 1px;
-    }
-    .grid-day:nth-child(42) {
-        border-right: #005599 solid 1px;
-    }
-    .gray {
-        background-color: slategrey;
+.j-content {
+    .calendar-j-content {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: auto;
+        width: 100%;
+        .selected {
+            background-color: #007faa;
+        }
+        .grid {
+            width: calc((100% - 9px) / 7);
+            height: 3rem;
+            line-height: 3rem;
+            border-left: #005599 solid 1px;
+            border-bottom: #005599 solid 1px;
+        }
+        .grid-week {
+            border-top: #005599 solid 1px;
+            background-color: skyblue;
+        }
+        .grid-day {
+            cursor: pointer;
+        }
+        .grid-week:nth-child(7) {
+            border-right: #005599 solid 1px;
+        }
+        .grid-day:nth-child(14) {
+            border-right: #005599 solid 1px;
+        }
+        .grid-day:nth-child(21) {
+            border-right: #005599 solid 1px;
+        }
+        .grid-day:nth-child(28) {
+            border-right: #005599 solid 1px;
+        }
+        .grid-day:nth-child(35) {
+            border-right: #005599 solid 1px;
+        }
+        .grid-day:nth-child(42) {
+            border-right: #005599 solid 1px;
+        }
+        .gray {
+            background-color: slategrey;
+        }
     }
 }
 </style>
