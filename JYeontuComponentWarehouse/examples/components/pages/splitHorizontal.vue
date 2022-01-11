@@ -54,6 +54,7 @@
         margin-left: 2%;
         height: inherit;
         display: flex;
+        margin: auto;
     }
     .right-p {
         width: 42%;
@@ -61,6 +62,7 @@
         margin-left: 10%;
         height: inherit;
         display: flex;
+        margin: auto;
     }
 }
 @media screen and (max-width: 1000px) {
