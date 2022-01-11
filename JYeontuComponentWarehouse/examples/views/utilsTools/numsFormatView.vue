@@ -1,24 +1,24 @@
 <template>
     <div class="numsFormatView">
-        <div class="title">
+        <div class="j-title">
             数字处理函数（numsFormat）
-            <div class="detail">
+            <div class="j-detail">
                 数字格式转换及常用数字处理
             </div>
         </div>
         <div class="explain">
-            <div class="title">说明</div>
+            <div class="j-title">说明</div>
             <j-table :title="title" :tableData="tableData"> </j-table>
         </div>
         <div class="test">
-            <div class="title">测试</div>
+            <div class="j-title">测试</div>
             <method-test
                 :methodData="methodData"
                 :util="'numsFormat'"
             ></method-test>
         </div>
         <div class="code-content">
-            <div class="title">代码</div>
+            <div class="j-title">代码</div>
             <j-code-height-light :code="code" :keyWords="keyWords">
             </j-code-height-light>
         </div>

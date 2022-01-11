@@ -1,24 +1,24 @@
 <template>
     <div class="strToolView">
-        <div class="title">
+        <div class="j-title">
             字符串处理函数（strTool）
-            <div class="detail">
+            <div class="j-detail">
                 字符串格式转换及常用字符串处理
             </div>
         </div>
         <div class="explain">
-            <div class="title">说明</div>
+            <div class="j-title">说明</div>
             <j-table :title="title" :tableData="tableData"> </j-table>
         </div>
         <div class="test">
-            <div class="title">测试</div>
+            <div class="j-title">测试</div>
             <method-test
                 :methodData="methodData"
                 :util="'strTool'"
             ></method-test>
         </div>
         <div class="code-content">
-            <div class="title">代码</div>
+            <div class="j-title">代码</div>
             <j-code-height-light :code="code" :keyWords="keyWords">
             </j-code-height-light>
         </div>
