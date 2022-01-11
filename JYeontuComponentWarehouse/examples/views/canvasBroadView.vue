@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 canvas画板组件（JCanvasBroad）
-                <div class="detail">
+                <div class="j-detail">
                     canvas画板组件
                 </div>
             </div>

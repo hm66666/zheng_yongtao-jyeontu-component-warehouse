@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 步骤条（JSteps）
-                <div class="detail">
+                <div class="j-detail">
                     用于引导用户按照流程完成任务的导航条，显示当前所在步骤
                 </div>
             </div>

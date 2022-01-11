@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 日历组件（JCalendar）
-                <div class="detail">
+                <div class="j-detail">
                     日历组件
                 </div>
             </div>
@@ -151,7 +151,7 @@ export default {
     font-size: x-large;
     text-align: left;
     margin-bottom: 1rem;
-    .detail {
+    .j-detail {
         font-size: medium;
         color: dimgrey;
         margin-top: 1rem;
