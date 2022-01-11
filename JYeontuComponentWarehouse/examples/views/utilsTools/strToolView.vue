@@ -128,17 +128,15 @@ export default {
     created() {
         // console.log(strTool.getToday());
         this.code = `
-		/*
-		*日期处理函数
-		*/
-	   
-		var strTool = require('@/utils/strTool.js');//引入函数
-		
-		//使用函数
-		strTool._toLittleCamel('my-test-div');//-连接命名转换成小驼峰命名 myTestDiv
-		strTool._toBigCamel('my-test-div');//-连接命名转换成大驼峰命名 MyTestDiv
-		strTool.camelTo_('littleCamel');//驼峰命名转换成-连接命名 little-camel
-			`;
+        /*
+        *字符串处理函数
+        */
+        var strTool = require('@/utils/strTool.js');//引入函数
+        //使用函数
+        strTool._toLittleCamel('my-test-div');//-连接命名转换成小驼峰命名 myTestDiv
+        strTool._toBigCamel('my-test-div');//-连接命名转换成大驼峰命名 MyTestDiv
+        strTool.camelTo_('littleCamel');//驼峰命名转换成-连接命名 little-camel
+            `;
     },
     methods: {}
 };

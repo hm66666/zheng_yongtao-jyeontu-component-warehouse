@@ -187,18 +187,16 @@ export default {
     created() {
         // console.log(dateTool.getToday());
         this.code = `
-		/*
-		*日期处理函数
-		*/
-	   
-		var dateTool = require('@/utils/dateTool.js');//引入函数
-		
-		//使用函数
-		dateTool.dateFormat('2021-11-15 22:22:22','yyyy-mm-dd');//日期格式化
-		dateTool.getToday('yyyy-mm-dd');//获取今天日期并格式化
-		dateTool.beforeDay('2021-11-15',10);//获取2021-11-15前10天的日期
-		dateTool.afterDay('2021-11-15',10);//获取2021-11-15后10天的日期
-			`;
+        /*
+        *日期处理函数
+        */
+        var dateTool = require('@/utils/dateTool.js');//引入函数
+        //使用函数
+        dateTool.dateFormat('2021-11-15 22:22:22','yyyy-mm-dd');//日期格式化
+        dateTool.getToday('yyyy-mm-dd');//获取今天日期并格式化
+        dateTool.beforeDay('2021-11-15',10);//获取2021-11-15前10天的日期
+        dateTool.afterDay('2021-11-15',10);//获取2021-11-15后10天的日期
+        `;
     },
     methods: {}
 };
