@@ -204,7 +204,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped="scoped">
 .j-num-rolling {
     display: flex;
     .j-num-rolling-body {

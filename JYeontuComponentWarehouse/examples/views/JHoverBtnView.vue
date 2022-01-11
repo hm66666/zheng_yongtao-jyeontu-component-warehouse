@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 悬浮按钮（JHoverBtn）
-                <div class="detail">
+                <div class="j-detail">
                     可拖拽悬浮按钮组件
                 </div>
             </div>

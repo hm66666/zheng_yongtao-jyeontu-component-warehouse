@@ -1,9 +1,9 @@
 <template>
     <split-horizontal>
         <template v-slot:header-p>
-            <div class="title">
+            <div class="j-title">
                 数字滚动变化效果（JNumRolling）
-                <div class="detail">
+                <div class="j-detail">
                     数字滚动变化效果组件
                 </div>
             </div>

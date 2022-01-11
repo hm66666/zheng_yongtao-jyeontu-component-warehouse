@@ -24,16 +24,16 @@
 
 <style lang="scss" scoped>
 .view-header {
-    .title {
+    .j-title {
         font-size: x-large;
         text-align: left;
         margin-bottom: 1rem;
-        .detail {
+        .j-detail {
             font-size: medium;
             color: dimgrey;
             margin-top: 1rem;
         }
-        .code {
+        .j-code {
             margin-top: 1rem;
             border: 0.5px solid lightslategrey;
             padding: 1rem;
