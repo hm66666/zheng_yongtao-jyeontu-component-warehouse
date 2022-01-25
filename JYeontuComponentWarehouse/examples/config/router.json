@@ -47,6 +47,17 @@
             "children": []
         },
         {
+            "id": 16,
+            "name": "JDeskCalendarView",
+            "path": "/JDeskCalendarView",
+            "label": "台历",
+            "selected": false,
+            "icon": "icon-calendar",
+            "open": false,
+            "component": "views/JDeskCalendarView.vue",
+            "children": []
+        },
+        {
             "id": 3,
             "name": "electronicNumber",
             "path": "/electronicNumber",
