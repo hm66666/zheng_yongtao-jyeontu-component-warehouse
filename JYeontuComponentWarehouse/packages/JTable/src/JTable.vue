@@ -1,5 +1,5 @@
 <template>
-    <div :id="id" class="j-table-content">
+    <div :id="tableId" class="j-table-content">
         <table class="j-table">
             <j-tr
                 :key="tableId"
@@ -88,10 +88,10 @@ export default {
         //初始化表格
         initTable() {
             let title = this.title;
-            let t = document.getElementById(this.id);
+            let t = document.getElementById(this.tableId);
             let th = t.getElementsByClassName("j-table-tr-th");
             // console.log(this.id, th);
-            // console.log('initTable',th,title);
+            // console.log("initTable", th, title);
             for (let i = 0; i < title.length; i++) {
                 if (title[i].width) {
                     th[i].style.maxWidth = title[i].width;
