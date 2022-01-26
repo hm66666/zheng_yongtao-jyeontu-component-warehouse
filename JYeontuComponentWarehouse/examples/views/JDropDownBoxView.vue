@@ -45,28 +45,28 @@ export default {
         return {
             code: "",
             defIndex: "test",
-            selectVal: "项羽",
+            selectVal: "1",
             filter: true,
             closed: false,
             selectData: [
                 {
-                    id: "李白",
+                    id: "1",
                     value: "李白"
                 },
                 {
-                    id: "项羽",
+                    id: "2",
                     value: "项羽"
                 },
                 {
-                    id: "妲己",
+                    id: "3",
                     value: "妲己"
                 },
                 {
-                    id: "王昭君",
+                    id: "4",
                     value: "王昭君"
                 },
                 {
-                    id: "凯",
+                    id: "5",
                     value: "凯"
                 }
             ],

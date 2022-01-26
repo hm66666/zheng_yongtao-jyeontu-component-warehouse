@@ -110,7 +110,7 @@ export default {
     },
     watch: {
         inputData(newVal) {
-            this.value = valueMap(newVal);
+            this.value = this.valueMap(newVal);
         }
     },
     methods: {
@@ -173,7 +173,6 @@ export default {
         line-height: 30px;
         border: skyblue 1px solid;
         padding-left: 0.5rem;
-        width: 500px;
         .box-input {
             outline: none;
             border: 0;
