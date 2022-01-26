@@ -45,8 +45,10 @@ export default {
     props: {
         //展示的标签列表
         tagList: {
-            type: "Array",
-            default: () => ["测试1", "测试2"]
+            type: Array,
+            default: () => {
+                return ["测试1", "测试2"];
+            }
         },
         //允许重复
         canRepeat: {
@@ -56,7 +58,9 @@ export default {
         //标签背景颜色
         tagColor: {
             type: Array,
-            default: () => ["orange"]
+            default: () => {
+                return ["orange"];
+            }
         },
         //仅展示
         isShow: {

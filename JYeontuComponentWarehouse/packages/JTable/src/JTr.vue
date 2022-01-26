@@ -3,7 +3,7 @@
         <template v-for="(item, index) in tableData">
             <tr
                 class="j-table-tr j-table-title"
-                :key="tableId + '-' + index"
+                :key="tableId + '-' + index + 'title'"
                 v-if="showTitle && index === 0"
             >
                 <td
@@ -23,7 +23,7 @@
                     </button>
                 </td>
             </tr>
-            <tr :key="tableId + '-' + index" class="j-tr-tr">
+            <tr :key="tableId + '-' + index + 'tr'" class="j-tr-tr">
                 <td
                     v-for="(item1, index1) in title"
                     :key="index1"
@@ -54,7 +54,7 @@
             <template v-if="expendList.indexOf(tableId + '-' + index) != -1">
                 <tr
                     v-if="item.children.type == 'text'"
-                    :key="tableId + '-' + index"
+                    :key="tableId + '-' + index + 'tr1'"
                     :style="getPadding(1) + 'border-top: 1px solid skyblue;'"
                 >
                     <td :colspan="title.length">
@@ -63,7 +63,7 @@
                 </tr>
                 <j-tr
                     v-else
-                    :key="tableId + '-' + index"
+                    :key="tableId + '-' + index + 'jtr'"
                     :tableId="tableId + '-' + index"
                     :tableData="item.children.data"
                     :title="item.children.title"
