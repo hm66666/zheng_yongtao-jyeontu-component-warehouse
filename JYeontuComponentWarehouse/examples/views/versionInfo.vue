@@ -5,7 +5,7 @@
                 <div class="j-title">
                     版本介绍（jvuewheel）
                     <div class="j-detail">
-                        目前最新版本为0.1.9，更多好玩有用的组件正在构思中，敬请期待……
+                        目前最新版本为0.2.2，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
@@ -58,7 +58,7 @@ export default {
                     icon: "未"
                 },
                 {
-                    title: "版本0.1.7 ~ 0.1.9（已发布）",
+                    title: "版本0.1.7 ~ 0.2.2（已发布）",
                     descript: "修复一些已知bug",
                     time: "2022-01-26",
                     icon: "26"

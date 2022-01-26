@@ -110,7 +110,7 @@ export default {
     },
     watch: {
         inputData(newVal) {
-            this.value = this.valueMap(newVal);
+            // this.value = this.valueMap[newVal];
         }
     },
     methods: {
