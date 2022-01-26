@@ -89,11 +89,6 @@ export default {
             leftMenu.innerHTML = domTree;
         },
         generatorMenu(menu, temp, floor) {
-            // if (temp === '') {
-            //   temp += `<div class="menuOption" style="cursor: pointer" onclick="refreshMenu()">
-            //               <i class="el-icon-refresh" style="margin-right: 5px;"></i>刷新菜单
-            //           </div>`
-            // }
             for (let i = 0; i < menu.length; i++) {
                 if (menu[i].hide == true) continue;
                 temp += `<div style="width: max-content,background-color: ${
@@ -111,13 +106,9 @@ export default {
                     if (menu[i].iconColor) {
                         iconColor = menu[i].iconColor;
                     }
-                    temp += `<i class="${
-                        menu[i].icon
-                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 } else if (menu[i].icon.split("-")[0] === "icon") {
-                    temp += `<i class="iconfont ${
-                        menu[i].icon
-                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="iconfont ${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 }
                 temp += `${menu[i].label.trim()}`;
                 if (
@@ -170,6 +161,7 @@ export default {
     color: white;
     text-align: left;
     padding: 0.5rem 1rem;
+    padding-top: 0;
     font-size: large;
     font-weight: bold;
     z-index: 99;
