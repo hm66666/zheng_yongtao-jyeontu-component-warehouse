@@ -45,7 +45,7 @@ export default {
         return {
             code: "",
             defIndex: "test",
-            selectVal: "",
+            selectVal: "项羽",
             filter: true,
             closed: false,
             selectData: [
