@@ -58,7 +58,7 @@ export default {
                     icon: "未"
                 },
                 {
-                    title: "版本0.1.6（未发布）",
+                    title: "版本0.1.6（已发布）",
                     descript: "增加：tag标签组件、toast提示组件、下拉列表组件",
                     time: "2022-01-26",
                     icon: "26"
