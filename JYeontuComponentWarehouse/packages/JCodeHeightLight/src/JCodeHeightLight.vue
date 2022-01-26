@@ -37,20 +37,22 @@ export default {
         },
         keyWords: {
             type: Array,
-            default: []
+            default: () => []
         },
         color: {
             type: Object,
-            default: {
-                keyWord: "orange",
-                varWord: "purple",
-                tagWord: "#F9273F",
-                strWord: "green",
-                attrWord: "green",
-                attrValue: "yellow",
-                methodkeyWord: "#74759b",
-                functionkeyWord: "#2c9678",
-                note: "grey"
+            default: () => {
+                return {
+                    keyWord: "orange",
+                    varWord: "purple",
+                    tagWord: "#F9273F",
+                    strWord: "green",
+                    attrWord: "green",
+                    attrValue: "yellow",
+                    methodkeyWord: "#74759b",
+                    functionkeyWord: "#2c9678",
+                    note: "grey"
+                };
             }
         }
     },

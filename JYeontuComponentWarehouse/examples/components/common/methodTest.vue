@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="method-test-box" :key="index">
+        <div class="method-test-box">
             <div class="method-item method-name">
                 <span class="title-sm">方法：</span>
                 <j-drop-drow-box
@@ -23,7 +23,7 @@
                             v-if="param.options"
                             @selectItem="selectParam"
                             @selectIndexValue="selectIndexValue"
-                            :defIndex="index1"
+                            :defIndex="index1.toString()"
                             :title="param.name"
                             :placeholder="param.name"
                         >

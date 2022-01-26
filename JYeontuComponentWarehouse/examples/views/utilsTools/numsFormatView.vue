@@ -90,6 +90,21 @@ export default {
                             required: true
                         }
                     ]
+                },
+                {
+                    name: "getRandomNum",
+                    params: [
+                        {
+                            name: "最小值(必填)",
+                            value: 1,
+                            required: true
+                        },
+                        {
+                            name: "最大值(必填)",
+                            value: 10,
+                            required: true
+                        }
+                    ]
                 }
             ],
             title: [
@@ -149,6 +164,11 @@ export default {
                     method: "romanToInt(s:String)",
                     explain: "罗马数字转整数",
                     parameter: "s:罗马数字"
+                },
+                {
+                    method: "getRandomNum(minNum:Number,maxNum:Number)",
+                    explain: "获取随机数",
+                    parameter: "minNum:最小值，maxNum:最大值"
                 }
             ],
             keyWords: [
@@ -172,6 +192,7 @@ export default {
         numsFormat.numberToSplitWords('321123',',');//数字千分位分隔
         numsFormat.intToRoman('123');//整数转罗马数字
         numsFormat.romanToInt('CCCXII');//罗马数字转整数
+        numsFormat.getRandomNum(0,100);//随机获取0-100的数字
         `;
     },
     methods: {}

@@ -6,7 +6,7 @@
                 :tableId="tableId"
                 :tableData="tableData"
                 :title="title"
-                showTitle="true"
+                :showTitle="true"
             ></j-tr>
         </table>
     </div>

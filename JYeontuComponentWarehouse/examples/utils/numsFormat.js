@@ -269,3 +269,16 @@ export const romanToInt = function(s) {
     }
     return ans;
 };
+
+/**
+ *
+ * @param {Number} minNum
+ * @param {Number} maxNum
+ * @returns
+ */
+export const getRandomNum = function(minNum, maxNum) {
+    minNum = parseInt(minNum);
+    maxNum = parseInt(maxNum);
+    const res = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+    return res;
+};
