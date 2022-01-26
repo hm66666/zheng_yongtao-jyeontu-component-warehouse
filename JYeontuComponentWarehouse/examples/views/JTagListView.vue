@@ -132,11 +132,7 @@ export default {
     mounted() {
         this.autoChange();
     },
-    methods: {
-        hoverBtnClick() {
-            alert("触发点击事件");
-        }
-    }
+    methods: {}
 };
 </script>
 <style scoped lang="scss">

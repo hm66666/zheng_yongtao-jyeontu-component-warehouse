@@ -177,7 +177,7 @@ export default {
         initTable() {
             let th = document.getElementsByClassName("j-table-tr-th");
             const title = this.title;
-            console.log("initTable", th, title);
+            // console.log("initTable", th, title);
             for (let i = 0; i < title.length; i++) {
                 if (title[i].width) {
                     th[i].style.maxWidth = title[i].width;

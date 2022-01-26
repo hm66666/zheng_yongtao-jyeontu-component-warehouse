@@ -1,0 +1,251 @@
+<template>
+    <split-horizontal>
+        <template v-slot:header-p>
+            <div class="j-title">
+                tag标签列表（JTagList）
+                <div class="j-detail">
+                    添加自定义标签
+                </div>
+            </div>
+        </template>
+        <template v-slot:left-p>
+            <div class="content">
+                <j-drop-down-box
+                    :value="selectVal"
+                    :defIndex="defIndex"
+                    :filter="filter"
+                    :closed="closed"
+                    :selectData="selectData"
+                    @selectItem="selectItem"
+                    @selectIndexValue="selectIndexValue"
+                >
+                </j-drop-down-box>
+            </div>
+        </template>
+        <template v-slot:right-p>
+            <div>
+                <j-table :title="tableTitle" :tableData="tableData" style="">
+                </j-table>
+            </div>
+        </template>
+        <template v-slot:footer-p>
+            <j-code-height-light :code="code" class="footer">
+            </j-code-height-light>
+        </template>
+    </split-horizontal>
+</template>
+<script>
+import splitHorizontal from "@/components/pages/splitHorizontal.vue";
+export default {
+    name: "JDropDownBoxView",
+    components: {
+        splitHorizontal
+    },
+    data() {
+        return {
+            code: "",
+            defIndex: "test",
+            selectVal: "",
+            filter: true,
+            closed: false,
+            selectData: [
+                {
+                    id: "李白",
+                    value: "李白"
+                },
+                {
+                    id: "项羽",
+                    value: "项羽"
+                },
+                {
+                    id: "妲己",
+                    value: "妲己"
+                },
+                {
+                    id: "王昭君",
+                    value: "王昭君"
+                },
+                {
+                    id: "凯",
+                    value: "凯"
+                }
+            ],
+            tableTitle: [
+                {
+                    title: "参数", //展示列名
+                    key: "parameter", //字段名
+                    type: "", // 列类型
+                    readOnly: true, //是否只读
+                    width: "20vw", //列宽度
+                    columnStyle: "", // 列样式
+                    fixed: false, //是否固定
+                    sort: false // 是否支持排序
+                },
+                {
+                    title: "字段名", //展示列名
+                    key: "field", //字段名
+                    type: "", // 列类型
+                    readOnly: true, //是否只读
+                    width: "30vw", //列宽度
+                    columnStyle: "", // 列样式
+                    fixed: false, //是否固定
+                    sort: false // 是否支持排序
+                },
+                {
+                    title: "数据类型", //展示列名
+                    key: "type", //字段名
+                    type: "", // 列类型
+                    readOnly: true, //是否只读
+                    width: "15vw", //列宽度
+                    columnStyle: "", // 列样式
+                    fixed: false, //是否固定
+                    sort: false // 是否支持排序
+                },
+                {
+                    title: "描述", //展示列名
+                    key: "describe", //字段名
+                    type: "", // 列类型
+                    readOnly: true, //是否只读
+                    width: "35vw", //列宽度
+                    columnStyle: "", // 列样式
+                    fixed: false, //是否固定
+                    sort: false // 是否支持排序
+                }
+            ],
+            tableData: [
+                {
+                    parameter: "defIndex",
+                    field: "标识",
+                    type: "String",
+                    describe: "选择事件回调的时候会带上该标识"
+                },
+                {
+                    parameter: "value",
+                    field: "选中的值",
+                    type: "String",
+                    describe: "选中会更新该值"
+                },
+                {
+                    parameter: "placeholder",
+                    field: "输入提示",
+                    type: "String",
+                    describe: "设置输入框提示语，默认为'请输入'"
+                },
+                {
+                    parameter: "filter",
+                    field: "是否过滤",
+                    type: "Boolean",
+                    describe:
+                        "为true时开启过滤，输入会自动筛选备选框的值，默认为false"
+                },
+                {
+                    parameter: "closed",
+                    field: "清空按钮",
+                    type: "Boolean",
+                    describe: "为true时显示，点击清空输入框，默认为true"
+                },
+                {
+                    parameter: "readOnly",
+                    field: "是否只读",
+                    type: "Boolean",
+                    describe: "为true时只读，只能选择，无法输入，默认为false"
+                },
+                {
+                    parameter: "selectData",
+                    field: "筛选项",
+                    type: "Array",
+                    describe: "格式:[{id:'id',value:'value'}]"
+                }
+            ]
+        };
+    },
+    created() {
+        this.code = `
+            <j-drop-down-box
+                :value="selectVal"
+                :defIndex="defIndex"
+                :filter="filter"
+                :closed="closed"
+                :selectData="selectData"
+                @selectItem="selectItem"
+                @selectIndexValue="selectIndexValue"
+            >
+            </j-drop-down-box>
+            export default {
+                data(){
+                    return {
+                        defIndex: "test",
+                        selectVal: "",
+                        filter: true,
+                        closed: false,
+                        selectData: [
+                            {
+                                id: "李白",
+                                value: "李白"
+                            },
+                            {
+                                id: "项羽",
+                                value: "项羽"
+                            },
+                            {
+                                id: "妲己",
+                                value: "妲己"
+                            },
+                            {
+                                id: "王昭君",
+                                value: "王昭君"
+                            },
+                            {
+                                id: "凯",
+                                value: "凯"
+                            }
+                        ],
+                    }
+                },
+                methods: {
+                    selectItem(id) {
+                        console.log("selectItem", id);
+                    },
+                    selectIndexValue(defIndex, value) {
+                        console.log("selectIndexValue", defIndex, value);
+                    }
+                }
+            }
+    `;
+    },
+    mounted() {},
+    methods: {
+        selectItem(id) {
+            console.log("selectItem", id);
+        },
+        selectIndexValue(defIndex, value) {
+            console.log("selectIndexValue", defIndex, value);
+        }
+    }
+};
+</script>
+<style scoped lang="scss">
+.title {
+    font-size: x-large;
+    text-align: left;
+    margin-bottom: 1rem;
+    .detail {
+        font-size: medium;
+        color: dimgrey;
+        margin-top: 1rem;
+    }
+}
+.content {
+    margin: auto auto;
+    // width: 50%;
+}
+.header {
+    min-height: 4rem;
+    text-align: center;
+}
+.footer {
+    margin-top: 2rem;
+    margin-left: 2%;
+    width: 95%;
+}
+</style>
