@@ -14,6 +14,7 @@
             </div>
             <div
                 class="icon icon-close"
+                v-if="closed"
                 @click="clearInput()"
                 v-show="boxIsShow"
                 title="清空"
@@ -75,7 +76,7 @@ export default {
                 },
                 {
                     id: 2,
-                    value: "选项二一"
+                    value: "选项二"
                 },
                 {
                     id: 3,
@@ -83,7 +84,7 @@ export default {
                 },
                 {
                     id: 4,
-                    value: "选项四一"
+                    value: "选项四"
                 },
                 {
                     id: 5,
