@@ -117,16 +117,20 @@ export default {
     },
     created() {
         this.code = `
-            <j-tag-list :tagList="tagList" :tagColor="tagColor" :canRepeat="false" :isShow="false">
-            </j-tag-list>
-            export default {
-                data(){
-                    return {
-                        tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
-                        tagColor: ["orange", "pink"],
-                    }
+        <j-tag-list
+            :tagList="tagList"
+            :tagColor="tagColor"
+            :canRepeat="false"
+            :isShow="false">
+        </j-tag-list>
+        export default {
+            data(){
+                return {
+                    tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
+                    tagColor: ["orange", "pink"],
                 }
             }
+        }
     `;
     },
     mounted() {

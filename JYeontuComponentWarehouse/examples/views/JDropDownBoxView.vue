@@ -2,9 +2,9 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                tag标签列表（JTagList）
+                下拉列表（JDropDownBox）
                 <div class="j-detail">
-                    添加自定义标签
+                    下拉列表组件
                 </div>
             </div>
         </template>
@@ -161,56 +161,55 @@ export default {
     },
     created() {
         this.code = `
-            <j-drop-down-box
-                :value="selectVal"
-                :defIndex="defIndex"
-                :filter="filter"
-                :closed="closed"
-                :selectData="selectData"
-                @selectItem="selectItem"
-                @selectIndexValue="selectIndexValue"
-            >
-            </j-drop-down-box>
-            export default {
-                data(){
-                    return {
-                        defIndex: "test",
-                        selectVal: "",
-                        filter: true,
-                        closed: false,
-                        selectData: [
-                            {
-                                id: "李白",
-                                value: "李白"
-                            },
-                            {
-                                id: "项羽",
-                                value: "项羽"
-                            },
-                            {
-                                id: "妲己",
-                                value: "妲己"
-                            },
-                            {
-                                id: "王昭君",
-                                value: "王昭君"
-                            },
-                            {
-                                id: "凯",
-                                value: "凯"
-                            }
-                        ],
-                    }
+        <j-drop-down-box
+            :value="selectVal"
+            :defIndex="defIndex"
+            :filter="filter"
+            :closed="closed"
+            :selectData="selectData"
+            @selectItem="selectItem"
+            @selectIndexValue="selectIndexValue">
+        </j-drop-down-box>
+        export default {
+            data(){
+                return {
+                    defIndex: "test",
+                    selectVal: "",
+                    filter: true,
+                    closed: false,
+                    selectData: [
+                        {
+                            id: "李白",
+                            value: "李白"
+                        },
+                        {
+                            id: "项羽",
+                            value: "项羽"
+                        },
+                        {
+                            id: "妲己",
+                            value: "妲己"
+                        },
+                        {
+                            id: "王昭君",
+                            value: "王昭君"
+                        },
+                        {
+                            id: "凯",
+                            value: "凯"
+                        }
+                    ],
+                }
+            },
+            methods: {
+                selectItem(id) {
+                    console.log("selectItem", id);
                 },
-                methods: {
-                    selectItem(id) {
-                        console.log("selectItem", id);
-                    },
-                    selectIndexValue(defIndex, value) {
-                        console.log("selectIndexValue", defIndex, value);
-                    }
+                selectIndexValue(defIndex, value) {
+                    console.log("selectIndexValue", defIndex, value);
                 }
             }
+        }
     `;
     },
     mounted() {},

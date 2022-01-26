@@ -193,10 +193,13 @@ export default {
                         .split(/>.*<\//)[0]
                         .replace(/ *= */g, "=")
                         .split(" ");
+                    let num = 0;
                     for (let i = 0; i < s6.length; i++) {
                         if (s6[i] !== "") {
+                            num++;
                             let t = s6[i].split("=");
                             if (t.length == 2) {
+                                if (num > 2) res += "缩进符缩进符缩进符";
                                 res += this.getColor("attrWord", t[0]);
                                 res += " = ";
                                 res += this.getColor("attrValue", t[1]);
@@ -204,6 +207,7 @@ export default {
                             } else {
                                 t = s6[i].split(":");
                                 if (t.length == 2) {
+                                    if (num > 2) res += "缩进符缩进符缩进符";
                                     res += this.getColor("attrWord", t[0]);
                                     res += ":";
                                     res += this.getColor("attrValue", t[1]);
