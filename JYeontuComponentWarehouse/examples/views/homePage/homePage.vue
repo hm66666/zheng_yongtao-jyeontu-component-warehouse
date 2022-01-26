@@ -1,3 +1,10 @@
+<!--
+ * @Author: zheng yong tao
+ * @Date: 2022-01-26 21:47:09
+ * @LastEditors: zheng yong tao
+ * @LastEditTime: 2022-01-26 21:47:33
+ * @Description: 
+-->
 <template>
     <div>
         <img class="head-img" src="@/assets/logo.png" />
@@ -41,9 +48,7 @@ export default {
             window.open(url);
         }
     },
-    mounted() {
-        this.$toast("测试");
-    }
+    mounted() {}
 };
 </script>
 

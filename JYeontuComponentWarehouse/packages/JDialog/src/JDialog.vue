@@ -107,7 +107,7 @@ export default {
         position: fixed;
         width: 100vw;
         height: 100vh;
-        z-index: 999;
+        z-index: 99999;
         top: 0;
         left: 0;
     }
@@ -117,7 +117,7 @@ export default {
         position: fixed;
         top: 20vh;
         left: 20vw;
-        z-index: 1000;
+        z-index: 100000;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         .j-dialog-header {
