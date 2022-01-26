@@ -40,6 +40,9 @@ export default {
         toAddress(url) {
             window.open(url);
         }
+    },
+    mounted() {
+        this.$toast("测试");
     }
 };
 </script>

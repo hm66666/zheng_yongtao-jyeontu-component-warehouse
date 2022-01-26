@@ -133,9 +133,7 @@ export default {
         }
     `;
     },
-    mounted() {
-        this.autoChange();
-    },
+    mounted() {},
     methods: {}
 };
 </script>

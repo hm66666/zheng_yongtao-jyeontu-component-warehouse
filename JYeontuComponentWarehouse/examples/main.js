@@ -5,6 +5,8 @@ import ElementUI from "element-ui";
 import router from "./router";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/assets/icon/iconfont.css";
+import Toast from "./components/Toast";
+Vue.use(Toast);
 
 // 导入组件库
 import jvuewhell from "./../packages/index";
