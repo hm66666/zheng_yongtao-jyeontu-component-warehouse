@@ -178,9 +178,7 @@ export default {
 		}
 	`;
     },
-    mounted() {
-        this.autoChange();
-    },
+    mounted() {},
     methods: {
         hoverBtnClick() {
             alert("触发点击事件");

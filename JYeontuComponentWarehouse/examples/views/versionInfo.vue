@@ -16,7 +16,7 @@
                 :iconWidth="iconWidth"
                 :titleStyle="titleStyle"
                 :timeStyle="timeStyle"
-                :descriptStyle="dataList"
+                :descriptStyle="descriptStyle"
                 :lineStyle="lineStyle"
                 :iconStyle="iconStyle"
             >
