@@ -63,6 +63,12 @@ import JDropDrowBox from "./JDropDownBox.vue";
 var dateTool = require("@/utils/dateTool.js");
 var numsFormat = require("@/utils/numsFormat.js");
 var strTool = require("@/utils/strTool.js");
+
+const methodsMap = {
+    dateTool: dateTool,
+    numsFormat: numsFormat,
+    strTool: strTool
+};
 export default {
     name: "methodTest",
     props: {
@@ -171,43 +177,18 @@ export default {
             let methodList = this.methodList,
                 chooseMethod = this.chooseMethod,
                 methodParams = this.methodParams;
-
             if (methodParams.length == 2 && methodParams[1].value != "") {
-                if (this.util == "dateTool")
-                    this.result = dateTool[methodList[chooseMethod].value](
-                        methodParams[0].value,
-                        methodParams[1].value
-                    );
-                else if (this.util == "numsFormat")
-                    this.result = numsFormat[methodList[chooseMethod].value](
-                        methodParams[0].value,
-                        methodParams[1].value
-                    );
-                else if (this.util == "strTool")
-                    this.result = strTool[methodList[chooseMethod].value](
-                        methodParams[0].value,
-                        methodParams[1].value
-                    );
+                this.result = methodsMap[this.util][
+                    methodList[chooseMethod].value
+                ](methodParams[0].value, methodParams[1].value);
             } else if (methodParams[0].value != "") {
-                if (this.util == "dateTool")
-                    this.result = dateTool[methodList[chooseMethod].value](
-                        methodParams[0].value
-                    );
-                else if (this.util == "numsFormat")
-                    this.result = numsFormat[methodList[chooseMethod].value](
-                        methodParams[0].value
-                    );
-                else if (this.util == "strTool")
-                    this.result = strTool[methodList[chooseMethod].value](
-                        methodParams[0].value
-                    );
+                this.result = methodsMap[this.util][
+                    methodList[chooseMethod].value
+                ](methodParams[0].value);
             } else {
-                if (this.util == "dateTool")
-                    this.result = dateTool[methodList[chooseMethod].value]();
-                else if (this.util == "numsFormat")
-                    this.result = numsFormat[methodList[chooseMethod].value]();
-                else if (this.util == "strTool")
-                    this.result = strTool[methodList[chooseMethod].value]();
+                this.result = methodsMap[this.util][
+                    methodList[chooseMethod].value
+                ]();
             }
         }
     }
