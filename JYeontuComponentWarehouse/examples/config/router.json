@@ -160,6 +160,18 @@
             "children": []
         },
         {
+            "id": 16,
+            "name": "JTagListView",
+            "path": "/JTagListView",
+            "label": "tag标签列表",
+            "selected": false,
+            "icon": "icon-xuanfuanniufadongtai",
+            "open": false,
+            "hide": false,
+            "component": "views/JTagListView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",

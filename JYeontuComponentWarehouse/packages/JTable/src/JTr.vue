@@ -171,11 +171,13 @@ export default {
                     title.push(obj);
                 }
             }
+            this.title = title;
         },
         //初始化表格
         initTable() {
-            let th = document.getElementsByClassName("j-tr-tr-th");
-            // console.log('initTable',th,title);
+            let th = document.getElementsByClassName("j-table-tr-th");
+            const title = this.title;
+            console.log("initTable", th, title);
             for (let i = 0; i < title.length; i++) {
                 if (title[i].width) {
                     th[i].style.maxWidth = title[i].width;
