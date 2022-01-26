@@ -100,18 +100,32 @@ export default {
     data() {
         return {
             boxIsShow: false,
-            inputData: ""
+            inputData: "",
+            idMap: {},
+            valueMap: {}
         };
     },
     created() {
-        this.showSelectData = this.selectData;
+        this.initData();
     },
     watch: {
         inputData(newVal) {
-            this.value = newVal;
+            this.value = valueMap(newVal);
         }
     },
     methods: {
+        initData() {
+            let idMap = {};
+            let valueMap = {};
+            this.showSelectData = this.selectData;
+            this.selectData.map(item => {
+                idMap[item.id] = item.value;
+                valueMap[item.value] = item.id;
+            });
+            this.inputData = idMap[this.value];
+            this.valueMap = valueMap;
+            this.idMap = idMap;
+        },
         arrowClick() {
             this.boxIsShow = !this.boxIsShow;
         },
@@ -159,11 +173,12 @@ export default {
         line-height: 30px;
         border: skyblue 1px solid;
         padding-left: 0.5rem;
+        width: 500px;
         .box-input {
             outline: none;
             border: 0;
             background-color: whitesmoke;
-            min-width: 150px;
+            min-width: calc(100% - 40px);
             div {
                 cursor: pointer;
             }
