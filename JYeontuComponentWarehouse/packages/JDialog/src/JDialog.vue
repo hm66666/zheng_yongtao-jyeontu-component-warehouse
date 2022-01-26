@@ -31,7 +31,6 @@
                 </div>
             </div>
         </div>
-        <button @click="showDialog()">点我</button>
     </div>
 </template>
 
@@ -156,6 +155,7 @@ export default {
             padding: 0.3rem;
             .j-dialog-footer-btn {
                 display: flex;
+                flex-wrap: wrap;
                 flex-direction: row;
                 justify-content: space-around;
                 .btn {
