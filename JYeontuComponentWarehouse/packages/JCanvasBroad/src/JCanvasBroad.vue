@@ -1,6 +1,6 @@
 <template>
     <div id="canvas-broad">
-        <canvas id="canvas" :width="width" :height="height"
+        <canvas id="canvas" :width="canvasWidth" :height="canvasHeight"
             >浏览器不支持canvas<!-- 如果不支持会显示这段文字 --></canvas
         >
         <j-tab-bar v-if="toolsTabList" :tabList="tabList" :showTab="showTab">
@@ -158,6 +158,8 @@ export default {
     },
     data() {
         return {
+            canvasWidth: "",
+            canvasHeight: "",
             penColor: "#000000",
             penWidth: 4,
             penClick: false,
@@ -203,9 +205,11 @@ export default {
                 const cbw = document.getElementById("canvas-broad");
                 width = cbw.offsetWidth * 0.9;
                 height = cbw.offsetHeight * 0.6;
-                this.width = width;
-                this.height = height;
+                // this.canvasWidth = width;
+                // this.canvasHeigth = height;
             }
+            this.canvasWidth = width;
+            this.canvasHeight = height;
             this.penColor = this.defaultPenColor;
             this.brackGroudColor = this.defaultBackGroundColor;
             this.penWidth = this.defaultPenSize;
@@ -234,7 +238,7 @@ export default {
             const canvas = document.getElementById("canvas"); //获取canvas标签
             const ctx = canvas.getContext("2d"); //创建 context 对象
             ctx.fillStyle = this.brackGroudColor; //画布背景色
-            ctx.fillRect(0, 0, this.width, this.height); //在画布上绘制 600x300 的矩形，从左上角开始 (0,0)
+            ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight); //在画布上绘制 600x300 的矩形，从左上角开始 (0,0)
         },
         setPenWidth(event) {
             const progress = document.getElementById("progress");

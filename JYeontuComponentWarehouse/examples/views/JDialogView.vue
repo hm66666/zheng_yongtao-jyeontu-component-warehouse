@@ -13,7 +13,7 @@
                 <j-dialog
                     :title="title"
                     ref="JDialog"
-                    closable="true"
+                    :closable="true"
                     @confirm="confirm"
                     :btnList="btnList"
                 >

@@ -12,7 +12,7 @@
             <div class="content">
                 <j-hover-btn
                     bgColor="pink"
-                    width="80"
+                    :width="80"
                     text="按钮文字"
                     :btn-style="btnStyle"
                     @hoverBtnClick="hoverBtnClick()"

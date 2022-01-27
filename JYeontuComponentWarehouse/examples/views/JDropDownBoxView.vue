@@ -47,7 +47,7 @@ export default {
             defIndex: "test",
             selectVal: "1",
             filter: true,
-            closed: false,
+            closed: true,
             selectData: [
                 {
                     id: "1",
