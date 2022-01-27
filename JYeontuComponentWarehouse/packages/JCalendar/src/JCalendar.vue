@@ -16,7 +16,7 @@
                 <div
                     class="grid-week grid"
                     v-for="(item, index) in weeks"
-                    :key="index"
+                    :key="index + 'week'"
                 >
                     周{{ item }}
                 </div>
@@ -25,7 +25,7 @@
                     class="grid-day grid"
                     :class="gridClass(item)"
                     v-for="(item, index) in days"
-                    :key="index"
+                    :key="index + 'day'"
                 >
                     {{ item.split("-")[2] }}
                 </div>
@@ -71,8 +71,9 @@ export default {
         },
         setBg() {
             let src = this.bgSrc;
-            const dom = document.getElementById(this.id);
-            let box = dom.getElementById("j-header");
+            // const dom = document.getElementById(this.id);
+            // console.log("----", dom);
+            let box = document.getElementById("j-header");
             box.style.backgroundImage = "url(" + src + ")";
             box.style.backgroundRepeat = "no-repeat";
             box.style.backgroundSize = "100%";

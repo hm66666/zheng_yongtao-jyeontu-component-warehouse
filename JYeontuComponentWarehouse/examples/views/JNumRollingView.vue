@@ -171,7 +171,7 @@ export default {
     methods: {
         //自动增加数字，测试
         autoChange() {
-            this.nums = parseFloat(this.nums) + 12345.67;
+            this.nums = parseFloat(this.nums) + 12345.67 + "";
             setTimeout(() => {
                 this.autoChange();
             }, 5000);

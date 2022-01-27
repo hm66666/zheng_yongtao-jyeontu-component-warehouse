@@ -63,12 +63,18 @@ export default {
             numArr: [],
             headNum: 10,
             oldTime: 0,
-            oldVal: ""
+            oldVal: "",
+            numChangeTimeout: "",
+            viewChangeTimeout: ""
         };
     },
     mounted() {
         // this.autoChange();
         this.init();
+    },
+    beforeDestroy() {
+        clearTimeout(this.numChangeTimeout);
+        clearTimeout(this.viewChangeTimeout);
     },
     methods: {
         getStyle() {
@@ -139,7 +145,7 @@ export default {
         //自动增加数字，测试
         autoChange() {
             this.changAnime();
-            setTimeout(() => {
+            this.numChangeTimeout = setTimeout(() => {
                 this.autoChange();
             }, 2000);
         },
@@ -166,8 +172,9 @@ export default {
                 newVal %= 10;
                 if (newVal < oldVal) newVal += 10;
             }
+            if (!dom) return;
             dom.style.bottom = oldVal * this.fontSize + "rem";
-            setTimeout(() => {
+            this.viewChangeTimeout = setTimeout(() => {
                 this.chang(oldVal, newVal, id);
             }, time);
         },
