@@ -11,6 +11,7 @@ import JFloatDiv from "./JFloatDiv";
 import JSteps from "./JSteps";
 import JDropDownBox from "./JDropDownBox";
 import JTagList from "./JTagList";
+import JWordCloud from "./JWordCloud";
 // import Toast from "./JToast";
 
 // 存储组件列表
@@ -27,7 +28,8 @@ const components = [
     JFloatDiv,
     JSteps,
     JDropDownBox,
-    JTagList
+    JTagList,
+    JWordCloud
     // Toast
 ];
 
