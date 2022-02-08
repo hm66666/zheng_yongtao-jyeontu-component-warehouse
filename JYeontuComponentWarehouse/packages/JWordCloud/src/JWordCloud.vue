@@ -1,6 +1,9 @@
 <template>
     <div>
-        <div class="j-word-cloud">
+        <div
+            class="j-word-cloud"
+            :style="'height:' + height + 'px;width:' + width + 'px;'"
+        >
             <span
                 v-for="(item, index) in showTextList"
                 :key="index"
@@ -47,15 +50,15 @@ export default {
         },
         baseSize: {
             type: Number,
-            default: 1
+            default: 1.5
         },
         maxSize: {
             type: Number,
-            default: 1500
+            default: 5
         },
         minSize: {
             type: Number,
-            default: 300
+            default: 1
         },
         transformDeg: {
             type: Array,
@@ -88,6 +91,7 @@ export default {
             let res = "";
             res += "font-size:" + item.size + ";";
             res += "position: absolute;";
+            // res += "position: relative;";
             res +=
                 "top:" +
                 Math.max(0, Math.min(item.point.y, this.width - width)) +
@@ -214,8 +218,10 @@ export default {
 .j-word-cloud {
     border: 1px solid black;
     position: relative;
-    height: 200px;
-    width: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    // height: 200px;
+    // width: 200px;
     span {
         // border: 1px solid rgb(0, 0, 0);
         transform-origin: 0 0;
