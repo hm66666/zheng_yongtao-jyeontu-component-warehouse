@@ -13,7 +13,7 @@
                 {{ item.text }}
             </span>
         </div>
-        <div @click="init()">刷新</div>
+        <!-- <div @click="init()">刷新</div> -->
     </div>
 </template>
 
@@ -24,24 +24,7 @@ export default {
         textList: {
             type: Array,
             default: () => {
-                return [
-                    { text: "单词", freq: 10 },
-                    { text: "单词1", freq: 5 },
-                    { text: "单词2", freq: 7 },
-                    { text: "单词3", freq: 2 },
-                    { text: "单词5", freq: 3 },
-                    { text: "单词6", freq: 4 },
-                    { text: "单词7", freq: 5 },
-                    { text: "单词8", freq: 6 },
-                    { text: "单词9", freq: 6 },
-                    { text: "单词10", freq: 8 },
-                    { text: "单词11", freq: 4 },
-                    { text: "单词12", freq: 2 },
-                    { text: "单词13", freq: 4 },
-                    { text: "单词14", freq: 3 },
-                    { text: "单词15", freq: 1 },
-                    { text: "单词16", freq: 5 }
-                ];
+                return [];
             }
         },
         width: {
