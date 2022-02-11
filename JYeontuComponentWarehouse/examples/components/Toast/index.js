@@ -14,7 +14,7 @@ const Toast = {
         document.body.appendChild(instance.$el);
 
         // 4.在Vue的原型链上注册方法，控制组件
-        Vue.prototype.$toast = (msg, duration = 1500) => {
+        Vue.prototype.$jtoast = (msg, duration = 1500) => {
             instance.message = msg;
             instance.visible = true;
             setTimeout(() => {

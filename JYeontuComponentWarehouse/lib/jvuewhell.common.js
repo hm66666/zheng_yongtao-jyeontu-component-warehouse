@@ -2828,6 +2828,17 @@ module.exports = function (it, TYPE) {
 
 /***/ }),
 
+/***/ "b8fe":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c1a7");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "be13":
 /***/ (function(module, exports) {
 
@@ -2837,6 +2848,13 @@ module.exports = function (it) {
   return it;
 };
 
+
+/***/ }),
+
+/***/ "c1a7":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -7861,6 +7879,79 @@ JTagList.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JTagList = (JTagList);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2bbe1f1c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToast/src/JToast.vue?vue&type=template&id=dbdac6ea&scoped=true&
+var JToastvue_type_template_id_dbdac6ea_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}]},[_vm._v(_vm._s(_vm.message))])])}
+var JToastvue_type_template_id_dbdac6ea_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./packages/JToast/src/JToast.vue?vue&type=template&id=dbdac6ea&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToast/src/JToast.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var JToastvue_type_script_lang_js_ = ({
+  name: "JToast",
+  data: function data() {
+    return {
+      visible: false,
+      message: ""
+    };
+  }
+});
+// CONCATENATED MODULE: ./packages/JToast/src/JToast.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_JToastvue_type_script_lang_js_ = (JToastvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./packages/JToast/src/JToast.vue?vue&type=style&index=0&id=dbdac6ea&scoped=true&lang=css&
+var JToastvue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css_ = __webpack_require__("b8fe");
+
+// CONCATENATED MODULE: ./packages/JToast/src/JToast.vue
+
+
+
+
+
+
+/* normalize component */
+
+var JToast_component = normalizeComponent(
+  src_JToastvue_type_script_lang_js_,
+  JToastvue_type_template_id_dbdac6ea_scoped_true_render,
+  JToastvue_type_template_id_dbdac6ea_scoped_true_staticRenderFns,
+  false,
+  null,
+  "dbdac6ea",
+  null
+  
+)
+
+/* harmony default export */ var JToast = (JToast_component.exports);
+// CONCATENATED MODULE: ./packages/JToast/index.js
+
+
+JToast.install = function (Vue) {
+  // 1.创建一个Vue的“子类”组件构造器
+  var ToastConstructor = Vue.extend(JToast); // 2.创建一个该子类的实例,并挂载到一个元素上
+
+  var instance = new ToastConstructor(); // 3.将这个实例挂载到动态创建的元素上,并将元素添加到全局结构中
+
+  instance.$mount(document.createElement("div")); //instance.$el对应的就是div
+
+  document.body.appendChild(instance.$el); // 4.在Vue的原型链上注册方法，控制组件
+
+  Vue.prototype.$JToast = function (msg) {
+    var duration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1500;
+    instance.message = msg;
+    instance.visible = true;
+    setTimeout(function () {
+      instance.visible = false;
+    }, duration);
+  };
+};
+
+/* harmony default export */ var packages_JToast = (JToast);
 // CONCATENATED MODULE: ./packages/index.js
 
 
@@ -7890,18 +7981,21 @@ function packages_objectSpread(target) { for (var i = 1; i < arguments.length; i
 
 
 
- // import Toast from "./JToast";
-// 存储组件列表
 
-var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList // Toast
-]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
+ // 存储组件列表
+
+var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 
 var install = function install(Vue) {
   // 判断是否安装
   if (install.installed) return; // 遍历注册全局组件
 
   components.map(function (component) {
-    return Vue.component(component.name, component);
+    if (component.name === "JToast") {
+      Vue.use(component);
+    } else {
+      Vue.component(component.name, component);
+    }
   });
 }; // 判断是否是直接引入文件
 
