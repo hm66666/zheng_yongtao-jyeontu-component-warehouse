@@ -3,23 +3,24 @@
         <div class="tag-list">
             <span
                 v-for="(item, index) in showTagList"
-                :key="index"
+                :key="index + '_tag'"
                 class="tag"
                 :style="item.style"
+                @click="tagClick(item)"
             >
                 {{ item.text }}
                 <span
-                    v-if="!isShow"
+                    v-if="canDelete"
                     class="delete-tag-btn"
                     title="删除"
-                    @click="deleteTag(index)"
+                    @click.stop="deleteTag(index)"
                     >x</span
                 >
             </span>
             <template v-if="!isShow">
                 <input
                     v-if="addTagFlag"
-                    ref="tagInputRef"
+                    :ref="'tagInputRef' + uId"
                     class="add-tag-input"
                     v-model="inputTag"
                     v-focus="true"
@@ -50,6 +51,11 @@ export default {
                 return ["测试1", "测试2"];
             }
         },
+        //允许删除
+        canDelete: {
+            type: Boolean,
+            default: true
+        },
         //允许重复
         canRepeat: {
             type: Boolean,
@@ -72,13 +78,36 @@ export default {
         return {
             addTagFlag: false,
             inputTag: "",
-            showTagList: []
+            showTagList: [],
+            uId: ""
         };
+    },
+    watch: {
+        tagList(newVal) {
+            this.initTagStyle();
+        }
+    },
+    created() {
+        this.getUId();
     },
     mounted() {
         this.initTagStyle();
     },
     methods: {
+        getRandomLetter(size = 8) {
+            let res = "";
+            for (let i = 0; i < size; i++) {
+                let ind = Math.floor(Math.random() * 26);
+                res += String.fromCharCode(ind + 65);
+            }
+            return res;
+        },
+        getUId() {
+            this.uId =
+                this.getRandomLetter(8) +
+                "-" +
+                Math.ceil(Math.random() * 100000);
+        },
         initTagStyle() {
             let showTagList = [];
             this.tagList.map(item => {
@@ -95,15 +124,19 @@ export default {
         showAddTag() {
             this.addTagFlag = true;
             this.$nextTick(() => {
-                this.$refs["tagInputRef"].focus();
+                this.$refs["tagInputRef" + this.uId].focus();
             });
         },
         hideAddTag() {
             this.addTagFlag = false;
         },
         deleteTag(index) {
+            this.$emit("deleteTag", this.showTagList[index]);
             this.tagList.splice(index, 1);
             this.showTagList.splice(index, 1);
+        },
+        tagClick(item) {
+            this.$emit("tagClick", item);
         },
         addTag() {
             this.inputTag = this.inputTag.trim();
