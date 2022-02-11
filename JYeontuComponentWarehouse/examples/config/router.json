@@ -196,6 +196,18 @@
             "children": []
         },
         {
+            "id": 19,
+            "name": "JWordCloudView",
+            "path": "/JWordCloudView",
+            "label": "词云",
+            "selected": false,
+            "icon": "icon-xuanfuanniufadongtai",
+            "open": false,
+            "hide": false,
+            "component": "views/JWordCloudView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",

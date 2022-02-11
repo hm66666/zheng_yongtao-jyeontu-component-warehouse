@@ -12,6 +12,7 @@ import JSteps from "./JSteps";
 import JDropDownBox from "./JDropDownBox";
 import JTagList from "./JTagList";
 import JToast from "./JToast";
+import JWordCloud from "./JWordCloud";
 
 // 存储组件列表
 const components = [
@@ -28,7 +29,9 @@ const components = [
     JSteps,
     JDropDownBox,
     JTagList,
-    JToast
+    JToast,
+    JWordCloud
+    // Toast
 ];
 
 // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
