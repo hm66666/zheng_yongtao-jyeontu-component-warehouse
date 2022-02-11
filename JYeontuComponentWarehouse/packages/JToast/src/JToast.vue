@@ -20,7 +20,7 @@ export default {
 div {
     padding: 5px 20px;
     color: #fff;
-    background-color: #3596ff;
+    background-color: rgba(63, 59, 59, 0.6);
     text-align: center;
     position: fixed;
     top: 30%;

@@ -8,6 +8,7 @@
 <template>
     <div>
         <img class="head-img" src="@/assets/logo.png" />
+        <button @click="test()">测试</button>
         <div class="per-link" v-for="(item, index) in myLink" :key="item.name">
             <span class="link-name">{{ item.name }}：</span>
             <span class="link-address" @click="toAddress(item.address)">{{
@@ -46,6 +47,9 @@ export default {
     methods: {
         toAddress(url) {
             window.open(url);
+        },
+        test() {
+            this.$JToast("测试测试测试测试aaa");
         }
     },
     mounted() {}
