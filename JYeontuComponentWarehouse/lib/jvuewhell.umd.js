@@ -1004,6 +1004,13 @@ exports.f = __webpack_require__("2b4c");
 
 /***/ }),
 
+/***/ "37db":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "3846":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2695,6 +2702,17 @@ module.exports = function (it) {
   var isRegExp;
   return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
 };
+
+
+/***/ }),
+
+/***/ "ab75":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_424facbf_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("37db");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_424facbf_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_424facbf_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -7961,6 +7979,275 @@ JToast.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_JToast = (JToast);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2bbe1f1c-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWordCloud/src/JWordCloud.vue?vue&type=template&id=424facbf&scoped=true&
+var JWordCloudvue_type_template_id_424facbf_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"j-word-cloud",style:('min-height:' + _vm.height + 'px;width:' + _vm.width + 'px;')},_vm._l((_vm.showTextList),function(item,index){return _c('span',{key:index,style:(_vm.getStyle(item, index)),attrs:{"id":'word-' + index}},[_vm._v("\n            "+_vm._s(item.text)+"\n        ")])}),0)])}
+var JWordCloudvue_type_template_id_424facbf_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=template&id=424facbf&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWordCloud/src/JWordCloud.vue?vue&type=script&lang=js&
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var JWordCloudvue_type_script_lang_js_ = ({
+  name: "JWordCloud",
+  props: {
+    textList: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    width: {
+      type: Number,
+      default: 300
+    },
+    colorList: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    baseSize: {
+      type: Number,
+      default: 2
+    },
+    maxSize: {
+      type: Number,
+      default: 5
+    },
+    minSize: {
+      type: Number,
+      default: 1
+    },
+    transformDeg: {
+      type: Array,
+      default: function _default() {
+        return [-45, 45];
+      }
+    }
+  },
+  data: function data() {
+    return {
+      maxFreq: 0,
+      minFreq: 0,
+      showTextList: [],
+      pointList: [],
+      height: 200
+    };
+  },
+  mounted: function mounted() {
+    this.init();
+  },
+  methods: {
+    init: function init() {
+      this.initData();
+      this.comShowtexList();
+      this.getFourPoints();
+    },
+    //组合样式
+    getStyle: function getStyle(item, index) {
+      var height = parseFloat(item.size) * 16;
+      var width = parseFloat(item.size) * 20 * item.text.length;
+      var res = "";
+      res += "font-size:" + item.size + ";"; // res += "position: absolute;";
+
+      res += "float: left;"; // res +=
+      //     "top:" +
+      //     Math.max(0, Math.min(item.point.y, this.width - width)) +
+      //     "px;";
+      // res +=
+      //     "left:" +
+      //     Math.max(0, Math.min(item.point.x, this.height - height)) +
+      //     "px;";
+
+      res += "color:" + item.color + ";"; // res += "transform:rotate(" + item.deg + "deg);";
+
+      return res;
+    },
+    //计算旋转后的坐标
+    getTransformPoint: function getTransformPoint(x, y, deg) {
+      deg = parseFloat(deg);
+      var rx = Math.cos(deg * Math.PI) / 180 * x,
+          ry = Math.sin(deg * Math.PI) / 180 * x;
+      return {
+        tx: x + rx,
+        ty: y + ry
+      };
+    },
+    //随机获取坐标
+    getRandomPoint: function getRandomPoint() {
+      var width = this.width,
+          height = this.height,
+          pointList = this.pointList,
+          showTextList = this.showTextList;
+      var x = this.getRandomNum(0, width - 20),
+          y = this.getRandomNum(0, height - 20);
+      return {
+        x: x,
+        y: y
+      };
+    },
+    //随机获取颜色
+    getRandomColor: function getRandomColor() {
+      var res = "rgb(";
+      res += this.getRandomNum(0, 255) + ",";
+      res += this.getRandomNum(0, 255) + ",";
+      res += this.getRandomNum(0, 255) + ")";
+      return res;
+    },
+    //随机获取角度
+    getRandomdeg: function getRandomdeg() {
+      var res = "";
+      res += this.getRandomNum(this.transformDeg[0], this.transformDeg[1]);
+      return res;
+    },
+    //获取随机数
+    getRandomNum: function getRandomNum(minN, maxN) {
+      return Math.floor(Math.random() * (maxN - minN + 1) + minN);
+    },
+    //初始化
+    initData: function initData() {
+      var textList = this.textList;
+      var maxF = textList[0].freq,
+          minF = textList[0].freq;
+      textList.map(function (item) {
+        maxF = Math.max(maxF, item.freq);
+        minF = Math.min(minF, item.freq);
+      });
+      this.maxFreq = maxF;
+      this.minFreq = minF;
+    },
+    //通过词频计算字体大小
+    getSize: function getSize(freq) {
+      var baseSize = (this.maxSize + this.minSize) / 2;
+      var addSize = (this.maxSize - this.minSize) * (freq - this.minFreq) / (this.maxFreq - this.minFreq);
+      return (this.minSize + addSize) / baseSize * this.baseSize + "rem";
+    },
+    //获取四个顶点坐标
+    getFourPoints: function getFourPoints() {
+      var _this = this;
+
+      this.$nextTick(function () {
+        var showTextList = _this.showTextList;
+        var newHeight = 0;
+
+        for (var i = 0; i < showTextList.length; i++) {
+          var id = "word-" + i;
+          var dom = document.getElementById(id);
+          var tl = {
+            x: dom.offsetLeft,
+            y: dom.offsetTop
+          };
+          var tr = {
+            x: dom.offsetLeft + dom.offsetWidth,
+            y: dom.offsetTop
+          };
+          var bl = {
+            x: dom.offsetLeft,
+            y: dom.offsetTop + dom.offsetHeight
+          };
+          var br = {
+            x: dom.offsetLeft + dom.offsetWidth,
+            y: dom.offsetTop
+          };
+          newHeight = Math.max(newHeight, bl.y);
+          showTextList[i].fourPoints = {
+            tl: tl,
+            tr: tr,
+            bl: bl,
+            br: br
+          };
+        }
+
+        _this.height = newHeight;
+      });
+    },
+    //组装显示列表属性数据
+    comShowtexList: function comShowtexList() {
+      var _this2 = this;
+
+      var showTextList = [];
+      this.textList.map(function (item) {
+        var temp = item;
+        temp.size = _this2.getSize(item.freq);
+
+        var point = _this2.getRandomPoint();
+
+        var color = _this2.getRandomColor();
+
+        var deg = _this2.getRandomdeg();
+
+        _this2.pointList.push(point);
+
+        temp.point = point;
+        temp.color = color;
+        temp.deg = deg;
+        showTextList.push(temp);
+      });
+      showTextList = showTextList.sort(function (a, b) {
+        return 0.5 - Math.random();
+      });
+      this.showTextList = showTextList;
+    }
+  }
+});
+// CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_JWordCloudvue_type_script_lang_js_ = (JWordCloudvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=style&index=0&id=424facbf&lang=scss&scoped=true&
+var JWordCloudvue_type_style_index_0_id_424facbf_lang_scss_scoped_true_ = __webpack_require__("ab75");
+
+// CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue
+
+
+
+
+
+
+/* normalize component */
+
+var JWordCloud_component = normalizeComponent(
+  src_JWordCloudvue_type_script_lang_js_,
+  JWordCloudvue_type_template_id_424facbf_scoped_true_render,
+  JWordCloudvue_type_template_id_424facbf_scoped_true_staticRenderFns,
+  false,
+  null,
+  "424facbf",
+  null
+  
+)
+
+/* harmony default export */ var JWordCloud = (JWordCloud_component.exports);
+// CONCATENATED MODULE: ./packages/JWordCloud/index.js
+
+
+
+JWordCloud.install = function (Vue) {
+  return Vue.component(JWordCloud.name, JWordCloud);
+}; //注册组件
+
+
+/* harmony default export */ var packages_JWordCloud = (JWordCloud);
 // CONCATENATED MODULE: ./packages/index.js
 
 
@@ -7991,9 +8278,11 @@ function packages_objectSpread(target) { for (var i = 1; i < arguments.length; i
 
 
 
+
  // 存储组件列表
 
-var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
+var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud // Toast
+]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 
 var install = function install(Vue) {
   // 判断是否安装
