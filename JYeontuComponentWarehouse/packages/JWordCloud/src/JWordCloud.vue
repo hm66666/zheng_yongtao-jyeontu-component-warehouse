@@ -2,7 +2,7 @@
     <div>
         <div
             class="j-word-cloud"
-            :style="'height:' + height + 'px;width:' + width + 'px;'"
+            :style="'min-height:' + height + 'px;width:' + width + 'px;'"
         >
             <span
                 v-for="(item, index) in showTextList"
@@ -25,24 +25,28 @@ export default {
             type: Array,
             default: () => {
                 return [
-                    { text: "测试", freq: 10 },
-                    { text: "测试1", freq: 5 },
-                    { text: "测试2", freq: 7 },
-                    { text: "测试3", freq: 2 },
-                    { text: "测试5", freq: 3 },
-                    { text: "测试6", freq: 4 },
-                    { text: "测试7", freq: 5 },
-                    { text: "测试8", freq: 6 }
+                    { text: "单词", freq: 10 },
+                    { text: "单词1", freq: 5 },
+                    { text: "单词2", freq: 7 },
+                    { text: "单词3", freq: 2 },
+                    { text: "单词5", freq: 3 },
+                    { text: "单词6", freq: 4 },
+                    { text: "单词7", freq: 5 },
+                    { text: "单词8", freq: 6 },
+                    { text: "单词9", freq: 6 },
+                    { text: "单词10", freq: 8 },
+                    { text: "单词11", freq: 4 },
+                    { text: "单词12", freq: 2 },
+                    { text: "单词13", freq: 4 },
+                    { text: "单词14", freq: 3 },
+                    { text: "单词15", freq: 1 },
+                    { text: "单词16", freq: 5 }
                 ];
             }
         },
-        height: {
-            type: Number,
-            default: 200
-        },
         width: {
             type: Number,
-            default: 200
+            default: 300
         },
         colorList: {
             type: Array,
@@ -50,7 +54,7 @@ export default {
         },
         baseSize: {
             type: Number,
-            default: 1.5
+            default: 2
         },
         maxSize: {
             type: Number,
@@ -72,7 +76,8 @@ export default {
             maxFreq: 0,
             minFreq: 0,
             showTextList: [],
-            pointList: []
+            pointList: [],
+            height: 200
         };
     },
     mounted() {
@@ -90,16 +95,16 @@ export default {
             const width = parseFloat(item.size) * 20 * item.text.length;
             let res = "";
             res += "font-size:" + item.size + ";";
-            res += "position: absolute;";
-            // res += "position: relative;";
-            res +=
-                "top:" +
-                Math.max(0, Math.min(item.point.y, this.width - width)) +
-                "px;";
-            res +=
-                "left:" +
-                Math.max(0, Math.min(item.point.x, this.height - height)) +
-                "px;";
+            // res += "position: absolute;";
+            res += "float: left;";
+            // res +=
+            //     "top:" +
+            //     Math.max(0, Math.min(item.point.y, this.width - width)) +
+            //     "px;";
+            // res +=
+            //     "left:" +
+            //     Math.max(0, Math.min(item.point.x, this.height - height)) +
+            //     "px;";
             res += "color:" + item.color + ";";
             // res += "transform:rotate(" + item.deg + "deg);";
             return res;
@@ -156,7 +161,7 @@ export default {
         },
         //通过词频计算字体大小
         getSize(freq) {
-            const baseSize = (this.maxSize - this.minSize) / 2 + this.minSize;
+            const baseSize = (this.maxSize + this.minSize) / 2;
             const addSize =
                 ((this.maxSize - this.minSize) * (freq - this.minFreq)) /
                 (this.maxFreq - this.minFreq);
@@ -168,6 +173,7 @@ export default {
         getFourPoints() {
             this.$nextTick(() => {
                 let showTextList = this.showTextList;
+                let newHeight = 0;
                 for (let i = 0; i < showTextList.length; i++) {
                     let id = "word-" + i;
                     let dom = document.getElementById(id);
@@ -184,6 +190,7 @@ export default {
                         x: dom.offsetLeft + dom.offsetWidth,
                         y: dom.offsetTop
                     };
+                    newHeight = Math.max(newHeight, bl.y);
                     showTextList[i].fourPoints = {
                         tl: tl,
                         tr: tr,
@@ -191,6 +198,7 @@ export default {
                         br: br
                     };
                 }
+                this.height = newHeight;
             });
         },
         //组装显示列表属性数据
@@ -208,6 +216,9 @@ export default {
                 temp.deg = deg;
                 showTextList.push(temp);
             });
+            showTextList = showTextList.sort((a, b) => {
+                return 0.5 - Math.random();
+            });
             this.showTextList = showTextList;
         }
     }
@@ -218,13 +229,10 @@ export default {
 .j-word-cloud {
     border: 1px solid black;
     position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    // height: 200px;
-    // width: 200px;
     span {
-        // border: 1px solid rgb(0, 0, 0);
         transform-origin: 0 0;
+        padding: 0.1rem;
+        margin: 0 auto;
     }
 }
 </style>
