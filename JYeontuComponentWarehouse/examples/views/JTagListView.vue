@@ -10,11 +10,22 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
+                <div class="choose-tag-list">
+                    <j-tag-list
+                        :tagList="chooseTagList"
+                        :tagColor="['orange']"
+                        :canRepeat="false"
+                        :isShow="true"
+                    >
+                    </j-tag-list>
+                </div>
                 <j-tag-list
                     :tagList="tagList"
                     :tagColor="tagColor"
                     :canRepeat="false"
                     :isShow="false"
+                    @tagClick="tagClick"
+                    @deleteTag="deleteTag"
                 >
                 </j-tag-list>
             </div>
@@ -112,11 +123,20 @@ export default {
                     describe:
                         "为true时仅展示标签，为false时显示添加和删除按钮，默认为false"
                 }
-            ]
+            ],
+            chooseTagList: []
         };
     },
     created() {
         this.code = `
+        <div class="choose-tag-list">
+            <j-tag-list
+                :tagList="chooseTagList"
+                :tagColor="['orange']"
+                :canRepeat="false"
+                :isShow="true">
+            </j-tag-list>
+        </div>
         <j-tag-list
             :tagList="tagList"
             :tagColor="tagColor"
@@ -128,13 +148,43 @@ export default {
                 return {
                     tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
                     tagColor: ["orange", "pink"],
+                    chooseTagList: []
+                }
+            },
+            methods: {
+                deleteTag(item) {},
+                tagClick(item) {
+                    if (this.chooseTagList.includes(item.text)) {
+                        return;
+                    }
+                    this.chooseTagList.push(item.text);
+                },
+                deleteTag(item) {
+                    const ind = this.chooseTagList.indexOf(item.text);
+                    if (ind !== -1) {
+                        this.chooseTagList.splice(ind, 1);
+                    }
                 }
             }
         }
     `;
     },
     mounted() {},
-    methods: {}
+    methods: {
+        deleteTag(item) {},
+        tagClick(item) {
+            if (this.chooseTagList.includes(item.text)) {
+                return;
+            }
+            this.chooseTagList.push(item.text);
+        },
+        deleteTag(item) {
+            const ind = this.chooseTagList.indexOf(item.text);
+            if (ind !== -1) {
+                this.chooseTagList.splice(ind, 1);
+            }
+        }
+    }
 };
 </script>
 <style scoped lang="scss">
