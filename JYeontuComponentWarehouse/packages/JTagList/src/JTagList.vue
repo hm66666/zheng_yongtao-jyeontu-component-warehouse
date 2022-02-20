@@ -148,6 +148,7 @@ export default {
                         text: this.inputTag,
                         style: this.getTagStyle()
                     });
+                    this.$emit("addTag", item);
                 }
                 this.inputTag = "";
             }

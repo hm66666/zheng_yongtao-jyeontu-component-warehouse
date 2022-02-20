@@ -141,7 +141,9 @@ export default {
             :tagList="tagList"
             :tagColor="tagColor"
             :canRepeat="false"
-            :isShow="false">
+            :isShow="false"
+            @tagClick="tagClick"
+            @deleteTag="deleteTag">
         </j-tag-list>
         export default {
             data(){
@@ -171,7 +173,6 @@ export default {
     },
     mounted() {},
     methods: {
-        deleteTag(item) {},
         tagClick(item) {
             if (this.chooseTagList.includes(item.text)) {
                 return;
