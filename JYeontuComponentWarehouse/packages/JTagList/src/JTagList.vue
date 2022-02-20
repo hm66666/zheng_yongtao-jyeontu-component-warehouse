@@ -21,9 +21,9 @@
                 <input
                     v-if="addTagFlag"
                     :ref="'tagInputRef' + uId"
+                    :id="'tagInputId' + uId"
                     class="add-tag-input"
                     v-model="inputTag"
-                    v-focus="true"
                     @blur="addTag()"
                     @keydown.enter="addTag()"
                 />
@@ -124,7 +124,8 @@ export default {
         showAddTag() {
             this.addTagFlag = true;
             this.$nextTick(() => {
-                this.$refs["tagInputRef" + this.uId].focus();
+                document.getElementById("tagInputId" + this.uId).focus();
+                // this.$refs["tagInputRef" + this.uId].focus();
             });
         },
         hideAddTag() {
@@ -141,17 +142,17 @@ export default {
         addTag() {
             this.inputTag = this.inputTag.trim();
             if (this.inputTag.trim().length != 0) {
-                this.tagList.push(this.inputTag);
                 if (!this.canRepeat) {
-                    this.tagList = [...new Set(this.tagList)];
+                    if (!this.tagList.includes(this.inputTag))
+                        this.tagList.push(this.inputTag);
                 }
                 if (this.tagList.length > this.showTagList.length) {
                     this.showTagList.push({
                         text: this.inputTag,
                         style: this.getTagStyle()
                     });
+                    this.$emit("addTag", this.inputTag);
                 }
-                this.$emit("addTag", this.inputTag);
                 this.inputTag = "";
             }
             this.hideAddTag();
