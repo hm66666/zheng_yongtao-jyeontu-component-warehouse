@@ -26,6 +26,7 @@
                     :isShow="false"
                     @tagClick="tagClick"
                     @deleteTag="deleteTag"
+                    @addTag="addTag"
                 >
                 </j-tag-list>
             </div>
@@ -143,7 +144,9 @@ export default {
             :canRepeat="false"
             :isShow="false"
             @tagClick="tagClick"
-            @deleteTag="deleteTag">
+            @deleteTag="deleteTag"
+            @addTag="addTag"
+        >
         </j-tag-list>
         export default {
             data(){
@@ -154,7 +157,9 @@ export default {
                 }
             },
             methods: {
-                deleteTag(item) {},
+                addTag(item) {
+                    console.log(item);
+                },
                 tagClick(item) {
                     if (this.chooseTagList.includes(item.text)) {
                         return;
@@ -173,6 +178,9 @@ export default {
     },
     mounted() {},
     methods: {
+        addTag(item) {
+            console.log(item);
+        },
         tagClick(item) {
             if (this.chooseTagList.includes(item.text)) {
                 return;

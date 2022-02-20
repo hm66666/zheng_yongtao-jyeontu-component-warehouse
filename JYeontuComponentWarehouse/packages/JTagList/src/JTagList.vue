@@ -142,14 +142,16 @@ export default {
             this.inputTag = this.inputTag.trim();
             if (this.inputTag.trim().length != 0) {
                 this.tagList.push(this.inputTag);
-                if (!this.canRepeat) this.tagList = [...new Set(this.tagList)];
+                if (!this.canRepeat) {
+                    this.tagList = [...new Set(this.tagList)];
+                }
                 if (this.tagList.length > this.showTagList.length) {
                     this.showTagList.push({
                         text: this.inputTag,
                         style: this.getTagStyle()
                     });
-                    this.$emit("addTag", item);
                 }
+                this.$emit("addTag", this.inputTag);
                 this.inputTag = "";
             }
             this.hideAddTag();
