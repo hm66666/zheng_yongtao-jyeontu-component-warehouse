@@ -13,6 +13,7 @@ import JDropDownBox from "./JDropDownBox";
 import JTagList from "./JTagList";
 import JToast from "./JToast";
 import JWordCloud from "./JWordCloud";
+import JBook from "./JBook";
 
 // 存储组件列表
 const components = [
@@ -30,7 +31,8 @@ const components = [
     JDropDownBox,
     JTagList,
     JToast,
-    JWordCloud
+    JWordCloud,
+    JBook
     // Toast
 ];
 

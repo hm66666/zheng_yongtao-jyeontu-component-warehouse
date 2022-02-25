@@ -208,6 +208,18 @@
             "children": []
         },
         {
+            "id": 20,
+            "name": "JBookView",
+            "path": "/JBookView",
+            "label": "书本",
+            "selected": false,
+            "icon": "icon-ciyuntu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JBookView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
