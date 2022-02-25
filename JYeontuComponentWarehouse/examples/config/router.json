@@ -43,7 +43,7 @@
             "selected": false,
             "icon": "icon-calendar",
             "open": false,
-            "component": "views/calendar.vue",
+            "component": "views/componentShowViews/calendar.vue",
             "children": []
         },
         {
@@ -54,7 +54,7 @@
             "selected": false,
             "icon": "icon-number",
             "open": false,
-            "component": "views/electronicNumber.vue",
+            "component": "views/componentShowViews/electronicNumber.vue",
             "children": []
         },
         {
@@ -65,7 +65,7 @@
             "selected": false,
             "icon": "icon-icon__liuchengtu",
             "open": false,
-            "component": "views/flowChartView.vue",
+            "component": "views/componentShowViews/flowChartView.vue",
             "children": []
         },
         {
@@ -76,7 +76,7 @@
             "selected": false,
             "icon": "icon-biaoge",
             "open": false,
-            "component": "views/JTableView.vue",
+            "component": "views/componentShowViews/JTableView.vue",
             "children": []
         },
         {
@@ -87,7 +87,7 @@
             "selected": false,
             "icon": "icon-daima",
             "open": false,
-            "component": "views/codeHeightLightView.vue",
+            "component": "views/componentShowViews/codeHeightLightView.vue",
             "children": []
         },
         {
@@ -98,7 +98,7 @@
             "selected": false,
             "icon": "icon-huaban",
             "open": false,
-            "component": "views/canvasBroadView.vue",
+            "component": "views/componentShowViews/canvasBroadView.vue",
             "children": []
         },
         {
@@ -109,7 +109,7 @@
             "selected": false,
             "icon": "icon-shuzidizeng",
             "open": false,
-            "component": "views/JNumRollingView.vue",
+            "component": "views/componentShowViews/JNumRollingView.vue",
             "children": []
         },
         {
@@ -121,7 +121,7 @@
             "icon": "icon-huaban",
             "open": false,
             "hide": false,
-            "component": "views/JStepsView.vue",
+            "component": "views/componentShowViews/JStepsView.vue",
             "children": []
         },
         {
@@ -133,7 +133,7 @@
             "icon": "icon-danchuang",
             "open": false,
             "hide": false,
-            "component": "views/JDialogView.vue",
+            "component": "views/componentShowViews/JDialogView.vue",
             "children": []
         },
         {
@@ -144,7 +144,7 @@
             "selected": false,
             "icon": "icon-xuanfuanniufadongtai",
             "open": false,
-            "component": "views/JHoverBtnView.vue",
+            "component": "views/componentShowViews/JHoverBtnView.vue",
             "children": []
         },
         {
@@ -156,7 +156,7 @@
             "icon": "icon-xuanfuanniufadongtai",
             "open": false,
             "hide": true,
-            "component": "views/JFloatDivView.vue",
+            "component": "views/componentShowViews/JFloatDivView.vue",
             "children": []
         },
         {
@@ -168,7 +168,7 @@
             "icon": "icon-xuanfuanniufadongtai",
             "open": false,
             "hide": false,
-            "component": "views/JTagListView.vue",
+            "component": "views/componentShowViews/JTagListView.vue",
             "children": []
         },
         {
@@ -180,7 +180,7 @@
             "icon": "icon-xuanfuanniufadongtai",
             "open": false,
             "hide": false,
-            "component": "views/JDropDownBoxView.vue",
+            "component": "views/componentShowViews/JDropDownBoxView.vue",
             "children": []
         },
         {
@@ -192,7 +192,7 @@
             "icon": "icon-xuanfuanniufadongtai",
             "open": false,
             "hide": false,
-            "component": "views/JToastView.vue",
+            "component": "views/componentShowViews/JToastView.vue",
             "children": []
         },
         {
@@ -204,7 +204,7 @@
             "icon": "icon-xuanfuanniufadongtai",
             "open": false,
             "hide": false,
-            "component": "views/JWordCloudView.vue",
+            "component": "views/componentShowViews/JWordCloudView.vue",
             "children": []
         },
         {
