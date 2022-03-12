@@ -1,3 +1,10 @@
+/*
+ * @Author: zheng yong tao
+ * @Date: 2022-02-20 21:41:33
+ * @LastEditors: zheng yong tao
+ * @LastEditTime: 2022-03-12 23:13:36
+ * @Description:
+ */
 import JCalendar from "./JCalendar";
 import JTable from "./JTable";
 import JCanvasBroad from "./JCanvasBroad";
@@ -13,6 +20,7 @@ import JDropDownBox from "./JDropDownBox";
 import JTagList from "./JTagList";
 import JToast from "./JToast";
 import JWordCloud from "./JWordCloud";
+import JComment from "./JComment";
 
 // 存储组件列表
 const components = [
@@ -30,7 +38,8 @@ const components = [
     JDropDownBox,
     JTagList,
     JToast,
-    JWordCloud
+    JWordCloud,
+    JComment
     // Toast
 ];
 
