@@ -2,11 +2,22 @@
  * @Author: zheng yong tao
  * @Date: 2022-03-12 23:11:38
  * @LastEditors: zheng yong tao
- * @LastEditTime: 2022-03-13 14:24:23
+ * @LastEditTime: 2022-03-13 22:40:13
  * @Description: 
 -->
 <template>
     <div class="j-comment">
+        <textarea
+            v-if="withCommentContent"
+            v-model="commentText"
+            id="j-comment-content"
+            placeholder="请输入评论"
+            class="j-comment-content"
+            @input="commentInput"
+        ></textarea>
+        <div v-if="withCommentContent" class="j-comment-content-btns">
+            <button @click="submitComment()">发表</button>
+        </div>
         <div class="j-comment-title">{{ title }}</div>
         <div
             class="j-comment-item"
@@ -52,9 +63,11 @@
                 :id="'reply-' + index"
                 :placeholder="replyText == '' ? '回复' + item.nickname : ''"
                 class="j-comment-reply-content focused"
-                @blur="replyBlur(item, index)"
                 @input="replyInput"
             ></textarea>
+            <div v-if="item.showReply" class="j-comment-reply-btns">
+                <button @click="submitReply(item.id)">发表</button>
+            </div>
             <div
                 class="j-comment-childer"
                 v-if="item.children && item.children.length > 0"
@@ -139,8 +152,12 @@
                         "
                         class="j-comment-reply-content focused"
                         @input="replyInput"
-                        @blur="replyBlur(item, index, children, true)"
                     ></textarea>
+                    <div v-if="children.showReply" class="j-comment-reply-btns">
+                        <button @click="submitReply(children.id)">
+                            发表
+                        </button>
+                    </div>
                     <div class="j-comment-childer" v-if="children.pContent">
                         <div
                             class="j-coment-children-content"
@@ -159,7 +176,7 @@
                     查看更多回复∨
                 </div>
                 <div
-                    v-else
+                    v-else-if="item.showChildren.length > showNumber"
                     :key="'more' + index"
                     class="j-comment-childer-more"
                     @click="showMore(item, index)"
@@ -179,79 +196,77 @@ export default {
             type: String,
             default: "热门评论"
         },
+        orderBy: {
+            type: String,
+            default: "time"
+        },
         showNumber: {
             type: Number,
-            default: 1
+            default: 2
+        },
+        withCommentContent: {
+            type: Boolean,
+            default: true
+        },
+        commentBoxHeight: {
+            type: String,
+            default: "100px"
+        },
+        replyBoxHeight: {
+            type: String,
+            default: "60px"
+        },
+        keyMap: {
+            type: Object,
+            default: () => {
+                return {
+                    pid: "pid",
+                    id: "id"
+                };
+            }
         },
         commentDatas: {
             type: Array,
             default: () => {
-                return [
-                    {
-                        id: 1,
-                        admin_comment: 0,
-                        avatar:
-                            "https://img2.baidu.com/it/u=134769530,4268043097&fm=253&fmt=auto&app=138&f=JPEG?w=533&h=333",
-                        content: "",
-                        create_time: "2020-05-31 23:03:55",
-                        email: "",
-                        nickname: "nickname1",
-                        parent_comment_id: null,
-                        content: "我是评论1"
-                    },
-                    {
-                        id: 2,
-                        admin_comment: 0,
-                        avatar:
-                            "https://img2.baidu.com/it/u=3133697304,2308274678&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=313",
-                        content: "",
-                        create_time: "2020-06-1 23:03:55",
-                        email: "",
-                        nickname: "nickname2",
-                        parent_comment_id: 1,
-                        content: "我是评论2"
-                    },
-                    {
-                        id: 3,
-                        admin_comment: 0,
-                        avatar:
-                            "https://img2.baidu.com/it/u=3772577665,2044310843&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=727",
-                        content: "",
-                        create_time: "2020-05-2 23:03:55",
-                        email: "",
-                        nickname: "nickname3",
-                        parent_comment_id: null,
-                        content: "我是评论3"
-                    },
-                    {
-                        id: 4,
-                        admin_comment: 0,
-                        avatar:
-                            "https://img0.baidu.com/it/u=3966731730,957573008&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500",
-                        content: "",
-                        create_time: "2020-06-2 23:03:55",
-                        email: "",
-                        nickname: "nickname4",
-                        parent_comment_id: 2,
-                        content:
-                            "我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,"
-                    }
-                ];
+                return [];
             }
         }
     },
     data() {
         return {
             showComentDatas: [],
-            replyText: ""
+            replyText: "",
+            commentText: "",
+            lastLength: 0,
+            showItem: []
         };
     },
     created() {
         this.initData();
     },
+    watch: {
+        commentDatas() {
+            this.initData();
+        }
+    },
     computed: {},
     methods: {
+        submitReply(id) {
+            const params = {
+                pid: id,
+                content: this.replyText
+            };
+            this.$emit("submitComment", params);
+        },
+        submitComment(id = null) {
+            const params = {
+                pid: id,
+                content: this.commentText
+            };
+            this.$emit("submitComment", params);
+        },
         showMore(item, index) {
+            this.showItem[index] = !this.showItem[index];
             if (item.showChildren.length < item.children.length) {
                 item.showChildren = item.children;
             } else {
@@ -266,14 +281,15 @@ export default {
             childrenIndex = 0,
             isChildren = false
         ) {
+            const flag = isChildren ? !children.showReply : !item.showReply;
             this.hideAll();
             let ref = "reply-" + index;
             if (isChildren) {
-                children.showReply = !children.showReply;
+                children.showReply = flag;
                 if (children.showReply)
                     ref = "reply-" + index + "-" + childrenIndex;
             } else {
-                item.showReply = !item.showReply;
+                item.showReply = flag;
             }
             this.$set(this.showComentDatas, index, item);
             if (children.showReply || item.showReply) {
@@ -295,24 +311,37 @@ export default {
             });
             this.showComentDatas = [...this.showComentDatas];
         },
-        replyInput(item) {
-            if (item.target.scrollHeight > item.target.offsetHeight) {
-                item.target.style.height = item.target.scrollHeight + "px";
+        commentInput(item) {
+            const currentLength = item.target.value.length;
+            // 判断字数如果比之前少了，说明内容正在减少，需要清除高度样式，重新获取
+            if (currentLength < this.lastLength) {
+                item.target.style.height = "";
             }
+            const currentHeight = item.target.scrollHeight;
+            // 如果内容高度发生了变化，再去设置高度值
+            if (currentHeight > item.target.offsetHeight) {
+                item.target.style.height = currentHeight + "px";
+            }
+            this.lastLength = currentLength;
         },
-        replyBlur(item, index, children = {}, isChildren = false) {
-            // if (isChildren) {
-            //     children.showReply = false;
-            // } else {
-            //     item.showReply = false;
-            // }
-            // this.$set(this.showComentDatas, index, item);
+        replyInput(item) {
+            const currentLength = item.target.value.length;
+            // 判断字数如果比之前少了，说明内容正在减少，需要清除高度样式，重新获取
+            if (currentLength < this.lastLength) {
+                item.target.style.height = "";
+            }
+            const currentHeight = item.target.scrollHeight;
+            // 如果内容高度发生了变化，再去设置高度值
+            if (currentHeight > item.target.offsetHeight) {
+                item.target.style.height = currentHeight + "px";
+            }
+            this.lastLength = currentLength;
         },
         initData() {
             this.showComentDatas = this.getTreeData(
                 this.commentDatas,
-                "id",
-                "parent_comment_id"
+                this.keyMap.id,
+                this.keyMap.pid
             );
             for (let i = 0; i < this.showComentDatas.length; i++) {
                 if (this.showComentDatas[i].children) {
@@ -321,7 +350,12 @@ export default {
                     );
                     this.showComentDatas[i].showChildren = this.showComentDatas[
                         i
-                    ].children.slice(0, this.showNumber);
+                    ].children.slice(
+                        0,
+                        this.showItem[i]
+                            ? this.showComentDatas[i].children.length
+                            : this.showNumber
+                    );
                 }
             }
         },
@@ -342,6 +376,9 @@ export default {
                 item["pContent"] = pContent;
                 res.unshift(item);
             });
+            if (this.showItem.length === 0) {
+                this.showItem = new Array(res.length).fill(false);
+            }
             return res;
         },
         getTreeData(data, id = "id", pid = "pid") {
@@ -353,6 +390,12 @@ export default {
                 for (let i = 0; i < branchArr.length; i++) {
                     branchArr.parent_nickname = parent.nickname;
                 }
+                branchArr.sort((a, b) => {
+                    return (
+                        new Date(a[this.orderBy]).getTime() -
+                        new Date(b[this.orderBy]).getTime()
+                    );
+                });
                 branchArr.length > 0 ? (parent["children"] = branchArr) : "";
                 return parent[pid] === null;
             });
@@ -366,6 +409,24 @@ export default {
     text-align: left;
     width: 80%;
     padding: 1rem;
+    .j-comment-content {
+        width: 100%;
+        min-height: 3rem;
+        padding: 0.5rem;
+        border: 1px solid;
+    }
+    .j-comment-content-btns {
+        display: flex;
+        button {
+            margin-left: auto;
+            background-color: #1e80ff;
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8%;
+            cursor: pointer;
+        }
+    }
     .j-comment-title {
         font-weight: bolder;
         font-size: large;
@@ -375,6 +436,7 @@ export default {
         .j-comment-header {
             display: flex;
             line-height: 40px;
+            flex-wrap: wrap;
             .j-comment-header-pre {
                 display: flex;
                 line-height: 40px;
@@ -433,6 +495,18 @@ export default {
                 -ms-user-select: none;
                 user-select: none;
                 color: #8a919f;
+            }
+        }
+        .j-comment-reply-btns {
+            display: flex;
+            button {
+                margin-left: auto;
+                background-color: #1e80ff;
+                border: none;
+                color: white;
+                padding: 0.5rem 1.5rem;
+                border-radius: 8%;
+                cursor: pointer;
             }
         }
         .j-comment-childer {
