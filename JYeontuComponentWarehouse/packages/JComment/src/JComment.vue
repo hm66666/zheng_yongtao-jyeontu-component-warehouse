@@ -2,7 +2,7 @@
  * @Author: zheng yong tao
  * @Date: 2022-03-12 23:11:38
  * @LastEditors: zheng yong tao
- * @LastEditTime: 2022-03-13 01:36:40
+ * @LastEditTime: 2022-03-13 14:24:23
  * @Description: 
 -->
 <template>
@@ -14,8 +14,12 @@
             :key="'comment' + index"
         >
             <div class="j-comment-header">
-                <img class="j-comment-header-img" :src="item.avatar" />
-                <div class="j-comment-header-nickname">{{ item.nickname }}</div>
+                <div class="j-comment-header-pre">
+                    <img class="j-comment-header-img" :src="item.avatar" />
+                    <span class="j-comment-header-nickname">{{
+                        item.nickname
+                    }}</span>
+                </div>
                 <div class="j-comment-header-time">{{ item.create_time }}</div>
             </div>
             <div class="j-comment-body">{{ item.content }}</div>
@@ -23,10 +27,34 @@
                 <img
                     class="j-comment-icon"
                     src="../img/评论.png"
-                    @click="replyClick(item)"
+                    @click="replyClick(item, index)"
                 />
-                <span>{{ (item.children && item.children.length) || "" }}</span>
+                <span @click="replyClick(item, index)">{{
+                    item.showReply
+                        ? "取消回复"
+                        : (item.children && item.children.length) || ""
+                }}</span>
             </div>
+            <!-- <div
+                v-if="item.showReply"
+                contenteditable="true"
+                tabindex="0"
+                class="j-comment-reply-content focused"
+                :placeholder="replyText == '' ? '回复' + item.nickname : ''"
+                v-text="replyText"
+                :id="'reply-' + index"
+                @blur="replyBlur(item, index)"
+                @input="replyInput"
+            ></div> -->
+            <textarea
+                v-if="item.showReply"
+                v-model="replyText"
+                :id="'reply-' + index"
+                :placeholder="replyText == '' ? '回复' + item.nickname : ''"
+                class="j-comment-reply-content focused"
+                @blur="replyBlur(item, index)"
+                @input="replyInput"
+            ></textarea>
             <div
                 class="j-comment-childer"
                 v-if="item.children && item.children.length > 0"
@@ -37,12 +65,14 @@
                     :key="'children' + childrenIndex"
                 >
                     <div class="j-comment-header">
-                        <img
-                            class="j-comment-header-img"
-                            :src="children.avatar"
-                        />
-                        <div class="j-comment-header-nickname">
-                            {{ children.nickname }}
+                        <div class="j-comment-header-pre">
+                            <img
+                                class="j-comment-header-img"
+                                :src="children.avatar"
+                            />
+                            <span class="j-comment-header-nickname">
+                                {{ children.nickname }}
+                            </span>
                         </div>
                         <div
                             class="j-comment-header-reply-nickname"
@@ -59,13 +89,58 @@
                         <img
                             class="j-comment-icon"
                             src="../img/评论.png"
-                            @click="replyClick(children)"
+                            @click="
+                                replyClick(
+                                    item,
+                                    index,
+                                    children,
+                                    childrenIndex,
+                                    true
+                                )
+                            "
                         />
-                        <span>{{
-                            (children.children && children.children.length) ||
-                                ""
-                        }}</span>
+                        <span
+                            @click="
+                                replyClick(
+                                    item,
+                                    index,
+                                    children,
+                                    childrenIndex,
+                                    true
+                                )
+                            "
+                            >{{
+                                children.showReply
+                                    ? "取消回复"
+                                    : (children.children &&
+                                          children.children.length) ||
+                                      ""
+                            }}</span
+                        >
                     </div>
+                    <!-- <div
+                        v-if="children.showReply"
+                        contenteditable="true"
+                        tabindex="0"
+                        class="j-comment-reply-content focused"
+                        :placeholder="
+                            replyText == '' ? '回复' + children.nickname : ''
+                        "
+                        :text="replyText"
+                        :id="'reply-' + index + '-' + childrenIndex"
+                        @blur="replyBlur(item, index, children, true)"
+                    ></div> -->
+                    <textarea
+                        v-if="children.showReply"
+                        v-model="replyText"
+                        :id="'reply-' + index + '-' + childrenIndex"
+                        :placeholder="
+                            replyText == '' ? '回复' + children.nickname : ''
+                        "
+                        class="j-comment-reply-content focused"
+                        @input="replyInput"
+                        @blur="replyBlur(item, index, children, true)"
+                    ></textarea>
                     <div class="j-comment-childer" v-if="children.pContent">
                         <div
                             class="j-coment-children-content"
@@ -167,7 +242,8 @@ export default {
     },
     data() {
         return {
-            showComentDatas: []
+            showComentDatas: [],
+            replyText: ""
         };
     },
     created() {
@@ -183,9 +259,54 @@ export default {
             }
             this.$set(this.showComentDatas, index, item);
         },
-        replyClick(item) {
-            console.log("item", item);
-            this.$emit("replyClick", item);
+        replyClick(
+            item,
+            index,
+            children = {},
+            childrenIndex = 0,
+            isChildren = false
+        ) {
+            this.hideAll();
+            let ref = "reply-" + index;
+            if (isChildren) {
+                children.showReply = !children.showReply;
+                if (children.showReply)
+                    ref = "reply-" + index + "-" + childrenIndex;
+            } else {
+                item.showReply = !item.showReply;
+            }
+            this.$set(this.showComentDatas, index, item);
+            if (children.showReply || item.showReply) {
+                this.$nextTick(() => {
+                    document.getElementById(ref).focus();
+                });
+            } else {
+                this.replyText = "";
+            }
+        },
+        hideAll() {
+            this.replyText = "";
+            this.showComentDatas.map(item => {
+                item.showReply = false;
+                item.showChildren &&
+                    item.showChildren.map(item1 => {
+                        item1.showReply = false;
+                    });
+            });
+            this.showComentDatas = [...this.showComentDatas];
+        },
+        replyInput(item) {
+            if (item.target.scrollHeight > item.target.offsetHeight) {
+                item.target.style.height = item.target.scrollHeight + "px";
+            }
+        },
+        replyBlur(item, index, children = {}, isChildren = false) {
+            // if (isChildren) {
+            //     children.showReply = false;
+            // } else {
+            //     item.showReply = false;
+            // }
+            // this.$set(this.showComentDatas, index, item);
         },
         initData() {
             this.showComentDatas = this.getTreeData(
@@ -254,13 +375,17 @@ export default {
         .j-comment-header {
             display: flex;
             line-height: 40px;
-            .j-comment-header-img {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-            }
-            .j-comment-header-nickname {
-                padding-left: 1em;
+            .j-comment-header-pre {
+                display: flex;
+                line-height: 40px;
+                .j-comment-header-img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                }
+                .j-comment-header-nickname {
+                    padding-left: 1em;
+                }
             }
             .j-comment-header-reply-nickname {
                 span {
@@ -285,6 +410,29 @@ export default {
                 width: 20px;
                 height: 20px;
                 cursor: pointer;
+            }
+            span {
+                cursor: pointer;
+            }
+        }
+        .j-comment-reply-content {
+            width: calc(100% - 40px - 1em - 1rem);
+            min-height: 1rem;
+            margin: 0.5rem 0rem;
+            padding: 0.5rem;
+            margin-left: calc(40px + 1em);
+            border: 1px solid;
+            resize: both;
+            overflow: hidden;
+            &::before {
+                content: attr(placeholder);
+                position: absolute;
+                pointer-events: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                color: #8a919f;
             }
         }
         .j-comment-childer {
