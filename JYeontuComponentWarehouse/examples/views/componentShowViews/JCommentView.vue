@@ -158,6 +158,18 @@ export default {
                     describe: "默认为pid和id"
                 },
                 {
+                    parameter: "withCommentContent",
+                    field: "是否有评论框",
+                    type: "Boolean",
+                    describe: "默认为true"
+                },
+                {
+                    parameter: "orderBy",
+                    field: "排序字段（时间）",
+                    type: "String",
+                    describe: "默认为time"
+                },
+                {
                     parameter: "submitComment",
                     field: "发布评论",
                     type: "function",
