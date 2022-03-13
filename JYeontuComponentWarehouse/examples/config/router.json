@@ -208,6 +208,18 @@
             "children": []
         },
         {
+            "id": 20,
+            "name": "JCommentView",
+            "path": "/JCommentView",
+            "label": "评论组件",
+            "selected": false,
+            "icon": "icon-ciyuntu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JCommentView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
