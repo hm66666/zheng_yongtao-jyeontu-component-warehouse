@@ -2,7 +2,7 @@
  * @Author: zheng yong tao
  * @Date: 2022-03-12 23:11:38
  * @LastEditors: zheng yong tao
- * @LastEditTime: 2022-03-13 22:40:13
+ * @LastEditTime: 2022-03-13 22:47:43
  * @Description: 
 -->
 <template>
@@ -256,6 +256,7 @@ export default {
                 pid: id,
                 content: this.replyText
             };
+            this.replyText = "";
             this.$emit("submitComment", params);
         },
         submitComment(id = null) {
@@ -263,6 +264,7 @@ export default {
                 pid: id,
                 content: this.commentText
             };
+            this.commentText = "";
             this.$emit("submitComment", params);
         },
         showMore(item, index) {
