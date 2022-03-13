@@ -2,7 +2,7 @@
  * @Author: zheng yong tao
  * @Date: 2022-03-12 23:11:38
  * @LastEditors: zheng yong tao
- * @LastEditTime: 2022-03-13 22:47:43
+ * @LastEditTime: 2022-03-13 22:50:45
  * @Description: 
 -->
 <template>
@@ -18,7 +18,7 @@
         <div v-if="withCommentContent" class="j-comment-content-btns">
             <button @click="submitComment()">发表</button>
         </div>
-        <div class="j-comment-title">{{ title }}</div>
+        <div class="j-comment-title" v-if="title !== ''">{{ title }}</div>
         <div
             class="j-comment-item"
             v-for="(item, index) in showComentDatas"
@@ -207,14 +207,6 @@ export default {
         withCommentContent: {
             type: Boolean,
             default: true
-        },
-        commentBoxHeight: {
-            type: String,
-            default: "100px"
-        },
-        replyBoxHeight: {
-            type: String,
-            default: "60px"
         },
         keyMap: {
             type: Object,
