@@ -58,6 +58,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.2.9（已发布）",
+                    descript: "增加：评论组件",
+                    time: "2022-03-13",
+                    icon: "13"
+                },
+                {
                     title: "版本0.2.6 ~ 0.2.8（已发布）",
                     descript: "优化tag标签组件",
                     time: "2022-02-20",
