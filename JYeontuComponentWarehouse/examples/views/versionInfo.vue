@@ -5,7 +5,7 @@
                 <div class="j-title">
                     版本介绍（jvuewheel）
                     <div class="j-detail">
-                        目前最新版本为0.2.8，更多好玩有用的组件正在构思中，敬请期待……
+                        目前最新版本为0.3.0，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
@@ -58,84 +58,90 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.3.0（已发布）",
+                    descript: "优化：评论组件，加入emoji表情",
+                    time: "2022-03-15",
+                    icon: "3.0"
+                },
+                {
                     title: "版本0.2.9（已发布）",
                     descript: "增加：评论组件",
                     time: "2022-03-13",
-                    icon: "13"
+                    icon: "2.9"
                 },
                 {
                     title: "版本0.2.6 ~ 0.2.8（已发布）",
                     descript: "优化tag标签组件",
                     time: "2022-02-20",
-                    icon: "11"
+                    icon: "2.8"
                 },
                 {
                     title: "版本0.2.5（已发布）",
                     descript: "增加：词云图组件",
                     time: "2022-02-11",
-                    icon: "11"
+                    icon: "2.5"
                 },
                 {
                     title: "版本0.2.4（已发布）",
                     descript: "优化Toast弹窗组件",
                     time: "2022-02-11",
-                    icon: "11"
+                    icon: "2.4"
                 },
                 {
                     title: "版本0.2.3（已发布）",
                     descript: "优化tag标签组件",
                     time: "2022-02-11",
-                    icon: "11"
+                    icon: "2.3"
                 },
                 {
                     title: "版本0.1.7 ~ 0.2.2（已发布）",
                     descript: "修复一些已知bug",
                     time: "2022-01-26",
-                    icon: "26"
+                    icon: "2.2"
                 },
                 {
                     title: "版本0.1.6（已发布）",
                     descript: "增加：tag标签组件、toast提示组件、下拉列表组件",
                     time: "2022-01-26",
-                    icon: "26"
+                    icon: "1.6"
                 },
                 {
                     title: "版本0.1.5（已发布）",
                     descript:
                         "优化：代码高亮组件、弹窗组件、表格组件增加展开行功能；增加：步骤图组件",
                     time: "2022-01-26",
-                    icon: "26"
+                    icon: "1.5"
                 },
                 {
                     title: "版本0.1.4（已发布）",
                     descript: "优化：代码高亮组件",
                     time: "2021-12-01",
-                    icon: "01"
+                    icon: "1.4"
                 },
                 {
                     title: "版本0.1.3（已发布）",
                     descript: "增加：悬浮按钮组件、弹窗组件",
                     time: "2021-11-28",
-                    icon: "28"
+                    icon: "1.3"
                 },
                 {
                     title: "版本0.1.2（已发布）",
                     descript: "增加：数字滚动变化效果组件；工具函数",
                     time: "2021-11-26",
-                    icon: "26"
+                    icon: "1.2"
                 },
                 {
                     title: "版本0.1.1（已发布）",
                     descript:
                         "项目搭建，导入：日历组件、电子屏数字组件、流程图组件、表格组件、代码高亮组件、canvas画板组件",
                     time: "2021-11-24",
-                    icon: "24"
+                    icon: "1.1"
                 },
                 {
                     title: "版本0.1.0（已发布）",
                     descript: "初始化npm库",
                     time: "2021-11-22",
-                    icon: "22"
+                    icon: "1.0"
                 }
             ]
         };
