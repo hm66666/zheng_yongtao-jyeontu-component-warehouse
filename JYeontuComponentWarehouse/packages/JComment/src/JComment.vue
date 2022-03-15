@@ -25,7 +25,7 @@
                 @click.stop="showEmoji"
                 id="comment-emoji"
                 style="width:20px;height:20px;cursor:pointer;"
-                src="../img/face.png"
+                src="../img/表情.png"
             />
             <button @click="submitComment()">发表</button>
         </div>
@@ -89,7 +89,7 @@
                     @click.stop="showEmoji"
                     :id="'emoji-reply-' + index"
                     style="width:20px;height:20px;cursor:pointer;"
-                    src="../img/face.png"
+                    src="../img/表情.png"
                 />
                 <button @click="submitReply(item.id)">发表</button>
             </div>
@@ -191,7 +191,7 @@
                             @click.stop="showEmoji"
                             :id="'emoji-reply-' + index + '-' + childrenIndex"
                             style="width:20px;height:20px;cursor:pointer;"
-                            src="../img/face.png"
+                            src="../img/表情.png"
                         />
                         <button @click="submitReply(children.id)">
                             发表
