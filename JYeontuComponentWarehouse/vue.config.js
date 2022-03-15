@@ -7,7 +7,6 @@ function resolve(dir) {
 module.exports = {
     productionSourceMap: false, // 不生成map文件，解决项目上线首次打开加载慢的问题
     publicPath: "./", // 解决打包文件，访问空白的文件路径问题
-
     pages: {
         // lintOnSave: false,
         index: {
@@ -16,7 +15,20 @@ module.exports = {
             filename: "index.html"
         }
     },
-
+    configureWebpack: {
+        module: {
+            rules: [
+                {
+                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                    loader: "url-loader",
+                    options: {
+                        limit: 10000,
+                        name: "img/[name].[hash:7].[ext]"
+                    }
+                }
+            ]
+        }
+    },
     chainWebpack: config => {
         // 用@设置自定义地址
         // 配置快捷路径，@为路径名字，resolve是原路径地址
