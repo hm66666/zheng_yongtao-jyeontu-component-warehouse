@@ -185,6 +185,12 @@ export default {
                     describe: "默认为time"
                 },
                 {
+                    parameter: "rank",
+                    field: "排序方式",
+                    type: "String",
+                    describe: "asc升序，desc降序，默认为desc"
+                },
+                {
                     parameter: "submitComment",
                     field: "发布评论",
                     type: "function",
@@ -276,7 +282,7 @@ export default {
                 avatar:
                     "https://img0.baidu.com/it/u=3966731730,957573008&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500",
                 content: item.content,
-                create_time: "2022-03-13 23:03:55",
+                create_time: "2022-03-15 23:03:55",
                 email: "",
                 nickname: "nickname" + (this.commentDatas.length + 1),
                 parent_comment_id: item.pid

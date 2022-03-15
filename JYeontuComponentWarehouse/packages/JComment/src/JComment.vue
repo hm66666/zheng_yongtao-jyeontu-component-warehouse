@@ -240,6 +240,10 @@ export default {
             type: String,
             default: "time"
         },
+        rank: {
+            type: String,
+            default: "desc"
+        },
         showNumber: {
             type: Number,
             default: 2
@@ -372,6 +376,7 @@ export default {
                 content: this.utf16toEntities(this.replyText)
             };
             this.replyText = "";
+            this.showVEmojiPicker = false;
             this.$emit("submitComment", params);
         },
         submitComment(id = null) {
@@ -380,6 +385,7 @@ export default {
                 content: this.utf16toEntities(this.commentText)
             };
             this.commentText = "";
+            this.showVEmojiPicker = false;
             this.$emit("submitComment", params);
         },
         showMore(item, index) {
@@ -399,6 +405,7 @@ export default {
             isChildren = false
         ) {
             const flag = isChildren ? !children.showReply : !item.showReply;
+            this.showVEmojiPicker = false;
             this.hideAll();
             let ref = "reply-" + index;
             if (isChildren) {
@@ -454,15 +461,35 @@ export default {
             }
             this.lastLength = currentLength;
         },
+        rankDatas(datas) {
+            if (this.rank === "desc") {
+                return datas.sort((b, a) => {
+                    return (
+                        new Date(a[this.orderBy]).getTime() -
+                        new Date(b[this.orderBy]).getTime()
+                    );
+                });
+            }
+            return datas.sort((a, b) => {
+                return (
+                    new Date(a[this.orderBy]).getTime() -
+                    new Date(b[this.orderBy]).getTime()
+                );
+            });
+        },
         initData() {
             this.showComentDatas = this.getTreeData(
                 this.commentDatas,
                 this.keyMap.id,
                 this.keyMap.pid
             );
+            this.showComentDatas = this.rankDatas(this.showComentDatas);
             for (let i = 0; i < this.showComentDatas.length; i++) {
                 if (this.showComentDatas[i].children) {
                     this.showComentDatas[i].children = this.treeToArr(
+                        this.showComentDatas[i].children
+                    );
+                    this.showComentDatas[i].children = this.rankDatas(
                         this.showComentDatas[i].children
                     );
                     this.showComentDatas[i].showChildren = this.showComentDatas[
@@ -507,12 +534,6 @@ export default {
                 for (let i = 0; i < branchArr.length; i++) {
                     branchArr.parent_nickname = parent.nickname;
                 }
-                branchArr.sort((a, b) => {
-                    return (
-                        new Date(a[this.orderBy]).getTime() -
-                        new Date(b[this.orderBy]).getTime()
-                    );
-                });
                 branchArr.length > 0 ? (parent["children"] = branchArr) : "";
                 return parent[pid] === null;
             });

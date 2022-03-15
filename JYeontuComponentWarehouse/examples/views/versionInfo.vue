@@ -58,6 +58,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.3.2（已发布）",
+                    descript: "优化：评论组件优化",
+                    time: "2022-03-15",
+                    icon: "3.2"
+                },
+                {
                     title: "版本0.3.1（已发布）",
                     descript: "优化：评论组件，emoji表情转码",
                     time: "2022-03-15",
