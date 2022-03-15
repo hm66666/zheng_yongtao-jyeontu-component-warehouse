@@ -5,7 +5,7 @@
                 <div class="j-title">
                     版本介绍（jvuewheel）
                     <div class="j-detail">
-                        目前最新版本为0.3.0，更多好玩有用的组件正在构思中，敬请期待……
+                        目前最新版本为0.3.1，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
@@ -56,6 +56,12 @@ export default {
                     descript: "增加：进度条组件……；优化：代码编写，项目结构",
                     time: "进行中……",
                     icon: "进"
+                },
+                {
+                    title: "版本0.3.1（已发布）",
+                    descript: "优化：评论组件，emoji表情转码",
+                    time: "2022-03-15",
+                    icon: "3.1"
                 },
                 {
                     title: "版本0.3.0（已发布）",
