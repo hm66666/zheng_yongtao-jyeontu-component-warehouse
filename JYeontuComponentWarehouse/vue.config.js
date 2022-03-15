@@ -40,7 +40,10 @@ module.exports = {
             .rule("images")
             .use("url-loader")
             .loader("url-loader")
-            .tap(options => Object.assign(options, { limit: 20000 }));
+
+            .tap(options =>
+                Object.assign(options, { limit: 20000, esModule: false })
+            );
         // gzip 压缩配置
         if (process.env.NODE_ENV === "production") {
             return {
