@@ -18,14 +18,15 @@ module.exports = {
     configureWebpack: {
         module: {
             rules: [
-                {
-                    test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-                    loader: "url-loader",
-                    options: {
-                        limit: 10000,
-                        name: "img/[name].[hash:7].[ext]"
-                    }
-                }
+                // {
+                //     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                //     loader: "url-loader",
+                //     options: {
+                //         limit: 100 * 1024,
+                //         esModule: false,
+                //         name: "img/[name].[hash:7].[ext]"
+                //     }
+                // }
             ]
         }
     },
@@ -35,7 +36,11 @@ module.exports = {
         config.resolve.alias
             .set("@", resolve("examples")) // key,value自行定义，比如.set('@@', resolve('src/components'))
             .set("~", resolve("packages"));
-
+        config.module
+            .rule("images")
+            .use("url-loader")
+            .loader("url-loader")
+            .tap(options => Object.assign(options, { limit: 20000 }));
         // gzip 压缩配置
         if (process.env.NODE_ENV === "production") {
             return {
