@@ -270,7 +270,6 @@ export default {
     mounted() {},
     methods: {
         submitComment(item) {
-            console.log("item: ", item);
             this.commentDatas.push({
                 id: this.commentDatas.length + 1,
                 admin_comment: 0,

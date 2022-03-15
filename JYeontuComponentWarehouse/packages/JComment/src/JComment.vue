@@ -6,7 +6,7 @@
  * @Description: 
 -->
 <template>
-    <div class="j-comment" @click="showVEmojiPicker = false">
+    <div class="j-comment">
         <VEmojiPicker
             id="v-emoji-picker"
             v-show="showVEmojiPicker"
@@ -49,7 +49,9 @@
                 </div>
                 <div class="j-comment-header-time">{{ item.create_time }}</div>
             </div>
-            <div class="j-comment-body">{{ item.content }}</div>
+            <div class="j-comment-body">
+                {{ entitiestoUtf16(item.content) }}
+            </div>
             <div class="j-comment-footer">
                 <img
                     class="j-comment-icon"
@@ -125,7 +127,9 @@
                             {{ children.create_time }}
                         </div>
                     </div>
-                    <div class="j-comment-body">{{ children.content }}</div>
+                    <div class="j-comment-body">
+                        {{ entitiestoUtf16(children.content) }}
+                    </div>
                     <div class="j-comment-footer">
                         <img
                             class="j-comment-icon"
@@ -196,9 +200,9 @@
                     <div class="j-comment-childer" v-if="children.pContent">
                         <div
                             class="j-coment-children-content"
-                            :title="children.pContent"
+                            :title="entitiestoUtf16(children.pContent)"
                         >
-                            {{ children.pContent }}
+                            {{ entitiestoUtf16(children.pContent) }}
                         </div>
                     </div>
                 </div>
@@ -285,8 +289,52 @@ export default {
     },
     computed: {},
     methods: {
+        // 表情转码
+        utf16toEntities(str) {
+            const patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
+            str = str.replace(patt, char => {
+                let H;
+                let L;
+                let code;
+                let s;
+
+                if (char.length === 2) {
+                    H = char.charCodeAt(0); // 取出高位
+                    L = char.charCodeAt(1); // 取出低位
+                    code = (H - 0xd800) * 0x400 + 0x10000 + L - 0xdc00; // 转换算法
+                    s = `&#${code};`;
+                } else {
+                    s = char;
+                }
+
+                return s;
+            });
+
+            return str;
+        },
+        // 表情解码
+        entitiestoUtf16(strObj) {
+            const patt = /&#\d+;/g;
+            const arr = strObj.match(patt) || [];
+
+            let H;
+            let L;
+            let code;
+
+            for (let i = 0; i < arr.length; i += 1) {
+                code = arr[i];
+                code = code.replace("&#", "").replace(";", "");
+                // 高位
+                H = Math.floor((code - 0x10000) / 0x400) + 0xd800;
+                // 低位
+                L = ((code - 0x10000) % 0x400) + 0xdc00;
+                code = `&#${code};`;
+                const s = String.fromCharCode(H, L);
+                strObj = strObj.replace(code, s);
+            }
+            return strObj;
+        },
         showEmoji(el) {
-            console.log(el.x, el.y, el.target);
             let v = document.getElementById("v-emoji-picker");
             v.style.left = el.pageX + 5 + "px";
             v.style.top = el.pageY + 5 + "px";
@@ -321,7 +369,7 @@ export default {
         submitReply(id) {
             const params = {
                 pid: id,
-                content: this.replyText
+                content: this.utf16toEntities(this.replyText)
             };
             this.replyText = "";
             this.$emit("submitComment", params);
@@ -329,7 +377,7 @@ export default {
         submitComment(id = null) {
             const params = {
                 pid: id,
-                content: this.commentText
+                content: this.utf16toEntities(this.commentText)
             };
             this.commentText = "";
             this.$emit("submitComment", params);
