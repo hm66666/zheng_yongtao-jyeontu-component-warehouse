@@ -41,7 +41,8 @@ export default {
             code: "",
             keyMap: {
                 pid: "parent_comment_id",
-                id: "id"
+                id: "id",
+                isAdmin: "admin_comment"
             },
             commentDatas: [
                 {
@@ -53,7 +54,8 @@ export default {
                     email: "",
                     nickname: "nickname1",
                     parent_comment_id: null,
-                    content: "我是评论1"
+                    content: "我是评论1",
+                    admin_comment: 0
                 },
                 {
                     id: 2,
@@ -64,7 +66,8 @@ export default {
                     email: "",
                     nickname: "nickname2",
                     parent_comment_id: 1,
-                    content: "我是评论2"
+                    content: "我是评论2",
+                    admin_comment: 1
                 },
                 {
                     id: 3,
@@ -75,7 +78,8 @@ export default {
                     email: "",
                     nickname: "nickname3",
                     parent_comment_id: null,
-                    content: "我是评论3"
+                    content: "我是评论3",
+                    admin_comment: 1
                 },
                 {
                     id: 4,
@@ -87,7 +91,8 @@ export default {
                     nickname: "nickname4",
                     parent_comment_id: 2,
                     content:
-                        "我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,"
+                        "我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,我是评论,",
+                    admin_comment: 0
                 }
             ],
             tableTitle: [
@@ -143,19 +148,29 @@ export default {
                     parameter: "showNumber",
                     field: "展示数量",
                     type: "Number",
-                    describe: "默认为2"
+                    describe: "默认为2，超出的需展开查看"
                 },
                 {
                     parameter: "commentDatas",
                     field: "评论数组",
                     type: "Array",
-                    describe: ""
+                    describe: "格式如下",
+                    children: {
+                        type: "text",
+                        text:
+                            '[{id: 1,admin_comment: 0,avatar:"https://img2.baidu.com/it/u=134769530,4268043097&fm=253&fmt=auto&app=138&f=JPEG?w=533&h=333",create_time: "2020-05-31 23:03:55",email: "",nickname: "nickname1",parent_comment_id: null,content: "我是评论1"}]'
+                    }
                 },
                 {
                     parameter: "keyMap",
-                    field: "自定义pid和id关键字",
+                    field: "自定义pid、id和isAdmin关键字",
                     type: "Object",
-                    describe: "默认为pid和id"
+                    describe: "默认为pid、id和isAdmin",
+                    children: {
+                        type: "text",
+                        text:
+                            '{pid: "parent_comment_id",id: "id",isAdmin: "admin_comment"}'
+                    }
                 },
                 {
                     parameter: "withCommentContent",
@@ -192,7 +207,8 @@ export default {
                 code: "",
                 keyMap: {
                     pid: "parent_comment_id",
-                    id: "id"
+                    id: "id",
+                    isAdmin: "admin_comment"
                 },
                 commentDatas: [
                     {

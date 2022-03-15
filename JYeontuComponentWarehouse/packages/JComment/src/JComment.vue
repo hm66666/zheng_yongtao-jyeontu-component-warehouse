@@ -6,7 +6,12 @@
  * @Description: 
 -->
 <template>
-    <div class="j-comment">
+    <div class="j-comment" @click="showVEmojiPicker = false">
+        <VEmojiPicker
+            id="v-emoji-picker"
+            v-show="showVEmojiPicker"
+            @select="selectEmoji"
+        />
         <textarea
             v-if="withCommentContent"
             v-model="commentText"
@@ -16,6 +21,12 @@
             @input="commentInput"
         ></textarea>
         <div v-if="withCommentContent" class="j-comment-content-btns">
+            <img
+                @click.stop="showEmoji"
+                id="comment-emoji"
+                style="width:20px;height:20px;cursor:pointer;"
+                src="../img/face.png"
+            />
             <button @click="submitComment()">发表</button>
         </div>
         <div class="j-comment-title" v-if="title !== ''">{{ title }}</div>
@@ -27,9 +38,14 @@
             <div class="j-comment-header">
                 <div class="j-comment-header-pre">
                     <img class="j-comment-header-img" :src="item.avatar" />
-                    <span class="j-comment-header-nickname">{{
-                        item.nickname
-                    }}</span>
+                    <span class="j-comment-header-nickname"
+                        >{{ item.nickname
+                        }}<span
+                            v-if="item[keyMap.isAdmin] === 1"
+                            style="color:skyblue;"
+                            >(博主)</span
+                        ></span
+                    >
                 </div>
                 <div class="j-comment-header-time">{{ item.create_time }}</div>
             </div>
@@ -66,6 +82,13 @@
                 @input="replyInput"
             ></textarea>
             <div v-if="item.showReply" class="j-comment-reply-btns">
+                <img
+                    class="emoji-btn"
+                    @click.stop="showEmoji"
+                    :id="'emoji-reply-' + index"
+                    style="width:20px;height:20px;cursor:pointer;"
+                    src="../img/face.png"
+                />
                 <button @click="submitReply(item.id)">发表</button>
             </div>
             <div
@@ -84,7 +107,12 @@
                                 :src="children.avatar"
                             />
                             <span class="j-comment-header-nickname">
-                                {{ children.nickname }}
+                                {{ children.nickname
+                                }}<span
+                                    v-if="children[keyMap.isAdmin] === 1"
+                                    style="color:skyblue;"
+                                    >(博主)</span
+                                >
                             </span>
                         </div>
                         <div
@@ -154,6 +182,13 @@
                         @input="replyInput"
                     ></textarea>
                     <div v-if="children.showReply" class="j-comment-reply-btns">
+                        <img
+                            class="emoji-btn"
+                            @click.stop="showEmoji"
+                            :id="'emoji-reply-' + index + '-' + childrenIndex"
+                            style="width:20px;height:20px;cursor:pointer;"
+                            src="../img/face.png"
+                        />
                         <button @click="submitReply(children.id)">
                             发表
                         </button>
@@ -189,6 +224,7 @@
 </template>
 
 <script>
+import { VEmojiPicker } from "v-emoji-picker";
 export default {
     name: "JComment",
     props: {
@@ -213,7 +249,8 @@ export default {
             default: () => {
                 return {
                     pid: "pid",
-                    id: "id"
+                    id: "id",
+                    isAdmin: "isAdmin"
                 };
             }
         },
@@ -224,13 +261,18 @@ export default {
             }
         }
     },
+    components: {
+        VEmojiPicker
+    },
     data() {
         return {
             showComentDatas: [],
             replyText: "",
             commentText: "",
             lastLength: 0,
-            showItem: []
+            showItem: [],
+            showVEmojiPicker: false,
+            emojiTextId: ""
         };
     },
     created() {
@@ -243,6 +285,39 @@ export default {
     },
     computed: {},
     methods: {
+        showEmoji(el) {
+            console.log(el.x, el.y, el.target);
+            let v = document.getElementById("v-emoji-picker");
+            v.style.left = el.pageX + 5 + "px";
+            v.style.top = el.pageY + 5 + "px";
+            this.showVEmojiPicker = !this.showVEmojiPicker;
+            this.emojiTextId = el.target.id;
+        },
+        selectEmoji(emoji) {
+            // 选择emoji后调用的函数
+            let input = null;
+            if (this.emojiTextId === "comment-emoji") {
+                input = document.getElementById("j-comment-content");
+            } else {
+                let id = this.emojiTextId.split("emoji-");
+                input = document.getElementById(id[1]);
+            }
+            let startPos = input.selectionStart;
+            let endPos = input.selectionEnd;
+            let resultText =
+                input.value.substring(0, startPos) +
+                emoji.data +
+                input.value.substring(endPos);
+            input.value = resultText;
+            input.focus();
+            input.selectionStart = startPos + emoji.data.length;
+            input.selectionEnd = startPos + emoji.data.length;
+            if (this.emojiTextId === "comment-emoji")
+                this.commentText = resultText;
+            else {
+                this.replyText = resultText;
+            }
+        },
         submitReply(id) {
             const params = {
                 pid: id,
@@ -403,6 +478,9 @@ export default {
     text-align: left;
     width: 80%;
     padding: 1rem;
+    #v-emoji-picker {
+        position: absolute;
+    }
     .j-comment-content {
         width: 100%;
         min-height: 3rem;
@@ -493,6 +571,9 @@ export default {
         }
         .j-comment-reply-btns {
             display: flex;
+            .emoji-btn {
+                margin-left: calc(40px + 1em);
+            }
             button {
                 margin-left: auto;
                 background-color: #1e80ff;

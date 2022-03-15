@@ -87,260 +87,6 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
-/***/ "014b":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-// ECMAScript 6 symbols shim
-var global = __webpack_require__("e53d");
-var has = __webpack_require__("07e3");
-var DESCRIPTORS = __webpack_require__("8e60");
-var $export = __webpack_require__("63b6");
-var redefine = __webpack_require__("9138");
-var META = __webpack_require__("ebfd").KEY;
-var $fails = __webpack_require__("294c");
-var shared = __webpack_require__("dbdb");
-var setToStringTag = __webpack_require__("45f2");
-var uid = __webpack_require__("62a0");
-var wks = __webpack_require__("5168");
-var wksExt = __webpack_require__("ccb9");
-var wksDefine = __webpack_require__("6718");
-var enumKeys = __webpack_require__("47ee");
-var isArray = __webpack_require__("9003");
-var anObject = __webpack_require__("e4ae");
-var isObject = __webpack_require__("f772");
-var toObject = __webpack_require__("241e");
-var toIObject = __webpack_require__("36c3");
-var toPrimitive = __webpack_require__("1bc3");
-var createDesc = __webpack_require__("aebd");
-var _create = __webpack_require__("a159");
-var gOPNExt = __webpack_require__("0395");
-var $GOPD = __webpack_require__("bf0b");
-var $GOPS = __webpack_require__("9aa9");
-var $DP = __webpack_require__("d9f6");
-var $keys = __webpack_require__("c3a1");
-var gOPD = $GOPD.f;
-var dP = $DP.f;
-var gOPN = gOPNExt.f;
-var $Symbol = global.Symbol;
-var $JSON = global.JSON;
-var _stringify = $JSON && $JSON.stringify;
-var PROTOTYPE = 'prototype';
-var HIDDEN = wks('_hidden');
-var TO_PRIMITIVE = wks('toPrimitive');
-var isEnum = {}.propertyIsEnumerable;
-var SymbolRegistry = shared('symbol-registry');
-var AllSymbols = shared('symbols');
-var OPSymbols = shared('op-symbols');
-var ObjectProto = Object[PROTOTYPE];
-var USE_NATIVE = typeof $Symbol == 'function' && !!$GOPS.f;
-var QObject = global.QObject;
-// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
-var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
-
-// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
-var setSymbolDesc = DESCRIPTORS && $fails(function () {
-  return _create(dP({}, 'a', {
-    get: function () { return dP(this, 'a', { value: 7 }).a; }
-  })).a != 7;
-}) ? function (it, key, D) {
-  var protoDesc = gOPD(ObjectProto, key);
-  if (protoDesc) delete ObjectProto[key];
-  dP(it, key, D);
-  if (protoDesc && it !== ObjectProto) dP(ObjectProto, key, protoDesc);
-} : dP;
-
-var wrap = function (tag) {
-  var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
-  sym._k = tag;
-  return sym;
-};
-
-var isSymbol = USE_NATIVE && typeof $Symbol.iterator == 'symbol' ? function (it) {
-  return typeof it == 'symbol';
-} : function (it) {
-  return it instanceof $Symbol;
-};
-
-var $defineProperty = function defineProperty(it, key, D) {
-  if (it === ObjectProto) $defineProperty(OPSymbols, key, D);
-  anObject(it);
-  key = toPrimitive(key, true);
-  anObject(D);
-  if (has(AllSymbols, key)) {
-    if (!D.enumerable) {
-      if (!has(it, HIDDEN)) dP(it, HIDDEN, createDesc(1, {}));
-      it[HIDDEN][key] = true;
-    } else {
-      if (has(it, HIDDEN) && it[HIDDEN][key]) it[HIDDEN][key] = false;
-      D = _create(D, { enumerable: createDesc(0, false) });
-    } return setSymbolDesc(it, key, D);
-  } return dP(it, key, D);
-};
-var $defineProperties = function defineProperties(it, P) {
-  anObject(it);
-  var keys = enumKeys(P = toIObject(P));
-  var i = 0;
-  var l = keys.length;
-  var key;
-  while (l > i) $defineProperty(it, key = keys[i++], P[key]);
-  return it;
-};
-var $create = function create(it, P) {
-  return P === undefined ? _create(it) : $defineProperties(_create(it), P);
-};
-var $propertyIsEnumerable = function propertyIsEnumerable(key) {
-  var E = isEnum.call(this, key = toPrimitive(key, true));
-  if (this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return false;
-  return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
-};
-var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
-  it = toIObject(it);
-  key = toPrimitive(key, true);
-  if (it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key)) return;
-  var D = gOPD(it, key);
-  if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key])) D.enumerable = true;
-  return D;
-};
-var $getOwnPropertyNames = function getOwnPropertyNames(it) {
-  var names = gOPN(toIObject(it));
-  var result = [];
-  var i = 0;
-  var key;
-  while (names.length > i) {
-    if (!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META) result.push(key);
-  } return result;
-};
-var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
-  var IS_OP = it === ObjectProto;
-  var names = gOPN(IS_OP ? OPSymbols : toIObject(it));
-  var result = [];
-  var i = 0;
-  var key;
-  while (names.length > i) {
-    if (has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true)) result.push(AllSymbols[key]);
-  } return result;
-};
-
-// 19.4.1.1 Symbol([description])
-if (!USE_NATIVE) {
-  $Symbol = function Symbol() {
-    if (this instanceof $Symbol) throw TypeError('Symbol is not a constructor!');
-    var tag = uid(arguments.length > 0 ? arguments[0] : undefined);
-    var $set = function (value) {
-      if (this === ObjectProto) $set.call(OPSymbols, value);
-      if (has(this, HIDDEN) && has(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
-      setSymbolDesc(this, tag, createDesc(1, value));
-    };
-    if (DESCRIPTORS && setter) setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
-    return wrap(tag);
-  };
-  redefine($Symbol[PROTOTYPE], 'toString', function toString() {
-    return this._k;
-  });
-
-  $GOPD.f = $getOwnPropertyDescriptor;
-  $DP.f = $defineProperty;
-  __webpack_require__("6abf").f = gOPNExt.f = $getOwnPropertyNames;
-  __webpack_require__("355d").f = $propertyIsEnumerable;
-  $GOPS.f = $getOwnPropertySymbols;
-
-  if (DESCRIPTORS && !__webpack_require__("b8e3")) {
-    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
-  }
-
-  wksExt.f = function (name) {
-    return wrap(wks(name));
-  };
-}
-
-$export($export.G + $export.W + $export.F * !USE_NATIVE, { Symbol: $Symbol });
-
-for (var es6Symbols = (
-  // 19.4.2.2, 19.4.2.3, 19.4.2.4, 19.4.2.6, 19.4.2.8, 19.4.2.9, 19.4.2.10, 19.4.2.11, 19.4.2.12, 19.4.2.13, 19.4.2.14
-  'hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables'
-).split(','), j = 0; es6Symbols.length > j;)wks(es6Symbols[j++]);
-
-for (var wellKnownSymbols = $keys(wks.store), k = 0; wellKnownSymbols.length > k;) wksDefine(wellKnownSymbols[k++]);
-
-$export($export.S + $export.F * !USE_NATIVE, 'Symbol', {
-  // 19.4.2.1 Symbol.for(key)
-  'for': function (key) {
-    return has(SymbolRegistry, key += '')
-      ? SymbolRegistry[key]
-      : SymbolRegistry[key] = $Symbol(key);
-  },
-  // 19.4.2.5 Symbol.keyFor(sym)
-  keyFor: function keyFor(sym) {
-    if (!isSymbol(sym)) throw TypeError(sym + ' is not a symbol!');
-    for (var key in SymbolRegistry) if (SymbolRegistry[key] === sym) return key;
-  },
-  useSetter: function () { setter = true; },
-  useSimple: function () { setter = false; }
-});
-
-$export($export.S + $export.F * !USE_NATIVE, 'Object', {
-  // 19.1.2.2 Object.create(O [, Properties])
-  create: $create,
-  // 19.1.2.4 Object.defineProperty(O, P, Attributes)
-  defineProperty: $defineProperty,
-  // 19.1.2.3 Object.defineProperties(O, Properties)
-  defineProperties: $defineProperties,
-  // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-  getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
-  // 19.1.2.7 Object.getOwnPropertyNames(O)
-  getOwnPropertyNames: $getOwnPropertyNames,
-  // 19.1.2.8 Object.getOwnPropertySymbols(O)
-  getOwnPropertySymbols: $getOwnPropertySymbols
-});
-
-// Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
-// https://bugs.chromium.org/p/v8/issues/detail?id=3443
-var FAILS_ON_PRIMITIVES = $fails(function () { $GOPS.f(1); });
-
-$export($export.S + $export.F * FAILS_ON_PRIMITIVES, 'Object', {
-  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
-    return $GOPS.f(toObject(it));
-  }
-});
-
-// 24.3.2 JSON.stringify(value [, replacer [, space]])
-$JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function () {
-  var S = $Symbol();
-  // MS Edge converts symbol values to JSON as {}
-  // WebKit converts symbol values to JSON as null
-  // V8 throws on boxed symbols
-  return _stringify([S]) != '[null]' || _stringify({ a: S }) != '{}' || _stringify(Object(S)) != '{}';
-})), 'JSON', {
-  stringify: function stringify(it) {
-    var args = [it];
-    var i = 1;
-    var replacer, $replacer;
-    while (arguments.length > i) args.push(arguments[i++]);
-    $replacer = replacer = args[1];
-    if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-    if (!isArray(replacer)) replacer = function (key, value) {
-      if (typeof $replacer == 'function') value = $replacer.call(this, key, value);
-      if (!isSymbol(value)) return value;
-    };
-    args[1] = replacer;
-    return _stringify.apply($JSON, args);
-  }
-});
-
-// 19.4.3.4 Symbol.prototype[@@toPrimitive](hint)
-$Symbol[PROTOTYPE][TO_PRIMITIVE] || __webpack_require__("35e8")($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
-// 19.4.3.5 Symbol.prototype[@@toStringTag]
-setToStringTag($Symbol, 'Symbol');
-// 20.2.1.9 Math[@@toStringTag]
-setToStringTag(Math, 'Math', true);
-// 24.3.3 JSON[@@toStringTag]
-setToStringTag(global.JSON, 'JSON', true);
-
-
-/***/ }),
-
 /***/ "01f9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -458,62 +204,10 @@ module.exports = function (S, index, unicode) {
 
 /***/ }),
 
-/***/ "0395":
+/***/ "0459":
 /***/ (function(module, exports, __webpack_require__) {
 
-// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
-var toIObject = __webpack_require__("36c3");
-var gOPN = __webpack_require__("6abf").f;
-var toString = {}.toString;
-
-var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
-  ? Object.getOwnPropertyNames(window) : [];
-
-var getWindowNames = function (it) {
-  try {
-    return gOPN(it);
-  } catch (e) {
-    return windowNames.slice();
-  }
-};
-
-module.exports.f = function getOwnPropertyNames(it) {
-  return windowNames && toString.call(it) == '[object Window]' ? getWindowNames(it) : gOPN(toIObject(it));
-};
-
-
-/***/ }),
-
-/***/ "0790":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_30468cee_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d225");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_30468cee_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_30468cee_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_30468cee_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "07e3":
-/***/ (function(module, exports) {
-
-var hasOwnProperty = {}.hasOwnProperty;
-module.exports = function (it, key) {
-  return hasOwnProperty.call(it, key);
-};
-
-
-/***/ }),
-
-/***/ "087b":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_d606ebb8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("3a1f");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_d606ebb8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_d606ebb8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_d606ebb8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -589,6 +283,17 @@ module.exports = function () {
 
 /***/ }),
 
+/***/ "0ce6":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_e2b008ae_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("666e");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_e2b008ae_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_e2b008ae_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "0d58":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -598,20 +303,6 @@ var enumBugKeys = __webpack_require__("e11e");
 
 module.exports = Object.keys || function keys(O) {
   return $keys(O, enumBugKeys);
-};
-
-
-/***/ }),
-
-/***/ "0fc9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__("3a38");
-var max = Math.max;
-var min = Math.min;
-module.exports = function (index, length) {
-  index = toInteger(index);
-  return index < 0 ? max(index + length, 0) : min(index, length);
 };
 
 
@@ -652,17 +343,6 @@ exports.f = __webpack_require__("9e1e") ? gOPD : function getOwnPropertyDescript
 
 /***/ }),
 
-/***/ "1329":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_ec8b39b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("81cb");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_ec8b39b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_ec8b39b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_ec8b39b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
 /***/ "1495":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -683,114 +363,57 @@ module.exports = __webpack_require__("9e1e") ? Object.defineProperties : functio
 
 /***/ }),
 
-/***/ "1654":
+/***/ "1c01":
+/***/ (function(module, exports, __webpack_require__) {
+
+var $export = __webpack_require__("5ca1");
+// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
+$export($export.S + $export.F * !__webpack_require__("9e1e"), 'Object', { defineProperty: __webpack_require__("86cc").f });
+
+
+/***/ }),
+
+/***/ "1c4c":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at = __webpack_require__("71c1")(true);
+var ctx = __webpack_require__("9b43");
+var $export = __webpack_require__("5ca1");
+var toObject = __webpack_require__("4bf8");
+var call = __webpack_require__("1fa8");
+var isArrayIter = __webpack_require__("33a4");
+var toLength = __webpack_require__("9def");
+var createProperty = __webpack_require__("f1ae");
+var getIterFn = __webpack_require__("27ee");
 
-// 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__("30f1")(String, 'String', function (iterated) {
-  this._t = String(iterated); // target
-  this._i = 0;                // next index
-// 21.1.5.2.1 %StringIteratorPrototype%.next()
-}, function () {
-  var O = this._t;
-  var index = this._i;
-  var point;
-  if (index >= O.length) return { value: undefined, done: true };
-  point = $at(O, index);
-  this._i += point.length;
-  return { value: point, done: false };
+$export($export.S + $export.F * !__webpack_require__("5cc5")(function (iter) { Array.from(iter); }), 'Array', {
+  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
+    var O = toObject(arrayLike);
+    var C = typeof this == 'function' ? this : Array;
+    var aLen = arguments.length;
+    var mapfn = aLen > 1 ? arguments[1] : undefined;
+    var mapping = mapfn !== undefined;
+    var index = 0;
+    var iterFn = getIterFn(O);
+    var length, result, step, iterator;
+    if (mapping) mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
+    // if object isn't iterable or it's array with default iterator - use simple case
+    if (iterFn != undefined && !(C == Array && isArrayIter(iterFn))) {
+      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
+        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
+      }
+    } else {
+      length = toLength(O.length);
+      for (result = new C(length); length > index; index++) {
+        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
+      }
+    }
+    result.length = index;
+    return result;
+  }
 });
-
-
-/***/ }),
-
-/***/ "1691":
-/***/ (function(module, exports) {
-
-// IE 8- don't enum bug keys
-module.exports = (
-  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
-).split(',');
-
-
-/***/ }),
-
-/***/ "1aeb":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "1af6":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
-var $export = __webpack_require__("63b6");
-
-$export($export.S, 'Array', { isArray: __webpack_require__("9003") });
-
-
-/***/ }),
-
-/***/ "1b63":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_07864bda_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c887");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_07864bda_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_07864bda_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_07864bda_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "1bc3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__("f772");
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-
-/***/ "1d0d":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "1e7b":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "1ec9":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("f772");
-var document = __webpack_require__("e53d").document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
-};
 
 
 /***/ }),
@@ -816,22 +439,6 @@ module.exports = function (iterator, fn, value, entries) {
     if (ret !== undefined) anObject(ret.call(iterator));
     throw e;
   }
-};
-
-
-/***/ }),
-
-/***/ "20fd":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $defineProperty = __webpack_require__("d9f6");
-var createDesc = __webpack_require__("aebd");
-
-module.exports = function (object, index, value) {
-  if (index in object) $defineProperty.f(object, index, createDesc(0, value));
-  else object[index] = value;
 };
 
 
@@ -941,14 +548,14 @@ module.exports = function (KEY, length, exec) {
 
 /***/ }),
 
-/***/ "2257":
+/***/ "21ab":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_7ed79c61_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("9c9e");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_7ed79c61_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_7ed79c61_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_7aad5a23_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("26b8");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_7aad5a23_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDropDownBox_vue_vue_type_style_index_0_id_7aad5a23_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_7ed79c61_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
@@ -996,30 +603,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "241e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.1.13 ToObject(argument)
-var defined = __webpack_require__("25eb");
-module.exports = function (it) {
-  return Object(defined(it));
-};
-
-
-/***/ }),
-
-/***/ "25eb":
-/***/ (function(module, exports) {
-
-// 7.2.1 RequireObjectCoercible(argument)
-module.exports = function (it) {
-  if (it == undefined) throw TypeError("Can't call method on  " + it);
-  return it;
-};
-
-
-/***/ }),
-
 /***/ "2621":
 /***/ (function(module, exports) {
 
@@ -1028,21 +611,17 @@ exports.f = Object.getOwnPropertySymbols;
 
 /***/ }),
 
-/***/ "268f":
+/***/ "26b8":
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("fde4");
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
-/***/ "26b8":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "27b1":
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_bdb0927a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ffbd");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_bdb0927a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_bdb0927a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_bdb0927a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1203,20 +782,6 @@ __webpack_require__("214f")('split', 2, function (defined, SPLIT, $split, maybeC
 
 /***/ }),
 
-/***/ "294c":
-/***/ (function(module, exports) {
-
-module.exports = function (exec) {
-  try {
-    return !!exec();
-  } catch (e) {
-    return true;
-  }
-};
-
-
-/***/ }),
-
 /***/ "2aba":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1321,6 +886,17 @@ $exports.store = store;
 
 /***/ }),
 
+/***/ "2caf":
+/***/ (function(module, exports, __webpack_require__) {
+
+// 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
+var $export = __webpack_require__("5ca1");
+
+$export($export.S, 'Array', { isArray: __webpack_require__("1169") });
+
+
+/***/ }),
+
 /***/ "2d00":
 /***/ (function(module, exports) {
 
@@ -1338,6 +914,13 @@ module.exports = function (it) {
   return toString.call(it).slice(8, -1);
 };
 
+
+/***/ }),
+
+/***/ "2db1":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1378,106 +961,6 @@ $export($export.P + $export.F * __webpack_require__("5147")(INCLUDES), 'String',
 
 /***/ }),
 
-/***/ "3044":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "30f1":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var LIBRARY = __webpack_require__("b8e3");
-var $export = __webpack_require__("63b6");
-var redefine = __webpack_require__("9138");
-var hide = __webpack_require__("35e8");
-var Iterators = __webpack_require__("481b");
-var $iterCreate = __webpack_require__("8f60");
-var setToStringTag = __webpack_require__("45f2");
-var getPrototypeOf = __webpack_require__("53e2");
-var ITERATOR = __webpack_require__("5168")('iterator');
-var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
-var FF_ITERATOR = '@@iterator';
-var KEYS = 'keys';
-var VALUES = 'values';
-
-var returnThis = function () { return this; };
-
-module.exports = function (Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED) {
-  $iterCreate(Constructor, NAME, next);
-  var getMethod = function (kind) {
-    if (!BUGGY && kind in proto) return proto[kind];
-    switch (kind) {
-      case KEYS: return function keys() { return new Constructor(this, kind); };
-      case VALUES: return function values() { return new Constructor(this, kind); };
-    } return function entries() { return new Constructor(this, kind); };
-  };
-  var TAG = NAME + ' Iterator';
-  var DEF_VALUES = DEFAULT == VALUES;
-  var VALUES_BUG = false;
-  var proto = Base.prototype;
-  var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-  var $default = $native || getMethod(DEFAULT);
-  var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined;
-  var $anyNative = NAME == 'Array' ? proto.entries || $native : $native;
-  var methods, key, IteratorPrototype;
-  // Fix native
-  if ($anyNative) {
-    IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
-    if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
-      // Set @@toStringTag to native iterators
-      setToStringTag(IteratorPrototype, TAG, true);
-      // fix for some old engines
-      if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != 'function') hide(IteratorPrototype, ITERATOR, returnThis);
-    }
-  }
-  // fix Array#{values, @@iterator}.name in V8 / FF
-  if (DEF_VALUES && $native && $native.name !== VALUES) {
-    VALUES_BUG = true;
-    $default = function values() { return $native.call(this); };
-  }
-  // Define iterator
-  if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
-    hide(proto, ITERATOR, $default);
-  }
-  // Plug for library
-  Iterators[NAME] = $default;
-  Iterators[TAG] = returnThis;
-  if (DEFAULT) {
-    methods = {
-      values: DEF_VALUES ? $default : getMethod(VALUES),
-      keys: IS_SET ? $default : getMethod(KEYS),
-      entries: $entries
-    };
-    if (FORCED) for (key in methods) {
-      if (!(key in proto)) redefine(proto, key, methods[key]);
-    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
-  }
-  return methods;
-};
-
-
-/***/ }),
-
-/***/ "32a6":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 Object.keys(O)
-var toObject = __webpack_require__("241e");
-var $keys = __webpack_require__("c3a1");
-
-__webpack_require__("ce7e")('keys', function () {
-  return function keys(it) {
-    return $keys(toObject(it));
-  };
-});
-
-
-/***/ }),
-
 /***/ "32e9":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1493,28 +976,6 @@ module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
 
 /***/ }),
 
-/***/ "32fc":
-/***/ (function(module, exports, __webpack_require__) {
-
-var document = __webpack_require__("e53d").document;
-module.exports = document && document.documentElement;
-
-
-/***/ }),
-
-/***/ "335c":
-/***/ (function(module, exports, __webpack_require__) {
-
-// fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__("6b4c");
-// eslint-disable-next-line no-prototype-builtins
-module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
-  return cof(it) == 'String' ? it.split('') : Object(it);
-};
-
-
-/***/ }),
-
 /***/ "33a4":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1525,29 +986,6 @@ var ArrayProto = Array.prototype;
 
 module.exports = function (it) {
   return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
-};
-
-
-/***/ }),
-
-/***/ "355d":
-/***/ (function(module, exports) {
-
-exports.f = {}.propertyIsEnumerable;
-
-
-/***/ }),
-
-/***/ "35e8":
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__("d9f6");
-var createDesc = __webpack_require__("aebd");
-module.exports = __webpack_require__("8e60") ? function (object, key, value) {
-  return dP.f(object, key, createDesc(1, value));
-} : function (object, key, value) {
-  object[key] = value;
-  return object;
 };
 
 
@@ -1576,39 +1014,18 @@ module.exports = function fill(value /* , start = 0, end = @length */) {
 
 /***/ }),
 
-/***/ "36c3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__("335c");
-var defined = __webpack_require__("25eb");
-module.exports = function (it) {
-  return IObject(defined(it));
-};
-
-
-/***/ }),
-
-/***/ "3702":
-/***/ (function(module, exports, __webpack_require__) {
-
-// check on default Array iterator
-var Iterators = __webpack_require__("481b");
-var ITERATOR = __webpack_require__("5168")('iterator');
-var ArrayProto = Array.prototype;
-
-module.exports = function (it) {
-  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
-};
-
-
-/***/ }),
-
 /***/ "37c8":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.f = __webpack_require__("2b4c");
 
+
+/***/ }),
+
+/***/ "37db":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1621,13 +1038,6 @@ if (__webpack_require__("9e1e") && /./g.flags != 'g') __webpack_require__("86cc"
   get: __webpack_require__("0bfb")
 });
 
-
-/***/ }),
-
-/***/ "38eb":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -1651,26 +1061,6 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 /***/ }),
 
-/***/ "3a1f":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "3a38":
-/***/ (function(module, exports) {
-
-// 7.1.4 ToInteger
-var ceil = Math.ceil;
-var floor = Math.floor;
-module.exports = function (it) {
-  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-};
-
-
-/***/ }),
-
 /***/ "3a72":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1684,17 +1074,6 @@ module.exports = function (name) {
   if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
 };
 
-
-/***/ }),
-
-/***/ "3af1":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_22f2857c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("eb71");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_22f2857c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_22f2857c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_22f2857c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -1748,36 +1127,6 @@ __webpack_require__("7a56")('RegExp');
 
 /***/ }),
 
-/***/ "40c3":
-/***/ (function(module, exports, __webpack_require__) {
-
-// getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__("6b4c");
-var TAG = __webpack_require__("5168")('toStringTag');
-// ES3 wrong here
-var ARG = cof(function () { return arguments; }()) == 'Arguments';
-
-// fallback for IE11 Script Access Denied error
-var tryGet = function (it, key) {
-  try {
-    return it[key];
-  } catch (e) { /* empty */ }
-};
-
-module.exports = function (it) {
-  var O, T, B;
-  return it === undefined ? 'Undefined' : it === null ? 'Null'
-    // @@toStringTag case
-    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
-    // builtinTag case
-    : ARG ? cof(O)
-    // ES3 arguments fallback
-    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
-};
-
-
-/***/ }),
-
 /***/ "41a0":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1799,22 +1148,10 @@ module.exports = function (Constructor, NAME, next) {
 
 /***/ }),
 
-/***/ "424d":
+/***/ "41b8":
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "454f":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("46a7");
-var $Object = __webpack_require__("584a").Object;
-module.exports = function defineProperty(it, key, desc) {
-  return $Object.defineProperty(it, key, desc);
-};
-
 
 /***/ }),
 
@@ -1847,20 +1184,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "45f2":
-/***/ (function(module, exports, __webpack_require__) {
-
-var def = __webpack_require__("d9f6").f;
-var has = __webpack_require__("07e3");
-var TAG = __webpack_require__("5168")('toStringTag');
-
-module.exports = function (it, tag, stat) {
-  if (it && !has(it = stat ? it : it.prototype, TAG)) def(it, TAG, { configurable: true, value: tag });
-};
-
-
-/***/ }),
-
 /***/ "4630":
 /***/ (function(module, exports) {
 
@@ -1876,43 +1199,10 @@ module.exports = function (bitmap, value) {
 
 /***/ }),
 
-/***/ "46a7":
+/***/ "4730":
 /***/ (function(module, exports, __webpack_require__) {
 
-var $export = __webpack_require__("63b6");
-// 19.1.2.4 / 15.2.3.6 Object.defineProperty(O, P, Attributes)
-$export($export.S + $export.F * !__webpack_require__("8e60"), 'Object', { defineProperty: __webpack_require__("d9f6").f });
-
-
-/***/ }),
-
-/***/ "47ee":
-/***/ (function(module, exports, __webpack_require__) {
-
-// all enumerable object keys, includes symbols
-var getKeys = __webpack_require__("c3a1");
-var gOPS = __webpack_require__("9aa9");
-var pIE = __webpack_require__("355d");
-module.exports = function (it) {
-  var result = getKeys(it);
-  var getSymbols = gOPS.f;
-  if (getSymbols) {
-    var symbols = getSymbols(it);
-    var isEnum = pIE.f;
-    var i = 0;
-    var key;
-    while (symbols.length > i) if (isEnum.call(it, key = symbols[i++])) result.push(key);
-  } return result;
-};
-
-
-/***/ }),
-
-/***/ "481b":
-/***/ (function(module, exports) {
-
-module.exports = {};
-
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -2008,35 +1298,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "4ee1":
-/***/ (function(module, exports, __webpack_require__) {
-
-var ITERATOR = __webpack_require__("5168")('iterator');
-var SAFE_CLOSING = false;
-
-try {
-  var riter = [7][ITERATOR]();
-  riter['return'] = function () { SAFE_CLOSING = true; };
-  // eslint-disable-next-line no-throw-literal
-  Array.from(riter, function () { throw 2; });
-} catch (e) { /* empty */ }
-
-module.exports = function (exec, skipClosing) {
-  if (!skipClosing && !SAFE_CLOSING) return false;
-  var safe = false;
-  try {
-    var arr = [7];
-    var iter = arr[ITERATOR]();
-    iter.next = function () { return { done: safe = true }; };
-    arr[ITERATOR] = function () { return iter; };
-    exec(arr);
-  } catch (e) { /* empty */ }
-  return safe;
-};
-
-
-/***/ }),
-
 /***/ "4f37":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2048,16 +1309,6 @@ __webpack_require__("aa77")('trim', function ($trim) {
     return $trim(this, 3);
   };
 });
-
-
-/***/ }),
-
-/***/ "50ed":
-/***/ (function(module, exports) {
-
-module.exports = function (done, value) {
-  return { value: value, done: !!done };
-};
 
 
 /***/ }),
@@ -2077,24 +1328,6 @@ module.exports = function (KEY) {
     } catch (f) { /* empty */ }
   } return true;
 };
-
-
-/***/ }),
-
-/***/ "5168":
-/***/ (function(module, exports, __webpack_require__) {
-
-var store = __webpack_require__("dbdb")('wks');
-var uid = __webpack_require__("62a0");
-var Symbol = __webpack_require__("e53d").Symbol;
-var USE_SYMBOL = typeof Symbol == 'function';
-
-var $exports = module.exports = function (name) {
-  return store[name] || (store[name] =
-    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
-};
-
-$exports.store = store;
 
 
 /***/ }),
@@ -2173,81 +1406,6 @@ exports.f = {}.propertyIsEnumerable;
 
 /***/ }),
 
-/***/ "53e2":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__("07e3");
-var toObject = __webpack_require__("241e");
-var IE_PROTO = __webpack_require__("5559")('IE_PROTO');
-var ObjectProto = Object.prototype;
-
-module.exports = Object.getPrototypeOf || function (O) {
-  O = toObject(O);
-  if (has(O, IE_PROTO)) return O[IE_PROTO];
-  if (typeof O.constructor == 'function' && O instanceof O.constructor) {
-    return O.constructor.prototype;
-  } return O instanceof Object ? ObjectProto : null;
-};
-
-
-/***/ }),
-
-/***/ "549b":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var ctx = __webpack_require__("d864");
-var $export = __webpack_require__("63b6");
-var toObject = __webpack_require__("241e");
-var call = __webpack_require__("b0dc");
-var isArrayIter = __webpack_require__("3702");
-var toLength = __webpack_require__("b447");
-var createProperty = __webpack_require__("20fd");
-var getIterFn = __webpack_require__("7cd6");
-
-$export($export.S + $export.F * !__webpack_require__("4ee1")(function (iter) { Array.from(iter); }), 'Array', {
-  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
-  from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
-    var O = toObject(arrayLike);
-    var C = typeof this == 'function' ? this : Array;
-    var aLen = arguments.length;
-    var mapfn = aLen > 1 ? arguments[1] : undefined;
-    var mapping = mapfn !== undefined;
-    var index = 0;
-    var iterFn = getIterFn(O);
-    var length, result, step, iterator;
-    if (mapping) mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
-    // if object isn't iterable or it's array with default iterator - use simple case
-    if (iterFn != undefined && !(C == Array && isArrayIter(iterFn))) {
-      for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index++) {
-        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
-      }
-    } else {
-      length = toLength(O.length);
-      for (result = new C(length); length > index; index++) {
-        createProperty(result, index, mapping ? mapfn(O[index], index) : O[index]);
-      }
-    }
-    result.length = index;
-    return result;
-  }
-});
-
-
-/***/ }),
-
-/***/ "54a1":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("6c1c");
-__webpack_require__("1654");
-module.exports = __webpack_require__("95d5");
-
-
-/***/ }),
-
 /***/ "5537":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2261,20 +1419,8 @@ var store = global[SHARED] || (global[SHARED] = {});
 })('versions', []).push({
   version: core.version,
   mode: __webpack_require__("2d00") ? 'pure' : 'global',
-  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
+  copyright: '© 2020 Denis Pushkarev (zloirock.ru)'
 });
-
-
-/***/ }),
-
-/***/ "5559":
-/***/ (function(module, exports, __webpack_require__) {
-
-var shared = __webpack_require__("dbdb")('keys');
-var uid = __webpack_require__("62a0");
-module.exports = function (key) {
-  return shared[key] || (shared[key] = uid(key));
-};
 
 
 /***/ }),
@@ -2310,6 +1456,24 @@ $export($export.P + $export.F * (fails(function () {
 
 /***/ }),
 
+/***/ "560a":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "56fc":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_ee583c10_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("2db1");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_ee583c10_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_ee583c10_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "57e7":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2333,41 +1497,12 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__("2f21")($
 
 /***/ }),
 
-/***/ "584a":
-/***/ (function(module, exports) {
-
-var core = module.exports = { version: '2.6.9' };
-if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
-
-
-/***/ }),
-
-/***/ "5b4e":
+/***/ "58b2":
 /***/ (function(module, exports, __webpack_require__) {
 
-// false -> Array#indexOf
-// true  -> Array#includes
-var toIObject = __webpack_require__("36c3");
-var toLength = __webpack_require__("b447");
-var toAbsoluteIndex = __webpack_require__("0fc9");
-module.exports = function (IS_INCLUDES) {
-  return function ($this, el, fromIndex) {
-    var O = toIObject($this);
-    var length = toLength(O.length);
-    var index = toAbsoluteIndex(fromIndex, length);
-    var value;
-    // Array#includes uses SameValueZero equality algorithm
-    // eslint-disable-next-line no-self-compare
-    if (IS_INCLUDES && el != el) while (length > index) {
-      value = O[index++];
-      // eslint-disable-next-line no-self-compare
-      if (value != value) return true;
-    // Array#indexOf ignores holes, Array#includes - not
-    } else for (;length > index; index++) if (IS_INCLUDES || index in O) {
-      if (O[index] === el) return IS_INCLUDES || index || 0;
-    } return !IS_INCLUDES && -1;
-  };
-};
+var $export = __webpack_require__("5ca1");
+// 19.1.2.3 / 15.2.3.7 Object.defineProperties(O, Properties)
+$export($export.S + $export.F * !__webpack_require__("9e1e"), 'Object', { defineProperties: __webpack_require__("1495") });
 
 
 /***/ }),
@@ -2538,6 +1673,13 @@ module.exports = function (R, S) {
 
 /***/ }),
 
+/***/ "5fe3":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "613b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2563,100 +1705,21 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 /***/ }),
 
-/***/ "62a0":
-/***/ (function(module, exports) {
+/***/ "63bf":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var id = 0;
-var px = Math.random();
-module.exports = function (key) {
-  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
-};
-
-
-/***/ }),
-
-/***/ "63b6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var global = __webpack_require__("e53d");
-var core = __webpack_require__("584a");
-var ctx = __webpack_require__("d864");
-var hide = __webpack_require__("35e8");
-var has = __webpack_require__("07e3");
-var PROTOTYPE = 'prototype';
-
-var $export = function (type, name, source) {
-  var IS_FORCED = type & $export.F;
-  var IS_GLOBAL = type & $export.G;
-  var IS_STATIC = type & $export.S;
-  var IS_PROTO = type & $export.P;
-  var IS_BIND = type & $export.B;
-  var IS_WRAP = type & $export.W;
-  var exports = IS_GLOBAL ? core : core[name] || (core[name] = {});
-  var expProto = exports[PROTOTYPE];
-  var target = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE];
-  var key, own, out;
-  if (IS_GLOBAL) source = name;
-  for (key in source) {
-    // contains in native
-    own = !IS_FORCED && target && target[key] !== undefined;
-    if (own && has(exports, key)) continue;
-    // export native or passed
-    out = own ? target[key] : source[key];
-    // prevent global pollution for namespaces
-    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
-    // bind timers to global for call from export context
-    : IS_BIND && own ? ctx(out, global)
-    // wrap global constructors for prevent change them in library
-    : IS_WRAP && target[key] == out ? (function (C) {
-      var F = function (a, b, c) {
-        if (this instanceof C) {
-          switch (arguments.length) {
-            case 0: return new C();
-            case 1: return new C(a);
-            case 2: return new C(a, b);
-          } return new C(a, b, c);
-        } return C.apply(this, arguments);
-      };
-      F[PROTOTYPE] = C[PROTOTYPE];
-      return F;
-    // make static versions for prototype methods
-    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
-    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
-    if (IS_PROTO) {
-      (exports.virtual || (exports.virtual = {}))[key] = out;
-      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
-      if (type & $export.R && expProto && !expProto[key]) hide(expProto, key, out);
-    }
-  }
-};
-// type bitmap
-$export.F = 1;   // forced
-$export.G = 2;   // global
-$export.S = 4;   // static
-$export.P = 8;   // proto
-$export.B = 16;  // bind
-$export.W = 32;  // wrap
-$export.U = 64;  // safe
-$export.R = 128; // real proto method for `library`
-module.exports = $export;
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_0efa3074_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("fa66");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_0efa3074_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCodeHeightLight_vue_vue_type_style_index_0_id_0efa3074_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
 
-/***/ "6718":
+/***/ "666e":
 /***/ (function(module, exports, __webpack_require__) {
 
-var global = __webpack_require__("e53d");
-var core = __webpack_require__("584a");
-var LIBRARY = __webpack_require__("b8e3");
-var wksExt = __webpack_require__("ccb9");
-var defineProperty = __webpack_require__("d9f6").f;
-module.exports = function (name) {
-  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
-  if (name.charAt(0) != '_' && !(name in $Symbol)) defineProperty($Symbol, name, { value: wksExt.f(name) });
-};
-
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -2753,14 +1816,14 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "694f":
+/***/ "6999":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_24ee983a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e204");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_24ee983a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_24ee983a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_f89057e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8bdc");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_f89057e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_f89057e8_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JSteps_vue_vue_type_style_index_0_id_24ee983a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
@@ -2789,32 +1852,6 @@ module.exports = function (it, S) {
   if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
   if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
   throw TypeError("Can't convert object to primitive value");
-};
-
-
-/***/ }),
-
-/***/ "6abf":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__("e6f3");
-var hiddenKeys = __webpack_require__("1691").concat('length', 'prototype');
-
-exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-  return $keys(O, hiddenKeys);
-};
-
-
-/***/ }),
-
-/***/ "6b4c":
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = function (it) {
-  return toString.call(it).slice(8, -1);
 };
 
 
@@ -2853,32 +1890,6 @@ if (__webpack_require__("79e5")(function () { return $toString.call({ source: 'a
 
 /***/ }),
 
-/***/ "6c1c":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("c367");
-var global = __webpack_require__("e53d");
-var hide = __webpack_require__("35e8");
-var Iterators = __webpack_require__("481b");
-var TO_STRING_TAG = __webpack_require__("5168")('toStringTag');
-
-var DOMIterables = ('CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,' +
-  'DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,' +
-  'MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,' +
-  'SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,' +
-  'TextTrackList,TouchList').split(',');
-
-for (var i = 0; i < DOMIterables.length; i++) {
-  var NAME = DOMIterables[i];
-  var Collection = global[NAME];
-  var proto = Collection && Collection.prototype;
-  if (proto && !proto[TO_STRING_TAG]) hide(proto, TO_STRING_TAG, NAME);
-  Iterators[NAME] = Iterators.Array;
-}
-
-
-/***/ }),
-
 /***/ "6c7b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2910,41 +1921,6 @@ $export($export.P + $export.F * !__webpack_require__("2f21")([].map, true), 'Arr
 
 /***/ }),
 
-/***/ "6e91":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_1f8a635a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("3044");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_1f8a635a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_1f8a635a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_1f8a635a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "71c1":
-/***/ (function(module, exports, __webpack_require__) {
-
-var toInteger = __webpack_require__("3a38");
-var defined = __webpack_require__("25eb");
-// true  -> String#at
-// false -> String#codePointAt
-module.exports = function (TO_STRING) {
-  return function (that, pos) {
-    var s = String(defined(that));
-    var i = toInteger(pos);
-    var l = s.length;
-    var a, b;
-    if (i < 0 || i >= l) return TO_STRING ? '' : undefined;
-    a = s.charCodeAt(i);
-    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
-      ? TO_STRING ? s.charAt(i) : a
-      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
-  };
-};
-
-
-/***/ }),
-
 /***/ "7726":
 /***/ (function(module, exports) {
 
@@ -2955,13 +1931,6 @@ var global = module.exports = typeof window != 'undefined' && window.Math == Mat
   : Function('return this')();
 if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 
-
-/***/ }),
-
-/***/ "774e":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("d2d5");
 
 /***/ }),
 
@@ -2979,23 +1948,13 @@ module.exports = function (index, length) {
 
 /***/ }),
 
-/***/ "794b":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "783c":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = !__webpack_require__("8e60") && !__webpack_require__("294c")(function () {
-  return Object.defineProperty(__webpack_require__("1ec9")('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-
-/***/ }),
-
-/***/ "79aa":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  if (typeof it != 'function') throw TypeError(it + ' is not a function!');
-  return it;
-};
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_5abf223c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8c4d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_5abf223c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JComment_vue_vue_type_style_index_0_id_5abf223c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -3061,49 +2020,10 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 /***/ }),
 
-/***/ "7cd6":
+/***/ "7d55":
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__("40c3");
-var ITERATOR = __webpack_require__("5168")('iterator');
-var Iterators = __webpack_require__("481b");
-module.exports = __webpack_require__("584a").getIteratorMethod = function (it) {
-  if (it != undefined) return it[ITERATOR]
-    || it['@@iterator']
-    || Iterators[classof(it)];
-};
-
-
-/***/ }),
-
-/***/ "7ded":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_d8e1361c_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a4fe");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_d8e1361c_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_d8e1361c_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_d8e1361c_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "7e90":
-/***/ (function(module, exports, __webpack_require__) {
-
-var dP = __webpack_require__("d9f6");
-var anObject = __webpack_require__("e4ae");
-var getKeys = __webpack_require__("c3a1");
-
-module.exports = __webpack_require__("8e60") ? Object.defineProperties : function defineProperties(O, Properties) {
-  anObject(O);
-  var keys = getKeys(Properties);
-  var length = keys.length;
-  var i = 0;
-  var P;
-  while (length > i) dP.f(O, P = keys[i++], Properties[P]);
-  return O;
-};
-
+module.exports = __webpack_require__.p + "img/face.43886307.png";
 
 /***/ }),
 
@@ -3144,26 +2064,22 @@ NAME in FProto || __webpack_require__("9e1e") && dP(FProto, NAME, {
 
 /***/ }),
 
-/***/ "81cb":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "8378":
 /***/ (function(module, exports) {
 
-var core = module.exports = { version: '2.6.9' };
+var core = module.exports = { version: '2.6.12' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
 /***/ }),
 
-/***/ "8436":
-/***/ (function(module, exports) {
+/***/ "8492":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = function () { /* empty */ };
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_ec8d9ff2_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c743");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_ec8d9ff2_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_ec8d9ff2_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -3176,10 +2092,14 @@ module.exports = {};
 
 /***/ }),
 
-/***/ "85f2":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "8618":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = __webpack_require__("454f");
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_0f011e48_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("0459");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_0f011e48_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTr_vue_vue_type_style_index_0_id_0f011e48_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
 
 /***/ }),
 
@@ -3479,15 +2399,6 @@ setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
 
-/***/ "8aae":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("32a6");
-module.exports = __webpack_require__("584a").Object.keys;
-
-
-/***/ }),
-
 /***/ "8b97":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3520,46 +2431,59 @@ module.exports = {
 
 /***/ }),
 
-/***/ "8e60":
+/***/ "8bbf":
+/***/ (function(module, exports) {
+
+module.exports = require("vue");
+
+/***/ }),
+
+/***/ "8bdc":
 /***/ (function(module, exports, __webpack_require__) {
 
-// Thank's IE8 for his funny defineProperty
-module.exports = !__webpack_require__("294c")(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "8c4d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "8dee":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "8e6e":
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-object-getownpropertydescriptors
+var $export = __webpack_require__("5ca1");
+var ownKeys = __webpack_require__("990b");
+var toIObject = __webpack_require__("6821");
+var gOPD = __webpack_require__("11e9");
+var createProperty = __webpack_require__("f1ae");
+
+$export($export.S, 'Object', {
+  getOwnPropertyDescriptors: function getOwnPropertyDescriptors(object) {
+    var O = toIObject(object);
+    var getDesc = gOPD.f;
+    var keys = ownKeys(O);
+    var result = {};
+    var i = 0;
+    var key, desc;
+    while (keys.length > i) {
+      desc = getDesc(O, key = keys[i++]);
+      if (desc !== undefined) createProperty(result, key, desc);
+    }
+    return result;
+  }
 });
-
-
-/***/ }),
-
-/***/ "8f60":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var create = __webpack_require__("a159");
-var descriptor = __webpack_require__("aebd");
-var setToStringTag = __webpack_require__("45f2");
-var IteratorPrototype = {};
-
-// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
-__webpack_require__("35e8")(IteratorPrototype, __webpack_require__("5168")('iterator'), function () { return this; });
-
-module.exports = function (Constructor, NAME, next) {
-  Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
-  setToStringTag(Constructor, NAME + ' Iterator');
-};
-
-
-/***/ }),
-
-/***/ "9003":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__("6b4c");
-module.exports = Array.isArray || function isArray(arg) {
-  return cof(arg) == 'Array';
-};
 
 
 /***/ }),
@@ -3578,64 +2502,30 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
-/***/ "9138":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("35e8");
-
-
-/***/ }),
-
-/***/ "91b5":
+/***/ "978c":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_c543eefe_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("38eb");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_c543eefe_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_c543eefe_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_2ab923de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ae69");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_2ab923de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JElectronicNumber_vue_vue_type_style_index_0_id_2ab923de_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_c543eefe_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
-/***/ "95d5":
+/***/ "990b":
 /***/ (function(module, exports, __webpack_require__) {
 
-var classof = __webpack_require__("40c3");
-var ITERATOR = __webpack_require__("5168")('iterator');
-var Iterators = __webpack_require__("481b");
-module.exports = __webpack_require__("584a").isIterable = function (it) {
-  var O = Object(it);
-  return O[ITERATOR] !== undefined
-    || '@@iterator' in O
-    // eslint-disable-next-line no-prototype-builtins
-    || Iterators.hasOwnProperty(classof(O));
+// all object keys, includes non-enumerable and symbols
+var gOPN = __webpack_require__("9093");
+var gOPS = __webpack_require__("2621");
+var anObject = __webpack_require__("cb7c");
+var Reflect = __webpack_require__("7726").Reflect;
+module.exports = Reflect && Reflect.ownKeys || function ownKeys(it) {
+  var keys = gOPN.f(anObject(it));
+  var getSymbols = gOPS.f;
+  return getSymbols ? keys.concat(getSymbols(it)) : keys;
 };
-
-
-/***/ }),
-
-/***/ "98f5":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "9a36":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_c6f14fac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1d0d");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_c6f14fac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_c6f14fac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFlowChart_vue_vue_type_style_index_0_id_c6f14fac_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "9aa9":
-/***/ (function(module, exports) {
-
-exports.f = Object.getOwnPropertySymbols;
 
 
 /***/ }),
@@ -3681,13 +2571,6 @@ module.exports = function (key) {
 
 /***/ }),
 
-/***/ "9c9e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "9def":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3708,54 +2591,6 @@ module.exports = function (it) {
 module.exports = !__webpack_require__("79e5")(function () {
   return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
 });
-
-
-/***/ }),
-
-/***/ "a159":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject = __webpack_require__("e4ae");
-var dPs = __webpack_require__("7e90");
-var enumBugKeys = __webpack_require__("1691");
-var IE_PROTO = __webpack_require__("5559")('IE_PROTO');
-var Empty = function () { /* empty */ };
-var PROTOTYPE = 'prototype';
-
-// Create object with fake `null` prototype: use iframe Object with cleared prototype
-var createDict = function () {
-  // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__("1ec9")('iframe');
-  var i = enumBugKeys.length;
-  var lt = '<';
-  var gt = '>';
-  var iframeDocument;
-  iframe.style.display = 'none';
-  __webpack_require__("32fc").appendChild(iframe);
-  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
-  // createDict = iframe.contentWindow.Object;
-  // html.removeChild(iframe);
-  iframeDocument = iframe.contentWindow.document;
-  iframeDocument.open();
-  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
-  iframeDocument.close();
-  createDict = iframeDocument.F;
-  while (i--) delete createDict[PROTOTYPE][enumBugKeys[i]];
-  return createDict();
-};
-
-module.exports = Object.create || function create(O, Properties) {
-  var result;
-  if (O !== null) {
-    Empty[PROTOTYPE] = anObject(O);
-    result = new Empty();
-    Empty[PROTOTYPE] = null;
-    // add "__proto__" for Object.getPrototypeOf polyfill
-    result[IE_PROTO] = O;
-  } else result = createDict();
-  return Properties === undefined ? result : dPs(result, Properties);
-};
 
 
 /***/ }),
@@ -3886,27 +2721,6 @@ __webpack_require__("214f")('replace', 2, function (defined, REPLACE, $replace, 
 
 /***/ }),
 
-/***/ "a4bb":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("8aae");
-
-/***/ }),
-
-/***/ "a4fe":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "a745":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("f410");
-
-/***/ }),
-
 /***/ "aa77":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3955,6 +2769,17 @@ module.exports = function (it) {
   var isRegExp;
   return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
 };
+
+
+/***/ }),
+
+/***/ "ab75":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_424facbf_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("37db");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_424facbf_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWordCloud_vue_vue_type_style_index_0_id_424facbf_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4032,29 +2857,17 @@ for (var collections = getKeys(DOMIterables), i = 0; i < collections.length; i++
 
 /***/ }),
 
-/***/ "aebd":
-/***/ (function(module, exports) {
+/***/ "ad3e":
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function (bitmap, value) {
-  return {
-    enumerable: !(bitmap & 1),
-    configurable: !(bitmap & 2),
-    writable: !(bitmap & 4),
-    value: value
-  };
-};
-
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
-/***/ "b04f":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "ae69":
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_5a03d626_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("424d");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_5a03d626_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_5a03d626_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_5a03d626_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -4075,21 +2888,13 @@ __webpack_require__("5ca1")({
 
 /***/ }),
 
-/***/ "b0dc":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "b1ec":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// call something on iterator step with safe closing on error
-var anObject = __webpack_require__("e4ae");
-module.exports = function (iterator, fn, value, entries) {
-  try {
-    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
-  // 7.4.6 IteratorClose(iterator, completion)
-  } catch (e) {
-    var ret = iterator['return'];
-    if (ret !== undefined) anObject(ret.call(iterator));
-    throw e;
-  }
-};
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_6044390a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("4730");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_6044390a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCanvasBroad_vue_vue_type_style_index_0_id_6044390a_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4106,23 +2911,35 @@ module.exports = function (it, TYPE) {
 
 /***/ }),
 
-/***/ "b447":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "b850":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// 7.1.15 ToLength
-var toInteger = __webpack_require__("3a38");
-var min = Math.min;
-module.exports = function (it) {
-  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-};
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_79ed9e08_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ad3e");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_79ed9e08_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JDialog_vue_vue_type_style_index_0_id_79ed9e08_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
 
-/***/ "b8e3":
-/***/ (function(module, exports) {
+/***/ "b8fe":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = true;
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("c1a7");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToast_vue_vue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "b912":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_acbe3d86_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("560a");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_acbe3d86_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_acbe3d86_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4139,42 +2956,10 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "bf0b":
+/***/ "c1a7":
 /***/ (function(module, exports, __webpack_require__) {
 
-var pIE = __webpack_require__("355d");
-var createDesc = __webpack_require__("aebd");
-var toIObject = __webpack_require__("36c3");
-var toPrimitive = __webpack_require__("1bc3");
-var has = __webpack_require__("07e3");
-var IE8_DOM_DEFINE = __webpack_require__("794b");
-var gOPD = Object.getOwnPropertyDescriptor;
-
-exports.f = __webpack_require__("8e60") ? gOPD : function getOwnPropertyDescriptor(O, P) {
-  O = toIObject(O);
-  P = toPrimitive(P, true);
-  if (IE8_DOM_DEFINE) try {
-    return gOPD(O, P);
-  } catch (e) { /* empty */ }
-  if (has(O, P)) return createDesc(!pIE.f.call(O, P), O[P]);
-};
-
-
-/***/ }),
-
-/***/ "bf90":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
-var toIObject = __webpack_require__("36c3");
-var $getOwnPropertyDescriptor = __webpack_require__("bf0b").f;
-
-__webpack_require__("ce7e")('getOwnPropertyDescriptor', function () {
-  return function getOwnPropertyDescriptor(it, key) {
-    return $getOwnPropertyDescriptor(toIObject(it), key);
-  };
-});
-
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -4360,62 +3145,6 @@ module.exports = function (IS_INCLUDES) {
 
 /***/ }),
 
-/***/ "c367":
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var addToUnscopables = __webpack_require__("8436");
-var step = __webpack_require__("50ed");
-var Iterators = __webpack_require__("481b");
-var toIObject = __webpack_require__("36c3");
-
-// 22.1.3.4 Array.prototype.entries()
-// 22.1.3.13 Array.prototype.keys()
-// 22.1.3.29 Array.prototype.values()
-// 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__("30f1")(Array, 'Array', function (iterated, kind) {
-  this._t = toIObject(iterated); // target
-  this._i = 0;                   // next index
-  this._k = kind;                // kind
-// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
-}, function () {
-  var O = this._t;
-  var kind = this._k;
-  var index = this._i++;
-  if (!O || index >= O.length) {
-    this._t = undefined;
-    return step(1);
-  }
-  if (kind == 'keys') return step(0, index);
-  if (kind == 'values') return step(0, O[index]);
-  return step(0, [index, O[index]]);
-}, 'values');
-
-// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
-Iterators.Arguments = Iterators.Array;
-
-addToUnscopables('keys');
-addToUnscopables('values');
-addToUnscopables('entries');
-
-
-/***/ }),
-
-/***/ "c3a1":
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__("e6f3");
-var enumBugKeys = __webpack_require__("1691");
-
-module.exports = Object.keys || function keys(O) {
-  return $keys(O, enumBugKeys);
-};
-
-
-/***/ }),
-
 /***/ "c5f6":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4503,17 +3232,10 @@ module.exports = !__webpack_require__("9e1e") && !__webpack_require__("79e5")(fu
 
 /***/ }),
 
-/***/ "c887":
+/***/ "c743":
 /***/ (function(module, exports, __webpack_require__) {
 
 // extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "c8bb":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("54a1");
 
 /***/ }),
 
@@ -4583,14 +3305,6 @@ module.exports = function (it) {
 
 /***/ }),
 
-/***/ "ccb9":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports.f = __webpack_require__("5168");
-
-
-/***/ }),
-
 /***/ "cd1c":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4628,30 +3342,6 @@ module.exports = function (object, names) {
 
 /***/ }),
 
-/***/ "ce7e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__("63b6");
-var core = __webpack_require__("584a");
-var fails = __webpack_require__("294c");
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
-};
-
-
-/***/ }),
-
-/***/ "d225":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
 /***/ "d25f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4681,27 +3371,6 @@ module.exports = function (that, searchString, NAME) {
   if (isRegExp(searchString)) throw TypeError('String#' + NAME + " doesn't accept regex!");
   return String(defined(that));
 };
-
-
-/***/ }),
-
-/***/ "d2d3":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_5232878b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("e18d");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_5232878b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_5232878b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTagList_vue_vue_type_style_index_0_id_5232878b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "d2d5":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("1654");
-__webpack_require__("549b");
-module.exports = __webpack_require__("584a").Array.from;
 
 
 /***/ }),
@@ -4748,29 +3417,13 @@ module.exports = function (done, value) {
 
 /***/ }),
 
-/***/ "d864":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "d71c":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// optional / simple context binding
-var aFunction = __webpack_require__("79aa");
-module.exports = function (fn, that, length) {
-  aFunction(fn);
-  if (that === undefined) return fn;
-  switch (length) {
-    case 1: return function (a) {
-      return fn.call(that, a);
-    };
-    case 2: return function (a, b) {
-      return fn.call(that, a, b);
-    };
-    case 3: return function (a, b, c) {
-      return fn.call(that, a, b, c);
-    };
-  }
-  return function (/* ...args */) {
-    return fn.apply(that, arguments);
-  };
-};
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_64a5163b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("5fe3");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_64a5163b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JFloatDiv_vue_vue_type_style_index_0_id_64a5163b_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -4782,48 +3435,6 @@ module.exports = function (it) {
   if (typeof it != 'function') throw TypeError(it + ' is not a function!');
   return it;
 };
-
-
-/***/ }),
-
-/***/ "d9f6":
-/***/ (function(module, exports, __webpack_require__) {
-
-var anObject = __webpack_require__("e4ae");
-var IE8_DOM_DEFINE = __webpack_require__("794b");
-var toPrimitive = __webpack_require__("1bc3");
-var dP = Object.defineProperty;
-
-exports.f = __webpack_require__("8e60") ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-
-/***/ }),
-
-/***/ "dbdb":
-/***/ (function(module, exports, __webpack_require__) {
-
-var core = __webpack_require__("584a");
-var global = __webpack_require__("e53d");
-var SHARED = '__core-js_shared__';
-var store = global[SHARED] || (global[SHARED] = {});
-
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: core.version,
-  mode: __webpack_require__("b8e3") ? 'pure' : 'global',
-  copyright: '© 2019 Denis Pushkarev (zloirock.ru)'
-});
 
 
 /***/ }),
@@ -4944,83 +3555,13 @@ module.exports = (
 
 /***/ }),
 
-/***/ "e18d":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "e204":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "e265":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("ed33");
-
-/***/ }),
-
-/***/ "e4ae":
-/***/ (function(module, exports, __webpack_require__) {
-
-var isObject = __webpack_require__("f772");
-module.exports = function (it) {
-  if (!isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-
-/***/ }),
-
-/***/ "e53d":
-/***/ (function(module, exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-
-
-/***/ }),
-
-/***/ "e5a4":
+/***/ "e2ab":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_031b41fd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1aeb");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_031b41fd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_031b41fd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_2026fccc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("41b8");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_2026fccc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_2026fccc_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JCalendar_vue_vue_type_style_index_0_id_031b41fd_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "e6f3":
-/***/ (function(module, exports, __webpack_require__) {
-
-var has = __webpack_require__("07e3");
-var toIObject = __webpack_require__("36c3");
-var arrayIndexOf = __webpack_require__("5b4e")(false);
-var IE_PROTO = __webpack_require__("5559")('IE_PROTO');
-
-module.exports = function (object, names) {
-  var O = toIObject(object);
-  var i = 0;
-  var result = [];
-  var key;
-  for (key in O) if (key != IE_PROTO) has(O, key) && result.push(key);
-  // Don't enum bug & hidden keys
-  while (names.length > i) if (has(O, key = names[i++])) {
-    ~arrayIndexOf(result, key) || result.push(key);
-  }
-  return result;
-};
 
 
 /***/ }),
@@ -5048,28 +3589,14 @@ module.exports = function (original) {
 
 /***/ }),
 
-/***/ "ea3d":
+/***/ "ea99":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_b82de0ba_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("98f5");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_b82de0ba_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_b82de0ba_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_32024ae0_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("27b1");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_32024ae0_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTabBar_vue_vue_type_style_index_0_id_32024ae0_lang_scss_scoped_scoped___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JHoverBtn_vue_vue_type_style_index_0_id_b82de0ba_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
-/***/ }),
-
-/***/ "ea7e":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-
-/***/ "eb71":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -5089,94 +3616,49 @@ module.exports = function (O, D) {
 
 /***/ }),
 
-/***/ "ebfd":
-/***/ (function(module, exports, __webpack_require__) {
-
-var META = __webpack_require__("62a0")('meta');
-var isObject = __webpack_require__("f772");
-var has = __webpack_require__("07e3");
-var setDesc = __webpack_require__("d9f6").f;
-var id = 0;
-var isExtensible = Object.isExtensible || function () {
-  return true;
-};
-var FREEZE = !__webpack_require__("294c")(function () {
-  return isExtensible(Object.preventExtensions({}));
-});
-var setMeta = function (it) {
-  setDesc(it, META, { value: {
-    i: 'O' + ++id, // object ID
-    w: {}          // weak collections IDs
-  } });
-};
-var fastKey = function (it, create) {
-  // return primitive with prefix
-  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if (!has(it, META)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return 'F';
-    // not necessary to add metadata
-    if (!create) return 'E';
-    // add missing metadata
-    setMeta(it);
-  // return object ID
-  } return it[META].i;
-};
-var getWeak = function (it, create) {
-  if (!has(it, META)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return true;
-    // not necessary to add metadata
-    if (!create) return false;
-    // add missing metadata
-    setMeta(it);
-  // return hash weak collections IDs
-  } return it[META].w;
-};
-// add metadata on freeze-family methods calling
-var onFreeze = function (it) {
-  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
-  return it;
-};
-var meta = module.exports = {
-  KEY: META,
-  NEED: false,
-  fastKey: fastKey,
-  getWeak: getWeak,
-  onFreeze: onFreeze
-};
-
-
-/***/ }),
-
 /***/ "ecd8":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("1e7b");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("8dee");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JNumRolling_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
 
 /***/ }),
 
-/***/ "ed33":
+/***/ "f1ae":
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__("014b");
-module.exports = __webpack_require__("584a").Object.getOwnPropertySymbols;
+"use strict";
+
+var $defineProperty = __webpack_require__("86cc");
+var createDesc = __webpack_require__("4630");
+
+module.exports = function (object, index, value) {
+  if (index in object) $defineProperty.f(object, index, createDesc(0, value));
+  else object[index] = value;
+};
 
 
 /***/ }),
 
-/***/ "ed58":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "f3e2":
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_9133251a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ea7e");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_9133251a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_9133251a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
- /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_8_0_2_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JTable_vue_vue_type_style_index_0_id_9133251a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+var $export = __webpack_require__("5ca1");
+var $forEach = __webpack_require__("0a49")(0);
+var STRICT = __webpack_require__("2f21")([].forEach, true);
+
+$export($export.P + $export.F * !STRICT, 'Array', {
+  // 22.1.3.10 / 15.4.4.18 Array.prototype.forEach(callbackfn [, thisArg])
+  forEach: function forEach(callbackfn /* , thisArg */) {
+    return $forEach(this, callbackfn, arguments[1]);
+  }
+});
+
 
 /***/ }),
 
@@ -5203,15 +3685,6 @@ module.exports = __webpack_require__("e0b8")(MAP, function (get) {
     return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
   }
 }, strong, true);
-
-
-/***/ }),
-
-/***/ "f410":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("1af6");
-module.exports = __webpack_require__("584a").Array.isArray;
 
 
 /***/ }),
@@ -5271,21 +3744,18 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 
 /***/ }),
 
-/***/ "f772":
-/***/ (function(module, exports) {
-
-module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-
-/***/ }),
-
 /***/ "fa5b":
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("5537")('native-function-to-string', Function.toString);
 
+
+/***/ }),
+
+/***/ "fa66":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -5302,6 +3772,7 @@ module.exports = document && document.documentElement;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
@@ -5321,27 +3792,34 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js
-var get_own_property_descriptor = __webpack_require__("268f");
-var get_own_property_descriptor_default = /*#__PURE__*/__webpack_require__.n(get_own_property_descriptor);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-property.js
+var es6_object_define_property = __webpack_require__("1c01");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js
-var get_own_property_symbols = __webpack_require__("e265");
-var get_own_property_symbols_default = /*#__PURE__*/__webpack_require__.n(get_own_property_symbols);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.define-properties.js
+var es6_object_define_properties = __webpack_require__("58b2");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/keys.js
-var keys = __webpack_require__("a4bb");
-var keys_default = /*#__PURE__*/__webpack_require__.n(keys);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es7.object.get-own-property-descriptors.js
+var es7_object_get_own_property_descriptors = __webpack_require__("8e6e");
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/object/define-property.js
-var define_property = __webpack_require__("85f2");
-var define_property_default = /*#__PURE__*/__webpack_require__.n(define_property);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.for-each.js
+var es6_array_for_each = __webpack_require__("f3e2");
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/defineProperty.js
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.filter.js
+var es6_array_filter = __webpack_require__("d25f");
 
+// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
+var web_dom_iterable = __webpack_require__("ac6a");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
+var es6_array_iterator = __webpack_require__("cadf");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.keys.js
+var es6_object_keys = __webpack_require__("456d");
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/defineProperty.js
 function _defineProperty(obj, key, value) {
   if (key in obj) {
-    define_property_default()(obj, key, {
+    Object.defineProperty(obj, key, {
       value: value,
       enumerable: true,
       configurable: true,
@@ -5353,42 +3831,18 @@ function _defineProperty(obj, key, value) {
 
   return obj;
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/objectSpread.js
-
-
-
-
-function _objectSpread(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i] != null ? arguments[i] : {};
-
-    var ownKeys = keys_default()(source);
-
-    if (typeof get_own_property_symbols_default.a === 'function') {
-      ownKeys = ownKeys.concat(get_own_property_symbols_default()(source).filter(function (sym) {
-        return get_own_property_descriptor_default()(source, sym).enumerable;
-      }));
-    }
-
-    ownKeys.forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    });
-  }
-
-  return target;
-}
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.function.name.js
 var es6_function_name = __webpack_require__("7f7f");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.map.js
 var es6_array_map = __webpack_require__("6d67");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JCalendar/src/JCalendar.vue?vue&type=template&id=031b41fd&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JCalendar/src/JCalendar.vue?vue&type=template&id=2026fccc&scoped=true&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"template",attrs:{"id":_vm.id}},[_c('div',{staticClass:"j-header",attrs:{"id":"j-header"}},[_c('div',{staticClass:"j-header-title"},[_vm._v(_vm._s(_vm.title))]),_c('div',{staticClass:"j-btn-list"},[_c('div',{staticClass:"j-btn-list-left"},[_c('div',{staticClass:"btn-pre",on:{"click":function($event){return _vm.toPreMonth()}}},[_vm._v("<")]),_c('div',{staticClass:"select-month"},[_vm._v(_vm._s(_vm.selectMonth))]),_c('div',{staticClass:"btn-next",on:{"click":function($event){return _vm.toNextMonth()}}},[_vm._v(">")])]),_c('div',{staticClass:"btn-today",on:{"click":function($event){return _vm.toNowDay()}}},[_vm._v("回到今天")])])]),_c('div',{staticClass:"j-content",attrs:{"id":"j-content"}},[_c('div',{staticClass:"calendar-j-content"},[_vm._l((_vm.weeks),function(item,index){return _c('div',{key:index + 'week',staticClass:"grid-week grid"},[_vm._v("\n                周"+_vm._s(item)+"\n            ")])}),_vm._l((_vm.days),function(item,index){return _c('div',{key:index + 'day',staticClass:"grid-day grid",class:_vm.gridClass(item),on:{"click":function($event){return _vm.clickDay(item)}}},[_vm._v("\n                "+_vm._s(item.split("-")[2])+"\n            ")])})],2)])])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JCalendar/src/JCalendar.vue?vue&type=template&id=031b41fd&scoped=true&
+// CONCATENATED MODULE: ./packages/JCalendar/src/JCalendar.vue?vue&type=template&id=2026fccc&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.split.js
 var es6_regexp_split = __webpack_require__("28a5");
@@ -5627,8 +4081,8 @@ var es6_regexp_split = __webpack_require__("28a5");
 });
 // CONCATENATED MODULE: ./packages/JCalendar/src/JCalendar.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JCalendarvue_type_script_lang_js_ = (JCalendarvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JCalendar/src/JCalendar.vue?vue&type=style&index=0&id=031b41fd&lang=scss&scoped=true&
-var JCalendarvue_type_style_index_0_id_031b41fd_lang_scss_scoped_true_ = __webpack_require__("e5a4");
+// EXTERNAL MODULE: ./packages/JCalendar/src/JCalendar.vue?vue&type=style&index=0&id=2026fccc&lang=scss&scoped=true&
+var JCalendarvue_type_style_index_0_id_2026fccc_lang_scss_scoped_true_ = __webpack_require__("e2ab");
 
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 /* globals __VUE_SSR_CONTEXT__ */
@@ -5695,7 +4149,12 @@ function normalizeComponent (
     options._ssrRegister = hook
   } else if (injectStyles) {
     hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      ? function () {
+        injectStyles.call(
+          this,
+          (options.functional ? this.parent : this).$root.$options.shadowRoot
+        )
+      }
       : injectStyles
   }
 
@@ -5704,7 +4163,7 @@ function normalizeComponent (
       // for template-only hot-reload because in that case the render fn doesn't
       // go through the normalizer
       options._injectStyles = hook
-      // register for functioal component in vue file
+      // register for functional component in vue file
       var originalRender = options.render
       options.render = function renderWithStyleInjection (h, context) {
         hook.call(context)
@@ -5740,7 +4199,7 @@ var component = normalizeComponent(
   staticRenderFns,
   false,
   null,
-  "031b41fd",
+  "2026fccc",
   null
   
 )
@@ -5756,12 +4215,15 @@ JCalendar.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JCalendar = (JCalendar);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTable/src/JTable.vue?vue&type=template&id=9133251a&scoped=true&
-var JTablevue_type_template_id_9133251a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-table-content",attrs:{"id":_vm.tableId}},[_c('table',{staticClass:"j-table"},[_c('j-tr',{key:_vm.tableId,attrs:{"tableId":_vm.tableId,"tableData":_vm.tableData,"title":_vm.title,"showTitle":true}})],1)])}
-var JTablevue_type_template_id_9133251a_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTable/src/JTable.vue?vue&type=template&id=e2b008ae&scoped=true&
+var JTablevue_type_template_id_e2b008ae_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-table-content",attrs:{"id":_vm.tableId}},[_c('table',{staticClass:"j-table"},[_c('j-tr',{key:_vm.tableId,attrs:{"tableId":_vm.tableId,"tableData":_vm.tableData,"title":_vm.title,"showTitle":true}})],1)])}
+var JTablevue_type_template_id_e2b008ae_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JTable/src/JTable.vue?vue&type=template&id=9133251a&scoped=true&
+// CONCATENATED MODULE: ./packages/JTable/src/JTable.vue?vue&type=template&id=e2b008ae&scoped=true&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.is-array.js
+var es6_array_is_array = __webpack_require__("2caf");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.symbol.async-iterator.js
 var es7_symbol_async_iterator = __webpack_require__("ac4d");
@@ -5769,8 +4231,17 @@ var es7_symbol_async_iterator = __webpack_require__("ac4d");
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.symbol.js
 var es6_symbol = __webpack_require__("8a81");
 
-// EXTERNAL MODULE: ./node_modules/core-js/modules/web.dom.iterable.js
-var web_dom_iterable = __webpack_require__("ac6a");
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.iterator.js
+var es6_string_iterator = __webpack_require__("5df3");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.from.js
+var es6_array_from = __webpack_require__("1c4c");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.to-string.js
+var es6_regexp_to_string = __webpack_require__("6b54");
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.date.to-string.js
+var es6_date_to_string = __webpack_require__("87b3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.sort.js
 var es6_array_sort = __webpack_require__("55dd");
@@ -5832,20 +4303,14 @@ var camelTo_ = function camelTo_(str) {
 
   return res;
 };
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTable/src/JTr.vue?vue&type=template&id=30468cee&scoped=true&
-var JTrvue_type_template_id_30468cee_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"j-tr-content",style:(_vm.getPadding()),attrs:{"colspan":_vm.title.length}},[_vm._l((_vm.tableData),function(item,index){return [(_vm.showTitle && index === 0)?_c('tr',{key:_vm.tableId + '-' + index + 'title',staticClass:"j-table-tr j-table-title"},_vm._l((_vm.title),function(item,index){return _c('td',{key:item.key,staticClass:"j-table-tr-th",attrs:{"width":item.width}},[_vm._v("\n                "+_vm._s(item.title)+"\n                "),(item.sort)?_c('button',{staticClass:"sort-btn",attrs:{"title":_vm.getSortWay(item)},on:{"click":function($event){return _vm.sortByKey(item.key, index)}}},[_vm._v("\n                    sort\n                ")]):_vm._e()])}),0):_vm._e(),_c('tr',{key:_vm.tableId + '-' + index + 'tr',staticClass:"j-tr-tr"},_vm._l((_vm.title),function(item1,index1){return _c('td',{key:index1,staticClass:"j-tr-tr-td",style:(_vm.getStyle(item1))},[(!item1.readOnly)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(item[item1.key]),expression:"item[item1.key]"}],staticClass:"j-tr-tr-td-input",domProps:{"value":(item[item1.key])},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(item, item1.key, $event.target.value)}}}):_c('span',{attrs:{"title":item[item1.key]}},[(item.children && index1 == 0)?_c('span',{staticStyle:{"cursor":"pointer","color":"skyblue","font-weight":"bold"},on:{"click":function($event){return _vm.cellClick(index)}}},[_vm._v("\n                        "+_vm._s(_vm.expendList.indexOf(_vm.tableId + "-" + index) == -1
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTable/src/JTr.vue?vue&type=template&id=0f011e48&scoped=true&
+var JTrvue_type_template_id_0f011e48_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"j-tr-content",style:(_vm.getPadding()),attrs:{"colspan":_vm.title.length}},[_vm._l((_vm.tableData),function(item,index){return [(_vm.showTitle && index === 0)?_c('tr',{key:_vm.tableId + '-' + index + 'title',staticClass:"j-table-tr j-table-title"},_vm._l((_vm.title),function(item,index){return _c('td',{key:item.key,staticClass:"j-table-tr-th",attrs:{"width":item.width}},[_vm._v("\n                "+_vm._s(item.title)+"\n                "),(item.sort)?_c('button',{staticClass:"sort-btn",attrs:{"title":_vm.getSortWay(item)},on:{"click":function($event){return _vm.sortByKey(item.key, index)}}},[_vm._v("\n                    sort\n                ")]):_vm._e()])}),0):_vm._e(),_c('tr',{key:_vm.tableId + '-' + index + 'tr',staticClass:"j-tr-tr"},_vm._l((_vm.title),function(item1,index1){return _c('td',{key:index1,staticClass:"j-tr-tr-td",style:(_vm.getStyle(item1))},[(!item1.readOnly)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(item[item1.key]),expression:"item[item1.key]"}],staticClass:"j-tr-tr-td-input",domProps:{"value":(item[item1.key])},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(item, item1.key, $event.target.value)}}}):_c('span',{attrs:{"title":item[item1.key]}},[(item.children && index1 == 0)?_c('span',{staticStyle:{"cursor":"pointer","color":"skyblue","font-weight":"bold"},on:{"click":function($event){return _vm.cellClick(index)}}},[_vm._v("\n                        "+_vm._s(_vm.expendList.indexOf(_vm.tableId + "-" + index) == -1
                                 ? ">"
                                 : "v")+"\n                    ")]):_vm._e(),_vm._v("\n                    "+_vm._s(item[item1.key])+"\n                ")])])}),0),(_vm.expendList.indexOf(_vm.tableId + '-' + index) != -1)?[(item.children.type == 'text')?_c('tr',{key:_vm.tableId + '-' + index + 'tr1',style:(_vm.getPadding(1) + 'border-top: 1px solid skyblue;')},[_c('td',{attrs:{"colspan":_vm.title.length}},[_vm._v("\n                    "+_vm._s(item.children.text)+"\n                ")])]):_c('j-tr',{key:_vm.tableId + '-' + index + 'jtr',attrs:{"tableId":_vm.tableId + '-' + index,"tableData":item.children.data,"title":item.children.title}})]:_vm._e()]})],2)}
-var JTrvue_type_template_id_30468cee_scoped_true_staticRenderFns = []
+var JTrvue_type_template_id_0f011e48_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JTable/src/JTr.vue?vue&type=template&id=30468cee&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.iterator.js
-var es6_array_iterator = __webpack_require__("cadf");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.object.keys.js
-var es6_object_keys = __webpack_require__("456d");
+// CONCATENATED MODULE: ./packages/JTable/src/JTr.vue?vue&type=template&id=0f011e48&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.index-of.js
 var es6_array_index_of = __webpack_require__("57e7");
@@ -5858,6 +4323,19 @@ var es6_array_index_of = __webpack_require__("57e7");
 
 
 
+
+
+
+
+
+
+
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 //
 //
@@ -6062,12 +4540,11 @@ var es6_array_index_of = __webpack_require__("57e7");
         if (title[i].columnStyle) {
           var style = title[i].columnStyle.split(";"); // console.log('style',style);
 
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
+          var _iterator = _createForOfIteratorHelper(style),
+              _step;
 
           try {
-            for (var _iterator = style[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
               var item = _step.value;
               if (item == "") break;
               item = item.split(":"); // console.log('item',_toLittleCamel(item[0]),item[1]);
@@ -6075,18 +4552,9 @@ var es6_array_index_of = __webpack_require__("57e7");
               th[i].style[_toLittleCamel(item[0])] = item[1];
             }
           } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
+            _iterator.e(err);
           } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return != null) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
+            _iterator.f();
           }
         } else {}
       }
@@ -6101,30 +4569,20 @@ var es6_array_index_of = __webpack_require__("57e7");
         res += "width:" + item1.width + ";";
       }
 
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iterator2 = _createForOfIteratorHelper(style),
+          _step2;
 
       try {
-        for (var _iterator2 = style[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var item = _step2.value;
           if (item == "") break;
           item = item.split(":");
           res += camelTo_(item[0]) + ":" + item[1] + ";";
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _iterator2.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
+        _iterator2.f();
       }
 
       return res;
@@ -6137,8 +4595,8 @@ var es6_array_index_of = __webpack_require__("57e7");
 });
 // CONCATENATED MODULE: ./packages/JTable/src/JTr.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JTrvue_type_script_lang_js_ = (JTrvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JTable/src/JTr.vue?vue&type=style&index=0&id=30468cee&lang=scss&scoped=true&
-var JTrvue_type_style_index_0_id_30468cee_lang_scss_scoped_true_ = __webpack_require__("0790");
+// EXTERNAL MODULE: ./packages/JTable/src/JTr.vue?vue&type=style&index=0&id=0f011e48&lang=scss&scoped=true&
+var JTrvue_type_style_index_0_id_0f011e48_lang_scss_scoped_true_ = __webpack_require__("8618");
 
 // CONCATENATED MODULE: ./packages/JTable/src/JTr.vue
 
@@ -6151,11 +4609,11 @@ var JTrvue_type_style_index_0_id_30468cee_lang_scss_scoped_true_ = __webpack_req
 
 var JTr_component = normalizeComponent(
   src_JTrvue_type_script_lang_js_,
-  JTrvue_type_template_id_30468cee_scoped_true_render,
-  JTrvue_type_template_id_30468cee_scoped_true_staticRenderFns,
+  JTrvue_type_template_id_0f011e48_scoped_true_render,
+  JTrvue_type_template_id_0f011e48_scoped_true_staticRenderFns,
   false,
   null,
-  "30468cee",
+  "0f011e48",
   null
   
 )
@@ -6166,6 +4624,18 @@ var JTr_component = normalizeComponent(
 
 
 
+
+
+
+
+
+
+
+function JTablevue_type_script_lang_js_createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = JTablevue_type_script_lang_js_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function JTablevue_type_script_lang_js_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return JTablevue_type_script_lang_js_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return JTablevue_type_script_lang_js_arrayLikeToArray(o, minLen); }
+
+function JTablevue_type_script_lang_js_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 //
 //
@@ -6278,12 +4748,11 @@ var JTr_component = normalizeComponent(
         if (title[i].columnStyle) {
           var style = title[i].columnStyle.split(";"); // console.log('style',style);
 
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
+          var _iterator = JTablevue_type_script_lang_js_createForOfIteratorHelper(style),
+              _step;
 
           try {
-            for (var _iterator = style[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
               var item = _step.value;
               if (item == "") break;
               item = item.split(":"); // console.log('item',_toLittleCamel(item[0]),item[1]);
@@ -6291,18 +4760,9 @@ var JTr_component = normalizeComponent(
               th[i].style[_toLittleCamel(item[0])] = item[1];
             }
           } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
+            _iterator.e(err);
           } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return != null) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
+            _iterator.f();
           }
         } else {}
       }
@@ -6317,30 +4777,20 @@ var JTr_component = normalizeComponent(
         res += "width:" + item1.width + ";";
       }
 
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iterator2 = JTablevue_type_script_lang_js_createForOfIteratorHelper(style),
+          _step2;
 
       try {
-        for (var _iterator2 = style[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var item = _step2.value;
           if (item == "") break;
           item = item.split(":");
           res += camelTo_(item[0]) + ":" + item[1] + ";";
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _iterator2.e(err);
       } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
-          }
-        }
+        _iterator2.f();
       }
 
       return res;
@@ -6352,8 +4802,8 @@ var JTr_component = normalizeComponent(
 });
 // CONCATENATED MODULE: ./packages/JTable/src/JTable.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JTablevue_type_script_lang_js_ = (JTablevue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JTable/src/JTable.vue?vue&type=style&index=0&id=9133251a&lang=scss&scoped=true&
-var JTablevue_type_style_index_0_id_9133251a_lang_scss_scoped_true_ = __webpack_require__("ed58");
+// EXTERNAL MODULE: ./packages/JTable/src/JTable.vue?vue&type=style&index=0&id=e2b008ae&lang=scss&scoped=true&
+var JTablevue_type_style_index_0_id_e2b008ae_lang_scss_scoped_true_ = __webpack_require__("0ce6");
 
 // CONCATENATED MODULE: ./packages/JTable/src/JTable.vue
 
@@ -6366,11 +4816,11 @@ var JTablevue_type_style_index_0_id_9133251a_lang_scss_scoped_true_ = __webpack_
 
 var JTable_component = normalizeComponent(
   src_JTablevue_type_script_lang_js_,
-  JTablevue_type_template_id_9133251a_scoped_true_render,
-  JTablevue_type_template_id_9133251a_scoped_true_staticRenderFns,
+  JTablevue_type_template_id_e2b008ae_scoped_true_render,
+  JTablevue_type_template_id_e2b008ae_scoped_true_staticRenderFns,
   false,
   null,
-  "9133251a",
+  "e2b008ae",
   null
   
 )
@@ -6386,22 +4836,22 @@ JTable.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JTable = (JTable);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=template&id=c543eefe&scoped=true&
-var JCanvasBroadvue_type_template_id_c543eefe_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"canvas-broad"}},[_c('canvas',{attrs:{"id":"canvas","width":_vm.canvasWidth,"height":_vm.canvasHeight}},[_vm._v("浏览器不支持canvas")]),(_vm.toolsTabList)?_c('j-tab-bar',{attrs:{"tabList":_vm.tabList,"showTab":_vm.showTab},scopedSlots:_vm._u([{key:"back-ground-color",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("设置背景颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.brackGroudColor),expression:"brackGroudColor"}],staticClass:"btn input-color",attrs:{"type":"color"},domProps:{"value":(_vm.brackGroudColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.brackGroudColor=$event.target.value}}})])]},proxy:true},{key:"pen-color",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.penColor),expression:"penColor"}],staticClass:"btn input-color",attrs:{"type":"color"},domProps:{"value":(_vm.penColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.penColor=$event.target.value}}})])]},proxy:true},{key:"eraser",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择橡皮擦：")]),_c('button',{staticClass:"btn colorBtn",style:('background-color:' + _vm.brackGroudColor + ';'),on:{"click":function($event){return _vm.setPenColor()}}},[_vm._v("\n                    "+_vm._s(_vm.brackGroudColor)+"\n                ")])]),_c('div',{staticClass:"section"},[_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.setBackGround()}}},[_vm._v("\n                    清空画布\n                ")])])]},proxy:true},{key:"pen-size",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔大小：")]),_c('progress',{staticStyle:{"cursor":"pointer"},attrs:{"id":"progress","max":"1","title":_vm.progressValue * 100 + '%'},domProps:{"value":_vm.progressValue},on:{"click":_vm.setPenWidth}}),_c('span',{staticStyle:{"margin-left":"0.3125rem"}},[_vm._v(_vm._s(20 * _vm.progressValue)+"px")])])]},proxy:true},{key:"export",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("输出画板内容到下面的图片：")]),_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.createImage()}}},[_vm._v("EXPORT")])]),_c('img',{attrs:{"id":"image_png"}})]},proxy:true}],null,false,832973881)}):_vm._e(),(!_vm.toolsTabList)?[_c('div',{staticClass:"section"},[_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.setBackGround()}}},[_vm._v("清空画布")])]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.penColor),expression:"penColor"}],staticClass:"input-color",attrs:{"type":"color"},domProps:{"value":(_vm.penColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.penColor=$event.target.value}}})]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("设置背景颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.brackGroudColor),expression:"brackGroudColor"}],staticClass:"input-color",attrs:{"type":"color"},domProps:{"value":(_vm.brackGroudColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.brackGroudColor=$event.target.value}}})]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择橡皮擦：")]),_c('button',{staticClass:"btn colorBtn",style:('background-color:' + _vm.brackGroudColor + ';'),on:{"click":function($event){return _vm.setPenColor()}}},[_vm._v("\n                "+_vm._s(_vm.brackGroudColor)+"\n            ")])]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔大小：")]),_c('progress',{staticStyle:{"cursor":"pointer"},attrs:{"id":"progress","max":"1","title":_vm.progressValue * 100 + '%'},domProps:{"value":_vm.progressValue},on:{"click":_vm.setPenWidth}}),_c('span',{staticStyle:{"margin-left":"0.3125rem"}},[_vm._v(_vm._s(20 * _vm.progressValue)+"px")])]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("输出画板内容到下面的图片：")]),_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.createImage()}}},[_vm._v("EXPORT")])]),_c('img',{attrs:{"id":"image_png"}})]:_vm._e()],2)}
-var JCanvasBroadvue_type_template_id_c543eefe_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=template&id=6044390a&scoped=true&
+var JCanvasBroadvue_type_template_id_6044390a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"canvas-broad"}},[_c('canvas',{attrs:{"id":"canvas","width":_vm.canvasWidth,"height":_vm.canvasHeight}},[_vm._v("浏览器不支持canvas")]),(_vm.toolsTabList)?_c('j-tab-bar',{attrs:{"tabList":_vm.tabList,"showTab":_vm.showTab},scopedSlots:_vm._u([{key:"back-ground-color",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("设置背景颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.brackGroudColor),expression:"brackGroudColor"}],staticClass:"btn input-color",attrs:{"type":"color"},domProps:{"value":(_vm.brackGroudColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.brackGroudColor=$event.target.value}}})])]},proxy:true},{key:"pen-color",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.penColor),expression:"penColor"}],staticClass:"btn input-color",attrs:{"type":"color"},domProps:{"value":(_vm.penColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.penColor=$event.target.value}}})])]},proxy:true},{key:"eraser",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择橡皮擦：")]),_c('button',{staticClass:"btn colorBtn",style:('background-color:' + _vm.brackGroudColor + ';'),on:{"click":function($event){return _vm.setPenColor()}}},[_vm._v("\n                    "+_vm._s(_vm.brackGroudColor)+"\n                ")])]),_c('div',{staticClass:"section"},[_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.setBackGround()}}},[_vm._v("\n                    清空画布\n                ")])])]},proxy:true},{key:"pen-size",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔大小：")]),_c('progress',{staticStyle:{"cursor":"pointer"},attrs:{"id":"progress","max":"1","title":_vm.progressValue * 100 + '%'},domProps:{"value":_vm.progressValue},on:{"click":_vm.setPenWidth}}),_c('span',{staticStyle:{"margin-left":"0.3125rem"}},[_vm._v(_vm._s(20 * _vm.progressValue)+"px")])])]},proxy:true},{key:"export",fn:function(){return [_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("输出画板内容到下面的图片：")]),_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.createImage()}}},[_vm._v("EXPORT")])]),_c('img',{attrs:{"id":"image_png"}})]},proxy:true}],null,false,832973881)}):_vm._e(),(!_vm.toolsTabList)?[_c('div',{staticClass:"section"},[_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.setBackGround()}}},[_vm._v("清空画布")])]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.penColor),expression:"penColor"}],staticClass:"input-color",attrs:{"type":"color"},domProps:{"value":(_vm.penColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.penColor=$event.target.value}}})]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("设置背景颜色：")]),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.brackGroudColor),expression:"brackGroudColor"}],staticClass:"input-color",attrs:{"type":"color"},domProps:{"value":(_vm.brackGroudColor)},on:{"input":function($event){if($event.target.composing){ return; }_vm.brackGroudColor=$event.target.value}}})]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择橡皮擦：")]),_c('button',{staticClass:"btn colorBtn",style:('background-color:' + _vm.brackGroudColor + ';'),on:{"click":function($event){return _vm.setPenColor()}}},[_vm._v("\n                "+_vm._s(_vm.brackGroudColor)+"\n            ")])]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("选择画笔大小：")]),_c('progress',{staticStyle:{"cursor":"pointer"},attrs:{"id":"progress","max":"1","title":_vm.progressValue * 100 + '%'},domProps:{"value":_vm.progressValue},on:{"click":_vm.setPenWidth}}),_c('span',{staticStyle:{"margin-left":"0.3125rem"}},[_vm._v(_vm._s(20 * _vm.progressValue)+"px")])]),_c('div',{staticClass:"section"},[_c('span',{staticClass:"info"},[_vm._v("输出画板内容到下面的图片：")]),_c('button',{staticClass:"btn",on:{"click":function($event){return _vm.createImage()}}},[_vm._v("EXPORT")])]),_c('img',{attrs:{"id":"image_png"}})]:_vm._e()],2)}
+var JCanvasBroadvue_type_template_id_6044390a_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=template&id=c543eefe&scoped=true&
+// CONCATENATED MODULE: ./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=template&id=6044390a&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.number.constructor.js
 var es6_number_constructor = __webpack_require__("c5f6");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/pagesTools/JTabBar.vue?vue&type=template&id=d8e1361c&scoped=true&
-var JTabBarvue_type_template_id_d8e1361c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-tab-bar"},[_c('div',{staticClass:"bar-items"},_vm._l((_vm.tabList),function(item,index){return _c('div',{key:item.id,class:_vm.getBarClass(index, 'bar-item'),attrs:{"title":item.label},on:{"click":function($event){return _vm.barClick(index)}}},[_vm._v("\n            "+_vm._s(item.label)+"\n        ")])}),0),_vm._l((_vm.tabList),function(item,index){return _c('div',{key:item.id},[(item.id == _vm.tabList[_vm.showTab].id)?_vm._t(item.id):_vm._e()],2)})],2)}
-var JTabBarvue_type_template_id_d8e1361c_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/pagesTools/JTabBar.vue?vue&type=template&id=32024ae0&scoped=true&
+var JTabBarvue_type_template_id_32024ae0_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-tab-bar"},[_c('div',{staticClass:"bar-items"},_vm._l((_vm.tabList),function(item,index){return _c('div',{key:item.id,class:_vm.getBarClass(index, 'bar-item'),attrs:{"title":item.label},on:{"click":function($event){return _vm.barClick(index)}}},[_vm._v("\n            "+_vm._s(item.label)+"\n        ")])}),0),_vm._l((_vm.tabList),function(item,index){return _c('div',{key:item.id},[(item.id == _vm.tabList[_vm.showTab].id)?_vm._t(item.id):_vm._e()],2)})],2)}
+var JTabBarvue_type_template_id_32024ae0_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/pagesTools/JTabBar.vue?vue&type=template&id=d8e1361c&scoped=true&
+// CONCATENATED MODULE: ./packages/pagesTools/JTabBar.vue?vue&type=template&id=32024ae0&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/pagesTools/JTabBar.vue?vue&type=script&lang=js&
 
@@ -6472,8 +4922,8 @@ var JTabBarvue_type_template_id_d8e1361c_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/pagesTools/JTabBar.vue?vue&type=script&lang=js&
  /* harmony default export */ var pagesTools_JTabBarvue_type_script_lang_js_ = (JTabBarvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/pagesTools/JTabBar.vue?vue&type=style&index=0&id=d8e1361c&lang=scss&scoped=scoped&
-var JTabBarvue_type_style_index_0_id_d8e1361c_lang_scss_scoped_scoped_ = __webpack_require__("7ded");
+// EXTERNAL MODULE: ./packages/pagesTools/JTabBar.vue?vue&type=style&index=0&id=32024ae0&lang=scss&scoped=scoped&
+var JTabBarvue_type_style_index_0_id_32024ae0_lang_scss_scoped_scoped_ = __webpack_require__("ea99");
 
 // CONCATENATED MODULE: ./packages/pagesTools/JTabBar.vue
 
@@ -6486,11 +4936,11 @@ var JTabBarvue_type_style_index_0_id_d8e1361c_lang_scss_scoped_scoped_ = __webpa
 
 var JTabBar_component = normalizeComponent(
   pagesTools_JTabBarvue_type_script_lang_js_,
-  JTabBarvue_type_template_id_d8e1361c_scoped_true_render,
-  JTabBarvue_type_template_id_d8e1361c_scoped_true_staticRenderFns,
+  JTabBarvue_type_template_id_32024ae0_scoped_true_render,
+  JTabBarvue_type_template_id_32024ae0_scoped_true_staticRenderFns,
   false,
   null,
-  "d8e1361c",
+  "32024ae0",
   null
   
 )
@@ -6801,8 +5251,8 @@ var JTabBar_component = normalizeComponent(
 });
 // CONCATENATED MODULE: ./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JCanvasBroadvue_type_script_lang_js_ = (JCanvasBroadvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=style&index=0&id=c543eefe&lang=scss&scoped=scoped&
-var JCanvasBroadvue_type_style_index_0_id_c543eefe_lang_scss_scoped_scoped_ = __webpack_require__("91b5");
+// EXTERNAL MODULE: ./packages/JCanvasBroad/src/JCanvasBroad.vue?vue&type=style&index=0&id=6044390a&lang=scss&scoped=scoped&
+var JCanvasBroadvue_type_style_index_0_id_6044390a_lang_scss_scoped_scoped_ = __webpack_require__("b1ec");
 
 // CONCATENATED MODULE: ./packages/JCanvasBroad/src/JCanvasBroad.vue
 
@@ -6815,11 +5265,11 @@ var JCanvasBroadvue_type_style_index_0_id_c543eefe_lang_scss_scoped_scoped_ = __
 
 var JCanvasBroad_component = normalizeComponent(
   src_JCanvasBroadvue_type_script_lang_js_,
-  JCanvasBroadvue_type_template_id_c543eefe_scoped_true_render,
-  JCanvasBroadvue_type_template_id_c543eefe_scoped_true_staticRenderFns,
+  JCanvasBroadvue_type_template_id_6044390a_scoped_true_render,
+  JCanvasBroadvue_type_template_id_6044390a_scoped_true_staticRenderFns,
   false,
   null,
-  "c543eefe",
+  "6044390a",
   null
   
 )
@@ -6835,52 +5285,53 @@ JCanvasBroad.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JCanvasBroad = (JCanvasBroad);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=template&id=07864bda&scoped=true&
-var JCodeHeightLightvue_type_template_id_07864bda_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"code-height-light",attrs:{"id":"code-height-light"}},[_c('input',{staticStyle:{"position":"absolute","top":"0","left":"0","opacity":"0","z-index":"-10"},attrs:{"id":"copy_content","type":"text","value":""}}),_c('div',{staticClass:"content"},[_c('div',{staticClass:"content-head",attrs:{"icon":_vm.isCodeShow ? '∨' : '>'},on:{"click":function($event){return _vm.doShowCode()}}},[_c('span',{staticClass:"content-head-text"},[_vm._v("\n                "+_vm._s(_vm.isCodeShow ? "收起代码" : "查看代码")+"\n            ")])]),_c('div',{staticClass:"code-copy",on:{"click":function($event){return _vm.copyCode()}}},[_vm._v("复制代码")]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isCodeShow),expression:"isCodeShow"}],staticClass:"content-body"},[_c('pre',{staticClass:"content-code-html",attrs:{"id":"content-code-html"}}),_c('pre',{staticClass:"content-code",attrs:{"id":"content-code"}})])])])}
-var JCodeHeightLightvue_type_template_id_07864bda_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=template&id=0efa3074&scoped=true&
+var JCodeHeightLightvue_type_template_id_0efa3074_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"code-height-light",attrs:{"id":"code-height-light"}},[_c('input',{staticStyle:{"position":"absolute","top":"0","left":"0","opacity":"0","z-index":"-10"},attrs:{"id":"copy_content","type":"text","value":""}}),_c('div',{staticClass:"content"},[_c('div',{staticClass:"content-head",attrs:{"icon":_vm.isCodeShow ? '∨' : '>'},on:{"click":function($event){return _vm.doShowCode()}}},[_c('span',{staticClass:"content-head-text"},[_vm._v("\n                "+_vm._s(_vm.isCodeShow ? "收起代码" : "查看代码")+"\n            ")])]),_c('div',{staticClass:"code-copy",on:{"click":function($event){return _vm.copyCode()}}},[_vm._v("复制代码")]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.isCodeShow),expression:"isCodeShow"}],staticClass:"content-body"},[_c('pre',{staticClass:"content-code-html",attrs:{"id":"content-code-html"}}),_c('pre',{staticClass:"content-code",attrs:{"id":"content-code"}})])])])}
+var JCodeHeightLightvue_type_template_id_0efa3074_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=template&id=07864bda&scoped=true&
+// CONCATENATED MODULE: ./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=template&id=0efa3074&scoped=true&
 
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/array/is-array.js
-var is_array = __webpack_require__("a745");
-var is_array_default = /*#__PURE__*/__webpack_require__.n(is_array);
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+function arrayLikeToArray_arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
 
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/arrayWithoutHoles.js
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
 
 function _arrayWithoutHoles(arr) {
-  if (is_array_default()(arr)) {
-    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  }
+  if (Array.isArray(arr)) return arrayLikeToArray_arrayLikeToArray(arr);
 }
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/array/from.js
-var from = __webpack_require__("774e");
-var from_default = /*#__PURE__*/__webpack_require__.n(from);
-
-// EXTERNAL MODULE: ./node_modules/@babel/runtime-corejs2/core-js/is-iterable.js
-var is_iterable = __webpack_require__("c8bb");
-var is_iterable_default = /*#__PURE__*/__webpack_require__.n(is_iterable);
-
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/iterableToArray.js
-
-
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
 function _iterableToArray(iter) {
-  if (is_iterable_default()(Object(iter)) || Object.prototype.toString.call(iter) === "[object Arguments]") return from_default()(iter);
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/nonIterableSpread.js
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+
+function unsupportedIterableToArray_unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return arrayLikeToArray_arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray_arrayLikeToArray(o, minLen);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance");
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
-// CONCATENATED MODULE: ./node_modules/@babel/runtime-corejs2/helpers/esm/toConsumableArray.js
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
 
 
 
 function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || unsupportedIterableToArray_unsupportedIterableToArray(arr) || _nonIterableSpread();
 }
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.constructor.js
 var es6_regexp_constructor = __webpack_require__("3b2b");
@@ -7183,8 +5634,8 @@ var es6_regexp_replace = __webpack_require__("a481");
 });
 // CONCATENATED MODULE: ./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JCodeHeightLightvue_type_script_lang_js_ = (JCodeHeightLightvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=style&index=0&id=07864bda&lang=scss&scoped=true&
-var JCodeHeightLightvue_type_style_index_0_id_07864bda_lang_scss_scoped_true_ = __webpack_require__("1b63");
+// EXTERNAL MODULE: ./packages/JCodeHeightLight/src/JCodeHeightLight.vue?vue&type=style&index=0&id=0efa3074&lang=scss&scoped=true&
+var JCodeHeightLightvue_type_style_index_0_id_0efa3074_lang_scss_scoped_true_ = __webpack_require__("63bf");
 
 // CONCATENATED MODULE: ./packages/JCodeHeightLight/src/JCodeHeightLight.vue
 
@@ -7197,11 +5648,11 @@ var JCodeHeightLightvue_type_style_index_0_id_07864bda_lang_scss_scoped_true_ = 
 
 var JCodeHeightLight_component = normalizeComponent(
   src_JCodeHeightLightvue_type_script_lang_js_,
-  JCodeHeightLightvue_type_template_id_07864bda_scoped_true_render,
-  JCodeHeightLightvue_type_template_id_07864bda_scoped_true_staticRenderFns,
+  JCodeHeightLightvue_type_template_id_0efa3074_scoped_true_render,
+  JCodeHeightLightvue_type_template_id_0efa3074_scoped_true_staticRenderFns,
   false,
   null,
-  "07864bda",
+  "0efa3074",
   null
   
 )
@@ -7217,20 +5668,33 @@ JCodeHeightLight.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JCodeHeightLight = (JCodeHeightLight);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JFlowChart/src/JFlowChart.vue?vue&type=template&id=c6f14fac&scoped=true&
-var JFlowChartvue_type_template_id_c6f14fac_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flow-chart",attrs:{"id":"flow-chart"}},[_c('div',{staticClass:"char-title"},[_vm._v("\n        "+_vm._s(_vm.chartData.title)+"\n    ")]),_c('div',{staticStyle:{"position":"fixed","left":"0px","top":"0px","visibility":"hidden"},attrs:{"id":"moveDiv"}},[(_vm.selectedItem.icon !== '')?_c('img',{class:_vm.getClass('chart-content-item-icon', 'radius'),style:(_vm.getIconStyle()),attrs:{"src":_vm.selectedItem.icon}}):_vm._e(),(_vm.selectedItem.icon == '')?_c('div',{class:_vm.getClass('chart-content-item-icon', 'radius'),style:(_vm.getIconStyle('text'))},[_vm._v("\n            "+_vm._s(_vm.selectedItem.text[0])+"\n        ")]):_vm._e(),_c('div',{staticClass:"chart-content-item-text"},[_vm._v("\n            "+_vm._s(_vm.selectedItem.text)+"\n        ")])]),_c('div',{ref:"chartContent",staticClass:"chart-content",attrs:{"id":"chartContent"}},_vm._l((_vm.chartDataList),function(dataList,index1){return _c('div',{staticClass:"chart-content-column",style:(_vm.getColumnStyle(index1))},_vm._l((dataList),function(item,index){return _c('div',{staticClass:"chart-content-item",style:(_vm.getItemStyle())},[(
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JFlowChart/src/JFlowChart.vue?vue&type=template&id=ec8d9ff2&scoped=true&
+var JFlowChartvue_type_template_id_ec8d9ff2_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flow-chart",attrs:{"id":"flow-chart"}},[_c('div',{staticClass:"char-title"},[_vm._v("\n        "+_vm._s(_vm.chartData.title)+"\n    ")]),_c('div',{staticStyle:{"position":"fixed","left":"0px","top":"0px","visibility":"hidden"},attrs:{"id":"moveDiv"}},[(_vm.selectedItem.icon !== '')?_c('img',{class:_vm.getClass('chart-content-item-icon', 'radius'),style:(_vm.getIconStyle()),attrs:{"src":_vm.selectedItem.icon}}):_vm._e(),(_vm.selectedItem.icon == '')?_c('div',{class:_vm.getClass('chart-content-item-icon', 'radius'),style:(_vm.getIconStyle('text'))},[_vm._v("\n            "+_vm._s(_vm.selectedItem.text[0])+"\n        ")]):_vm._e(),_c('div',{staticClass:"chart-content-item-text"},[_vm._v("\n            "+_vm._s(_vm.selectedItem.text)+"\n        ")])]),_c('div',{ref:"chartContent",staticClass:"chart-content",attrs:{"id":"chartContent"}},_vm._l((_vm.chartDataList),function(dataList,index1){return _c('div',{staticClass:"chart-content-column",style:(_vm.getColumnStyle(index1))},_vm._l((dataList),function(item,index){return _c('div',{staticClass:"chart-content-item",style:(_vm.getItemStyle())},[(
                         index == 0 &&
                             index1 % 2 == 1 &&
                             index1 < _vm.chartDataList.length - 1
                     )?_c('div',{staticClass:"chart-content-line",style:(_vm.getLineStyle(index, index1, 'left'))}):_vm._e(),_c('div',{style:(_vm.getItemStyle(item)),attrs:{"id":item.id},on:{"mousedown":function($event){return _vm.itemClick(index1, index, item.id, item)},"touchstart":function($event){return _vm.itemClick(index1, index, item.id, item)}}},[(item.icon !== '')?_c('img',{class:_vm.getClass('chart-content-item-icon', 'radius'),style:(_vm.getIconStyle()),attrs:{"src":item.icon}}):_vm._e(),(item.icon == '')?_c('div',{class:_vm.getClass('chart-content-item-icon', 'radius'),style:(_vm.getIconStyle('text'))},[_vm._v("\n                        "+_vm._s(item.text[0])+"\n                    ")]):_vm._e(),_c('div',{staticClass:"chart-content-item-text"},[_vm._v("\n                        "+_vm._s(item.text)+"\n                    ")])]),_c('div',{staticClass:"chart-content-line",style:(_vm.getLineStyle(index, index1, 'right'))})])}),0)}),0)])}
-var JFlowChartvue_type_template_id_c6f14fac_scoped_true_staticRenderFns = []
+var JFlowChartvue_type_template_id_ec8d9ff2_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JFlowChart/src/JFlowChart.vue?vue&type=template&id=c6f14fac&scoped=true&
+// CONCATENATED MODULE: ./packages/JFlowChart/src/JFlowChart.vue?vue&type=template&id=ec8d9ff2&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JFlowChart/src/JFlowChart.vue?vue&type=script&lang=js&
 
 
+
+
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 //
 //
@@ -7601,8 +6065,8 @@ var JFlowChartvue_type_template_id_c6f14fac_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JFlowChart/src/JFlowChart.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JFlowChartvue_type_script_lang_js_ = (JFlowChartvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JFlowChart/src/JFlowChart.vue?vue&type=style&index=0&id=c6f14fac&lang=scss&scoped=true&
-var JFlowChartvue_type_style_index_0_id_c6f14fac_lang_scss_scoped_true_ = __webpack_require__("9a36");
+// EXTERNAL MODULE: ./packages/JFlowChart/src/JFlowChart.vue?vue&type=style&index=0&id=ec8d9ff2&lang=scss&scoped=true&
+var JFlowChartvue_type_style_index_0_id_ec8d9ff2_lang_scss_scoped_true_ = __webpack_require__("8492");
 
 // CONCATENATED MODULE: ./packages/JFlowChart/src/JFlowChart.vue
 
@@ -7615,11 +6079,11 @@ var JFlowChartvue_type_style_index_0_id_c6f14fac_lang_scss_scoped_true_ = __webp
 
 var JFlowChart_component = normalizeComponent(
   src_JFlowChartvue_type_script_lang_js_,
-  JFlowChartvue_type_template_id_c6f14fac_scoped_true_render,
-  JFlowChartvue_type_template_id_c6f14fac_scoped_true_staticRenderFns,
+  JFlowChartvue_type_template_id_ec8d9ff2_scoped_true_render,
+  JFlowChartvue_type_template_id_ec8d9ff2_scoped_true_staticRenderFns,
   false,
   null,
-  "c6f14fac",
+  "ec8d9ff2",
   null
   
 )
@@ -7635,18 +6099,12 @@ JFlowChart.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JFlowChart = (JFlowChart);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=template&id=7ed79c61&scoped=true&
-var JElectronicNumbervue_type_template_id_7ed79c61_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"numbers-style",attrs:{"id":"electronic-number"}},_vm._l((_vm.numbers),function(number,numberIndex){return _c('div',{key:numberIndex,staticClass:"number-style"},_vm._l((_vm.getShowNum(number)),function(column,columnIndex){return _c('div',{key:columnIndex,staticClass:"j-column"},_vm._l((column),function(row,rowIndex){return _c('div',{key:rowIndex,staticClass:"cell",style:(_vm.rowStyle(row))})}),0)}),0)}),0)}
-var JElectronicNumbervue_type_template_id_7ed79c61_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=template&id=2ab923de&scoped=true&
+var JElectronicNumbervue_type_template_id_2ab923de_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"numbers-style",attrs:{"id":"electronic-number"}},_vm._l((_vm.numbers),function(number,numberIndex){return _c('div',{key:numberIndex,staticClass:"number-style"},_vm._l((_vm.getShowNum(number)),function(column,columnIndex){return _c('div',{key:columnIndex,staticClass:"j-column"},_vm._l((column),function(row,rowIndex){return _c('div',{key:rowIndex,staticClass:"cell",style:(_vm.rowStyle(row))})}),0)}),0)}),0)}
+var JElectronicNumbervue_type_template_id_2ab923de_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=template&id=7ed79c61&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.to-string.js
-var es6_regexp_to_string = __webpack_require__("6b54");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.date.to-string.js
-var es6_date_to_string = __webpack_require__("87b3");
+// CONCATENATED MODULE: ./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=template&id=2ab923de&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=script&lang=js&
 
@@ -7821,8 +6279,8 @@ var es6_date_to_string = __webpack_require__("87b3");
 });
 // CONCATENATED MODULE: ./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JElectronicNumbervue_type_script_lang_js_ = (JElectronicNumbervue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=style&index=0&id=7ed79c61&lang=scss&scoped=true&
-var JElectronicNumbervue_type_style_index_0_id_7ed79c61_lang_scss_scoped_true_ = __webpack_require__("2257");
+// EXTERNAL MODULE: ./packages/JElectronicNumber/src/JElectronicNumber.vue?vue&type=style&index=0&id=2ab923de&lang=scss&scoped=true&
+var JElectronicNumbervue_type_style_index_0_id_2ab923de_lang_scss_scoped_true_ = __webpack_require__("978c");
 
 // CONCATENATED MODULE: ./packages/JElectronicNumber/src/JElectronicNumber.vue
 
@@ -7835,11 +6293,11 @@ var JElectronicNumbervue_type_style_index_0_id_7ed79c61_lang_scss_scoped_true_ =
 
 var JElectronicNumber_component = normalizeComponent(
   src_JElectronicNumbervue_type_script_lang_js_,
-  JElectronicNumbervue_type_template_id_7ed79c61_scoped_true_render,
-  JElectronicNumbervue_type_template_id_7ed79c61_scoped_true_staticRenderFns,
+  JElectronicNumbervue_type_template_id_2ab923de_scoped_true_render,
+  JElectronicNumbervue_type_template_id_2ab923de_scoped_true_staticRenderFns,
   false,
   null,
-  "7ed79c61",
+  "2ab923de",
   null
   
 )
@@ -7855,12 +6313,12 @@ JElectronicNumber.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JElectronicNumber = (JElectronicNumber);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JNumRolling/src/JNumRolling.vue?vue&type=template&id=1baffec0&
-var JNumRollingvue_type_template_id_1baffec0_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
-var JNumRollingvue_type_template_id_1baffec0_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"j-num-rolling",attrs:{"id":"j-num-rolling"}})])}]
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JNumRolling/src/JNumRolling.vue?vue&type=template&id=0664f4fd&
+var JNumRollingvue_type_template_id_0664f4fd_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _vm._m(0)}
+var JNumRollingvue_type_template_id_0664f4fd_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"j-num-rolling",attrs:{"id":"j-num-rolling"}})])}]
 
 
-// CONCATENATED MODULE: ./packages/JNumRolling/src/JNumRolling.vue?vue&type=template&id=1baffec0&
+// CONCATENATED MODULE: ./packages/JNumRolling/src/JNumRolling.vue?vue&type=template&id=0664f4fd&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.fill.js
 var es6_array_fill = __webpack_require__("6c7b");
@@ -8083,8 +6541,8 @@ var JNumRollingvue_type_style_index_0_lang_scss_ = __webpack_require__("ecd8");
 
 var JNumRolling_component = normalizeComponent(
   src_JNumRollingvue_type_script_lang_js_,
-  JNumRollingvue_type_template_id_1baffec0_render,
-  JNumRollingvue_type_template_id_1baffec0_staticRenderFns,
+  JNumRollingvue_type_template_id_0664f4fd_render,
+  JNumRollingvue_type_template_id_0664f4fd_staticRenderFns,
   false,
   null,
   null,
@@ -8103,12 +6561,12 @@ JNumRolling.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JNumRolling = (JNumRolling);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JDialog/src/JDialog.vue?vue&type=template&id=5a03d626&scoped=true&
-var JDialogvue_type_template_id_5a03d626_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-dialog"},[(_vm.JDialogIsShow)?_c('div',{staticClass:"mask",on:{"click":function($event){return _vm.maskClick()}}}):_vm._e(),(_vm.JDialogIsShow)?_c('div',{staticClass:"j-dialog-content"},[_c('div',{staticClass:"j-dialog-header"},[_c('div',{staticClass:"j-dialog-header-title"},[_c('span',{staticClass:"title"},[_vm._v(_vm._s(_vm.title))]),_c('span',{staticClass:"j-dialog-header-icon",attrs:{"title":"关闭"},on:{"click":function($event){return _vm.closeDialog()}}},[_vm._v("x")])])]),_c('div',{staticClass:"j-dialog-main"},[_vm._t("j-dialog-main-content")],2),_c('div',{staticClass:"j-dialog-footer"},[_c('div',{staticClass:"j-dialog-footer-btn"},_vm._l((_vm.btnList),function(item,index){return _c('div',{key:index,staticClass:"btn",style:(_vm.getStyle(item.style)),attrs:{"title":item.text},on:{"click":function($event){return _vm.doClick(item.click)}}},[_vm._v("\n                    "+_vm._s(item.text)+"\n                ")])}),0)])]):_vm._e()])}
-var JDialogvue_type_template_id_5a03d626_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JDialog/src/JDialog.vue?vue&type=template&id=79ed9e08&scoped=true&
+var JDialogvue_type_template_id_79ed9e08_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-dialog"},[(_vm.JDialogIsShow)?_c('div',{staticClass:"mask",on:{"click":function($event){return _vm.maskClick()}}}):_vm._e(),(_vm.JDialogIsShow)?_c('div',{staticClass:"j-dialog-content"},[_c('div',{staticClass:"j-dialog-header"},[_c('div',{staticClass:"j-dialog-header-title"},[_c('span',{staticClass:"title"},[_vm._v(_vm._s(_vm.title))]),_c('span',{staticClass:"j-dialog-header-icon",attrs:{"title":"关闭"},on:{"click":function($event){return _vm.closeDialog()}}},[_vm._v("x")])])]),_c('div',{staticClass:"j-dialog-main"},[_vm._t("j-dialog-main-content")],2),_c('div',{staticClass:"j-dialog-footer"},[_c('div',{staticClass:"j-dialog-footer-btn"},_vm._l((_vm.btnList),function(item,index){return _c('div',{key:index,staticClass:"btn",style:(_vm.getStyle(item.style)),attrs:{"title":item.text},on:{"click":function($event){return _vm.doClick(item.click)}}},[_vm._v("\n                    "+_vm._s(item.text)+"\n                ")])}),0)])]):_vm._e()])}
+var JDialogvue_type_template_id_79ed9e08_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JDialog/src/JDialog.vue?vue&type=template&id=5a03d626&scoped=true&
+// CONCATENATED MODULE: ./packages/JDialog/src/JDialog.vue?vue&type=template&id=79ed9e08&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JDialog/src/JDialog.vue?vue&type=script&lang=js&
 //
@@ -8214,8 +6672,8 @@ var JDialogvue_type_template_id_5a03d626_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JDialog/src/JDialog.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JDialogvue_type_script_lang_js_ = (JDialogvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JDialog/src/JDialog.vue?vue&type=style&index=0&id=5a03d626&lang=scss&scoped=true&
-var JDialogvue_type_style_index_0_id_5a03d626_lang_scss_scoped_true_ = __webpack_require__("b04f");
+// EXTERNAL MODULE: ./packages/JDialog/src/JDialog.vue?vue&type=style&index=0&id=79ed9e08&lang=scss&scoped=true&
+var JDialogvue_type_style_index_0_id_79ed9e08_lang_scss_scoped_true_ = __webpack_require__("b850");
 
 // CONCATENATED MODULE: ./packages/JDialog/src/JDialog.vue
 
@@ -8228,11 +6686,11 @@ var JDialogvue_type_style_index_0_id_5a03d626_lang_scss_scoped_true_ = __webpack
 
 var JDialog_component = normalizeComponent(
   src_JDialogvue_type_script_lang_js_,
-  JDialogvue_type_template_id_5a03d626_scoped_true_render,
-  JDialogvue_type_template_id_5a03d626_scoped_true_staticRenderFns,
+  JDialogvue_type_template_id_79ed9e08_scoped_true_render,
+  JDialogvue_type_template_id_79ed9e08_scoped_true_staticRenderFns,
   false,
   null,
-  "5a03d626",
+  "79ed9e08",
   null
   
 )
@@ -8248,12 +6706,12 @@ JDialog.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JDialog = (JDialog);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=template&id=b82de0ba&scoped=true&
-var JHoverBtnvue_type_template_id_b82de0ba_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-hover-btn",style:(_vm.getStyle()),attrs:{"id":"j-hover-btn"},on:{"mousedown":_vm.itemClick}},[_vm._v("\n    "+_vm._s(_vm.text)+"\n")])}
-var JHoverBtnvue_type_template_id_b82de0ba_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=template&id=f89057e8&scoped=true&
+var JHoverBtnvue_type_template_id_f89057e8_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-hover-btn",style:(_vm.getStyle()),attrs:{"id":"j-hover-btn"},on:{"mousedown":_vm.itemClick}},[_vm._v("\n    "+_vm._s(_vm.text)+"\n")])}
+var JHoverBtnvue_type_template_id_f89057e8_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=template&id=b82de0ba&scoped=true&
+// CONCATENATED MODULE: ./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=template&id=f89057e8&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=script&lang=js&
 
@@ -8416,8 +6874,8 @@ var JHoverBtnvue_type_template_id_b82de0ba_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JHoverBtnvue_type_script_lang_js_ = (JHoverBtnvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=style&index=0&id=b82de0ba&lang=scss&scoped=true&
-var JHoverBtnvue_type_style_index_0_id_b82de0ba_lang_scss_scoped_true_ = __webpack_require__("ea3d");
+// EXTERNAL MODULE: ./packages/JHoverBtn/src/JHoverBtn.vue?vue&type=style&index=0&id=f89057e8&lang=scss&scoped=true&
+var JHoverBtnvue_type_style_index_0_id_f89057e8_lang_scss_scoped_true_ = __webpack_require__("6999");
 
 // CONCATENATED MODULE: ./packages/JHoverBtn/src/JHoverBtn.vue
 
@@ -8430,11 +6888,11 @@ var JHoverBtnvue_type_style_index_0_id_b82de0ba_lang_scss_scoped_true_ = __webpa
 
 var JHoverBtn_component = normalizeComponent(
   src_JHoverBtnvue_type_script_lang_js_,
-  JHoverBtnvue_type_template_id_b82de0ba_scoped_true_render,
-  JHoverBtnvue_type_template_id_b82de0ba_scoped_true_staticRenderFns,
+  JHoverBtnvue_type_template_id_f89057e8_scoped_true_render,
+  JHoverBtnvue_type_template_id_f89057e8_scoped_true_staticRenderFns,
   false,
   null,
-  "b82de0ba",
+  "f89057e8",
   null
   
 )
@@ -8450,12 +6908,12 @@ JHoverBtn.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JHoverBtn = (JHoverBtn);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=template&id=22f2857c&scoped=true&
-var JFloatDivvue_type_template_id_22f2857c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\n    "+_vm._s(_vm.text)+"\n    "),_c('div',{attrs:{"id":"float-content"}},[_vm._v("\n        我是图片\n    ")])])}
-var JFloatDivvue_type_template_id_22f2857c_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=template&id=64a5163b&scoped=true&
+var JFloatDivvue_type_template_id_64a5163b_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_vm._v("\n    "+_vm._s(_vm.text)+"\n    "),_c('div',{attrs:{"id":"float-content"}},[_vm._v("\n        我是图片\n    ")])])}
+var JFloatDivvue_type_template_id_64a5163b_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=template&id=22f2857c&scoped=true&
+// CONCATENATED MODULE: ./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=template&id=64a5163b&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=script&lang=js&
 //
@@ -8489,8 +6947,8 @@ var JFloatDivvue_type_template_id_22f2857c_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JFloatDivvue_type_script_lang_js_ = (JFloatDivvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=style&index=0&id=22f2857c&lang=scss&scoped=true&
-var JFloatDivvue_type_style_index_0_id_22f2857c_lang_scss_scoped_true_ = __webpack_require__("3af1");
+// EXTERNAL MODULE: ./packages/JFloatDiv/src/JFloatDiv.vue?vue&type=style&index=0&id=64a5163b&lang=scss&scoped=true&
+var JFloatDivvue_type_style_index_0_id_64a5163b_lang_scss_scoped_true_ = __webpack_require__("d71c");
 
 // CONCATENATED MODULE: ./packages/JFloatDiv/src/JFloatDiv.vue
 
@@ -8503,11 +6961,11 @@ var JFloatDivvue_type_style_index_0_id_22f2857c_lang_scss_scoped_true_ = __webpa
 
 var JFloatDiv_component = normalizeComponent(
   src_JFloatDivvue_type_script_lang_js_,
-  JFloatDivvue_type_template_id_22f2857c_scoped_true_render,
-  JFloatDivvue_type_template_id_22f2857c_scoped_true_staticRenderFns,
+  JFloatDivvue_type_template_id_64a5163b_scoped_true_render,
+  JFloatDivvue_type_template_id_64a5163b_scoped_true_staticRenderFns,
   false,
   null,
-  "22f2857c",
+  "64a5163b",
   null
   
 )
@@ -8523,18 +6981,18 @@ JFloatDiv.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JFloatDiv = (JFloatDiv);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JSteps/src/JSteps.vue?vue&type=template&id=24ee983a&scoped=true&
-var JStepsvue_type_template_id_24ee983a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-steps",attrs:{"id":"j-steps"}},_vm._l((_vm.showDataList),function(item,index){return _c('div',{key:index,staticClass:"j-steps-item"},[_c('div',{staticClass:"item-header"},[_c('div',{staticClass:"left-box"},[(index % 2 == 0)?[_c('div',{staticClass:"top-box",style:(_vm.obj2Style(_vm.titleStyle))},[_vm._v("\n                        "+_vm._s(item.title)+"\n                    ")]),_c('div',{staticClass:"bottom-box",style:(_vm.obj2Style(_vm.descriptStyle))},[_vm._v("\n                        "+_vm._s(item.descript)+"\n                    ")])]:[_c('div',{staticClass:"hold-box",style:(_vm.obj2Style(
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JSteps/src/JSteps.vue?vue&type=template&id=ee583c10&scoped=true&
+var JStepsvue_type_template_id_ee583c10_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-steps",attrs:{"id":"j-steps"}},_vm._l((_vm.showDataList),function(item,index){return _c('div',{key:index,staticClass:"j-steps-item"},[_c('div',{staticClass:"item-header"},[_c('div',{staticClass:"left-box"},[(index % 2 == 0)?[_c('div',{staticClass:"top-box",style:(_vm.obj2Style(_vm.titleStyle))},[_vm._v("\n                        "+_vm._s(item.title)+"\n                    ")]),_c('div',{staticClass:"bottom-box",style:(_vm.obj2Style(_vm.descriptStyle))},[_vm._v("\n                        "+_vm._s(item.descript)+"\n                    ")])]:[_c('div',{staticClass:"hold-box",style:(_vm.obj2Style(
                                 _vm.timeStyle,
                                 'text-align: right;padding-right: 5px;'
                             ))},[_vm._v("\n                        "+_vm._s(item.time)+"\n                    ")])]],2),_c('div',{staticClass:"item-icon",style:(_vm.obj2Style(_vm.iconStyle))},[_vm._v("\n                "+_vm._s(item.icon)+"\n            ")]),_c('div',{staticClass:"right-box"},[(index % 2 == 1)?[_c('div',{staticClass:"top-box",style:(_vm.obj2Style(_vm.titleStyle))},[_vm._v("\n                        "+_vm._s(item.title)+"\n                    ")]),_c('div',{staticClass:"bottom-box",style:(_vm.obj2Style(_vm.descriptStyle))},[_vm._v("\n                        "+_vm._s(item.descript)+"\n                    ")])]:[_c('div',{staticClass:"hold-box",style:(_vm.obj2Style(
                                 _vm.timeStyle,
                                 'text-align: left;padding-left: 5px;'
                             ))},[_vm._v("\n                        "+_vm._s(item.time)+"\n                    ")])]],2)]),_c('div',{staticClass:"item-content"},[_c('div',{staticClass:"content-left"}),(index !== _vm.dataList.length - 1)?_c('div',{staticClass:"v-line",style:(_vm.getLineStyle())}):_vm._e(),_vm._m(0,true)])])}),0)}
-var JStepsvue_type_template_id_24ee983a_scoped_true_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"content-right"},[_c('div',{staticClass:"item-title"}),_c('div',{staticClass:"item-descript"})])}]
+var JStepsvue_type_template_id_ee583c10_scoped_true_staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"content-right"},[_c('div',{staticClass:"item-title"}),_c('div',{staticClass:"item-descript"})])}]
 
 
-// CONCATENATED MODULE: ./packages/JSteps/src/JSteps.vue?vue&type=template&id=24ee983a&scoped=true&
+// CONCATENATED MODULE: ./packages/JSteps/src/JSteps.vue?vue&type=template&id=ee583c10&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JSteps/src/JSteps.vue?vue&type=script&lang=js&
 
@@ -8779,8 +7237,8 @@ var JStepsvue_type_template_id_24ee983a_scoped_true_staticRenderFns = [function 
 });
 // CONCATENATED MODULE: ./packages/JSteps/src/JSteps.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JStepsvue_type_script_lang_js_ = (JStepsvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JSteps/src/JSteps.vue?vue&type=style&index=0&id=24ee983a&lang=scss&scoped=scoped&
-var JStepsvue_type_style_index_0_id_24ee983a_lang_scss_scoped_scoped_ = __webpack_require__("694f");
+// EXTERNAL MODULE: ./packages/JSteps/src/JSteps.vue?vue&type=style&index=0&id=ee583c10&lang=scss&scoped=scoped&
+var JStepsvue_type_style_index_0_id_ee583c10_lang_scss_scoped_scoped_ = __webpack_require__("56fc");
 
 // CONCATENATED MODULE: ./packages/JSteps/src/JSteps.vue
 
@@ -8793,11 +7251,11 @@ var JStepsvue_type_style_index_0_id_24ee983a_lang_scss_scoped_scoped_ = __webpac
 
 var JSteps_component = normalizeComponent(
   src_JStepsvue_type_script_lang_js_,
-  JStepsvue_type_template_id_24ee983a_scoped_true_render,
-  JStepsvue_type_template_id_24ee983a_scoped_true_staticRenderFns,
+  JStepsvue_type_template_id_ee583c10_scoped_true_render,
+  JStepsvue_type_template_id_ee583c10_scoped_true_staticRenderFns,
   false,
   null,
-  "24ee983a",
+  "ee583c10",
   null
   
 )
@@ -8813,15 +7271,12 @@ JSteps.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JSteps = (JSteps);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=template&id=ec8b39b0&scoped=true&
-var JDropDownBoxvue_type_template_id_ec8b39b0_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"drop-down-box"},[_c('div',{staticClass:"box-input-box"},[(!_vm.readOnly)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.inputData),expression:"inputData"}],staticClass:"box-input",attrs:{"placeholder":_vm.placeholder},domProps:{"value":(_vm.inputData)},on:{"focus":function($event){return _vm.focusInput()},"input":[function($event){if($event.target.composing){ return; }_vm.inputData=$event.target.value},function($event){return _vm.bindInput()}]}}):_vm._e(),(_vm.readOnly)?_c('div',{staticClass:"box-input",on:{"click":function($event){return _vm.arrowClick()}}},[_vm._v("\n            "+_vm._s(_vm.inputData)+"\n        ")]):_vm._e(),(_vm.closed)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.boxIsShow),expression:"boxIsShow"}],staticClass:"icon icon-close",attrs:{"title":"清空"},on:{"click":function($event){return _vm.clearInput()}}},[_vm._v("\n            x\n        ")]):_vm._e(),_c('div',{staticClass:"icon icon-arrow",attrs:{"title":"下拉"},on:{"click":function($event){return _vm.arrowClick()}}},[_vm._v("\n            "+_vm._s(_vm.boxIsShow ? "v" : ">")+"\n        ")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.boxIsShow),expression:"boxIsShow"}],staticClass:"box-area"},_vm._l((_vm.showSelectData),function(itemData){return _c('div',{key:itemData.id,staticClass:"select-item",attrs:{"title":itemData.value},on:{"click":function($event){return _vm.selectItem(itemData)}}},[_vm._v("\n            "+_vm._s(itemData.value)+"\n        ")])}),0)])}
-var JDropDownBoxvue_type_template_id_ec8b39b0_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=template&id=7aad5a23&scoped=true&
+var JDropDownBoxvue_type_template_id_7aad5a23_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"drop-down-box"},[_c('div',{staticClass:"box-input-box"},[(!_vm.readOnly)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.inputData),expression:"inputData"}],staticClass:"box-input",attrs:{"placeholder":_vm.placeholder},domProps:{"value":(_vm.inputData)},on:{"focus":function($event){return _vm.focusInput()},"input":[function($event){if($event.target.composing){ return; }_vm.inputData=$event.target.value},function($event){return _vm.bindInput()}]}}):_vm._e(),(_vm.readOnly)?_c('div',{staticClass:"box-input",on:{"click":function($event){return _vm.arrowClick()}}},[_vm._v("\n            "+_vm._s(_vm.inputData)+"\n        ")]):_vm._e(),(_vm.closed)?_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.boxIsShow),expression:"boxIsShow"}],staticClass:"icon icon-close",attrs:{"title":"清空"},on:{"click":function($event){return _vm.clearInput()}}},[_vm._v("\n            x\n        ")]):_vm._e(),_c('div',{staticClass:"icon icon-arrow",attrs:{"title":"下拉"},on:{"click":function($event){return _vm.arrowClick()}}},[_vm._v("\n            "+_vm._s(_vm.boxIsShow ? "v" : ">")+"\n        ")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.boxIsShow),expression:"boxIsShow"}],staticClass:"box-area"},_vm._l((_vm.showSelectData),function(itemData){return _c('div',{key:itemData.id,staticClass:"select-item",attrs:{"title":itemData.value},on:{"click":function($event){return _vm.selectItem(itemData)}}},[_vm._v("\n            "+_vm._s(itemData.value)+"\n        ")])}),0)])}
+var JDropDownBoxvue_type_template_id_7aad5a23_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=template&id=ec8b39b0&scoped=true&
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.array.filter.js
-var es6_array_filter = __webpack_require__("d25f");
+// CONCATENATED MODULE: ./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=template&id=7aad5a23&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=script&lang=js&
 
@@ -8985,8 +7440,8 @@ var es6_array_filter = __webpack_require__("d25f");
 });
 // CONCATENATED MODULE: ./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JDropDownBoxvue_type_script_lang_js_ = (JDropDownBoxvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=style&index=0&id=ec8b39b0&lang=scss&scoped=true&
-var JDropDownBoxvue_type_style_index_0_id_ec8b39b0_lang_scss_scoped_true_ = __webpack_require__("1329");
+// EXTERNAL MODULE: ./packages/JDropDownBox/src/JDropDownBox.vue?vue&type=style&index=0&id=7aad5a23&lang=scss&scoped=true&
+var JDropDownBoxvue_type_style_index_0_id_7aad5a23_lang_scss_scoped_true_ = __webpack_require__("21ab");
 
 // CONCATENATED MODULE: ./packages/JDropDownBox/src/JDropDownBox.vue
 
@@ -8999,11 +7454,11 @@ var JDropDownBoxvue_type_style_index_0_id_ec8b39b0_lang_scss_scoped_true_ = __we
 
 var JDropDownBox_component = normalizeComponent(
   src_JDropDownBoxvue_type_script_lang_js_,
-  JDropDownBoxvue_type_template_id_ec8b39b0_scoped_true_render,
-  JDropDownBoxvue_type_template_id_ec8b39b0_scoped_true_staticRenderFns,
+  JDropDownBoxvue_type_template_id_7aad5a23_scoped_true_render,
+  JDropDownBoxvue_type_template_id_7aad5a23_scoped_true_staticRenderFns,
   false,
   null,
-  "ec8b39b0",
+  "7aad5a23",
   null
   
 )
@@ -9019,12 +7474,12 @@ JDropDownBox.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JDropDownBox = (JDropDownBox);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTagList/src/JTagList.vue?vue&type=template&id=5232878b&scoped=true&
-var JTagListvue_type_template_id_5232878b_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-tag-list"},[_c('div',{staticClass:"tag-list"},[_vm._l((_vm.showTagList),function(item,index){return _c('span',{key:index + '_tag',staticClass:"tag",style:(item.style),on:{"click":function($event){return _vm.tagClick(item)}}},[_vm._v("\n            "+_vm._s(item.text)+"\n            "),(_vm.canDelete)?_c('span',{staticClass:"delete-tag-btn",attrs:{"title":"删除"},on:{"click":function($event){$event.stopPropagation();return _vm.deleteTag(index)}}},[_vm._v("x")]):_vm._e()])}),(!_vm.isShow)?[(_vm.addTagFlag)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.inputTag),expression:"inputTag"}],ref:'tagInputRef' + _vm.uId,staticClass:"add-tag-input",attrs:{"id":'tagInputId' + _vm.uId},domProps:{"value":(_vm.inputTag)},on:{"blur":function($event){return _vm.addTag()},"keydown":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.addTag()},"input":function($event){if($event.target.composing){ return; }_vm.inputTag=$event.target.value}}}):_c('span',{staticClass:"add-tag-btn",attrs:{"title":"添加"},on:{"click":function($event){return _vm.showAddTag()}}},[_vm._v("+")])]:_vm._e()],2)])}
-var JTagListvue_type_template_id_5232878b_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTagList/src/JTagList.vue?vue&type=template&id=acbe3d86&scoped=true&
+var JTagListvue_type_template_id_acbe3d86_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-tag-list"},[_c('div',{staticClass:"tag-list"},[_vm._l((_vm.showTagList),function(item,index){return _c('span',{key:index + '_tag',staticClass:"tag",style:(item.style),on:{"click":function($event){return _vm.tagClick(item)}}},[_vm._v("\n            "+_vm._s(item.text)+"\n            "),(_vm.canDelete)?_c('span',{staticClass:"delete-tag-btn",attrs:{"title":"删除"},on:{"click":function($event){$event.stopPropagation();return _vm.deleteTag(index)}}},[_vm._v("x")]):_vm._e()])}),(!_vm.isShow)?[(_vm.addTagFlag)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.inputTag),expression:"inputTag"}],ref:'tagInputRef' + _vm.uId,staticClass:"add-tag-input",attrs:{"id":'tagInputId' + _vm.uId},domProps:{"value":(_vm.inputTag)},on:{"blur":function($event){return _vm.addTag()},"keydown":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.addTag()},"input":function($event){if($event.target.composing){ return; }_vm.inputTag=$event.target.value}}}):_c('span',{staticClass:"add-tag-btn",attrs:{"title":"添加"},on:{"click":function($event){return _vm.showAddTag()}}},[_vm._v("+")])]:_vm._e()],2)])}
+var JTagListvue_type_template_id_acbe3d86_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JTagList/src/JTagList.vue?vue&type=template&id=5232878b&scoped=true&
+// CONCATENATED MODULE: ./packages/JTagList/src/JTagList.vue?vue&type=template&id=acbe3d86&scoped=true&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.array.includes.js
 var es7_array_includes = __webpack_require__("6762");
@@ -9034,9 +7489,6 @@ var es6_string_includes = __webpack_require__("2fdb");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.trim.js
 var es6_string_trim = __webpack_require__("4f37");
-
-// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.string.iterator.js
-var es6_string_iterator = __webpack_require__("5df3");
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es6.map.js
 var es6_map = __webpack_require__("f400");
@@ -9504,8 +7956,8 @@ var getRandomNum = function getRandomNum(minNum, maxNum) {
 });
 // CONCATENATED MODULE: ./packages/JTagList/src/JTagList.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JTagListvue_type_script_lang_js_ = (JTagListvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JTagList/src/JTagList.vue?vue&type=style&index=0&id=5232878b&lang=scss&scoped=true&
-var JTagListvue_type_style_index_0_id_5232878b_lang_scss_scoped_true_ = __webpack_require__("d2d3");
+// EXTERNAL MODULE: ./packages/JTagList/src/JTagList.vue?vue&type=style&index=0&id=acbe3d86&lang=scss&scoped=true&
+var JTagListvue_type_style_index_0_id_acbe3d86_lang_scss_scoped_true_ = __webpack_require__("b912");
 
 // CONCATENATED MODULE: ./packages/JTagList/src/JTagList.vue
 
@@ -9518,11 +7970,11 @@ var JTagListvue_type_style_index_0_id_5232878b_lang_scss_scoped_true_ = __webpac
 
 var JTagList_component = normalizeComponent(
   src_JTagListvue_type_script_lang_js_,
-  JTagListvue_type_template_id_5232878b_scoped_true_render,
-  JTagListvue_type_template_id_5232878b_scoped_true_staticRenderFns,
+  JTagListvue_type_template_id_acbe3d86_scoped_true_render,
+  JTagListvue_type_template_id_acbe3d86_scoped_true_staticRenderFns,
   false,
   null,
-  "5232878b",
+  "acbe3d86",
   null
   
 )
@@ -9538,12 +7990,12 @@ JTagList.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JTagList = (JTagList);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToast/src/JToast.vue?vue&type=template&id=bdb0927a&scoped=true&
-var JToastvue_type_template_id_bdb0927a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}]},[_vm._v(_vm._s(_vm.message))])])}
-var JToastvue_type_template_id_bdb0927a_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToast/src/JToast.vue?vue&type=template&id=dbdac6ea&scoped=true&
+var JToastvue_type_template_id_dbdac6ea_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('transition',{attrs:{"name":"fade"}},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.visible),expression:"visible"}]},[_vm._v(_vm._s(_vm.message))])])}
+var JToastvue_type_template_id_dbdac6ea_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JToast/src/JToast.vue?vue&type=template&id=bdb0927a&scoped=true&
+// CONCATENATED MODULE: ./packages/JToast/src/JToast.vue?vue&type=template&id=dbdac6ea&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToast/src/JToast.vue?vue&type=script&lang=js&
 //
@@ -9563,8 +8015,8 @@ var JToastvue_type_template_id_bdb0927a_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JToast/src/JToast.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JToastvue_type_script_lang_js_ = (JToastvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JToast/src/JToast.vue?vue&type=style&index=0&id=bdb0927a&scoped=true&lang=css&
-var JToastvue_type_style_index_0_id_bdb0927a_scoped_true_lang_css_ = __webpack_require__("26b8");
+// EXTERNAL MODULE: ./packages/JToast/src/JToast.vue?vue&type=style&index=0&id=dbdac6ea&scoped=true&lang=css&
+var JToastvue_type_style_index_0_id_dbdac6ea_scoped_true_lang_css_ = __webpack_require__("b8fe");
 
 // CONCATENATED MODULE: ./packages/JToast/src/JToast.vue
 
@@ -9577,11 +8029,11 @@ var JToastvue_type_style_index_0_id_bdb0927a_scoped_true_lang_css_ = __webpack_r
 
 var JToast_component = normalizeComponent(
   src_JToastvue_type_script_lang_js_,
-  JToastvue_type_template_id_bdb0927a_scoped_true_render,
-  JToastvue_type_template_id_bdb0927a_scoped_true_staticRenderFns,
+  JToastvue_type_template_id_dbdac6ea_scoped_true_render,
+  JToastvue_type_template_id_dbdac6ea_scoped_true_staticRenderFns,
   false,
   null,
-  "bdb0927a",
+  "dbdac6ea",
   null
   
 )
@@ -9611,12 +8063,12 @@ JToast.install = function (Vue) {
 };
 
 /* harmony default export */ var packages_JToast = (JToast);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWordCloud/src/JWordCloud.vue?vue&type=template&id=d606ebb8&scoped=true&
-var JWordCloudvue_type_template_id_d606ebb8_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"j-word-cloud",style:('min-height:' + _vm.height + 'px;width:' + _vm.width + 'px;')},_vm._l((_vm.showTextList),function(item,index){return _c('span',{key:index,style:(_vm.getStyle(item, index)),attrs:{"id":'word-' + index}},[_vm._v("\n            "+_vm._s(item.text)+"\n        ")])}),0)])}
-var JWordCloudvue_type_template_id_d606ebb8_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWordCloud/src/JWordCloud.vue?vue&type=template&id=424facbf&scoped=true&
+var JWordCloudvue_type_template_id_424facbf_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"j-word-cloud",style:('min-height:' + _vm.height + 'px;width:' + _vm.width + 'px;')},_vm._l((_vm.showTextList),function(item,index){return _c('span',{key:index,style:(_vm.getStyle(item, index)),attrs:{"id":'word-' + index}},[_vm._v("\n            "+_vm._s(item.text)+"\n        ")])}),0)])}
+var JWordCloudvue_type_template_id_424facbf_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=template&id=d606ebb8&scoped=true&
+// CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=template&id=424facbf&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWordCloud/src/JWordCloud.vue?vue&type=script&lang=js&
 
@@ -9846,8 +8298,8 @@ var JWordCloudvue_type_template_id_d606ebb8_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JWordCloudvue_type_script_lang_js_ = (JWordCloudvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=style&index=0&id=d606ebb8&lang=scss&scoped=true&
-var JWordCloudvue_type_style_index_0_id_d606ebb8_lang_scss_scoped_true_ = __webpack_require__("087b");
+// EXTERNAL MODULE: ./packages/JWordCloud/src/JWordCloud.vue?vue&type=style&index=0&id=424facbf&lang=scss&scoped=true&
+var JWordCloudvue_type_style_index_0_id_424facbf_lang_scss_scoped_true_ = __webpack_require__("ab75");
 
 // CONCATENATED MODULE: ./packages/JWordCloud/src/JWordCloud.vue
 
@@ -9860,11 +8312,11 @@ var JWordCloudvue_type_style_index_0_id_d606ebb8_lang_scss_scoped_true_ = __webp
 
 var JWordCloud_component = normalizeComponent(
   src_JWordCloudvue_type_script_lang_js_,
-  JWordCloudvue_type_template_id_d606ebb8_scoped_true_render,
-  JWordCloudvue_type_template_id_d606ebb8_scoped_true_staticRenderFns,
+  JWordCloudvue_type_template_id_424facbf_scoped_true_render,
+  JWordCloudvue_type_template_id_424facbf_scoped_true_staticRenderFns,
   false,
   null,
-  "d606ebb8",
+  "424facbf",
   null
   
 )
@@ -9880,10 +8332,10 @@ JWordCloud.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JWordCloud = (JWordCloud);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"65196980-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JComment/src/JComment.vue?vue&type=template&id=1f8a635a&scoped=true&
-var JCommentvue_type_template_id_1f8a635a_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-comment"},[(_vm.withCommentContent)?_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.commentText),expression:"commentText"}],staticClass:"j-comment-content",attrs:{"id":"j-comment-content","placeholder":"请输入评论"},domProps:{"value":(_vm.commentText)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.commentText=$event.target.value},_vm.commentInput]}}):_vm._e(),(_vm.withCommentContent)?_c('div',{staticClass:"j-comment-content-btns"},[_c('button',{on:{"click":function($event){return _vm.submitComment()}}},[_vm._v("发表")])]):_vm._e(),(_vm.title !== '')?_c('div',{staticClass:"j-comment-title"},[_vm._v(_vm._s(_vm.title))]):_vm._e(),_vm._l((_vm.showComentDatas),function(item,index){return _c('div',{key:'comment' + index,staticClass:"j-comment-item"},[_c('div',{staticClass:"j-comment-header"},[_c('div',{staticClass:"j-comment-header-pre"},[_c('img',{staticClass:"j-comment-header-img",attrs:{"src":item.avatar}}),_c('span',{staticClass:"j-comment-header-nickname"},[_vm._v(_vm._s(item.nickname))])]),_c('div',{staticClass:"j-comment-header-time"},[_vm._v(_vm._s(item.create_time))])]),_c('div',{staticClass:"j-comment-body"},[_vm._v(_vm._s(item.content))]),_c('div',{staticClass:"j-comment-footer"},[_c('img',{staticClass:"j-comment-icon",attrs:{"src":__webpack_require__("1f2d")},on:{"click":function($event){return _vm.replyClick(item, index)}}}),_c('span',{on:{"click":function($event){return _vm.replyClick(item, index)}}},[_vm._v(_vm._s(item.showReply
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"1fb58290-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JComment/src/JComment.vue?vue&type=template&id=5abf223c&scoped=true&
+var JCommentvue_type_template_id_5abf223c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-comment",on:{"click":function($event){_vm.showVEmojiPicker = false}}},[_c('VEmojiPicker',{directives:[{name:"show",rawName:"v-show",value:(_vm.showVEmojiPicker),expression:"showVEmojiPicker"}],attrs:{"id":"v-emoji-picker"},on:{"select":_vm.selectEmoji}}),(_vm.withCommentContent)?_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.commentText),expression:"commentText"}],staticClass:"j-comment-content",attrs:{"id":"j-comment-content","placeholder":"请输入评论"},domProps:{"value":(_vm.commentText)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.commentText=$event.target.value},_vm.commentInput]}}):_vm._e(),(_vm.withCommentContent)?_c('div',{staticClass:"j-comment-content-btns"},[_c('img',{staticStyle:{"width":"20px","height":"20px","cursor":"pointer"},attrs:{"id":"comment-emoji","src":__webpack_require__("7d55")},on:{"click":function($event){$event.stopPropagation();return _vm.showEmoji.apply(null, arguments)}}}),_c('button',{on:{"click":function($event){return _vm.submitComment()}}},[_vm._v("发表")])]):_vm._e(),(_vm.title !== '')?_c('div',{staticClass:"j-comment-title"},[_vm._v(_vm._s(_vm.title))]):_vm._e(),_vm._l((_vm.showComentDatas),function(item,index){return _c('div',{key:'comment' + index,staticClass:"j-comment-item"},[_c('div',{staticClass:"j-comment-header"},[_c('div',{staticClass:"j-comment-header-pre"},[_c('img',{staticClass:"j-comment-header-img",attrs:{"src":item.avatar}}),_c('span',{staticClass:"j-comment-header-nickname"},[_vm._v(_vm._s(item.nickname)),(item[_vm.keyMap.isAdmin] === 1)?_c('span',{staticStyle:{"color":"skyblue"}},[_vm._v("(博主)")]):_vm._e()])]),_c('div',{staticClass:"j-comment-header-time"},[_vm._v(_vm._s(item.create_time))])]),_c('div',{staticClass:"j-comment-body"},[_vm._v(_vm._s(item.content))]),_c('div',{staticClass:"j-comment-footer"},[_c('img',{staticClass:"j-comment-icon",attrs:{"src":__webpack_require__("1f2d")},on:{"click":function($event){return _vm.replyClick(item, index)}}}),_c('span',{on:{"click":function($event){return _vm.replyClick(item, index)}}},[_vm._v(_vm._s(item.showReply
                     ? "取消回复"
-                    : (item.children && item.children.length) || ""))])]),(item.showReply)?_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.replyText),expression:"replyText"}],staticClass:"j-comment-reply-content focused",attrs:{"id":'reply-' + index,"placeholder":_vm.replyText == '' ? '回复' + item.nickname : ''},domProps:{"value":(_vm.replyText)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.replyText=$event.target.value},_vm.replyInput]}}):_vm._e(),(item.showReply)?_c('div',{staticClass:"j-comment-reply-btns"},[_c('button',{on:{"click":function($event){return _vm.submitReply(item.id)}}},[_vm._v("发表")])]):_vm._e(),(item.children && item.children.length > 0)?_c('div',{staticClass:"j-comment-childer"},[_vm._l((item.showChildren),function(children,childrenIndex){return _c('div',{key:'children' + childrenIndex,staticClass:"j-comment-item"},[_c('div',{staticClass:"j-comment-header"},[_c('div',{staticClass:"j-comment-header-pre"},[_c('img',{staticClass:"j-comment-header-img",attrs:{"src":children.avatar}}),_c('span',{staticClass:"j-comment-header-nickname"},[_vm._v("\n                            "+_vm._s(children.nickname)+"\n                        ")])]),(children.reply)?_c('div',{staticClass:"j-comment-header-reply-nickname"},[_c('span',[_vm._v("回复")]),_vm._v(_vm._s(children.reply)+"\n                    ")]):_vm._e(),_c('div',{staticClass:"j-comment-header-time"},[_vm._v("\n                        "+_vm._s(children.create_time)+"\n                    ")])]),_c('div',{staticClass:"j-comment-body"},[_vm._v(_vm._s(children.content))]),_c('div',{staticClass:"j-comment-footer"},[_c('img',{staticClass:"j-comment-icon",attrs:{"src":__webpack_require__("1f2d")},on:{"click":function($event){return _vm.replyClick(
+                    : (item.children && item.children.length) || ""))])]),(item.showReply)?_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.replyText),expression:"replyText"}],staticClass:"j-comment-reply-content focused",attrs:{"id":'reply-' + index,"placeholder":_vm.replyText == '' ? '回复' + item.nickname : ''},domProps:{"value":(_vm.replyText)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.replyText=$event.target.value},_vm.replyInput]}}):_vm._e(),(item.showReply)?_c('div',{staticClass:"j-comment-reply-btns"},[_c('img',{staticClass:"emoji-btn",staticStyle:{"width":"20px","height":"20px","cursor":"pointer"},attrs:{"id":'emoji-reply-' + index,"src":__webpack_require__("7d55")},on:{"click":function($event){$event.stopPropagation();return _vm.showEmoji.apply(null, arguments)}}}),_c('button',{on:{"click":function($event){return _vm.submitReply(item.id)}}},[_vm._v("发表")])]):_vm._e(),(item.children && item.children.length > 0)?_c('div',{staticClass:"j-comment-childer"},[_vm._l((item.showChildren),function(children,childrenIndex){return _c('div',{key:'children' + childrenIndex,staticClass:"j-comment-item"},[_c('div',{staticClass:"j-comment-header"},[_c('div',{staticClass:"j-comment-header-pre"},[_c('img',{staticClass:"j-comment-header-img",attrs:{"src":children.avatar}}),_c('span',{staticClass:"j-comment-header-nickname"},[_vm._v("\n                            "+_vm._s(children.nickname)),(children[_vm.keyMap.isAdmin] === 1)?_c('span',{staticStyle:{"color":"skyblue"}},[_vm._v("(博主)")]):_vm._e()])]),(children.reply)?_c('div',{staticClass:"j-comment-header-reply-nickname"},[_c('span',[_vm._v("回复")]),_vm._v(_vm._s(children.reply)+"\n                    ")]):_vm._e(),_c('div',{staticClass:"j-comment-header-time"},[_vm._v("\n                        "+_vm._s(children.create_time)+"\n                    ")])]),_c('div',{staticClass:"j-comment-body"},[_vm._v(_vm._s(children.content))]),_c('div',{staticClass:"j-comment-footer"},[_c('img',{staticClass:"j-comment-icon",attrs:{"src":__webpack_require__("1f2d")},on:{"click":function($event){return _vm.replyClick(
                                 item,
                                 index,
                                 children,
@@ -9899,12 +8351,3158 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_render = function () {var 
                                 ? "取消回复"
                                 : (children.children &&
                                       children.children.length) ||
-                                  ""))])]),(children.showReply)?_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.replyText),expression:"replyText"}],staticClass:"j-comment-reply-content focused",attrs:{"id":'reply-' + index + '-' + childrenIndex,"placeholder":_vm.replyText == '' ? '回复' + children.nickname : ''},domProps:{"value":(_vm.replyText)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.replyText=$event.target.value},_vm.replyInput]}}):_vm._e(),(children.showReply)?_c('div',{staticClass:"j-comment-reply-btns"},[_c('button',{on:{"click":function($event){return _vm.submitReply(children.id)}}},[_vm._v("\n                        发表\n                    ")])]):_vm._e(),(children.pContent)?_c('div',{staticClass:"j-comment-childer"},[_c('div',{staticClass:"j-coment-children-content",attrs:{"title":children.pContent}},[_vm._v("\n                        "+_vm._s(children.pContent)+"\n                    ")])]):_vm._e()])}),(item.showChildren.length < item.children.length)?_c('div',{key:'more' + index,staticClass:"j-comment-childer-more",on:{"click":function($event){return _vm.showMore(item, index)}}},[_vm._v("\n                查看更多回复∨\n            ")]):(item.showChildren.length > _vm.showNumber)?_c('div',{key:'more' + index,staticClass:"j-comment-childer-more",on:{"click":function($event){return _vm.showMore(item, index)}}},[_vm._v("\n                收起回复∧\n            ")]):_vm._e()],2):_vm._e()])})],2)}
-var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
+                                  ""))])]),(children.showReply)?_c('textarea',{directives:[{name:"model",rawName:"v-model",value:(_vm.replyText),expression:"replyText"}],staticClass:"j-comment-reply-content focused",attrs:{"id":'reply-' + index + '-' + childrenIndex,"placeholder":_vm.replyText == '' ? '回复' + children.nickname : ''},domProps:{"value":(_vm.replyText)},on:{"input":[function($event){if($event.target.composing){ return; }_vm.replyText=$event.target.value},_vm.replyInput]}}):_vm._e(),(children.showReply)?_c('div',{staticClass:"j-comment-reply-btns"},[_c('img',{staticClass:"emoji-btn",staticStyle:{"width":"20px","height":"20px","cursor":"pointer"},attrs:{"id":'emoji-reply-' + index + '-' + childrenIndex,"src":__webpack_require__("7d55")},on:{"click":function($event){$event.stopPropagation();return _vm.showEmoji.apply(null, arguments)}}}),_c('button',{on:{"click":function($event){return _vm.submitReply(children.id)}}},[_vm._v("\n                        发表\n                    ")])]):_vm._e(),(children.pContent)?_c('div',{staticClass:"j-comment-childer"},[_c('div',{staticClass:"j-coment-children-content",attrs:{"title":children.pContent}},[_vm._v("\n                        "+_vm._s(children.pContent)+"\n                    ")])]):_vm._e()])}),(item.showChildren.length < item.children.length)?_c('div',{key:'more' + index,staticClass:"j-comment-childer-more",on:{"click":function($event){return _vm.showMore(item, index)}}},[_vm._v("\n                查看更多回复∨\n            ")]):(item.showChildren.length > _vm.showNumber)?_c('div',{key:'more' + index,staticClass:"j-comment-childer-more",on:{"click":function($event){return _vm.showMore(item, index)}}},[_vm._v("\n                收起回复∧\n            ")]):_vm._e()],2):_vm._e()])})],2)}
+var JCommentvue_type_template_id_5abf223c_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./packages/JComment/src/JComment.vue?vue&type=template&id=1f8a635a&scoped=true&
+// CONCATENATED MODULE: ./packages/JComment/src/JComment.vue?vue&type=template&id=5abf223c&scoped=true&
 
+// EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
+var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
+var external_commonjs_vue_commonjs2_vue_root_Vue_default = /*#__PURE__*/__webpack_require__.n(external_commonjs_vue_commonjs2_vue_root_Vue_);
+
+// CONCATENATED MODULE: ./node_modules/vue-class-component/dist/vue-class-component.esm.js
+/**
+  * vue-class-component v7.2.6
+  * (c) 2015-present Evan You
+  * @license MIT
+  */
+
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    _typeof = function (obj) {
+      return typeof obj;
+    };
+  } else {
+    _typeof = function (obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+function vue_class_component_esm_defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+function vue_class_component_esm_toConsumableArray(arr) {
+  return vue_class_component_esm_arrayWithoutHoles(arr) || vue_class_component_esm_iterableToArray(arr) || vue_class_component_esm_nonIterableSpread();
+}
+
+function vue_class_component_esm_arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+    return arr2;
+  }
+}
+
+function vue_class_component_esm_iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+function vue_class_component_esm_nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
+// The rational behind the verbose Reflect-feature check below is the fact that there are polyfills
+// which add an implementation for Reflect.defineMetadata but not for Reflect.getOwnMetadataKeys.
+// Without this check consumers will encounter hard to track down runtime errors.
+function reflectionIsSupported() {
+  return typeof Reflect !== 'undefined' && Reflect.defineMetadata && Reflect.getOwnMetadataKeys;
+}
+function copyReflectionMetadata(to, from) {
+  forwardMetadata(to, from);
+  Object.getOwnPropertyNames(from.prototype).forEach(function (key) {
+    forwardMetadata(to.prototype, from.prototype, key);
+  });
+  Object.getOwnPropertyNames(from).forEach(function (key) {
+    forwardMetadata(to, from, key);
+  });
+}
+
+function forwardMetadata(to, from, propertyKey) {
+  var metaKeys = propertyKey ? Reflect.getOwnMetadataKeys(from, propertyKey) : Reflect.getOwnMetadataKeys(from);
+  metaKeys.forEach(function (metaKey) {
+    var metadata = propertyKey ? Reflect.getOwnMetadata(metaKey, from, propertyKey) : Reflect.getOwnMetadata(metaKey, from);
+
+    if (propertyKey) {
+      Reflect.defineMetadata(metaKey, metadata, to, propertyKey);
+    } else {
+      Reflect.defineMetadata(metaKey, metadata, to);
+    }
+  });
+}
+
+var fakeArray = {
+  __proto__: []
+};
+var hasProto = fakeArray instanceof Array;
+function createDecorator(factory) {
+  return function (target, key, index) {
+    var Ctor = typeof target === 'function' ? target : target.constructor;
+
+    if (!Ctor.__decorators__) {
+      Ctor.__decorators__ = [];
+    }
+
+    if (typeof index !== 'number') {
+      index = undefined;
+    }
+
+    Ctor.__decorators__.push(function (options) {
+      return factory(options, key, index);
+    });
+  };
+}
+function mixins() {
+  for (var _len = arguments.length, Ctors = new Array(_len), _key = 0; _key < _len; _key++) {
+    Ctors[_key] = arguments[_key];
+  }
+
+  return external_commonjs_vue_commonjs2_vue_root_Vue_default.a.extend({
+    mixins: Ctors
+  });
+}
+function isPrimitive(value) {
+  var type = _typeof(value);
+
+  return value == null || type !== 'object' && type !== 'function';
+}
+function warn(message) {
+  if (typeof console !== 'undefined') {
+    console.warn('[vue-class-component] ' + message);
+  }
+}
+
+function collectDataFromConstructor(vm, Component) {
+  // override _init to prevent to init as Vue instance
+  var originalInit = Component.prototype._init;
+
+  Component.prototype._init = function () {
+    var _this = this;
+
+    // proxy to actual vm
+    var keys = Object.getOwnPropertyNames(vm); // 2.2.0 compat (props are no longer exposed as self properties)
+
+    if (vm.$options.props) {
+      for (var key in vm.$options.props) {
+        if (!vm.hasOwnProperty(key)) {
+          keys.push(key);
+        }
+      }
+    }
+
+    keys.forEach(function (key) {
+      Object.defineProperty(_this, key, {
+        get: function get() {
+          return vm[key];
+        },
+        set: function set(value) {
+          vm[key] = value;
+        },
+        configurable: true
+      });
+    });
+  }; // should be acquired class property values
+
+
+  var data = new Component(); // restore original _init to avoid memory leak (#209)
+
+  Component.prototype._init = originalInit; // create plain data object
+
+  var plainData = {};
+  Object.keys(data).forEach(function (key) {
+    if (data[key] !== undefined) {
+      plainData[key] = data[key];
+    }
+  });
+
+  if (false) {}
+
+  return plainData;
+}
+
+var $internalHooks = ['data', 'beforeCreate', 'created', 'beforeMount', 'mounted', 'beforeDestroy', 'destroyed', 'beforeUpdate', 'updated', 'activated', 'deactivated', 'render', 'errorCaptured', 'serverPrefetch' // 2.6
+];
+function componentFactory(Component) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  options.name = options.name || Component._componentTag || Component.name; // prototype props.
+
+  var proto = Component.prototype;
+  Object.getOwnPropertyNames(proto).forEach(function (key) {
+    if (key === 'constructor') {
+      return;
+    } // hooks
+
+
+    if ($internalHooks.indexOf(key) > -1) {
+      options[key] = proto[key];
+      return;
+    }
+
+    var descriptor = Object.getOwnPropertyDescriptor(proto, key);
+
+    if (descriptor.value !== void 0) {
+      // methods
+      if (typeof descriptor.value === 'function') {
+        (options.methods || (options.methods = {}))[key] = descriptor.value;
+      } else {
+        // typescript decorated data
+        (options.mixins || (options.mixins = [])).push({
+          data: function data() {
+            return vue_class_component_esm_defineProperty({}, key, descriptor.value);
+          }
+        });
+      }
+    } else if (descriptor.get || descriptor.set) {
+      // computed properties
+      (options.computed || (options.computed = {}))[key] = {
+        get: descriptor.get,
+        set: descriptor.set
+      };
+    }
+  });
+  (options.mixins || (options.mixins = [])).push({
+    data: function data() {
+      return collectDataFromConstructor(this, Component);
+    }
+  }); // decorate options
+
+  var decorators = Component.__decorators__;
+
+  if (decorators) {
+    decorators.forEach(function (fn) {
+      return fn(options);
+    });
+    delete Component.__decorators__;
+  } // find super
+
+
+  var superProto = Object.getPrototypeOf(Component.prototype);
+  var Super = superProto instanceof external_commonjs_vue_commonjs2_vue_root_Vue_default.a ? superProto.constructor : external_commonjs_vue_commonjs2_vue_root_Vue_default.a;
+  var Extended = Super.extend(options);
+  forwardStaticMembers(Extended, Component, Super);
+
+  if (reflectionIsSupported()) {
+    copyReflectionMetadata(Extended, Component);
+  }
+
+  return Extended;
+}
+var reservedPropertyNames = [// Unique id
+'cid', // Super Vue constructor
+'super', // Component options that will be used by the component
+'options', 'superOptions', 'extendOptions', 'sealedOptions', // Private assets
+'component', 'directive', 'filter'];
+var shouldIgnore = {
+  prototype: true,
+  arguments: true,
+  callee: true,
+  caller: true
+};
+
+function forwardStaticMembers(Extended, Original, Super) {
+  // We have to use getOwnPropertyNames since Babel registers methods as non-enumerable
+  Object.getOwnPropertyNames(Original).forEach(function (key) {
+    // Skip the properties that should not be overwritten
+    if (shouldIgnore[key]) {
+      return;
+    } // Some browsers does not allow reconfigure built-in properties
+
+
+    var extendedDescriptor = Object.getOwnPropertyDescriptor(Extended, key);
+
+    if (extendedDescriptor && !extendedDescriptor.configurable) {
+      return;
+    }
+
+    var descriptor = Object.getOwnPropertyDescriptor(Original, key); // If the user agent does not support `__proto__` or its family (IE <= 10),
+    // the sub class properties may be inherited properties from the super class in TypeScript.
+    // We need to exclude such properties to prevent to overwrite
+    // the component options object which stored on the extended constructor (See #192).
+    // If the value is a referenced value (object or function),
+    // we can check equality of them and exclude it if they have the same reference.
+    // If it is a primitive value, it will be forwarded for safety.
+
+    if (!hasProto) {
+      // Only `cid` is explicitly exluded from property forwarding
+      // because we cannot detect whether it is a inherited property or not
+      // on the no `__proto__` environment even though the property is reserved.
+      if (key === 'cid') {
+        return;
+      }
+
+      var superDescriptor = Object.getOwnPropertyDescriptor(Super, key);
+
+      if (!isPrimitive(descriptor.value) && superDescriptor && superDescriptor.value === descriptor.value) {
+        return;
+      }
+    } // Warn if the users manually declare reserved properties
+
+
+    if (false) {}
+
+    Object.defineProperty(Extended, key, descriptor);
+  });
+}
+
+function vue_class_component_esm_Component(options) {
+  if (typeof options === 'function') {
+    return componentFactory(options);
+  }
+
+  return function (Component) {
+    return componentFactory(Component, options);
+  };
+}
+
+vue_class_component_esm_Component.registerHooks = function registerHooks(keys) {
+  $internalHooks.push.apply($internalHooks, vue_class_component_esm_toConsumableArray(keys));
+};
+
+/* harmony default export */ var vue_class_component_esm = (vue_class_component_esm_Component);
+
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Emit.js
+var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+// Code copied from Vue/src/shared/util.js
+var hyphenateRE = /\B([A-Z])/g;
+var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
+/**
+ * decorator of an event-emitter function
+ * @param  event The name of the event
+ * @return MethodDecorator
+ */
+function Emit(event) {
+    return function (_target, propertyKey, descriptor) {
+        var key = hyphenate(propertyKey);
+        var original = descriptor.value;
+        descriptor.value = function emitter() {
+            var _this = this;
+            var args = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i] = arguments[_i];
+            }
+            var emit = function (returnValue) {
+                var emitName = event || key;
+                if (returnValue === undefined) {
+                    if (args.length === 0) {
+                        _this.$emit(emitName);
+                    }
+                    else if (args.length === 1) {
+                        _this.$emit(emitName, args[0]);
+                    }
+                    else {
+                        _this.$emit.apply(_this, __spreadArrays([emitName], args));
+                    }
+                }
+                else {
+                    args.unshift(returnValue);
+                    _this.$emit.apply(_this, __spreadArrays([emitName], args));
+                }
+            };
+            var returnValue = original.apply(this, args);
+            if (isPromise(returnValue)) {
+                returnValue.then(emit);
+            }
+            else {
+                emit(returnValue);
+            }
+            return returnValue;
+        };
+    };
+}
+function isPromise(obj) {
+    return obj instanceof Promise || (obj && typeof obj.then === 'function');
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Inject.js
+
+/**
+ * decorator of an inject
+ * @param from key
+ * @return PropertyDecorator
+ */
+function Inject(options) {
+    return createDecorator(function (componentOptions, key) {
+        if (typeof componentOptions.inject === 'undefined') {
+            componentOptions.inject = {};
+        }
+        if (!Array.isArray(componentOptions.inject)) {
+            componentOptions.inject[key] = options || key;
+        }
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/helpers/provideInject.js
+function needToProduceProvide(original) {
+    return (typeof original !== 'function' ||
+        (!original.managed && !original.managedReactive));
+}
+function produceProvide(original) {
+    var provide = function () {
+        var _this = this;
+        var rv = typeof original === 'function' ? original.call(this) : original;
+        rv = Object.create(rv || null);
+        // set reactive services (propagates previous services if necessary)
+        rv[reactiveInjectKey] = Object.create(this[reactiveInjectKey] || {});
+        for (var i in provide.managed) {
+            rv[provide.managed[i]] = this[i];
+        }
+        var _loop_1 = function (i) {
+            rv[provide.managedReactive[i]] = this_1[i]; // Duplicates the behavior of `@Provide`
+            Object.defineProperty(rv[reactiveInjectKey], provide.managedReactive[i], {
+                enumerable: true,
+                configurable: true,
+                get: function () { return _this[i]; },
+            });
+        };
+        var this_1 = this;
+        for (var i in provide.managedReactive) {
+            _loop_1(i);
+        }
+        return rv;
+    };
+    provide.managed = {};
+    provide.managedReactive = {};
+    return provide;
+}
+/** Used for keying reactive provide/inject properties */
+var reactiveInjectKey = '__reactiveInject__';
+function inheritInjected(componentOptions) {
+    // inject parent reactive services (if any)
+    if (!Array.isArray(componentOptions.inject)) {
+        componentOptions.inject = componentOptions.inject || {};
+        componentOptions.inject[reactiveInjectKey] = {
+            from: reactiveInjectKey,
+            default: {},
+        };
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/InjectReactive.js
+
+
+/**
+ * decorator of a reactive inject
+ * @param from key
+ * @return PropertyDecorator
+ */
+function InjectReactive(options) {
+    return createDecorator(function (componentOptions, key) {
+        if (typeof componentOptions.inject === 'undefined') {
+            componentOptions.inject = {};
+        }
+        if (!Array.isArray(componentOptions.inject)) {
+            var fromKey_1 = !!options ? options.from || options : key;
+            var defaultVal_1 = (!!options && options.default) || undefined;
+            if (!componentOptions.computed)
+                componentOptions.computed = {};
+            componentOptions.computed[key] = function () {
+                var obj = this[reactiveInjectKey];
+                return obj ? obj[fromKey_1] : defaultVal_1;
+            };
+            componentOptions.inject[reactiveInjectKey] = reactiveInjectKey;
+        }
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/helpers/metadata.js
+/** @see {@link https://github.com/vuejs/vue-class-component/blob/master/src/reflect.ts} */
+var reflectMetadataIsSupported = typeof Reflect !== 'undefined' && typeof Reflect.getMetadata !== 'undefined';
+function applyMetadata(options, target, key) {
+    if (reflectMetadataIsSupported) {
+        if (!Array.isArray(options) &&
+            typeof options !== 'function' &&
+            !options.hasOwnProperty('type') &&
+            typeof options.type === 'undefined') {
+            var type = Reflect.getMetadata('design:type', target, key);
+            if (type !== Object) {
+                options.type = type;
+            }
+        }
+    }
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Model.js
+
+
+/**
+ * decorator of model
+ * @param  event event name
+ * @param options options
+ * @return PropertyDecorator
+ */
+function Model(event, options) {
+    if (options === void 0) { options = {}; }
+    return function (target, key) {
+        applyMetadata(options, target, key);
+        createDecorator(function (componentOptions, k) {
+            ;
+            (componentOptions.props || (componentOptions.props = {}))[k] = options;
+            componentOptions.model = { prop: k, event: event || k };
+        })(target, key);
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/ModelSync.js
+
+
+/**
+ * decorator of synced model and prop
+ * @param propName the name to interface with from outside, must be different from decorated property
+ * @param  event event name
+ * @param options options
+ * @return PropertyDecorator
+ */
+function ModelSync(propName, event, options) {
+    if (options === void 0) { options = {}; }
+    return function (target, key) {
+        applyMetadata(options, target, key);
+        createDecorator(function (componentOptions, k) {
+            ;
+            (componentOptions.props || (componentOptions.props = {}))[propName] = options;
+            componentOptions.model = { prop: propName, event: event || k };
+            (componentOptions.computed || (componentOptions.computed = {}))[k] = {
+                get: function () {
+                    return this[propName];
+                },
+                set: function (value) {
+                    // @ts-ignore
+                    this.$emit(event, value);
+                },
+            };
+        })(target, key);
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Prop.js
+
+
+/**
+ * decorator of a prop
+ * @param  options the options for the prop
+ * @return PropertyDecorator | void
+ */
+function Prop(options) {
+    if (options === void 0) { options = {}; }
+    return function (target, key) {
+        applyMetadata(options, target, key);
+        createDecorator(function (componentOptions, k) {
+            ;
+            (componentOptions.props || (componentOptions.props = {}))[k] = options;
+        })(target, key);
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/PropSync.js
+
+
+/**
+ * decorator of a synced prop
+ * @param propName the name to interface with from outside, must be different from decorated property
+ * @param options the options for the synced prop
+ * @return PropertyDecorator | void
+ */
+function PropSync(propName, options) {
+    if (options === void 0) { options = {}; }
+    return function (target, key) {
+        applyMetadata(options, target, key);
+        createDecorator(function (componentOptions, k) {
+            ;
+            (componentOptions.props || (componentOptions.props = {}))[propName] = options;
+            (componentOptions.computed || (componentOptions.computed = {}))[k] = {
+                get: function () {
+                    return this[propName];
+                },
+                set: function (value) {
+                    this.$emit("update:" + propName, value);
+                },
+            };
+        })(target, key);
+    };
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Provide.js
+
+
+/**
+ * decorator of a provide
+ * @param key key
+ * @return PropertyDecorator | void
+ */
+function Provide(key) {
+    return createDecorator(function (componentOptions, k) {
+        var provide = componentOptions.provide;
+        inheritInjected(componentOptions);
+        if (needToProduceProvide(provide)) {
+            provide = componentOptions.provide = produceProvide(provide);
+        }
+        provide.managed[k] = key || k;
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/ProvideReactive.js
+
+
+/**
+ * decorator of a reactive provide
+ * @param key key
+ * @return PropertyDecorator | void
+ */
+function ProvideReactive(key) {
+    return createDecorator(function (componentOptions, k) {
+        var provide = componentOptions.provide;
+        inheritInjected(componentOptions);
+        if (needToProduceProvide(provide)) {
+            provide = componentOptions.provide = produceProvide(provide);
+        }
+        provide.managedReactive[k] = key || k;
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Ref.js
+
+/**
+ * decorator of a ref prop
+ * @param refKey the ref key defined in template
+ */
+function Ref(refKey) {
+    return createDecorator(function (options, key) {
+        options.computed = options.computed || {};
+        options.computed[key] = {
+            cache: false,
+            get: function () {
+                return this.$refs[refKey || key];
+            },
+        };
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/VModel.js
+
+/**
+ * decorator for capturings v-model binding to component
+ * @param options the options for the prop
+ */
+function VModel(options) {
+    if (options === void 0) { options = {}; }
+    var valueKey = 'value';
+    return createDecorator(function (componentOptions, key) {
+        ;
+        (componentOptions.props || (componentOptions.props = {}))[valueKey] = options;
+        (componentOptions.computed || (componentOptions.computed = {}))[key] = {
+            get: function () {
+                return this[valueKey];
+            },
+            set: function (value) {
+                this.$emit('input', value);
+            },
+        };
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/decorators/Watch.js
+
+/**
+ * decorator of a watch function
+ * @param  path the path or the expression to observe
+ * @param  WatchOption
+ * @return MethodDecorator
+ */
+function Watch(path, options) {
+    if (options === void 0) { options = {}; }
+    var _a = options.deep, deep = _a === void 0 ? false : _a, _b = options.immediate, immediate = _b === void 0 ? false : _b;
+    return createDecorator(function (componentOptions, handler) {
+        if (typeof componentOptions.watch !== 'object') {
+            componentOptions.watch = Object.create(null);
+        }
+        var watch = componentOptions.watch;
+        if (typeof watch[path] === 'object' && !Array.isArray(watch[path])) {
+            watch[path] = [watch[path]];
+        }
+        else if (typeof watch[path] === 'undefined') {
+            watch[path] = [];
+        }
+        watch[path].push({ handler: handler, deep: deep, immediate: immediate });
+    });
+}
+
+// CONCATENATED MODULE: ./node_modules/vue-property-decorator/lib/index.js
+/** vue-property-decorator verson 9.1.2 MIT LICENSE copyright 2020 kaorun343 */
+/// <reference types='reflect-metadata'/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// CONCATENATED MODULE: ./node_modules/v-emoji-picker/lib/v-emoji-picker.esm.js
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+
+function __generator(thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+}
+
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+}
+
+function __spread() {
+    for (var ar = [], i = 0; i < arguments.length; i++)
+        ar = ar.concat(__read(arguments[i]));
+    return ar;
+}var langDefault = {
+    search: 'Search ...',
+    categories: {
+        Activity: "Activity",
+        Flags: "Flags",
+        Foods: "Foods",
+        Frequently: "Frequently",
+        Objects: "Objects",
+        Nature: "Nature",
+        Peoples: "Peoples",
+        Symbols: "Symbols",
+        Places: "Places"
+    }
+};var lang = langDefault;
+var i18n = function (translations) {
+    lang = __assign(__assign({}, langDefault), translations);
+};
+// Sample parse translation
+var v_emoji_picker_esm_t = function (term) {
+    var properties = term.split(".");
+    var text = lang;
+    properties.forEach(function (p) {
+        text = text[p];
+    });
+    return text;
+};
+var locale = { i18n: i18n, t: v_emoji_picker_esm_t };var Category = /** @class */ (function () {
+    function Category(name, icon) {
+        this.name = name;
+        this.icon = icon;
+    }
+    Object.defineProperty(Category.prototype, "label", {
+        get: function () {
+            return v_emoji_picker_esm_t("categories." + this.name);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    return Category;
+}());var icons = {
+    activity: "\n    <svg style=\"max-height:18px\" width=\"24\" height=\"24\"\n      xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 303.6 303.6\" fill=\"gray\">\n      <path d=\"M291.503 11.6c-10.4-10.4-37.2-11.6-48.4-11.6-50.4 0-122.4 18.4-173.6 69.6-77.2 76.8-78.4 201.6-58.4 222 10.8 10.4 35.6 12 49.2 12 49.6 0 121.2-18.4 173.2-70 76.4-76.4 80.4-199.6 58-222zm-231.2 277.2c-24.4 0-36-4.8-38.8-7.6-5.2-5.2-8.4-24.4-6.8-49.6l57.2 56.8c-4 .4-8 .4-11.6.4zm162.8-66c-38.8 38.8-90.4 57.2-132.4 63.6l-74-73.6c6-42 24-94 63.2-133.2 38-38 88-56.4 130.8-62.8l75.6 75.6c-6 40.8-24.4 91.6-63.2 130.4zm65.2-148.8l-58.8-59.2c4.8-.4 9.2-.4 13.6-.4 24.4 0 35.6 4.8 38 7.2 5.6 5.6 9.2 25.6 7.2 52.4z\"/>\n      <path d=\"M215.103 139.6l-20.8-20.8 13.2-13.2c2.8-2.8 2.8-7.6 0-10.4s-7.6-2.8-10.4 0l-13.2 13.6-20.8-20.8c-2.8-2.8-7.6-2.8-10.4 0-2.8 2.8-2.8 7.6 0 10.4l20.8 20.8-22 22-20.8-20.8c-2.8-2.8-7.6-2.8-10.4 0s-2.8 7.6 0 10.4l20.8 20.8-22 22-20.8-20.8c-2.8-2.8-7.6-2.8-10.4 0s-2.8 7.6 0 10.4l20.8 20.8-13.2 13.2c-2.8 2.8-2.8 7.6 0 10.4 1.6 1.6 3.2 2 5.2 2s3.6-.8 5.2-2l13.2-13.2 20.8 20.8c1.6 1.6 3.2 2 5.2 2s3.6-.8 5.2-2c2.8-2.8 2.8-7.6 0-10.4l-20.8-21.2 22-22 20.8 20.8c1.6 1.6 3.2 2 5.2 2s3.6-.8 5.2-2c2.8-2.8 2.8-7.6 0-10.4l-20.8-20.8 22-22 20.8 20.8c1.6 1.6 3.2 2 5.2 2s3.6-.8 5.2-2c2.8-2.8 2.8-7.6 0-10.4zM169.103 47.6c-1.2-4-5.2-6-9.2-4.8-3.2 1.2-80.8 25.6-110.4 98-1.6 4 0 8.4 4 9.6.8.4 2 .4 2.8.4 2.8 0 5.6-1.6 6.8-4.4 27.2-66 100.4-89.6 101.2-89.6 4-1.2 6-5.2 4.8-9.2z\"/>\n    </svg>\n    ",
+    flags: "\n    <svg style=\"max-height:18px\" width=\"24\" height=\"24\"\n      xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" fill=\"gray\">\n      <path d=\"M472.928 34.72c-4.384-2.944-9.984-3.52-14.912-1.568-1.088.448-106.528 42.176-195.168.384C186.752-2.4 102.944 14.4 64 25.76V16c0-8.832-7.168-16-16-16S32 7.168 32 16v480c0 8.832 7.168 16 16 16s16-7.168 16-16V315.296c28.352-9.248 112.384-31.232 185.184 3.168 34.592 16.352 70.784 21.792 103.648 21.792 63.2 0 114.016-20.128 117.184-21.408 6.016-2.464 9.984-8.32 9.984-14.848V48c0-5.312-2.656-10.272-7.072-13.28zM448 292.672c-28.512 9.248-112.512 31.136-185.184-3.168C186.752 253.6 102.944 270.4 64 281.76V59.328c28.352-9.248 112.384-31.232 185.184 3.168 76 35.872 159.872 19.104 198.816 7.712v222.464z\"/>\n    </svg>\n    ",
+    foods: "\n    <svg style=\"max-height:18px\" width=\"24\" height=\"24\"\n      xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 511.999 511.999\" fill=\"gray\">\n      <path d=\"M413.949 155.583a10.153 10.153 0 0 0-3.24-2.16c-.61-.25-1.24-.44-1.87-.57-3.25-.66-6.701.41-9.03 2.73a10.093 10.093 0 0 0-2.93 7.07 10.098 10.098 0 0 0 1.69 5.56c.36.54.779 1.05 1.24 1.52 1.86 1.86 4.44 2.93 7.07 2.93.65 0 1.31-.07 1.96-.2.63-.13 1.26-.32 1.87-.57a10.146 10.146 0 0 0 3.24-2.16c.47-.47.88-.98 1.25-1.52a10.098 10.098 0 0 0 1.49-3.6 10.038 10.038 0 0 0-2.74-9.03zM115.289 385.873c-.12-.64-.32-1.27-.57-1.87-.25-.6-.55-1.18-.91-1.73-.37-.54-.79-1.06-1.25-1.52a9.57 9.57 0 0 0-1.52-1.24c-.54-.36-1.12-.67-1.72-.92-.61-.25-1.24-.44-1.88-.57a9.847 9.847 0 0 0-3.9 0c-.64.13-1.27.32-1.87.57-.61.25-1.19.56-1.73.92-.55.36-1.06.78-1.52 1.24-.46.46-.88.98-1.24 1.52-.36.55-.67 1.13-.92 1.73-.25.6-.45 1.23-.57 1.87-.13.651-.2 1.3-.2 1.96 0 .65.07 1.3.2 1.95.12.64.32 1.27.57 1.87.25.6.56 1.18.92 1.73.36.54.78 1.06 1.24 1.52.46.46.97.88 1.52 1.24.54.36 1.12.67 1.73.92.6.25 1.23.44 1.87.57s1.3.2 1.95.2c.65 0 1.31-.07 1.95-.2.64-.13 1.27-.32 1.88-.57.6-.25 1.18-.56 1.72-.92.55-.36 1.059-.78 1.52-1.24.46-.46.88-.98 1.25-1.52.36-.55.66-1.13.91-1.73.25-.6.45-1.23.57-1.87.13-.65.2-1.3.2-1.95 0-.66-.07-1.31-.2-1.96z\"/>\n      <path d=\"M511.999 222.726c0-14.215-9.228-26.315-22.007-30.624-1.628-74.155-62.456-133.978-136.994-133.978H159.002c-74.538 0-135.366 59.823-136.994 133.978C9.228 196.411 0 208.51 0 222.726a32.076 32.076 0 0 0 3.847 15.203 44.931 44.931 0 0 0-.795 8.427v.708c0 14.06 6.519 26.625 16.693 34.833-10.178 8.275-16.693 20.891-16.693 35.001 0 15.114 7.475 28.515 18.921 36.702v26.668c0 40.588 33.021 73.608 73.608 73.608h320.836c40.588 0 73.608-33.021 73.608-73.608V353.6c11.446-8.186 18.921-21.587 18.921-36.702 0-13.852-6.354-26.385-16.361-34.702 9.983-8.212 16.361-20.656 16.361-34.562v-.708c0-2.985-.294-5.944-.877-8.845a32.082 32.082 0 0 0 3.93-15.355zM44.033 173.229h322.441c5.523 0 10-4.477 10-10s-4.477-10-10-10H49.737c16.896-43.883 59.503-75.106 109.265-75.106h193.996c62.942 0 114.438 49.953 116.934 112.295H42.068c.234-5.848.9-11.588 1.965-17.189zM23.052 316.896c0-13.837 11.257-25.094 25.094-25.094h117.298l55.346 50.188H48.146c-13.837 0-25.094-11.256-25.094-25.094zm.976-62.945c.422.111.847.215 1.275.309 7.421 1.634 14.68 8.002 22.365 14.744a576.29 576.29 0 0 0 3.206 2.799h-3.081c-11.253-.001-20.774-7.551-23.765-17.852zm308.727 89.752l57.233-51.899 49.904.57-81.871 74.24-25.266-22.911zm7.861 34.126H295.12l17.467-15.839h10.563l17.466 15.839zm19.599-86.027l-82.499 74.811-82.499-74.811h164.998zm-59.529-20c.849-.842 1.677-1.675 2.49-2.493 9.531-9.587 17.059-17.16 32.89-17.16 15.832 0 23.359 7.573 32.89 17.162.812.817 1.64 1.65 2.489 2.491h-70.759zm-160.13 0a485.82 485.82 0 0 0 2.489-2.492c9.531-9.588 17.059-17.161 32.89-17.161 15.83 0 23.358 7.573 32.888 17.16.813.818 1.641 1.651 2.49 2.493h-70.757zm275.862 162.073H95.582c-29.56 0-53.608-24.049-53.608-53.608v-18.275h200.872l17.467 15.839H145.897c-5.523 0-10 4.477-10 10s4.477 10 10 10H467.07c-7.288 20.958-27.242 36.044-50.652 36.044zm53.608-56.046h-94.6l17.467-15.839h77.133v15.839zm-6.174-35.837h-48.906l54.624-49.533c11.135 2.604 19.376 12.665 19.376 24.439 0 13.836-11.257 25.094-25.094 25.094zm-2.728-70.19l.262-.227.101-.087.342-.298c.848-.738 1.682-1.469 2.501-2.187 4.105-3.601 8.089-7.095 12.04-9.819 3.446-2.375 6.868-4.164 10.326-4.925l.359-.081.04-.01.317-.076.065-.016a22.897 22.897 0 0 0 .42-.107l.196-.052a.374.374 0 0 0 .048-.012c-2.433 9.276-10.129 16.443-19.691 18.102a9.984 9.984 0 0 0-2.016-.205h-5.31zm21.271-37.073a40.746 40.746 0 0 0-4.536 1.281c-10.109 3.489-18.327 10.602-26.283 17.58l-.434.381c-9.178 8.052-17.923 15.723-29.033 17.834h-13.146c-11.249-1.93-17.833-8.552-25.823-16.591-10.213-10.275-22.923-23.062-47.074-23.062-24.15 0-36.86 12.786-47.074 23.06-7.992 8.04-14.576 14.663-25.829 16.593h-14.327c-11.253-1.93-17.837-8.553-25.829-16.593-10.213-10.274-22.923-23.06-47.072-23.06-24.151 0-36.861 12.787-47.074 23.062-7.991 8.039-14.574 14.661-25.824 16.591h-7.065c-14.134 0-24.325-8.939-35.113-18.404-9.248-8.112-18.81-16.501-31.252-19.241a12.237 12.237 0 0 1-7.025-4.453 10.027 10.027 0 0 0-1.153-1.252 12.234 12.234 0 0 1-1.428-5.727c-.001-6.788 5.52-12.309 12.307-12.309h447.384c6.787 0 12.308 5.521 12.308 12.308 0 5.729-4.039 10.776-9.605 12.002z\"/>\n    </svg>\n    ",
+    frequently: "\n    <svg style=\"max-height:18px\"\n      xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 219.15 219.15\" width=\"24\" height=\"24\" fill=\"gray\">\n      <path d=\"M109.575 0C49.156 0 .001 49.155.001 109.574c0 60.42 49.154 109.576 109.573 109.576 60.42 0 109.574-49.156 109.574-109.576C219.149 49.155 169.995 0 109.575 0zm0 204.15c-52.148 0-94.573-42.427-94.573-94.576C15.001 57.426 57.427 15 109.575 15c52.148 0 94.574 42.426 94.574 94.574 0 52.15-42.426 94.576-94.574 94.576z\"/>\n      <path d=\"M166.112 108.111h-52.051V51.249a7.5 7.5 0 0 0-15 0v64.362a7.5 7.5 0 0 0 7.5 7.5h59.551a7.5 7.5 0 0 0 0-15z\"/>\n    </svg>\n    ",
+    nature: "\n    <svg style=\"max-height:18px\"\n      xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" width=\"24\" height=\"24\" fill=\"gray\">\n      <path d=\"M490.815 3.784C480.082 5.7 227.049 51.632 148.477 130.203c-39.153 39.153-64.259 87.884-70.694 137.218-5.881 45.081 4.347 85.929 28.878 116.708L.001 490.789 21.212 512l106.657-106.657c33.094 26.378 75.092 34.302 116.711 28.874 49.334-6.435 98.065-31.541 137.218-70.695C460.368 284.951 506.3 31.918 508.216 21.185L511.999 0l-21.184 3.784zm-43.303 39.493L309.407 181.383l-7.544-98.076c46.386-15.873 97.819-29.415 145.649-40.03zm-174.919 50.64l8.877 115.402-78.119 78.119-11.816-153.606c19.947-13.468 47.183-26.875 81.058-39.915zm-109.281 64.119l12.103 157.338-47.36 47.36c-39.246-52.892-24.821-139.885 35.257-204.698zm57.113 247.849c-26.548-.001-51.267-7.176-71.161-21.938l47.363-47.363 157.32 12.102c-40.432 37.475-89.488 57.201-133.522 57.199zm157.743-85.421l-153.605-11.816 78.118-78.118 115.403 8.877c-13.04 33.876-26.448 61.111-39.916 81.057zm50.526-110.326l-98.076-7.544L468.725 64.485c-10.589 47.717-24.147 99.232-40.031 145.653z\"/>\n    </svg>\n    ",
+    objects: "\n    <svg style=\"max-height:18px\"\n      xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 792 792\" fill=\"gray\">\n      <path d=\"M425.512 741.214H365.58c-14.183 0-25.164 11.439-25.164 25.622S351.397 792 365.58 792h59.932c15.101 0 26.54-10.981 26.54-25.164s-11.44-25.622-26.54-25.622zM472.638 671.209H319.821c-14.183 0-26.081 10.98-26.081 25.163s11.898 25.164 26.081 25.164h152.817c14.183 0 25.164-10.981 25.164-25.164s-10.982-25.163-25.164-25.163zM639.188 138.634c-25.164-42.548-59.181-76.135-102.49-101.113C493.526 12.621 446.566 0 395.771 0 320.28 0 247.19 31.684 197.205 81.445c-49.761 49.527-81.904 121.24-81.904 196.282 0 33.861 7.779 68.629 22.879 103.866 15.1 35.228 38.565 78.614 70.005 130.396 7.448 12.269 15.764 31.205 25.623 56.271 12.104 30.757 22.87 51.713 31.566 63.602 5.027 6.872 11.899 10.063 20.596 10.063h228.766c9.605 0 16.359-4.188 21.504-11.898 6.754-10.132 13.987-27.516 22.42-51.693 8.951-25.691 16.838-43.982 23.329-55.364 30.571-53.587 54.446-99.747 70.464-137.717 16.018-37.979 24.246-74.124 24.246-107.526 0-49.878-12.347-96.545-37.511-139.093zm-35.696 232.437c-15.012 34.348-36.398 76.974-65.427 126.736-9.41 16.125-18.458 37.003-26.989 63.592-3.367 10.474-7.32 20.596-11.439 30.2H300.153c-6.862-11.439-12.26-25.837-18.761-42.089-12.718-31.801-23.338-52.621-30.2-64.061-28.824-48.043-49.868-87.39-64.051-118.957s-20.537-60.859-21.044-88.766c-2.235-121.718 106.13-228.991 229.674-226.941 41.631.693 80.527 10.063 115.765 30.659 35.227 20.586 63.134 48.043 83.729 82.812 20.586 34.768 31.108 72.748 31.108 113.47-.001 27.449-7.692 58.596-22.881 93.345z\"/>\n    </svg>\n    ",
+    peoples: "\n    <svg style=\"max-height:18px\"\n      xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 106.059 106.059\" fill=\"gray\">\n      <path d=\"M90.544 90.542c20.687-20.684 20.685-54.341.002-75.024-20.688-20.689-54.347-20.689-75.031-.006-20.688 20.687-20.686 54.346.002 75.034 20.682 20.684 54.341 20.684 75.027-.004zM21.302 21.3c17.494-17.493 45.959-17.495 63.457.002 17.494 17.494 17.492 45.963-.002 63.455-17.494 17.494-45.96 17.496-63.455.003-17.498-17.498-17.496-45.966 0-63.46zM27 69.865s-2.958-11.438 6.705-8.874c0 0 17.144 9.295 38.651 0 9.662-2.563 6.705 8.874 6.705 8.874C73.539 86.824 53.03 85.444 53.03 85.444S32.521 86.824 27 69.865zm6.24-31.194a6.202 6.202 0 1 1 12.399.001 6.202 6.202 0 0 1-12.399-.001zm28.117 0a6.202 6.202 0 1 1 12.403.001 6.202 6.202 0 0 1-12.403-.001z\"/>\n    </svg>\n    ",
+    places: "\n    <svg style=\"max-height:18px\"\n      xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 611.999 611.998\" fill=\"gray\">\n      <path d=\"M596.583 15.454C586.226 5.224 573.354.523 558.423.523c-15.597 0-31.901 4.906-49.452 14.599-17.296 9.551-32.851 20.574-46.458 32.524h-.665c-2.655 2.322-10.953 10.287-25.219 24.553-14.272 14.272-26.217 26.223-35.845 36.51L112.401 26.406c-6.896-1.968-12.928.014-17.593 4.645L46.687 78.839c-4.326 4.297-5.805 9.268-4.977 15.597.829 6.287 3.979 10.627 9.629 13.607L280.32 228.839 161.514 347.978l-95.91 3.32c-4.645.164-8.637 1.643-12.276 5.311L5.872 404.397c-4.312 4.34-6.641 9.289-5.643 16.262 1.657 6.967 5.31 11.611 11.618 13.602l117.142 48.787 48.787 117.148c2.421 5.812 6.634 9.621 13.607 11.279h3.313c4.977 0 9.296-1.658 12.942-5.311l47.456-47.457c3.653-3.645 5.494-7.965 5.643-12.275l3.32-95.91 118.807-118.807 121.128 228.99c2.988 5.643 7.32 8.793 13.607 9.621 6.329.836 11.271-1.316 15.597-5.643l47.456-47.457c4.978-4.977 6.945-10.697 4.978-17.586l-82.296-288.389 59.732-59.739c10.287-10.287 21.699-24.149 33.183-45.134 5.777-10.542 10.032-20.886 12.942-31.194 5.722-20.218 3.258-44.07-12.608-59.73zm-59.4 110.176l-67.039 67.372c-5.628 5.657-6.811 11.122-4.977 17.586l81.637 288.388-22.563 22.238L403.438 292.89c-2.98-5.643-7.299-8.963-12.941-9.621-6.301-1.331-11.611.325-16.263 4.977l-141.37 141.37c-2.987 2.986-4.644 6.973-5.643 11.949l-3.32 95.904-22.896 23.236-41.48-98.566c-1.331-4.645-4.553-8.184-9.629-10.287L51.338 411.03l23.229-22.895 95.578-3.654c5.643-.99 9.622-2.654 12.276-5.309l141.37-141.371c4.651-4.645 6.308-9.954 4.984-16.262-.666-5.643-3.986-9.954-9.629-12.942L90.829 87.47l22.231-22.238 288.389 81.637c6.464 1.833 11.951.666 17.587-4.977l28.545-28.539 26.217-25.884 11.278-11.285 1.331-.666c27.873-23.895 55.088-38.16 72.016-38.16 5.969 0 9.954 1.324 11.611 3.979 18.917 18.585-21.099 72.484-32.851 84.293z\"/>\n    </svg>\n    ",
+    symbols: "\n    <svg style=\"max-height:18px\"\n      xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 511.626 511.626\" fill=\"gray\">\n      <path d=\"M475.366 71.949c-24.175-23.606-57.575-35.404-100.215-35.404-11.8 0-23.843 2.046-36.117 6.136-12.279 4.093-23.702 9.615-34.256 16.562-10.568 6.945-19.65 13.467-27.269 19.556a263.828 263.828 0 0 0-21.696 19.414 264.184 264.184 0 0 0-21.698-19.414c-7.616-6.089-16.702-12.607-27.268-19.556-10.564-6.95-21.985-12.468-34.261-16.562-12.275-4.089-24.316-6.136-36.116-6.136-42.637 0-76.039 11.801-100.211 35.404C12.087 95.55 0 128.286 0 170.16c0 12.753 2.24 25.891 6.711 39.398 4.471 13.514 9.566 25.031 15.275 34.546 5.708 9.514 12.181 18.792 19.414 27.834 7.233 9.041 12.519 15.272 15.846 18.698 3.33 3.426 5.948 5.903 7.851 7.427L243.25 469.938c3.427 3.426 7.614 5.144 12.562 5.144s9.138-1.718 12.563-5.144l177.87-171.31c43.588-43.58 65.38-86.406 65.38-128.472.001-41.877-12.085-74.61-36.259-98.207zm-53.961 199.846L255.813 431.391 89.938 271.507C54.344 235.922 36.55 202.133 36.55 170.156c0-15.415 2.046-29.026 6.136-40.824 4.093-11.8 9.327-21.177 15.703-28.124 6.377-6.949 14.132-12.607 23.268-16.988 9.141-4.377 18.086-7.328 26.84-8.85 8.754-1.52 18.079-2.281 27.978-2.281 9.896 0 20.557 2.424 31.977 7.279 11.418 4.853 21.934 10.944 31.545 18.271 9.613 7.332 17.845 14.183 24.7 20.557 6.851 6.38 12.559 12.229 17.128 17.559 3.424 4.189 8.091 6.283 13.989 6.283 5.9 0 10.562-2.094 13.99-6.283 4.568-5.33 10.28-11.182 17.131-17.559 6.852-6.374 15.085-13.222 24.694-20.557 9.613-7.327 20.129-13.418 31.553-18.271 11.416-4.854 22.08-7.279 31.977-7.279s19.219.761 27.977 2.281c8.757 1.521 17.702 4.473 26.84 8.85 9.137 4.38 16.892 10.042 23.267 16.988 6.376 6.947 11.612 16.324 15.705 28.124 4.086 11.798 6.132 25.409 6.132 40.824-.002 31.977-17.89 65.86-53.675 101.639z\"/>\n    </svg>\n    "
+};
+var categoriesDefault = [
+    new Category("Frequently", icons["frequently"]),
+    new Category("Peoples", icons["peoples"]),
+    new Category("Nature", icons["nature"]),
+    new Category("Foods", icons["foods"]),
+    new Category("Activity", icons["activity"]),
+    new Category("Objects", icons["objects"]),
+    new Category("Places", icons["places"]),
+    new Category("Symbols", icons["symbols"]),
+    new Category("Flags", icons["flags"])
+];var Emoji = /** @class */ (function () {
+    function Emoji(data, category, aliases) {
+        this.data = data;
+        this.category = category;
+        this.aliases = aliases;
+    }
+    return Emoji;
+}());var emojisDefault = [
+    new Emoji("😀", "Peoples", ["grinning"]),
+    new Emoji("😃", "Peoples", ["smiley"]),
+    new Emoji("😄", "Peoples", ["smile"]),
+    new Emoji("😁", "Peoples", ["grin"]),
+    new Emoji("😆", "Peoples", ["laughing", "satisfied"]),
+    new Emoji("😅", "Peoples", ["sweat_smile"]),
+    new Emoji("😂", "Peoples", ["joy"]),
+    new Emoji("🤣", "Peoples", ["rofl"]),
+    new Emoji("😌", "Peoples", ["relaxed"]),
+    new Emoji("😊", "Peoples", ["blush"]),
+    new Emoji("😇", "Peoples", ["innocent"]),
+    new Emoji("🙂", "Peoples", ["slightly_smiling_face"]),
+    new Emoji("🙃", "Peoples", ["upside_down_face"]),
+    new Emoji("😉", "Peoples", ["wink"]),
+    new Emoji("😌", "Peoples", ["relieved"]),
+    new Emoji("😍", "Peoples", ["heart_eyes"]),
+    new Emoji("😘", "Peoples", ["kissing_heart"]),
+    new Emoji("😗", "Peoples", ["kissing"]),
+    new Emoji("😙", "Peoples", ["kissing_smiling_eyes"]),
+    new Emoji("😚", "Peoples", ["kissing_closed_eyes"]),
+    new Emoji("😋", "Peoples", ["yum"]),
+    new Emoji("😜", "Peoples", ["stuck_out_tongue_winking_eye"]),
+    new Emoji("😝", "Peoples", ["stuck_out_tongue_closed_eyes"]),
+    new Emoji("😛", "Peoples", ["stuck_out_tongue"]),
+    new Emoji("🤑", "Peoples", ["money_mouth_face"]),
+    new Emoji("🤗", "Peoples", ["hugs"]),
+    new Emoji("🤓", "Peoples", ["nerd_face"]),
+    new Emoji("😎", "Peoples", ["sunglasses"]),
+    new Emoji("🤡", "Peoples", ["clown_face"]),
+    new Emoji("🤠", "Peoples", ["cowboy_hat_face"]),
+    new Emoji("😏", "Peoples", ["smirk"]),
+    new Emoji("😒", "Peoples", ["unamused"]),
+    new Emoji("😞", "Peoples", ["disappointed"]),
+    new Emoji("😔", "Peoples", ["pensive"]),
+    new Emoji("😟", "Peoples", ["worried"]),
+    new Emoji("😕", "Peoples", ["confused"]),
+    new Emoji("🙁", "Peoples", ["slightly_frowning_face"]),
+    new Emoji("☹️", "Peoples", ["frowning_face"]),
+    new Emoji("😣", "Peoples", ["persevere"]),
+    new Emoji("😖", "Peoples", ["confounded"]),
+    new Emoji("😫", "Peoples", ["tired_face"]),
+    new Emoji("😩", "Peoples", ["weary"]),
+    new Emoji("😤", "Peoples", ["triumph"]),
+    new Emoji("😠", "Peoples", ["angry"]),
+    new Emoji("😡", "Peoples", ["rage", "pout"]),
+    new Emoji("😶", "Peoples", ["no_mouth"]),
+    new Emoji("😐", "Peoples", ["neutral_face"]),
+    new Emoji("😑", "Peoples", ["expressionless"]),
+    new Emoji("😯", "Peoples", ["hushed"]),
+    new Emoji("😦", "Peoples", ["frowning"]),
+    new Emoji("😧", "Peoples", ["anguished"]),
+    new Emoji("😮", "Peoples", ["open_mouth"]),
+    new Emoji("😲", "Peoples", ["astonished"]),
+    new Emoji("😵", "Peoples", ["dizzy_face"]),
+    new Emoji("😳", "Peoples", ["flushed"]),
+    new Emoji("😱", "Peoples", ["scream"]),
+    new Emoji("😨", "Peoples", ["fearful"]),
+    new Emoji("😰", "Peoples", ["cold_sweat"]),
+    new Emoji("😢", "Peoples", ["cry"]),
+    new Emoji("😥", "Peoples", ["disappointed_relieved"]),
+    new Emoji("🤤", "Peoples", ["drooling_face"]),
+    new Emoji("😭", "Peoples", ["sob"]),
+    new Emoji("😓", "Peoples", ["sweat"]),
+    new Emoji("😪", "Peoples", ["sleepy"]),
+    new Emoji("😴", "Peoples", ["sleeping"]),
+    new Emoji("🙄", "Peoples", ["roll_eyes"]),
+    new Emoji("🤔", "Peoples", ["thinking"]),
+    new Emoji("🤥", "Peoples", ["lying_face"]),
+    new Emoji("😬", "Peoples", ["grimacing"]),
+    new Emoji("🤐", "Peoples", ["zipper_mouth_face"]),
+    new Emoji("🤢", "Peoples", ["nauseated_face"]),
+    new Emoji("🤧", "Peoples", ["sneezing_face"]),
+    new Emoji("😷", "Peoples", ["mask"]),
+    new Emoji("🤒", "Peoples", ["face_with_thermometer"]),
+    new Emoji("🤕", "Peoples", ["face_with_head_bandage"]),
+    new Emoji("😈", "Peoples", ["smiling_imp"]),
+    new Emoji("👿", "Peoples", ["imp"]),
+    new Emoji("👹", "Peoples", ["japanese_ogre"]),
+    new Emoji("👺", "Peoples", ["japanese_goblin"]),
+    new Emoji("💩", "Peoples", ["hankey", "poop", "shit"]),
+    new Emoji("👻", "Peoples", ["ghost"]),
+    new Emoji("💀", "Peoples", ["skull"]),
+    new Emoji("☠️", "Peoples", ["skull_and_crossbones"]),
+    new Emoji("👽", "Peoples", ["alien"]),
+    new Emoji("👾", "Peoples", ["space_invader"]),
+    new Emoji("🤖", "Peoples", ["robot"]),
+    new Emoji("🎃", "Peoples", ["jack_o_lantern"]),
+    new Emoji("😺", "Peoples", ["smiley_cat"]),
+    new Emoji("😸", "Peoples", ["smile_cat"]),
+    new Emoji("😹", "Peoples", ["joy_cat"]),
+    new Emoji("😻", "Peoples", ["heart_eyes_cat"]),
+    new Emoji("😼", "Peoples", ["smirk_cat"]),
+    new Emoji("😽", "Peoples", ["kissing_cat"]),
+    new Emoji("🙀", "Peoples", ["scream_cat"]),
+    new Emoji("😿", "Peoples", ["crying_cat_face"]),
+    new Emoji("😾", "Peoples", ["pouting_cat"]),
+    new Emoji("👐", "Peoples", ["open_hands"]),
+    new Emoji("🙌", "Peoples", ["raised_hands"]),
+    new Emoji("👏", "Peoples", ["clap"]),
+    new Emoji("🙏", "Peoples", ["pray"]),
+    new Emoji("🤝", "Peoples", ["handshake"]),
+    new Emoji("👍", "Peoples", ["+1", "thumbsup"]),
+    new Emoji("👎", "Peoples", ["-1", "thumbsdown"]),
+    new Emoji("👊", "Peoples", ["fist_oncoming", "facepunch", "punch"]),
+    new Emoji("✊", "Peoples", ["fist_raised", "fist"]),
+    new Emoji("🤛", "Peoples", ["fist_left"]),
+    new Emoji("🤜", "Peoples", ["fist_right"]),
+    new Emoji("🤞", "Peoples", ["crossed_fingers"]),
+    new Emoji("✌️", "Peoples", ["v"]),
+    new Emoji("🤘", "Peoples", ["metal"]),
+    new Emoji("👌", "Peoples", ["ok_hand"]),
+    new Emoji("👈", "Peoples", ["point_left"]),
+    new Emoji("👉", "Peoples", ["point_right"]),
+    new Emoji("👆", "Peoples", ["point_up_2"]),
+    new Emoji("👇", "Peoples", ["point_down"]),
+    new Emoji("☝️", "Peoples", ["point_up"]),
+    new Emoji("✋", "Peoples", ["hand", "raised_hand"]),
+    new Emoji("🤚", "Peoples", ["raised_back_of_hand"]),
+    new Emoji("🖐", "Peoples", ["raised_hand_with_fingers_splayed"]),
+    new Emoji("🖖", "Peoples", ["vulcan_salute"]),
+    new Emoji("👋", "Peoples", ["wave"]),
+    new Emoji("🤙", "Peoples", ["call_me_hand"]),
+    new Emoji("💪", "Peoples", ["muscle"]),
+    new Emoji("🖕", "Peoples", ["middle_finger", "fu"]),
+    new Emoji("✍️", "Peoples", ["writing_hand"]),
+    new Emoji("🤳", "Peoples", ["selfie"]),
+    new Emoji("💅", "Peoples", ["nail_care"]),
+    new Emoji("💍", "Peoples", ["ring"]),
+    new Emoji("💄", "Peoples", ["lipstick"]),
+    new Emoji("💋", "Peoples", ["kiss"]),
+    new Emoji("👄", "Peoples", ["lips"]),
+    new Emoji("👅", "Peoples", ["tongue"]),
+    new Emoji("👂", "Peoples", ["ear"]),
+    new Emoji("👃", "Peoples", ["nose"]),
+    new Emoji("👣", "Peoples", ["footprints"]),
+    new Emoji("👁", "Peoples", ["eye"]),
+    new Emoji("👀", "Peoples", ["eyes"]),
+    new Emoji("🗣", "Peoples", ["speaking_head"]),
+    new Emoji("👤", "Peoples", ["bust_in_silhouette"]),
+    new Emoji("👥", "Peoples", ["busts_in_silhouette"]),
+    new Emoji("👶", "Peoples", ["baby"]),
+    new Emoji("👦", "Peoples", ["boy"]),
+    new Emoji("👧", "Peoples", ["girl"]),
+    new Emoji("👨", "Peoples", ["man"]),
+    new Emoji("👩", "Peoples", ["woman"]),
+    new Emoji("👱‍♀", "Peoples", ["blonde_woman"]),
+    new Emoji("👱", "Peoples", ["blonde_man", "person_with_blond_hair"]),
+    new Emoji("👴", "Peoples", ["older_man"]),
+    new Emoji("👵", "Peoples", ["older_woman"]),
+    new Emoji("👲", "Peoples", ["man_with_gua_pi_mao"]),
+    new Emoji("👳‍♀", "Peoples", ["woman_with_turban"]),
+    new Emoji("👳", "Peoples", ["man_with_turban"]),
+    new Emoji("👮‍♀", "Peoples", ["policewoman"]),
+    new Emoji("👮", "Peoples", ["policeman", "cop"]),
+    new Emoji("👷‍♀", "Peoples", ["construction_worker_woman"]),
+    new Emoji("👷", "Peoples", ["construction_worker_man", "construction_worker"]),
+    new Emoji("💂‍♀", "Peoples", ["guardswoman"]),
+    new Emoji("💂", "Peoples", ["guardsman"]),
+    new Emoji("👩‍⚕", "Peoples", ["woman_health_worker"]),
+    new Emoji("👨‍⚕", "Peoples", ["man_health_worker"]),
+    new Emoji("👩‍🌾", "Peoples", ["woman_farmer"]),
+    new Emoji("👨‍🌾", "Peoples", ["man_farmer"]),
+    new Emoji("👩‍🍳", "Peoples", ["woman_cook"]),
+    new Emoji("👨‍🍳", "Peoples", ["man_cook"]),
+    new Emoji("👩‍🎓", "Peoples", ["woman_student"]),
+    new Emoji("👨‍🎓", "Peoples", ["man_student"]),
+    new Emoji("👩‍🎤", "Peoples", ["woman_singer"]),
+    new Emoji("👨‍🎤", "Peoples", ["man_singer"]),
+    new Emoji("👩‍🏫", "Peoples", ["woman_teacher"]),
+    new Emoji("👨‍🏫", "Peoples", ["man_teacher"]),
+    new Emoji("👩‍🏭", "Peoples", ["woman_factory_worker"]),
+    new Emoji("👨‍🏭", "Peoples", ["man_factory_worker"]),
+    new Emoji("👩‍💻", "Peoples", ["woman_technologist"]),
+    new Emoji("👨‍💻", "Peoples", ["man_technologist"]),
+    new Emoji("👩‍💼", "Peoples", ["woman_office_worker"]),
+    new Emoji("👨‍💼", "Peoples", ["man_office_worker"]),
+    new Emoji("👩‍🔧", "Peoples", ["woman_mechanic"]),
+    new Emoji("👨‍🔧", "Peoples", ["man_mechanic"]),
+    new Emoji("👩‍🔬", "Peoples", ["woman_scientist"]),
+    new Emoji("👨‍🔬", "Peoples", ["man_scientist"]),
+    new Emoji("👩‍🎨", "Peoples", ["woman_artist"]),
+    new Emoji("👨‍🎨", "Peoples", ["man_artist"]),
+    new Emoji("👩‍🚒", "Peoples", ["woman_firefighter"]),
+    new Emoji("👨‍🚒", "Peoples", ["man_firefighter"]),
+    new Emoji("👩‍🚀", "Peoples", ["woman_astronaut"]),
+    new Emoji("👨‍🚀", "Peoples", ["man_astronaut"]),
+    new Emoji("🤶", "Peoples", ["mrs_claus"]),
+    new Emoji("🎅", "Peoples", ["santa"]),
+    new Emoji("👸", "Peoples", ["princess"]),
+    new Emoji("🤴", "Peoples", ["prince"]),
+    new Emoji("👰", "Peoples", ["bride_with_veil"]),
+    new Emoji("🤵", "Peoples", ["man_in_tuxedo"]),
+    new Emoji("👼", "Peoples", ["angel"]),
+    new Emoji("🤰", "Peoples", ["pregnant_woman"]),
+    new Emoji("🙇‍♀", "Peoples", ["bowing_woman"]),
+    new Emoji("🙇", "Peoples", ["bowing_man", "bow"]),
+    new Emoji("💁", "Peoples", ["tipping_hand_woman", "information_desk_person", "sassy_woman"]),
+    new Emoji("💁‍♂", "Peoples", ["tipping_hand_man", "sassy_man"]),
+    new Emoji("🙅", "Peoples", ["no_good_woman", "no_good", "ng_woman"]),
+    new Emoji("🙅‍♂", "Peoples", ["no_good_man", "ng_man"]),
+    new Emoji("🙆", "Peoples", ["ok_woman"]),
+    new Emoji("🙆‍♂", "Peoples", ["ok_man"]),
+    new Emoji("🙋", "Peoples", ["raising_hand_woman", "raising_hand"]),
+    new Emoji("🙋‍♂", "Peoples", ["raising_hand_man"]),
+    new Emoji("🤦‍♀", "Peoples", ["woman_facepalming"]),
+    new Emoji("🤦‍♂", "Peoples", ["man_facepalming"]),
+    new Emoji("🤷‍♀", "Peoples", ["woman_shrugging"]),
+    new Emoji("🤷‍♂", "Peoples", ["man_shrugging"]),
+    new Emoji("🙎", "Peoples", ["pouting_woman", "person_with_pouting_face"]),
+    new Emoji("🙎‍♂", "Peoples", ["pouting_man"]),
+    new Emoji("🙍", "Peoples", ["frowning_woman", "person_frowning"]),
+    new Emoji("🙍‍♂", "Peoples", ["frowning_man"]),
+    new Emoji("💇", "Peoples", ["haircut_woman", "haircut"]),
+    new Emoji("💇‍♂", "Peoples", ["haircut_man"]),
+    new Emoji("💆", "Peoples", ["massage_woman", "massage"]),
+    new Emoji("💆‍♂", "Peoples", ["massage_man"]),
+    new Emoji("🕴", "Peoples", ["business_suit_levitating"]),
+    new Emoji("💃", "Peoples", ["dancer"]),
+    new Emoji("🕺", "Peoples", ["man_dancing"]),
+    new Emoji("👯", "Peoples", ["dancing_women", "dancers"]),
+    new Emoji("👯‍♂", "Peoples", ["dancing_men"]),
+    new Emoji("🚶‍♀", "Peoples", ["walking_woman"]),
+    new Emoji("🚶", "Peoples", ["walking_man", "walking"]),
+    new Emoji("🏃‍♀", "Peoples", ["running_woman"]),
+    new Emoji("🏃", "Peoples", ["running_man", "runner", "running"]),
+    new Emoji("👫", "Peoples", ["couple"]),
+    new Emoji("👭", "Peoples", ["two_women_holding_hands"]),
+    new Emoji("👬", "Peoples", ["two_men_holding_hands"]),
+    new Emoji("💑", "Peoples", ["couple_with_heart_woman_man", "couple_with_heart"]),
+    new Emoji("👩‍❤️‍👩", "Peoples", ["couple_with_heart_woman_woman"]),
+    new Emoji("👨‍❤️‍👨", "Peoples", ["couple_with_heart_man_man"]),
+    new Emoji("💏", "Peoples", ["couplekiss_man_woman"]),
+    new Emoji("👩‍❤️‍💋‍👩", "Peoples", ["couplekiss_woman_woman"]),
+    new Emoji("👨‍❤️‍💋‍👨", "Peoples", ["couplekiss_man_man"]),
+    new Emoji("👪", "Peoples", ["family_man_woman_boy", "family"]),
+    new Emoji("👨‍👩‍👧", "Peoples", ["family_man_woman_girl"]),
+    new Emoji("👨‍👩‍👧‍👦", "Peoples", ["family_man_woman_girl_boy"]),
+    new Emoji("👨‍👩‍👦‍👦", "Peoples", ["family_man_woman_boy_boy"]),
+    new Emoji("👨‍👩‍👧‍👧", "Peoples", ["family_man_woman_girl_girl"]),
+    new Emoji("👩‍👩‍👦", "Peoples", ["family_woman_woman_boy"]),
+    new Emoji("👩‍👩‍👧", "Peoples", ["family_woman_woman_girl"]),
+    new Emoji("👩‍👩‍👧‍👦", "Peoples", ["family_woman_woman_girl_boy"]),
+    new Emoji("👩‍👩‍👦‍👦", "Peoples", ["family_woman_woman_boy_boy"]),
+    new Emoji("👩‍👩‍👧‍👧", "Peoples", ["family_woman_woman_girl_girl"]),
+    new Emoji("👨‍👨‍👦", "Peoples", ["family_man_man_boy"]),
+    new Emoji("👨‍👨‍👧", "Peoples", ["family_man_man_girl"]),
+    new Emoji("👨‍👨‍👧‍👦", "Peoples", ["family_man_man_girl_boy"]),
+    new Emoji("👨‍👨‍👦‍👦", "Peoples", ["family_man_man_boy_boy"]),
+    new Emoji("👨‍👨‍👧‍👧", "Peoples", ["family_man_man_girl_girl"]),
+    new Emoji("👩‍👦", "Peoples", ["family_woman_boy"]),
+    new Emoji("👩‍👧", "Peoples", ["family_woman_girl"]),
+    new Emoji("👩‍👧‍👦", "Peoples", ["family_woman_girl_boy"]),
+    new Emoji("👩‍👦‍👦", "Peoples", ["family_woman_boy_boy"]),
+    new Emoji("👩‍👧‍👧", "Peoples", ["family_woman_girl_girl"]),
+    new Emoji("👨‍👦", "Peoples", ["family_man_boy"]),
+    new Emoji("👨‍👧", "Peoples", ["family_man_girl"]),
+    new Emoji("👨‍👧‍👦", "Peoples", ["family_man_girl_boy"]),
+    new Emoji("👨‍👦‍👦", "Peoples", ["family_man_boy_boy"]),
+    new Emoji("👨‍👧‍👧", "Peoples", ["family_man_girl_girl"]),
+    new Emoji("👚", "Peoples", ["womans_clothes"]),
+    new Emoji("👕", "Peoples", ["shirt", "tshirt"]),
+    new Emoji("👖", "Peoples", ["jeans"]),
+    new Emoji("👔", "Peoples", ["necktie"]),
+    new Emoji("👗", "Peoples", ["dress"]),
+    new Emoji("👙", "Peoples", ["bikini"]),
+    new Emoji("👘", "Peoples", ["kimono"]),
+    new Emoji("👠", "Peoples", ["high_heel"]),
+    new Emoji("👡", "Peoples", ["sandal"]),
+    new Emoji("👢", "Peoples", ["boot"]),
+    new Emoji("👞", "Peoples", ["mans_shoe", "shoe"]),
+    new Emoji("👟", "Peoples", ["athletic_shoe"]),
+    new Emoji("👒", "Peoples", ["womans_hat"]),
+    new Emoji("🎩", "Peoples", ["tophat"]),
+    new Emoji("🎓", "Peoples", ["mortar_board"]),
+    new Emoji("👑", "Peoples", ["crown"]),
+    new Emoji("⛑", "Peoples", ["rescue_worker_helmet"]),
+    new Emoji("🎒", "Peoples", ["school_satchel"]),
+    new Emoji("👝", "Peoples", ["pouch"]),
+    new Emoji("👛", "Peoples", ["purse"]),
+    new Emoji("👜", "Peoples", ["handbag"]),
+    new Emoji("💼", "Peoples", ["briefcase"]),
+    new Emoji("👓", "Peoples", ["eyeglasses"]),
+    new Emoji("🕶", "Peoples", ["dark_sunglasses"]),
+    new Emoji("🌂", "Peoples", ["closed_umbrella"]),
+    new Emoji("☂️", "Peoples", ["open_umbrella"]),
+    new Emoji("🐶", "Nature", ["dog"]),
+    new Emoji("🐱", "Nature", ["cat"]),
+    new Emoji("🐭", "Nature", ["mouse"]),
+    new Emoji("🐹", "Nature", ["hamster"]),
+    new Emoji("🐰", "Nature", ["rabbit"]),
+    new Emoji("🦊", "Nature", ["fox_face"]),
+    new Emoji("🐻", "Nature", ["bear"]),
+    new Emoji("🐼", "Nature", ["panda_face"]),
+    new Emoji("🐨", "Nature", ["koala"]),
+    new Emoji("🐯", "Nature", ["tiger"]),
+    new Emoji("🦁", "Nature", ["lion"]),
+    new Emoji("🐮", "Nature", ["cow"]),
+    new Emoji("🐷", "Nature", ["pig"]),
+    new Emoji("🐽", "Nature", ["pig_nose"]),
+    new Emoji("🐸", "Nature", ["frog"]),
+    new Emoji("🐵", "Nature", ["monkey_face"]),
+    new Emoji("🙈", "Nature", ["see_no_evil"]),
+    new Emoji("🙉", "Nature", ["hear_no_evil"]),
+    new Emoji("🙊", "Nature", ["speak_no_evil"]),
+    new Emoji("🐒", "Nature", ["monkey"]),
+    new Emoji("🐔", "Nature", ["chicken"]),
+    new Emoji("🐧", "Nature", ["penguin"]),
+    new Emoji("🐦", "Nature", ["bird"]),
+    new Emoji("🐤", "Nature", ["baby_chick"]),
+    new Emoji("🐣", "Nature", ["hatching_chick"]),
+    new Emoji("🐥", "Nature", ["hatched_chick"]),
+    new Emoji("🦆", "Nature", ["duck"]),
+    new Emoji("🦅", "Nature", ["eagle"]),
+    new Emoji("🦉", "Nature", ["owl"]),
+    new Emoji("🦇", "Nature", ["bat"]),
+    new Emoji("🐺", "Nature", ["wolf"]),
+    new Emoji("🐗", "Nature", ["boar"]),
+    new Emoji("🐴", "Nature", ["horse"]),
+    new Emoji("🦄", "Nature", ["unicorn"]),
+    new Emoji("🐝", "Nature", ["bee", "honeybee"]),
+    new Emoji("🐛", "Nature", ["bug"]),
+    new Emoji("🦋", "Nature", ["butterfly"]),
+    new Emoji("🐌", "Nature", ["snail"]),
+    new Emoji("🐚", "Nature", ["shell"]),
+    new Emoji("🐞", "Nature", ["beetle"]),
+    new Emoji("🐜", "Nature", ["ant"]),
+    new Emoji("🕷", "Nature", ["spider"]),
+    new Emoji("🕸", "Nature", ["spider_web"]),
+    new Emoji("🐢", "Nature", ["turtle"]),
+    new Emoji("🐍", "Nature", ["snake"]),
+    new Emoji("🦎", "Nature", ["lizard"]),
+    new Emoji("🦂", "Nature", ["scorpion"]),
+    new Emoji("🦀", "Nature", ["crab"]),
+    new Emoji("🦑", "Nature", ["squid"]),
+    new Emoji("🐙", "Nature", ["octopus"]),
+    new Emoji("🦐", "Nature", ["shrimp"]),
+    new Emoji("🐠", "Nature", ["tropical_fish"]),
+    new Emoji("🐟", "Nature", ["fish"]),
+    new Emoji("🐡", "Nature", ["blowfish"]),
+    new Emoji("🐬", "Nature", ["dolphin", "flipper"]),
+    new Emoji("🦈", "Nature", ["shark"]),
+    new Emoji("🐳", "Nature", ["whale"]),
+    new Emoji("🐋", "Nature", ["whale2"]),
+    new Emoji("🐊", "Nature", ["crocodile"]),
+    new Emoji("🐆", "Nature", ["leopard"]),
+    new Emoji("🐅", "Nature", ["tiger2"]),
+    new Emoji("🐃", "Nature", ["water_buffalo"]),
+    new Emoji("🐂", "Nature", ["ox"]),
+    new Emoji("🐄", "Nature", ["cow2"]),
+    new Emoji("🦌", "Nature", ["deer"]),
+    new Emoji("🐪", "Nature", ["dromedary_camel"]),
+    new Emoji("🐫", "Nature", ["camel"]),
+    new Emoji("🐘", "Nature", ["elephant"]),
+    new Emoji("🦏", "Nature", ["rhinoceros"]),
+    new Emoji("🦍", "Nature", ["gorilla"]),
+    new Emoji("🐎", "Nature", ["racehorse"]),
+    new Emoji("🐖", "Nature", ["pig2"]),
+    new Emoji("🐐", "Nature", ["goat"]),
+    new Emoji("🐏", "Nature", ["ram"]),
+    new Emoji("🐑", "Nature", ["sheep"]),
+    new Emoji("🐕", "Nature", ["dog2"]),
+    new Emoji("🐩", "Nature", ["poodle"]),
+    new Emoji("🐈", "Nature", ["cat2"]),
+    new Emoji("🐓", "Nature", ["rooster"]),
+    new Emoji("🦃", "Nature", ["turkey"]),
+    new Emoji("🕊", "Nature", ["dove"]),
+    new Emoji("🐇", "Nature", ["rabbit2"]),
+    new Emoji("🐁", "Nature", ["mouse2"]),
+    new Emoji("🐀", "Nature", ["rat"]),
+    new Emoji("🐿", "Nature", ["chipmunk"]),
+    new Emoji("🐾", "Nature", ["feet", "paw_prints"]),
+    new Emoji("🐉", "Nature", ["dragon"]),
+    new Emoji("🐲", "Nature", ["dragon_face"]),
+    new Emoji("🌵", "Nature", ["cactus"]),
+    new Emoji("🎄", "Nature", ["christmas_tree"]),
+    new Emoji("🌲", "Nature", ["evergreen_tree"]),
+    new Emoji("🌳", "Nature", ["deciduous_tree"]),
+    new Emoji("🌴", "Nature", ["palm_tree"]),
+    new Emoji("🌱", "Nature", ["seedling"]),
+    new Emoji("🌿", "Nature", ["herb"]),
+    new Emoji("☘️", "Nature", ["shamrock"]),
+    new Emoji("🍀", "Nature", ["four_leaf_clover"]),
+    new Emoji("🎍", "Nature", ["bamboo"]),
+    new Emoji("🎋", "Nature", ["tanabata_tree"]),
+    new Emoji("🍃", "Nature", ["leaves"]),
+    new Emoji("🍂", "Nature", ["fallen_leaf"]),
+    new Emoji("🍁", "Nature", ["maple_leaf"]),
+    new Emoji("🍄", "Nature", ["mushroom"]),
+    new Emoji("🌾", "Nature", ["ear_of_rice"]),
+    new Emoji("💐", "Nature", ["bouquet"]),
+    new Emoji("🌷", "Nature", ["tulip"]),
+    new Emoji("🌹", "Nature", ["rose"]),
+    new Emoji("🥀", "Nature", ["wilted_flower"]),
+    new Emoji("🌻", "Nature", ["sunflower"]),
+    new Emoji("🌼", "Nature", ["blossom"]),
+    new Emoji("🌸", "Nature", ["cherry_blossom"]),
+    new Emoji("🌺", "Nature", ["hibiscus"]),
+    new Emoji("🌎", "Nature", ["earth_americas"]),
+    new Emoji("🌍", "Nature", ["earth_africa"]),
+    new Emoji("🌏", "Nature", ["earth_asia"]),
+    new Emoji("🌕", "Nature", ["full_moon"]),
+    new Emoji("🌖", "Nature", ["waning_gibbous_moon"]),
+    new Emoji("🌗", "Nature", ["last_quarter_moon"]),
+    new Emoji("🌘", "Nature", ["waning_crescent_moon"]),
+    new Emoji("🌑", "Nature", ["new_moon"]),
+    new Emoji("🌒", "Nature", ["waxing_crescent_moon"]),
+    new Emoji("🌓", "Nature", ["first_quarter_moon"]),
+    new Emoji("🌔", "Nature", ["moon", "waxing_gibbous_moon"]),
+    new Emoji("🌚", "Nature", ["new_moon_with_face"]),
+    new Emoji("🌝", "Nature", ["full_moon_with_face"]),
+    new Emoji("🌞", "Nature", ["sun_with_face"]),
+    new Emoji("🌛", "Nature", ["first_quarter_moon_with_face"]),
+    new Emoji("🌜", "Nature", ["last_quarter_moon_with_face"]),
+    new Emoji("🌙", "Nature", ["crescent_moon"]),
+    new Emoji("💫", "Nature", ["dizzy"]),
+    new Emoji("⭐️", "Nature", ["star"]),
+    new Emoji("🌟", "Nature", ["star2"]),
+    new Emoji("✨", "Nature", ["sparkles"]),
+    new Emoji("⚡️", "Nature", ["zap"]),
+    new Emoji("🔥", "Nature", ["fire"]),
+    new Emoji("💥", "Nature", ["boom", "collision"]),
+    new Emoji("☄", "Nature", ["comet"]),
+    new Emoji("☀️", "Nature", ["sunny"]),
+    new Emoji("🌤", "Nature", ["sun_behind_small_cloud"]),
+    new Emoji("⛅️", "Nature", ["partly_sunny"]),
+    new Emoji("🌥", "Nature", ["sun_behind_large_cloud"]),
+    new Emoji("🌦", "Nature", ["sun_behind_rain_cloud"]),
+    new Emoji("🌈", "Nature", ["rainbow"]),
+    new Emoji("☁️", "Nature", ["cloud"]),
+    new Emoji("🌧", "Nature", ["cloud_with_rain"]),
+    new Emoji("⛈", "Nature", ["cloud_with_lightning_and_rain"]),
+    new Emoji("🌩", "Nature", ["cloud_with_lightning"]),
+    new Emoji("🌨", "Nature", ["cloud_with_snow"]),
+    new Emoji("☃️", "Nature", ["snowman_with_snow"]),
+    new Emoji("⛄️", "Nature", ["snowman"]),
+    new Emoji("❄️", "Nature", ["snowflake"]),
+    new Emoji("🌬", "Nature", ["wind_face"]),
+    new Emoji("💨", "Nature", ["dash"]),
+    new Emoji("🌪", "Nature", ["tornado"]),
+    new Emoji("🌫", "Nature", ["fog"]),
+    new Emoji("🌊", "Nature", ["ocean"]),
+    new Emoji("💧", "Nature", ["droplet"]),
+    new Emoji("💦", "Nature", ["sweat_drops"]),
+    new Emoji("☔️", "Nature", ["umbrella"]),
+    new Emoji("🍏", "Foods", ["green_apple"]),
+    new Emoji("🍎", "Foods", ["apple"]),
+    new Emoji("🍐", "Foods", ["pear"]),
+    new Emoji("🍊", "Foods", ["tangerine", "orange", "mandarin"]),
+    new Emoji("🍋", "Foods", ["lemon"]),
+    new Emoji("🍌", "Foods", ["banana"]),
+    new Emoji("🍉", "Foods", ["watermelon"]),
+    new Emoji("🍇", "Foods", ["grapes"]),
+    new Emoji("🍓", "Foods", ["strawberry"]),
+    new Emoji("🍈", "Foods", ["melon"]),
+    new Emoji("🍒", "Foods", ["cherries"]),
+    new Emoji("🍑", "Foods", ["peach"]),
+    new Emoji("🍍", "Foods", ["pineapple"]),
+    new Emoji("🥝", "Foods", ["kiwi_fruit"]),
+    new Emoji("🥑", "Foods", ["avocado"]),
+    new Emoji("🍅", "Foods", ["tomato"]),
+    new Emoji("🍆", "Foods", ["eggplant"]),
+    new Emoji("🥒", "Foods", ["cucumber"]),
+    new Emoji("🥕", "Foods", ["carrot"]),
+    new Emoji("🌽", "Foods", ["corn"]),
+    new Emoji("🌶", "Foods", ["hot_pepper"]),
+    new Emoji("🥔", "Foods", ["potato"]),
+    new Emoji("🍠", "Foods", ["sweet_potato"]),
+    new Emoji("🌰", "Foods", ["chestnut"]),
+    new Emoji("🥜", "Foods", ["peanuts"]),
+    new Emoji("🍯", "Foods", ["honey_pot"]),
+    new Emoji("🥐", "Foods", ["croissant"]),
+    new Emoji("🍞", "Foods", ["bread"]),
+    new Emoji("🥖", "Foods", ["baguette_bread"]),
+    new Emoji("🧀", "Foods", ["cheese"]),
+    new Emoji("🥚", "Foods", ["egg"]),
+    new Emoji("🍳", "Foods", ["fried_egg"]),
+    new Emoji("🥓", "Foods", ["bacon"]),
+    new Emoji("🥞", "Foods", ["pancakes"]),
+    new Emoji("🍤", "Foods", ["fried_shrimp"]),
+    new Emoji("🍗", "Foods", ["poultry_leg"]),
+    new Emoji("🍖", "Foods", ["meat_on_bone"]),
+    new Emoji("🍕", "Foods", ["pizza"]),
+    new Emoji("🌭", "Foods", ["hotdog"]),
+    new Emoji("🍔", "Foods", ["hamburger"]),
+    new Emoji("🍟", "Foods", ["fries"]),
+    new Emoji("🥙", "Foods", ["stuffed_flatbread"]),
+    new Emoji("🌮", "Foods", ["taco"]),
+    new Emoji("🌯", "Foods", ["burrito"]),
+    new Emoji("🥗", "Foods", ["green_salad"]),
+    new Emoji("🥘", "Foods", ["shallow_pan_of_food"]),
+    new Emoji("🍝", "Foods", ["spaghetti"]),
+    new Emoji("🍜", "Foods", ["ramen"]),
+    new Emoji("🍲", "Foods", ["stew"]),
+    new Emoji("🍥", "Foods", ["fish_cake"]),
+    new Emoji("🍣", "Foods", ["sushi"]),
+    new Emoji("🍱", "Foods", ["bento"]),
+    new Emoji("🍛", "Foods", ["curry"]),
+    new Emoji("🍚", "Foods", ["rice"]),
+    new Emoji("🍙", "Foods", ["rice_ball"]),
+    new Emoji("🍘", "Foods", ["rice_cracker"]),
+    new Emoji("🍢", "Foods", ["oden"]),
+    new Emoji("🍡", "Foods", ["dango"]),
+    new Emoji("🍧", "Foods", ["shaved_ice"]),
+    new Emoji("🍨", "Foods", ["ice_cream"]),
+    new Emoji("🍦", "Foods", ["icecream"]),
+    new Emoji("🍰", "Foods", ["cake"]),
+    new Emoji("🎂", "Foods", ["birthday"]),
+    new Emoji("🍮", "Foods", ["custard"]),
+    new Emoji("🍭", "Foods", ["lollipop"]),
+    new Emoji("🍬", "Foods", ["candy"]),
+    new Emoji("🍫", "Foods", ["chocolate_bar"]),
+    new Emoji("🍿", "Foods", ["popcorn"]),
+    new Emoji("🍩", "Foods", ["doughnut"]),
+    new Emoji("🍪", "Foods", ["cookie"]),
+    new Emoji("🥛", "Foods", ["milk_glass"]),
+    new Emoji("🍼", "Foods", ["baby_bottle"]),
+    new Emoji("☕️", "Foods", ["coffee"]),
+    new Emoji("🍵", "Foods", ["tea"]),
+    new Emoji("🍶", "Foods", ["sake"]),
+    new Emoji("🍺", "Foods", ["beer"]),
+    new Emoji("🍻", "Foods", ["beers"]),
+    new Emoji("🥂", "Foods", ["clinking_glasses"]),
+    new Emoji("🍷", "Foods", ["wine_glass"]),
+    new Emoji("🥃", "Foods", ["tumbler_glass"]),
+    new Emoji("🍸", "Foods", ["cocktail"]),
+    new Emoji("🍹", "Foods", ["tropical_drink"]),
+    new Emoji("🍾", "Foods", ["champagne"]),
+    new Emoji("🥄", "Foods", ["spoon"]),
+    new Emoji("🍴", "Foods", ["fork_and_knife"]),
+    new Emoji("🍽", "Foods", ["plate_with_cutlery"]),
+    new Emoji("⚽️", "Activity", ["soccer"]),
+    new Emoji("🏀", "Activity", ["basketball"]),
+    new Emoji("🏈", "Activity", ["football"]),
+    new Emoji("⚾️", "Activity", ["baseball"]),
+    new Emoji("🎾", "Activity", ["tennis"]),
+    new Emoji("🏐", "Activity", ["volleyball"]),
+    new Emoji("🏉", "Activity", ["rugby_football"]),
+    new Emoji("🎱", "Activity", ["8ball"]),
+    new Emoji("🏓", "Activity", ["ping_pong"]),
+    new Emoji("🏸", "Activity", ["badminton"]),
+    new Emoji("🥅", "Activity", ["goal_net"]),
+    new Emoji("🏒", "Activity", ["ice_hockey"]),
+    new Emoji("🏑", "Activity", ["field_hockey"]),
+    new Emoji("🏏", "Activity", ["cricket"]),
+    new Emoji("⛳️", "Activity", ["golf"]),
+    new Emoji("🏹", "Activity", ["bow_and_arrow"]),
+    new Emoji("🎣", "Activity", ["fishing_pole_and_fish"]),
+    new Emoji("🥊", "Activity", ["boxing_glove"]),
+    new Emoji("🥋", "Activity", ["martial_arts_uniform"]),
+    new Emoji("⛸", "Activity", ["ice_skate"]),
+    new Emoji("🎿", "Activity", ["ski"]),
+    new Emoji("⛷", "Activity", ["skier"]),
+    new Emoji("🏂", "Activity", ["snowboarder"]),
+    new Emoji("🏋️‍♀️", "Activity", ["weight_lifting_woman"]),
+    new Emoji("🏋", "Activity", ["weight_lifting_man"]),
+    new Emoji("🤺", "Activity", ["person_fencing"]),
+    new Emoji("🤼‍♀", "Activity", ["women_wrestling"]),
+    new Emoji("🤼‍♂", "Activity", ["men_wrestling"]),
+    new Emoji("🤸‍♀", "Activity", ["woman_cartwheeling"]),
+    new Emoji("🤸‍♂", "Activity", ["man_cartwheeling"]),
+    new Emoji("⛹️‍♀️", "Activity", ["basketball_woman"]),
+    new Emoji("⛹", "Activity", ["basketball_man"]),
+    new Emoji("🤾‍♀", "Activity", ["woman_playing_handball"]),
+    new Emoji("🤾‍♂", "Activity", ["man_playing_handball"]),
+    new Emoji("🏌️‍♀️", "Activity", ["golfing_woman"]),
+    new Emoji("🏌", "Activity", ["golfing_man"]),
+    new Emoji("🏄‍♀", "Activity", ["surfing_woman"]),
+    new Emoji("🏄", "Activity", ["surfing_man", "surfer"]),
+    new Emoji("🏊‍♀", "Activity", ["swimming_woman"]),
+    new Emoji("🏊", "Activity", ["swimming_man", "swimmer"]),
+    new Emoji("🤽‍♀", "Activity", ["woman_playing_water_polo"]),
+    new Emoji("🤽‍♂", "Activity", ["man_playing_water_polo"]),
+    new Emoji("🚣‍♀", "Activity", ["rowing_woman"]),
+    new Emoji("🚣", "Activity", ["rowing_man", "rowboat"]),
+    new Emoji("🏇", "Activity", ["horse_racing"]),
+    new Emoji("🚴‍♀", "Activity", ["biking_woman"]),
+    new Emoji("🚴", "Activity", ["biking_man", "bicyclist"]),
+    new Emoji("🚵‍♀", "Activity", ["mountain_biking_woman"]),
+    new Emoji("🚵", "Activity", ["mountain_biking_man", "mountain_bicyclist"]),
+    new Emoji("🎽", "Activity", ["running_shirt_with_sash"]),
+    new Emoji("🏅", "Activity", ["medal_sports"]),
+    new Emoji("🎖", "Activity", ["medal_military"]),
+    new Emoji("🥇", "Activity", ["1st_place_medal"]),
+    new Emoji("🥈", "Activity", ["2nd_place_medal"]),
+    new Emoji("🥉", "Activity", ["3rd_place_medal"]),
+    new Emoji("🏆", "Activity", ["trophy"]),
+    new Emoji("🏵", "Activity", ["rosette"]),
+    new Emoji("🎗", "Activity", ["reminder_ribbon"]),
+    new Emoji("🎫", "Activity", ["ticket"]),
+    new Emoji("🎟", "Activity", ["tickets"]),
+    new Emoji("🎪", "Activity", ["circus_tent"]),
+    new Emoji("🤹‍♀", "Activity", ["woman_juggling"]),
+    new Emoji("🤹‍♂", "Activity", ["man_juggling"]),
+    new Emoji("🎭", "Activity", ["performing_arts"]),
+    new Emoji("🎨", "Activity", ["art"]),
+    new Emoji("🎬", "Activity", ["clapper"]),
+    new Emoji("🎤", "Activity", ["microphone"]),
+    new Emoji("🎧", "Activity", ["headphones"]),
+    new Emoji("🎼", "Activity", ["musical_score"]),
+    new Emoji("🎹", "Activity", ["musical_keyboard"]),
+    new Emoji("🥁", "Activity", ["drum"]),
+    new Emoji("🎷", "Activity", ["saxophone"]),
+    new Emoji("🎺", "Activity", ["trumpet"]),
+    new Emoji("🎸", "Activity", ["guitar"]),
+    new Emoji("🎻", "Activity", ["violin"]),
+    new Emoji("🎲", "Activity", ["game_die"]),
+    new Emoji("🎯", "Activity", ["dart"]),
+    new Emoji("🎳", "Activity", ["bowling"]),
+    new Emoji("🎮", "Activity", ["video_game"]),
+    new Emoji("🎰", "Activity", ["slot_machine"]),
+    new Emoji("🚗", "Places", ["car", "red_car"]),
+    new Emoji("🚕", "Places", ["taxi"]),
+    new Emoji("🚙", "Places", ["blue_car"]),
+    new Emoji("🚌", "Places", ["bus"]),
+    new Emoji("🚎", "Places", ["trolleybus"]),
+    new Emoji("🏎", "Places", ["racing_car"]),
+    new Emoji("🚓", "Places", ["police_car"]),
+    new Emoji("🚑", "Places", ["ambulance"]),
+    new Emoji("🚒", "Places", ["fire_engine"]),
+    new Emoji("🚐", "Places", ["minibus"]),
+    new Emoji("🚚", "Places", ["truck"]),
+    new Emoji("🚛", "Places", ["articulated_lorry"]),
+    new Emoji("🚜", "Places", ["tractor"]),
+    new Emoji("🛴", "Places", ["kick_scooter"]),
+    new Emoji("🚲", "Places", ["bike"]),
+    new Emoji("🛵", "Places", ["motor_scooter"]),
+    new Emoji("🏍", "Places", ["motorcycle"]),
+    new Emoji("🚨", "Places", ["rotating_light"]),
+    new Emoji("🚔", "Places", ["oncoming_police_car"]),
+    new Emoji("🚍", "Places", ["oncoming_bus"]),
+    new Emoji("🚘", "Places", ["oncoming_automobile"]),
+    new Emoji("🚖", "Places", ["oncoming_taxi"]),
+    new Emoji("🚡", "Places", ["aerial_tramway"]),
+    new Emoji("🚠", "Places", ["mountain_cableway"]),
+    new Emoji("🚟", "Places", ["suspension_railway"]),
+    new Emoji("🚃", "Places", ["railway_car"]),
+    new Emoji("🚋", "Places", ["train"]),
+    new Emoji("🚞", "Places", ["mountain_railway"]),
+    new Emoji("🚝", "Places", ["monorail"]),
+    new Emoji("🚄", "Places", ["bullettrain_side"]),
+    new Emoji("🚅", "Places", ["bullettrain_front"]),
+    new Emoji("🚈", "Places", ["light_rail"]),
+    new Emoji("🚂", "Places", ["steam_locomotive"]),
+    new Emoji("🚆", "Places", ["train2"]),
+    new Emoji("🚇", "Places", ["metro"]),
+    new Emoji("🚊", "Places", ["tram"]),
+    new Emoji("🚉", "Places", ["station"]),
+    new Emoji("🚁", "Places", ["helicopter"]),
+    new Emoji("🛩", "Places", ["small_airplane"]),
+    new Emoji("✈️", "Places", ["airplane"]),
+    new Emoji("🛫", "Places", ["flight_departure"]),
+    new Emoji("🛬", "Places", ["flight_arrival"]),
+    new Emoji("🚀", "Places", ["rocket"]),
+    new Emoji("🛰", "Places", ["artificial_satellite"]),
+    new Emoji("💺", "Places", ["seat"]),
+    new Emoji("🛶", "Places", ["canoe"]),
+    new Emoji("⛵️", "Places", ["boat", "sailboat"]),
+    new Emoji("🛥", "Places", ["motor_boat"]),
+    new Emoji("🚤", "Places", ["speedboat"]),
+    new Emoji("🛳", "Places", ["passenger_ship"]),
+    new Emoji("⛴", "Places", ["ferry"]),
+    new Emoji("🚢", "Places", ["ship"]),
+    new Emoji("⚓️", "Places", ["anchor"]),
+    new Emoji("🚧", "Places", ["construction"]),
+    new Emoji("⛽️", "Places", ["fuelpump"]),
+    new Emoji("🚏", "Places", ["busstop"]),
+    new Emoji("🚦", "Places", ["vertical_traffic_light"]),
+    new Emoji("🚥", "Places", ["traffic_light"]),
+    new Emoji("🗺", "Places", ["world_map"]),
+    new Emoji("🗿", "Places", ["moyai"]),
+    new Emoji("🗽", "Places", ["statue_of_liberty"]),
+    new Emoji("⛲️", "Places", ["fountain"]),
+    new Emoji("🗼", "Places", ["tokyo_tower"]),
+    new Emoji("🏰", "Places", ["european_castle"]),
+    new Emoji("🏯", "Places", ["japanese_castle"]),
+    new Emoji("🏟", "Places", ["stadium"]),
+    new Emoji("🎡", "Places", ["ferris_wheel"]),
+    new Emoji("🎢", "Places", ["roller_coaster"]),
+    new Emoji("🎠", "Places", ["carousel_horse"]),
+    new Emoji("⛱", "Places", ["parasol_on_ground"]),
+    new Emoji("🏖", "Places", ["beach_umbrella"]),
+    new Emoji("🏝", "Places", ["desert_island"]),
+    new Emoji("⛰", "Places", ["mountain"]),
+    new Emoji("🏔", "Places", ["mountain_snow"]),
+    new Emoji("🗻", "Places", ["mount_fuji"]),
+    new Emoji("🌋", "Places", ["volcano"]),
+    new Emoji("🏜", "Places", ["desert"]),
+    new Emoji("🏕", "Places", ["camping"]),
+    new Emoji("⛺️", "Places", ["tent"]),
+    new Emoji("🛤", "Places", ["railway_track"]),
+    new Emoji("🛣", "Places", ["motorway"]),
+    new Emoji("🏗", "Places", ["building_construction"]),
+    new Emoji("🏭", "Places", ["factory"]),
+    new Emoji("🏠", "Places", ["house"]),
+    new Emoji("🏡", "Places", ["house_with_garden"]),
+    new Emoji("🏘", "Places", ["houses"]),
+    new Emoji("🏚", "Places", ["derelict_house"]),
+    new Emoji("🏢", "Places", ["office"]),
+    new Emoji("🏬", "Places", ["department_store"]),
+    new Emoji("🏣", "Places", ["post_office"]),
+    new Emoji("🏤", "Places", ["european_post_office"]),
+    new Emoji("🏥", "Places", ["hospital"]),
+    new Emoji("🏦", "Places", ["bank"]),
+    new Emoji("🏨", "Places", ["hotel"]),
+    new Emoji("🏪", "Places", ["convenience_store"]),
+    new Emoji("🏫", "Places", ["school"]),
+    new Emoji("🏩", "Places", ["love_hotel"]),
+    new Emoji("💒", "Places", ["wedding"]),
+    new Emoji("🏛", "Places", ["classical_building"]),
+    new Emoji("⛪️", "Places", ["church"]),
+    new Emoji("🕌", "Places", ["mosque"]),
+    new Emoji("🕍", "Places", ["synagogue"]),
+    new Emoji("🕋", "Places", ["kaaba"]),
+    new Emoji("⛩", "Places", ["shinto_shrine"]),
+    new Emoji("🗾", "Places", ["japan"]),
+    new Emoji("🎑", "Places", ["rice_scene"]),
+    new Emoji("🏞", "Places", ["national_park"]),
+    new Emoji("🌅", "Places", ["sunrise"]),
+    new Emoji("🌄", "Places", ["sunrise_over_mountains"]),
+    new Emoji("🌠", "Places", ["stars"]),
+    new Emoji("🎇", "Places", ["sparkler"]),
+    new Emoji("🎆", "Places", ["fireworks"]),
+    new Emoji("🌇", "Places", ["city_sunrise"]),
+    new Emoji("🌆", "Places", ["city_sunset"]),
+    new Emoji("🏙", "Places", ["cityscape"]),
+    new Emoji("🌃", "Places", ["night_with_stars"]),
+    new Emoji("🌌", "Places", ["milky_way"]),
+    new Emoji("🌉", "Places", ["bridge_at_night"]),
+    new Emoji("🌁", "Places", ["foggy"]),
+    new Emoji("⌚️", "Objects", ["watch"]),
+    new Emoji("📱", "Objects", ["iphone"]),
+    new Emoji("📲", "Objects", ["calling"]),
+    new Emoji("💻", "Objects", ["computer"]),
+    new Emoji("⌨️", "Objects", ["keyboard"]),
+    new Emoji("🖥", "Objects", ["desktop_computer"]),
+    new Emoji("🖨", "Objects", ["printer"]),
+    new Emoji("🖱", "Objects", ["computer_mouse"]),
+    new Emoji("🖲", "Objects", ["trackball"]),
+    new Emoji("🕹", "Objects", ["joystick"]),
+    new Emoji("🗜", "Objects", ["clamp"]),
+    new Emoji("💽", "Objects", ["minidisc"]),
+    new Emoji("💾", "Objects", ["floppy_disk"]),
+    new Emoji("💿", "Objects", ["cd"]),
+    new Emoji("📀", "Objects", ["dvd"]),
+    new Emoji("📼", "Objects", ["vhs"]),
+    new Emoji("📷", "Objects", ["camera"]),
+    new Emoji("📸", "Objects", ["camera_flash"]),
+    new Emoji("📹", "Objects", ["video_camera"]),
+    new Emoji("🎥", "Objects", ["movie_camera"]),
+    new Emoji("📽", "Objects", ["film_projector"]),
+    new Emoji("🎞", "Objects", ["film_strip"]),
+    new Emoji("📞", "Objects", ["telephone_receiver"]),
+    new Emoji("☎️", "Objects", ["phone", "telephone"]),
+    new Emoji("📟", "Objects", ["pager"]),
+    new Emoji("📠", "Objects", ["fax"]),
+    new Emoji("📺", "Objects", ["tv"]),
+    new Emoji("📻", "Objects", ["radio"]),
+    new Emoji("🎙", "Objects", ["studio_microphone"]),
+    new Emoji("🎚", "Objects", ["level_slider"]),
+    new Emoji("🎛", "Objects", ["control_knobs"]),
+    new Emoji("⏱", "Objects", ["stopwatch"]),
+    new Emoji("⏲", "Objects", ["timer_clock"]),
+    new Emoji("⏰", "Objects", ["alarm_clock"]),
+    new Emoji("🕰", "Objects", ["mantelpiece_clock"]),
+    new Emoji("⌛️", "Objects", ["hourglass"]),
+    new Emoji("⏳", "Objects", ["hourglass_flowing_sand"]),
+    new Emoji("📡", "Objects", ["satellite"]),
+    new Emoji("🔋", "Objects", ["battery"]),
+    new Emoji("🔌", "Objects", ["electric_plug"]),
+    new Emoji("💡", "Objects", ["bulb"]),
+    new Emoji("🔦", "Objects", ["flashlight"]),
+    new Emoji("🕯", "Objects", ["candle"]),
+    new Emoji("🗑", "Objects", ["wastebasket"]),
+    new Emoji("🛢", "Objects", ["oil_drum"]),
+    new Emoji("💸", "Objects", ["money_with_wings"]),
+    new Emoji("💵", "Objects", ["dollar"]),
+    new Emoji("💴", "Objects", ["yen"]),
+    new Emoji("💶", "Objects", ["euro"]),
+    new Emoji("💷", "Objects", ["pound"]),
+    new Emoji("💰", "Objects", ["moneybag"]),
+    new Emoji("💳", "Objects", ["credit_card"]),
+    new Emoji("💎", "Objects", ["gem"]),
+    new Emoji("⚖️", "Objects", ["balance_scale"]),
+    new Emoji("🔧", "Objects", ["wrench"]),
+    new Emoji("🔨", "Objects", ["hammer"]),
+    new Emoji("⚒", "Objects", ["hammer_and_pick"]),
+    new Emoji("🛠", "Objects", ["hammer_and_wrench"]),
+    new Emoji("⛏", "Objects", ["pick"]),
+    new Emoji("🔩", "Objects", ["nut_and_bolt"]),
+    new Emoji("⚙️", "Objects", ["gear"]),
+    new Emoji("⛓", "Objects", ["chains"]),
+    new Emoji("🔫", "Objects", ["gun"]),
+    new Emoji("💣", "Objects", ["bomb"]),
+    new Emoji("🔪", "Objects", ["hocho", "knife"]),
+    new Emoji("🗡", "Objects", ["dagger"]),
+    new Emoji("⚔️", "Objects", ["crossed_swords"]),
+    new Emoji("🛡", "Objects", ["shield"]),
+    new Emoji("🚬", "Objects", ["smoking"]),
+    new Emoji("⚰️", "Objects", ["coffin"]),
+    new Emoji("⚱️", "Objects", ["funeral_urn"]),
+    new Emoji("🏺", "Objects", ["amphora"]),
+    new Emoji("🔮", "Objects", ["crystal_ball"]),
+    new Emoji("📿", "Objects", ["prayer_beads"]),
+    new Emoji("💈", "Objects", ["barber"]),
+    new Emoji("⚗️", "Objects", ["alembic"]),
+    new Emoji("🔭", "Objects", ["telescope"]),
+    new Emoji("🔬", "Objects", ["microscope"]),
+    new Emoji("🕳", "Objects", ["hole"]),
+    new Emoji("💊", "Objects", ["pill"]),
+    new Emoji("💉", "Objects", ["syringe"]),
+    new Emoji("🌡", "Objects", ["thermometer"]),
+    new Emoji("🚽", "Objects", ["toilet"]),
+    new Emoji("🚰", "Objects", ["potable_water"]),
+    new Emoji("🚿", "Objects", ["shower"]),
+    new Emoji("🛁", "Objects", ["bathtub"]),
+    new Emoji("🛀", "Objects", ["bath"]),
+    new Emoji("🛎", "Objects", ["bellhop_bell"]),
+    new Emoji("🔑", "Objects", ["key"]),
+    new Emoji("🗝", "Objects", ["old_key"]),
+    new Emoji("🚪", "Objects", ["door"]),
+    new Emoji("🛋", "Objects", ["couch_and_lamp"]),
+    new Emoji("🛏", "Objects", ["bed"]),
+    new Emoji("🛌", "Objects", ["sleeping_bed"]),
+    new Emoji("🖼", "Objects", ["framed_picture"]),
+    new Emoji("🛍", "Objects", ["shopping"]),
+    new Emoji("🛒", "Objects", ["shopping_cart"]),
+    new Emoji("🎁", "Objects", ["gift"]),
+    new Emoji("🎈", "Objects", ["balloon"]),
+    new Emoji("🎏", "Objects", ["flags"]),
+    new Emoji("🎀", "Objects", ["ribbon"]),
+    new Emoji("🎊", "Objects", ["confetti_ball"]),
+    new Emoji("🎉", "Objects", ["tada"]),
+    new Emoji("🎎", "Objects", ["dolls"]),
+    new Emoji("🏮", "Objects", ["izakaya_lantern", "lantern"]),
+    new Emoji("🎐", "Objects", ["wind_chime"]),
+    new Emoji("✉️", "Objects", ["email", "envelope"]),
+    new Emoji("📩", "Objects", ["envelope_with_arrow"]),
+    new Emoji("📨", "Objects", ["incoming_envelope"]),
+    new Emoji("📧", "Objects", ["e-mail"]),
+    new Emoji("💌", "Objects", ["love_letter"]),
+    new Emoji("📥", "Objects", ["inbox_tray"]),
+    new Emoji("📤", "Objects", ["outbox_tray"]),
+    new Emoji("📦", "Objects", ["package"]),
+    new Emoji("🏷", "Objects", ["label"]),
+    new Emoji("📪", "Objects", ["mailbox_closed"]),
+    new Emoji("📫", "Objects", ["mailbox"]),
+    new Emoji("📬", "Objects", ["mailbox_with_mail"]),
+    new Emoji("📭", "Objects", ["mailbox_with_no_mail"]),
+    new Emoji("📮", "Objects", ["postbox"]),
+    new Emoji("📯", "Objects", ["postal_horn"]),
+    new Emoji("📜", "Objects", ["scroll"]),
+    new Emoji("📃", "Objects", ["page_with_curl"]),
+    new Emoji("📄", "Objects", ["page_facing_up"]),
+    new Emoji("📑", "Objects", ["bookmark_tabs"]),
+    new Emoji("📊", "Objects", ["bar_chart"]),
+    new Emoji("📈", "Objects", ["chart_with_upwards_trend"]),
+    new Emoji("📉", "Objects", ["chart_with_downwards_trend"]),
+    new Emoji("🗒", "Objects", ["spiral_notepad"]),
+    new Emoji("🗓", "Objects", ["spiral_calendar"]),
+    new Emoji("📆", "Objects", ["calendar"]),
+    new Emoji("📅", "Objects", ["date"]),
+    new Emoji("📇", "Objects", ["card_index"]),
+    new Emoji("🗃", "Objects", ["card_file_box"]),
+    new Emoji("🗳", "Objects", ["ballot_box"]),
+    new Emoji("🗄", "Objects", ["file_cabinet"]),
+    new Emoji("📋", "Objects", ["clipboard"]),
+    new Emoji("📁", "Objects", ["file_folder"]),
+    new Emoji("📂", "Objects", ["open_file_folder"]),
+    new Emoji("🗂", "Objects", ["card_index_dividers"]),
+    new Emoji("🗞", "Objects", ["newspaper_roll"]),
+    new Emoji("📰", "Objects", ["newspaper"]),
+    new Emoji("📓", "Objects", ["notebook"]),
+    new Emoji("📔", "Objects", ["notebook_with_decorative_cover"]),
+    new Emoji("📒", "Objects", ["ledger"]),
+    new Emoji("📕", "Objects", ["closed_book"]),
+    new Emoji("📗", "Objects", ["green_book"]),
+    new Emoji("📘", "Objects", ["blue_book"]),
+    new Emoji("📙", "Objects", ["orange_book"]),
+    new Emoji("📚", "Objects", ["books"]),
+    new Emoji("📖", "Objects", ["book", "open_book"]),
+    new Emoji("🔖", "Objects", ["bookmark"]),
+    new Emoji("🔗", "Objects", ["link"]),
+    new Emoji("📎", "Objects", ["paperclip"]),
+    new Emoji("🖇", "Objects", ["paperclips"]),
+    new Emoji("📐", "Objects", ["triangular_ruler"]),
+    new Emoji("📏", "Objects", ["straight_ruler"]),
+    new Emoji("📌", "Objects", ["pushpin"]),
+    new Emoji("📍", "Objects", ["round_pushpin"]),
+    new Emoji("✂️", "Objects", ["scissors"]),
+    new Emoji("🖊", "Objects", ["pen"]),
+    new Emoji("🖋", "Objects", ["fountain_pen"]),
+    new Emoji("✒️", "Objects", ["black_nib"]),
+    new Emoji("🖌", "Objects", ["paintbrush"]),
+    new Emoji("🖍", "Objects", ["crayon"]),
+    new Emoji("📝", "Objects", ["memo", "pencil"]),
+    new Emoji("✏️", "Objects", ["pencil2"]),
+    new Emoji("🔍", "Objects", ["mag"]),
+    new Emoji("🔎", "Objects", ["mag_right"]),
+    new Emoji("🔏", "Objects", ["lock_with_ink_pen"]),
+    new Emoji("🔐", "Objects", ["closed_lock_with_key"]),
+    new Emoji("🔒", "Objects", ["lock"]),
+    new Emoji("🔓", "Objects", ["unlock"]),
+    new Emoji("❤️", "Symbols", ["heart"]),
+    new Emoji("💛", "Symbols", ["yellow_heart"]),
+    new Emoji("💚", "Symbols", ["green_heart"]),
+    new Emoji("💙", "Symbols", ["blue_heart"]),
+    new Emoji("💜", "Symbols", ["purple_heart"]),
+    new Emoji("🖤", "Symbols", ["black_heart"]),
+    new Emoji("💔", "Symbols", ["broken_heart"]),
+    new Emoji("❣️", "Symbols", ["heavy_heart_exclamation"]),
+    new Emoji("💕", "Symbols", ["two_hearts"]),
+    new Emoji("💞", "Symbols", ["revolving_hearts"]),
+    new Emoji("💓", "Symbols", ["heartbeat"]),
+    new Emoji("💗", "Symbols", ["heartpulse"]),
+    new Emoji("💖", "Symbols", ["sparkling_heart"]),
+    new Emoji("💘", "Symbols", ["cupid"]),
+    new Emoji("💝", "Symbols", ["gift_heart"]),
+    new Emoji("💟", "Symbols", ["heart_decoration"]),
+    new Emoji("☮️", "Symbols", ["peace_symbol"]),
+    new Emoji("✝️", "Symbols", ["latin_cross"]),
+    new Emoji("☪️", "Symbols", ["star_and_crescent"]),
+    new Emoji("🕉", "Symbols", ["om"]),
+    new Emoji("☸️", "Symbols", ["wheel_of_dharma"]),
+    new Emoji("✡️", "Symbols", ["star_of_david"]),
+    new Emoji("🔯", "Symbols", ["six_pointed_star"]),
+    new Emoji("🕎", "Symbols", ["menorah"]),
+    new Emoji("☯️", "Symbols", ["yin_yang"]),
+    new Emoji("☦️", "Symbols", ["orthodox_cross"]),
+    new Emoji("🛐", "Symbols", ["place_of_worship"]),
+    new Emoji("⛎", "Symbols", ["ophiuchus"]),
+    new Emoji("♈️", "Symbols", ["aries"]),
+    new Emoji("♉️", "Symbols", ["taurus"]),
+    new Emoji("♊️", "Symbols", ["gemini"]),
+    new Emoji("♋️", "Symbols", ["cancer"]),
+    new Emoji("♌️", "Symbols", ["leo"]),
+    new Emoji("♍️", "Symbols", ["virgo"]),
+    new Emoji("♎️", "Symbols", ["libra"]),
+    new Emoji("♏️", "Symbols", ["scorpius"]),
+    new Emoji("♐️", "Symbols", ["sagittarius"]),
+    new Emoji("♑️", "Symbols", ["capricorn"]),
+    new Emoji("♒️", "Symbols", ["aquarius"]),
+    new Emoji("♓️", "Symbols", ["pisces"]),
+    new Emoji("🆔", "Symbols", ["id"]),
+    new Emoji("⚛️", "Symbols", ["atom_symbol"]),
+    new Emoji("🉑", "Symbols", ["accept"]),
+    new Emoji("☢️", "Symbols", ["radioactive"]),
+    new Emoji("☣️", "Symbols", ["biohazard"]),
+    new Emoji("📴", "Symbols", ["mobile_phone_off"]),
+    new Emoji("📳", "Symbols", ["vibration_mode"]),
+    new Emoji("🈶", "Symbols", ["u6709"]),
+    new Emoji("🈚️", "Symbols", ["u7121"]),
+    new Emoji("🈸", "Symbols", ["u7533"]),
+    new Emoji("🈺", "Symbols", ["u55b6"]),
+    new Emoji("🈷️", "Symbols", ["u6708"]),
+    new Emoji("✴️", "Symbols", ["eight_pointed_black_star"]),
+    new Emoji("🆚", "Symbols", ["vs"]),
+    new Emoji("💮", "Symbols", ["white_flower"]),
+    new Emoji("🉐", "Symbols", ["ideograph_advantage"]),
+    new Emoji("㊙️", "Symbols", ["secret"]),
+    new Emoji("㊗️", "Symbols", ["congratulations"]),
+    new Emoji("🈴", "Symbols", ["u5408"]),
+    new Emoji("🈵", "Symbols", ["u6e80"]),
+    new Emoji("🈹", "Symbols", ["u5272"]),
+    new Emoji("🈲", "Symbols", ["u7981"]),
+    new Emoji("🅰️", "Symbols", ["a"]),
+    new Emoji("🅱️", "Symbols", ["b"]),
+    new Emoji("🆎", "Symbols", ["ab"]),
+    new Emoji("🆑", "Symbols", ["cl"]),
+    new Emoji("🅾️", "Symbols", ["o2"]),
+    new Emoji("🆘", "Symbols", ["sos"]),
+    new Emoji("❌", "Symbols", ["x"]),
+    new Emoji("⭕️", "Symbols", ["o"]),
+    new Emoji("🛑", "Symbols", ["stop_sign"]),
+    new Emoji("⛔️", "Symbols", ["no_entry"]),
+    new Emoji("📛", "Symbols", ["name_badge"]),
+    new Emoji("🚫", "Symbols", ["no_entry_sign"]),
+    new Emoji("💯", "Symbols", ["100"]),
+    new Emoji("💢", "Symbols", ["anger"]),
+    new Emoji("♨️", "Symbols", ["hotsprings"]),
+    new Emoji("🚷", "Symbols", ["no_pedestrians"]),
+    new Emoji("🚯", "Symbols", ["do_not_litter"]),
+    new Emoji("🚳", "Symbols", ["no_bicycles"]),
+    new Emoji("🚱", "Symbols", ["non-potable_water"]),
+    new Emoji("🔞", "Symbols", ["underage"]),
+    new Emoji("📵", "Symbols", ["no_mobile_phones"]),
+    new Emoji("🚭", "Symbols", ["no_smoking"]),
+    new Emoji("❗️", "Symbols", ["exclamation", "heavy_exclamation_mark"]),
+    new Emoji("❕", "Symbols", ["grey_exclamation"]),
+    new Emoji("❓", "Symbols", ["question"]),
+    new Emoji("❔", "Symbols", ["grey_question"]),
+    new Emoji("‼️", "Symbols", ["bangbang"]),
+    new Emoji("⁉️", "Symbols", ["interrobang"]),
+    new Emoji("🔅", "Symbols", ["low_brightness"]),
+    new Emoji("🔆", "Symbols", ["high_brightness"]),
+    new Emoji("〽️", "Symbols", ["part_alternation_mark"]),
+    new Emoji("⚠️", "Symbols", ["warning"]),
+    new Emoji("🚸", "Symbols", ["children_crossing"]),
+    new Emoji("🔱", "Symbols", ["trident"]),
+    new Emoji("⚜️", "Symbols", ["fleur_de_lis"]),
+    new Emoji("🔰", "Symbols", ["beginner"]),
+    new Emoji("♻️", "Symbols", ["recycle"]),
+    new Emoji("✅", "Symbols", ["white_check_mark"]),
+    new Emoji("🈯️", "Symbols", ["u6307"]),
+    new Emoji("💹", "Symbols", ["chart"]),
+    new Emoji("❇️", "Symbols", ["sparkle"]),
+    new Emoji("✳️", "Symbols", ["eight_spoked_asterisk"]),
+    new Emoji("❎", "Symbols", ["negative_squared_cross_mark"]),
+    new Emoji("🌐", "Symbols", ["globe_with_meridians"]),
+    new Emoji("💠", "Symbols", ["diamond_shape_with_a_dot_inside"]),
+    new Emoji("Ⓜ️", "Symbols", ["m"]),
+    new Emoji("🌀", "Symbols", ["cyclone"]),
+    new Emoji("💤", "Symbols", ["zzz"]),
+    new Emoji("🏧", "Symbols", ["atm"]),
+    new Emoji("🚾", "Symbols", ["wc"]),
+    new Emoji("♿️", "Symbols", ["wheelchair"]),
+    new Emoji("🅿️", "Symbols", ["parking"]),
+    new Emoji("🈳", "Symbols", ["u7a7a"]),
+    new Emoji("🈂️", "Symbols", ["sa"]),
+    new Emoji("🛂", "Symbols", ["passport_control"]),
+    new Emoji("🛃", "Symbols", ["customs"]),
+    new Emoji("🛄", "Symbols", ["baggage_claim"]),
+    new Emoji("🛅", "Symbols", ["left_luggage"]),
+    new Emoji("🚹", "Symbols", ["mens"]),
+    new Emoji("🚺", "Symbols", ["womens"]),
+    new Emoji("🚼", "Symbols", ["baby_symbol"]),
+    new Emoji("🚻", "Symbols", ["restroom"]),
+    new Emoji("🚮", "Symbols", ["put_litter_in_its_place"]),
+    new Emoji("🎦", "Symbols", ["cinema"]),
+    new Emoji("📶", "Symbols", ["signal_strength"]),
+    new Emoji("🈁", "Symbols", ["koko"]),
+    new Emoji("🔣", "Symbols", ["symbols"]),
+    new Emoji("ℹ️", "Symbols", ["information_source"]),
+    new Emoji("🔤", "Symbols", ["abc"]),
+    new Emoji("🔡", "Symbols", ["abcd"]),
+    new Emoji("🔠", "Symbols", ["capital_abcd"]),
+    new Emoji("🆖", "Symbols", ["ng"]),
+    new Emoji("🆗", "Symbols", ["ok"]),
+    new Emoji("🆙", "Symbols", ["up"]),
+    new Emoji("🆒", "Symbols", ["cool"]),
+    new Emoji("🆕", "Symbols", ["new"]),
+    new Emoji("🆓", "Symbols", ["free"]),
+    new Emoji("0️⃣", "Symbols", ["zero"]),
+    new Emoji("1️⃣", "Symbols", ["one"]),
+    new Emoji("2️⃣", "Symbols", ["two"]),
+    new Emoji("3️⃣", "Symbols", ["three"]),
+    new Emoji("4️⃣", "Symbols", ["four"]),
+    new Emoji("5️⃣", "Symbols", ["five"]),
+    new Emoji("6️⃣", "Symbols", ["six"]),
+    new Emoji("7️⃣", "Symbols", ["seven"]),
+    new Emoji("8️⃣", "Symbols", ["eight"]),
+    new Emoji("9️⃣", "Symbols", ["nine"]),
+    new Emoji("🔟", "Symbols", ["keycap_ten"]),
+    new Emoji("🔢", "Symbols", ["1234"]),
+    new Emoji("#️⃣", "Symbols", ["hash"]),
+    new Emoji("*️⃣", "Symbols", ["asterisk"]),
+    new Emoji("▶️", "Symbols", ["arrow_forward"]),
+    new Emoji("⏸", "Symbols", ["pause_button"]),
+    new Emoji("⏯", "Symbols", ["play_or_pause_button"]),
+    new Emoji("⏹", "Symbols", ["stop_button"]),
+    new Emoji("⏺", "Symbols", ["record_button"]),
+    new Emoji("⏭", "Symbols", ["next_track_button"]),
+    new Emoji("⏮", "Symbols", ["previous_track_button"]),
+    new Emoji("⏩", "Symbols", ["fast_forward"]),
+    new Emoji("⏪", "Symbols", ["rewind"]),
+    new Emoji("⏫", "Symbols", ["arrow_double_up"]),
+    new Emoji("⏬", "Symbols", ["arrow_double_down"]),
+    new Emoji("◀️", "Symbols", ["arrow_backward"]),
+    new Emoji("🔼", "Symbols", ["arrow_up_small"]),
+    new Emoji("🔽", "Symbols", ["arrow_down_small"]),
+    new Emoji("➡️", "Symbols", ["arrow_right"]),
+    new Emoji("⬅️", "Symbols", ["arrow_left"]),
+    new Emoji("⬆️", "Symbols", ["arrow_up"]),
+    new Emoji("⬇️", "Symbols", ["arrow_down"]),
+    new Emoji("↗️", "Symbols", ["arrow_upper_right"]),
+    new Emoji("↘️", "Symbols", ["arrow_lower_right"]),
+    new Emoji("↙️", "Symbols", ["arrow_lower_left"]),
+    new Emoji("↖️", "Symbols", ["arrow_upper_left"]),
+    new Emoji("↕️", "Symbols", ["arrow_up_down"]),
+    new Emoji("↔️", "Symbols", ["left_right_arrow"]),
+    new Emoji("↪️", "Symbols", ["arrow_right_hook"]),
+    new Emoji("↩️", "Symbols", ["leftwards_arrow_with_hook"]),
+    new Emoji("⤴️", "Symbols", ["arrow_heading_up"]),
+    new Emoji("⤵️", "Symbols", ["arrow_heading_down"]),
+    new Emoji("🔀", "Symbols", ["twisted_rightwards_arrows"]),
+    new Emoji("🔁", "Symbols", ["repeat"]),
+    new Emoji("🔂", "Symbols", ["repeat_one"]),
+    new Emoji("🔄", "Symbols", ["arrows_counterclockwise"]),
+    new Emoji("🔃", "Symbols", ["arrows_clockwise"]),
+    new Emoji("🎵", "Symbols", ["musical_note"]),
+    new Emoji("🎶", "Symbols", ["notes"]),
+    new Emoji("➕", "Symbols", ["heavy_plus_sign"]),
+    new Emoji("➖", "Symbols", ["heavy_minus_sign"]),
+    new Emoji("➗", "Symbols", ["heavy_division_sign"]),
+    new Emoji("✖️", "Symbols", ["heavy_multiplication_x"]),
+    new Emoji("💲", "Symbols", ["heavy_dollar_sign"]),
+    new Emoji("💱", "Symbols", ["currency_exchange"]),
+    new Emoji("™️", "Symbols", ["tm"]),
+    new Emoji("©️", "Symbols", ["copyright"]),
+    new Emoji("®️", "Symbols", ["registered"]),
+    new Emoji("〰️", "Symbols", ["wavy_dash"]),
+    new Emoji("➰", "Symbols", ["curly_loop"]),
+    new Emoji("➿", "Symbols", ["loop"]),
+    new Emoji("🔚", "Symbols", ["end"]),
+    new Emoji("🔙", "Symbols", ["back"]),
+    new Emoji("🔛", "Symbols", ["on"]),
+    new Emoji("🔝", "Symbols", ["top"]),
+    new Emoji("🔜", "Symbols", ["soon"]),
+    new Emoji("✔️", "Symbols", ["heavy_check_mark"]),
+    new Emoji("☑️", "Symbols", ["ballot_box_with_check"]),
+    new Emoji("🔘", "Symbols", ["radio_button"]),
+    new Emoji("⚪️", "Symbols", ["white_circle"]),
+    new Emoji("⚫️", "Symbols", ["black_circle"]),
+    new Emoji("🔴", "Symbols", ["red_circle"]),
+    new Emoji("🔵", "Symbols", ["large_blue_circle"]),
+    new Emoji("🔺", "Symbols", ["small_red_triangle"]),
+    new Emoji("🔻", "Symbols", ["small_red_triangle_down"]),
+    new Emoji("🔸", "Symbols", ["small_orange_diamond"]),
+    new Emoji("🔹", "Symbols", ["small_blue_diamond"]),
+    new Emoji("🔶", "Symbols", ["large_orange_diamond"]),
+    new Emoji("🔷", "Symbols", ["large_blue_diamond"]),
+    new Emoji("🔳", "Symbols", ["white_square_button"]),
+    new Emoji("🔲", "Symbols", ["black_square_button"]),
+    new Emoji("▪️", "Symbols", ["black_small_square"]),
+    new Emoji("▫️", "Symbols", ["white_small_square"]),
+    new Emoji("◾️", "Symbols", ["black_medium_small_square"]),
+    new Emoji("◽️", "Symbols", ["white_medium_small_square"]),
+    new Emoji("◼️", "Symbols", ["black_medium_square"]),
+    new Emoji("◻️", "Symbols", ["white_medium_square"]),
+    new Emoji("⬛️", "Symbols", ["black_large_square"]),
+    new Emoji("⬜️", "Symbols", ["white_large_square"]),
+    new Emoji("🔈", "Symbols", ["speaker"]),
+    new Emoji("🔇", "Symbols", ["mute"]),
+    new Emoji("🔉", "Symbols", ["sound"]),
+    new Emoji("🔊", "Symbols", ["loud_sound"]),
+    new Emoji("🔔", "Symbols", ["bell"]),
+    new Emoji("🔕", "Symbols", ["no_bell"]),
+    new Emoji("📣", "Symbols", ["mega"]),
+    new Emoji("📢", "Symbols", ["loudspeaker"]),
+    new Emoji("👁‍🗨", "Symbols", ["eye_speech_bubble"]),
+    new Emoji("💬", "Symbols", ["speech_balloon"]),
+    new Emoji("💭", "Symbols", ["thought_balloon"]),
+    new Emoji("🗯", "Symbols", ["right_anger_bubble"]),
+    new Emoji("♠️", "Symbols", ["spades"]),
+    new Emoji("♣️", "Symbols", ["clubs"]),
+    new Emoji("♥️", "Symbols", ["hearts"]),
+    new Emoji("♦️", "Symbols", ["diamonds"]),
+    new Emoji("🃏", "Symbols", ["black_joker"]),
+    new Emoji("🎴", "Symbols", ["flower_playing_cards"]),
+    new Emoji("🀄️", "Symbols", ["mahjong"]),
+    new Emoji("🕐", "Symbols", ["clock1"]),
+    new Emoji("🕑", "Symbols", ["clock2"]),
+    new Emoji("🕒", "Symbols", ["clock3"]),
+    new Emoji("🕓", "Symbols", ["clock4"]),
+    new Emoji("🕔", "Symbols", ["clock5"]),
+    new Emoji("🕕", "Symbols", ["clock6"]),
+    new Emoji("🕖", "Symbols", ["clock7"]),
+    new Emoji("🕗", "Symbols", ["clock8"]),
+    new Emoji("🕘", "Symbols", ["clock9"]),
+    new Emoji("🕙", "Symbols", ["clock10"]),
+    new Emoji("🕚", "Symbols", ["clock11"]),
+    new Emoji("🕛", "Symbols", ["clock12"]),
+    new Emoji("🕜", "Symbols", ["clock130"]),
+    new Emoji("🕝", "Symbols", ["clock230"]),
+    new Emoji("🕞", "Symbols", ["clock330"]),
+    new Emoji("🕟", "Symbols", ["clock430"]),
+    new Emoji("🕠", "Symbols", ["clock530"]),
+    new Emoji("🕡", "Symbols", ["clock630"]),
+    new Emoji("🕢", "Symbols", ["clock730"]),
+    new Emoji("🕣", "Symbols", ["clock830"]),
+    new Emoji("🕤", "Symbols", ["clock930"]),
+    new Emoji("🕥", "Symbols", ["clock1030"]),
+    new Emoji("🕦", "Symbols", ["clock1130"]),
+    new Emoji("🕧", "Symbols", ["clock1230"]),
+    new Emoji("🏳️", "Flags", ["white_flag"]),
+    new Emoji("🏴", "Flags", ["black_flag"]),
+    new Emoji("🏁", "Flags", ["checkered_flag"]),
+    new Emoji("🚩", "Flags", ["triangular_flag_on_post"]),
+    new Emoji("🏳️‍🌈", "Flags", ["rainbow_flag"]),
+    new Emoji("🇦🇫", "Flags", ["afghanistan"]),
+    new Emoji("🇦🇽", "Flags", ["aland_islands"]),
+    new Emoji("🇦🇱", "Flags", ["albania"]),
+    new Emoji("🇩🇿", "Flags", ["algeria"]),
+    new Emoji("🇦🇸", "Flags", ["american_samoa"]),
+    new Emoji("🇦🇩", "Flags", ["andorra"]),
+    new Emoji("🇦🇴", "Flags", ["angola"]),
+    new Emoji("🇦🇮", "Flags", ["anguilla"]),
+    new Emoji("🇦🇶", "Flags", ["antarctica"]),
+    new Emoji("🇦🇬", "Flags", ["antigua_barbuda"]),
+    new Emoji("🇦🇷", "Flags", ["argentina"]),
+    new Emoji("🇦🇲", "Flags", ["armenia"]),
+    new Emoji("🇦🇼", "Flags", ["aruba"]),
+    new Emoji("🇦🇺", "Flags", ["australia"]),
+    new Emoji("🇦🇹", "Flags", ["austria"]),
+    new Emoji("🇦🇿", "Flags", ["azerbaijan"]),
+    new Emoji("🇧🇸", "Flags", ["bahamas"]),
+    new Emoji("🇧🇭", "Flags", ["bahrain"]),
+    new Emoji("🇧🇩", "Flags", ["bangladesh"]),
+    new Emoji("🇧🇧", "Flags", ["barbados"]),
+    new Emoji("🇧🇾", "Flags", ["belarus"]),
+    new Emoji("🇧🇪", "Flags", ["belgium"]),
+    new Emoji("🇧🇿", "Flags", ["belize"]),
+    new Emoji("🇧🇯", "Flags", ["benin"]),
+    new Emoji("🇧🇲", "Flags", ["bermuda"]),
+    new Emoji("🇧🇹", "Flags", ["bhutan"]),
+    new Emoji("🇧🇴", "Flags", ["bolivia"]),
+    new Emoji("🇧🇶", "Flags", ["caribbean_netherlands"]),
+    new Emoji("🇧🇦", "Flags", ["bosnia_herzegovina"]),
+    new Emoji("🇧🇼", "Flags", ["botswana"]),
+    new Emoji("🇧🇷", "Flags", ["brazil"]),
+    new Emoji("🇮🇴", "Flags", ["british_indian_ocean_territory"]),
+    new Emoji("🇻🇬", "Flags", ["british_virgin_islands"]),
+    new Emoji("🇧🇳", "Flags", ["brunei"]),
+    new Emoji("🇧🇬", "Flags", ["bulgaria"]),
+    new Emoji("🇧🇫", "Flags", ["burkina_faso"]),
+    new Emoji("🇧🇮", "Flags", ["burundi"]),
+    new Emoji("🇨🇻", "Flags", ["cape_verde"]),
+    new Emoji("🇰🇭", "Flags", ["cambodia"]),
+    new Emoji("🇨🇲", "Flags", ["cameroon"]),
+    new Emoji("🇨🇦", "Flags", ["canada"]),
+    new Emoji("🇮🇨", "Flags", ["canary_islands"]),
+    new Emoji("🇰🇾", "Flags", ["cayman_islands"]),
+    new Emoji("🇨🇫", "Flags", ["central_african_republic"]),
+    new Emoji("🇹🇩", "Flags", ["chad"]),
+    new Emoji("🇨🇱", "Flags", ["chile"]),
+    new Emoji("🇨🇳", "Flags", ["cn"]),
+    new Emoji("🇨🇽", "Flags", ["christmas_island"]),
+    new Emoji("🇨🇨", "Flags", ["cocos_islands"]),
+    new Emoji("🇨🇴", "Flags", ["colombia"]),
+    new Emoji("🇰🇲", "Flags", ["comoros"]),
+    new Emoji("🇨🇬", "Flags", ["congo_brazzaville"]),
+    new Emoji("🇨🇩", "Flags", ["congo_kinshasa"]),
+    new Emoji("🇨🇰", "Flags", ["cook_islands"]),
+    new Emoji("🇨🇷", "Flags", ["costa_rica"]),
+    new Emoji("🇨🇮", "Flags", ["cote_divoire"]),
+    new Emoji("🇭🇷", "Flags", ["croatia"]),
+    new Emoji("🇨🇺", "Flags", ["cuba"]),
+    new Emoji("🇨🇼", "Flags", ["curacao"]),
+    new Emoji("🇨🇾", "Flags", ["cyprus"]),
+    new Emoji("🇨🇿", "Flags", ["czech_republic"]),
+    new Emoji("🇩🇰", "Flags", ["denmark"]),
+    new Emoji("🇩🇯", "Flags", ["djibouti"]),
+    new Emoji("🇩🇲", "Flags", ["dominica"]),
+    new Emoji("🇩🇴", "Flags", ["dominican_republic"]),
+    new Emoji("🇪🇨", "Flags", ["ecuador"]),
+    new Emoji("🇪🇬", "Flags", ["egypt"]),
+    new Emoji("🇸🇻", "Flags", ["el_salvador"]),
+    new Emoji("🇬🇶", "Flags", ["equatorial_guinea"]),
+    new Emoji("🇪🇷", "Flags", ["eritrea"]),
+    new Emoji("🇪🇪", "Flags", ["estonia"]),
+    new Emoji("🇪🇹", "Flags", ["ethiopia"]),
+    new Emoji("🇪🇺", "Flags", ["eu", "european_union"]),
+    new Emoji("🇫🇰", "Flags", ["falkland_islands"]),
+    new Emoji("🇫🇴", "Flags", ["faroe_islands"]),
+    new Emoji("🇫🇯", "Flags", ["fiji"]),
+    new Emoji("🇫🇮", "Flags", ["finland"]),
+    new Emoji("🇫🇷", "Flags", ["fr"]),
+    new Emoji("🇬🇫", "Flags", ["french_guiana"]),
+    new Emoji("🇵🇫", "Flags", ["french_polynesia"]),
+    new Emoji("🇹🇫", "Flags", ["french_southern_territories"]),
+    new Emoji("🇬🇦", "Flags", ["gabon"]),
+    new Emoji("🇬🇲", "Flags", ["gambia"]),
+    new Emoji("🇬🇪", "Flags", ["georgia"]),
+    new Emoji("🇩🇪", "Flags", ["de"]),
+    new Emoji("🇬🇭", "Flags", ["ghana"]),
+    new Emoji("🇬🇮", "Flags", ["gibraltar"]),
+    new Emoji("🇬🇷", "Flags", ["greece"]),
+    new Emoji("🇬🇱", "Flags", ["greenland"]),
+    new Emoji("🇬🇩", "Flags", ["grenada"]),
+    new Emoji("🇬🇵", "Flags", ["guadeloupe"]),
+    new Emoji("🇬🇺", "Flags", ["guam"]),
+    new Emoji("🇬🇹", "Flags", ["guatemala"]),
+    new Emoji("🇬🇬", "Flags", ["guernsey"]),
+    new Emoji("🇬🇳", "Flags", ["guinea"]),
+    new Emoji("🇬🇼", "Flags", ["guinea_bissau"]),
+    new Emoji("🇬🇾", "Flags", ["guyana"]),
+    new Emoji("🇭🇹", "Flags", ["haiti"]),
+    new Emoji("🇭🇳", "Flags", ["honduras"]),
+    new Emoji("🇭🇰", "Flags", ["hong_kong"]),
+    new Emoji("🇭🇺", "Flags", ["hungary"]),
+    new Emoji("🇮🇸", "Flags", ["iceland"]),
+    new Emoji("🇮🇳", "Flags", ["india"]),
+    new Emoji("🇮🇩", "Flags", ["indonesia"]),
+    new Emoji("🇮🇷", "Flags", ["iran"]),
+    new Emoji("🇮🇶", "Flags", ["iraq"]),
+    new Emoji("🇮🇪", "Flags", ["ireland"]),
+    new Emoji("🇮🇲", "Flags", ["isle_of_man"]),
+    new Emoji("🇮🇱", "Flags", ["israel"]),
+    new Emoji("🇮🇹", "Flags", ["it"]),
+    new Emoji("🇯🇲", "Flags", ["jamaica"]),
+    new Emoji("🇯🇵", "Flags", ["jp"]),
+    new Emoji("🎌", "Flags", ["crossed_flags"]),
+    new Emoji("🇯🇪", "Flags", ["jersey"]),
+    new Emoji("🇯🇴", "Flags", ["jordan"]),
+    new Emoji("🇰🇿", "Flags", ["kazakhstan"]),
+    new Emoji("🇰🇪", "Flags", ["kenya"]),
+    new Emoji("🇰🇮", "Flags", ["kiribati"]),
+    new Emoji("🇽🇰", "Flags", ["kosovo"]),
+    new Emoji("🇰🇼", "Flags", ["kuwait"]),
+    new Emoji("🇰🇬", "Flags", ["kyrgyzstan"]),
+    new Emoji("🇱🇦", "Flags", ["laos"]),
+    new Emoji("🇱🇻", "Flags", ["latvia"]),
+    new Emoji("🇱🇧", "Flags", ["lebanon"]),
+    new Emoji("🇱🇸", "Flags", ["lesotho"]),
+    new Emoji("🇱🇷", "Flags", ["liberia"]),
+    new Emoji("🇱🇾", "Flags", ["libya"]),
+    new Emoji("🇱🇮", "Flags", ["liechtenstein"]),
+    new Emoji("🇱🇹", "Flags", ["lithuania"]),
+    new Emoji("🇱🇺", "Flags", ["luxembourg"]),
+    new Emoji("🇲🇴", "Flags", ["macau"]),
+    new Emoji("🇲🇰", "Flags", ["macedonia"]),
+    new Emoji("🇲🇬", "Flags", ["madagascar"]),
+    new Emoji("🇲🇼", "Flags", ["malawi"]),
+    new Emoji("🇲🇾", "Flags", ["malaysia"]),
+    new Emoji("🇲🇻", "Flags", ["maldives"]),
+    new Emoji("🇲🇱", "Flags", ["mali"]),
+    new Emoji("🇲🇹", "Flags", ["malta"]),
+    new Emoji("🇲🇭", "Flags", ["marshall_islands"]),
+    new Emoji("🇲🇶", "Flags", ["martinique"]),
+    new Emoji("🇲🇷", "Flags", ["mauritania"]),
+    new Emoji("🇲🇺", "Flags", ["mauritius"]),
+    new Emoji("🇾🇹", "Flags", ["mayotte"]),
+    new Emoji("🇲🇽", "Flags", ["mexico"]),
+    new Emoji("🇫🇲", "Flags", ["micronesia"]),
+    new Emoji("🇲🇩", "Flags", ["moldova"]),
+    new Emoji("🇲🇨", "Flags", ["monaco"]),
+    new Emoji("🇲🇳", "Flags", ["mongolia"]),
+    new Emoji("🇲🇪", "Flags", ["montenegro"]),
+    new Emoji("🇲🇸", "Flags", ["montserrat"]),
+    new Emoji("🇲🇦", "Flags", ["morocco"]),
+    new Emoji("🇲🇿", "Flags", ["mozambique"]),
+    new Emoji("🇲🇲", "Flags", ["myanmar"]),
+    new Emoji("🇳🇦", "Flags", ["namibia"]),
+    new Emoji("🇳🇷", "Flags", ["nauru"]),
+    new Emoji("🇳🇵", "Flags", ["nepal"]),
+    new Emoji("🇳🇱", "Flags", ["netherlands"]),
+    new Emoji("🇳🇨", "Flags", ["new_caledonia"]),
+    new Emoji("🇳🇿", "Flags", ["new_zealand"]),
+    new Emoji("🇳🇮", "Flags", ["nicaragua"]),
+    new Emoji("🇳🇪", "Flags", ["niger"]),
+    new Emoji("🇳🇬", "Flags", ["nigeria"]),
+    new Emoji("🇳🇺", "Flags", ["niue"]),
+    new Emoji("🇳🇫", "Flags", ["norfolk_island"]),
+    new Emoji("🇲🇵", "Flags", ["northern_mariana_islands"]),
+    new Emoji("🇰🇵", "Flags", ["north_korea"]),
+    new Emoji("🇳🇴", "Flags", ["norway"]),
+    new Emoji("🇴🇲", "Flags", ["oman"]),
+    new Emoji("🇵🇰", "Flags", ["pakistan"]),
+    new Emoji("🇵🇼", "Flags", ["palau"]),
+    new Emoji("🇵🇸", "Flags", ["palestinian_territories"]),
+    new Emoji("🇵🇦", "Flags", ["panama"]),
+    new Emoji("🇵🇬", "Flags", ["papua_new_guinea"]),
+    new Emoji("🇵🇾", "Flags", ["paraguay"]),
+    new Emoji("🇵🇪", "Flags", ["peru"]),
+    new Emoji("🇵🇭", "Flags", ["philippines"]),
+    new Emoji("🇵🇳", "Flags", ["pitcairn_islands"]),
+    new Emoji("🇵🇱", "Flags", ["poland"]),
+    new Emoji("🇵🇹", "Flags", ["portugal"]),
+    new Emoji("🇵🇷", "Flags", ["puerto_rico"]),
+    new Emoji("🇶🇦", "Flags", ["qatar"]),
+    new Emoji("🇷🇪", "Flags", ["reunion"]),
+    new Emoji("🇷🇴", "Flags", ["romania"]),
+    new Emoji("🇷🇺", "Flags", ["ru"]),
+    new Emoji("🇷🇼", "Flags", ["rwanda"]),
+    new Emoji("🇧🇱", "Flags", ["st_barthelemy"]),
+    new Emoji("🇸🇭", "Flags", ["st_helena"]),
+    new Emoji("🇰🇳", "Flags", ["st_kitts_nevis"]),
+    new Emoji("🇱🇨", "Flags", ["st_lucia"]),
+    new Emoji("🇵🇲", "Flags", ["st_pierre_miquelon"]),
+    new Emoji("🇻🇨", "Flags", ["st_vincent_grenadines"]),
+    new Emoji("🇼🇸", "Flags", ["samoa"]),
+    new Emoji("🇸🇲", "Flags", ["san_marino"]),
+    new Emoji("🇸🇹", "Flags", ["sao_tome_principe"]),
+    new Emoji("🇸🇦", "Flags", ["saudi_arabia"]),
+    new Emoji("🇸🇳", "Flags", ["senegal"]),
+    new Emoji("🇷🇸", "Flags", ["serbia"]),
+    new Emoji("🇸🇨", "Flags", ["seychelles"]),
+    new Emoji("🇸🇱", "Flags", ["sierra_leone"]),
+    new Emoji("🇸🇬", "Flags", ["singapore"]),
+    new Emoji("🇸🇽", "Flags", ["sint_maarten"]),
+    new Emoji("🇸🇰", "Flags", ["slovakia"]),
+    new Emoji("🇸🇮", "Flags", ["slovenia"]),
+    new Emoji("🇸🇧", "Flags", ["solomon_islands"]),
+    new Emoji("🇸🇴", "Flags", ["somalia"]),
+    new Emoji("🇿🇦", "Flags", ["south_africa"]),
+    new Emoji("🇬🇸", "Flags", ["south_georgia_south_sandwich_islands"]),
+    new Emoji("🇰🇷", "Flags", ["kr"]),
+    new Emoji("🇸🇸", "Flags", ["south_sudan"]),
+    new Emoji("🇪🇸", "Flags", ["es"]),
+    new Emoji("🇱🇰", "Flags", ["sri_lanka"]),
+    new Emoji("🇸🇩", "Flags", ["sudan"]),
+    new Emoji("🇸🇷", "Flags", ["suriname"]),
+    new Emoji("🇸🇿", "Flags", ["swaziland"]),
+    new Emoji("🇸🇪", "Flags", ["sweden"]),
+    new Emoji("🇨🇭", "Flags", ["switzerland"]),
+    new Emoji("🇸🇾", "Flags", ["syria"]),
+    new Emoji("🇹🇼", "Flags", ["taiwan"]),
+    new Emoji("🇹🇯", "Flags", ["tajikistan"]),
+    new Emoji("🇹🇿", "Flags", ["tanzania"]),
+    new Emoji("🇹🇭", "Flags", ["thailand"]),
+    new Emoji("🇹🇱", "Flags", ["timor_leste"]),
+    new Emoji("🇹🇬", "Flags", ["togo"]),
+    new Emoji("🇹🇰", "Flags", ["tokelau"]),
+    new Emoji("🇹🇴", "Flags", ["tonga"]),
+    new Emoji("🇹🇹", "Flags", ["trinidad_tobago"]),
+    new Emoji("🇹🇳", "Flags", ["tunisia"]),
+    new Emoji("🇹🇷", "Flags", ["tr"]),
+    new Emoji("🇹🇲", "Flags", ["turkmenistan"]),
+    new Emoji("🇹🇨", "Flags", ["turks_caicos_islands"]),
+    new Emoji("🇹🇻", "Flags", ["tuvalu"]),
+    new Emoji("🇺🇬", "Flags", ["uganda"]),
+    new Emoji("🇺🇦", "Flags", ["ukraine"]),
+    new Emoji("🇦🇪", "Flags", ["united_arab_emirates"]),
+    new Emoji("🇬🇧", "Flags", ["gb", "uk"]),
+    new Emoji("🇺🇸", "Flags", ["us"]),
+    new Emoji("🇻🇮", "Flags", ["us_virgin_islands"]),
+    new Emoji("🇺🇾", "Flags", ["uruguay"]),
+    new Emoji("🇺🇿", "Flags", ["uzbekistan"]),
+    new Emoji("🇻🇺", "Flags", ["vanuatu"]),
+    new Emoji("🇻🇦", "Flags", ["vatican_city"]),
+    new Emoji("🇻🇪", "Flags", ["venezuela"]),
+    new Emoji("🇻🇳", "Flags", ["vietnam"]),
+    new Emoji("🇼🇫", "Flags", ["wallis_futuna"]),
+    new Emoji("🇪🇭", "Flags", ["western_sahara"]),
+    new Emoji("🇾🇪", "Flags", ["yemen"]),
+    new Emoji("🇿🇲", "Flags", ["zambia"]),
+    new Emoji("🇿🇼", "Flags", ["zimbabwe"])
+];var v_emoji_picker_esm_CategoryItem = /** @class */ (function (_super) {
+    __extends(CategoryItem, _super);
+    function CategoryItem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(CategoryItem.prototype, "styleSVG", {
+        get: function () {
+            return __assign({}, this.styles);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    __decorate([
+        Prop({ required: true })
+    ], CategoryItem.prototype, "label", void 0);
+    __decorate([
+        Prop({ required: true })
+    ], CategoryItem.prototype, "icon", void 0);
+    __decorate([
+        Prop({})
+    ], CategoryItem.prototype, "styles", void 0);
+    CategoryItem = __decorate([
+        vue_class_component_esm({})
+    ], CategoryItem);
+    return CategoryItem;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));function v_emoji_picker_esm_normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+    if (typeof shadowMode !== 'boolean') {
+        createInjectorSSR = createInjector;
+        createInjector = shadowMode;
+        shadowMode = false;
+    }
+    // Vue.extend constructor export interop.
+    const options = typeof script === 'function' ? script.options : script;
+    // render functions
+    if (template && template.render) {
+        options.render = template.render;
+        options.staticRenderFns = template.staticRenderFns;
+        options._compiled = true;
+        // functional template
+        if (isFunctionalTemplate) {
+            options.functional = true;
+        }
+    }
+    // scopedId
+    if (scopeId) {
+        options._scopeId = scopeId;
+    }
+    let hook;
+    if (moduleIdentifier) {
+        // server build
+        hook = function (context) {
+            // 2.3 injection
+            context =
+                context || // cached call
+                    (this.$vnode && this.$vnode.ssrContext) || // stateful
+                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
+            // 2.2 with runInNewContext: true
+            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                context = __VUE_SSR_CONTEXT__;
+            }
+            // inject component styles
+            if (style) {
+                style.call(this, createInjectorSSR(context));
+            }
+            // register component module identifier for async chunk inference
+            if (context && context._registeredComponents) {
+                context._registeredComponents.add(moduleIdentifier);
+            }
+        };
+        // used by ssr in case component is cached and beforeCreate
+        // never gets called
+        options._ssrRegister = hook;
+    }
+    else if (style) {
+        hook = shadowMode
+            ? function (context) {
+                style.call(this, createInjectorShadow(context, this.$root.$options.shadowRoot));
+            }
+            : function (context) {
+                style.call(this, createInjector(context));
+            };
+    }
+    if (hook) {
+        if (options.functional) {
+            // register for functional component in vue file
+            const originalRender = options.render;
+            options.render = function renderWithStyleInjection(h, context) {
+                hook.call(context);
+                return originalRender(h, context);
+            };
+        }
+        else {
+            // inject component registration as beforeCreate hook
+            const existing = options.beforeCreate;
+            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+        }
+    }
+    return script;
+}const isOldIE = typeof navigator !== 'undefined' &&
+    /msie [6-9]\\b/.test(navigator.userAgent.toLowerCase());
+function createInjector(context) {
+    return (id, style) => addStyle(id, style);
+}
+let HEAD;
+const styles = {};
+function addStyle(id, css) {
+    const group = isOldIE ? css.media || 'default' : id;
+    const style = styles[group] || (styles[group] = { ids: new Set(), styles: [] });
+    if (!style.ids.has(id)) {
+        style.ids.add(id);
+        let code = css.source;
+        if (css.map) {
+            // https://developer.chrome.com/devtools/docs/javascript-debugging
+            // this makes source maps inside style tags work properly in Chrome
+            code += '\n/*# sourceURL=' + css.map.sources[0] + ' */';
+            // http://stackoverflow.com/a/26603875
+            code +=
+                '\n/*# sourceMappingURL=data:application/json;base64,' +
+                    btoa(unescape(encodeURIComponent(JSON.stringify(css.map)))) +
+                    ' */';
+        }
+        if (!style.element) {
+            style.element = document.createElement('style');
+            style.element.type = 'text/css';
+            if (css.media)
+                style.element.setAttribute('media', css.media);
+            if (HEAD === undefined) {
+                HEAD = document.head || document.getElementsByTagName('head')[0];
+            }
+            HEAD.appendChild(style.element);
+        }
+        if ('styleSheet' in style.element) {
+            style.styles.push(code);
+            style.element.styleSheet.cssText = style.styles
+                .filter(Boolean)
+                .join('\n');
+        }
+        else {
+            const index = style.ids.size - 1;
+            const textNode = document.createTextNode(code);
+            const nodes = style.element.childNodes;
+            if (nodes[index])
+                style.element.removeChild(nodes[index]);
+            if (nodes.length)
+                style.element.insertBefore(textNode, nodes[index]);
+            else
+                style.element.appendChild(textNode);
+        }
+    }
+}/* script */
+const __vue_script__ = v_emoji_picker_esm_CategoryItem;
+
+/* template */
+var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{staticClass:"svg",style:(_vm.styleSVG),attrs:{"title":_vm.label},domProps:{"innerHTML":_vm._s(_vm.icon)}})};
+var __vue_staticRenderFns__ = [];
+
+  /* style */
+  const __vue_inject_styles__ = function (inject) {
+    if (!inject) return
+    inject("data-v-3d397e3a_0", { source: ".svg[data-v-3d397e3a]{display:inline-block;vertical-align:middle}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__ = "data-v-3d397e3a";
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__ = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var v_emoji_picker_esm_Categories = /** @class */ (function (_super) {
+    __extends(Categories, _super);
+    function Categories() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Categories.prototype.onSelect = function (category) {
+        return category;
+    };
+    __decorate([
+        Prop({})
+    ], Categories.prototype, "categories", void 0);
+    __decorate([
+        Prop({})
+    ], Categories.prototype, "current", void 0);
+    __decorate([
+        Emit("select")
+    ], Categories.prototype, "onSelect", null);
+    Categories = __decorate([
+        vue_class_component_esm({
+            components: {
+                CategoryItem: __vue_component__
+            }
+        })
+    ], Categories);
+    return Categories;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));/* script */
+const __vue_script__$1 = v_emoji_picker_esm_Categories;
+
+/* template */
+var __vue_render__$1 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"Categories"}},_vm._l((_vm.categories),function(category,index){return _c('div',{key:index,class:['category', { active: category.name === _vm.current }],on:{"click":function($event){return _vm.onSelect(category)}}},[_c('CategoryItem',{attrs:{"label":category.label,"icon":category.icon}})],1)}),0)};
+var __vue_staticRenderFns__$1 = [];
+
+  /* style */
+  const __vue_inject_styles__$1 = function (inject) {
+    if (!inject) return
+    inject("data-v-6d975e7c_0", { source: "#Categories[data-v-6d975e7c]{display:flex;width:100%;flex-direction:row;align-items:center;border-bottom:1px solid var(--ep-color-border);background:var(--ep-color-bg);overflow-x:auto}.category[data-v-6d975e7c]{flex:1;padding:5px;text-align:center;cursor:pointer}.category.active[data-v-6d975e7c]{border-bottom:3px solid var(--ep-color-active);filter:saturate(3);padding-bottom:2px}.category>img[data-v-6d975e7c]{width:22px;height:22px}.category[data-v-6d975e7c]:hover{filter:saturate(3)}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$1 = "data-v-6d975e7c";
+  /* module identifier */
+  const __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$1 = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__$1 = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var v_emoji_picker_esm_EmojiItem = /** @class */ (function (_super) {
+    __extends(EmojiItem, _super);
+    function EmojiItem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Object.defineProperty(EmojiItem.prototype, "styleSize", {
+        get: function () {
+            return {
+                fontSize: this.size - 5 + "px",
+                lineHeight: this.size + "px",
+                height: this.size + "px",
+                width: this.size + "px"
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
+    __decorate([
+        Prop({})
+    ], EmojiItem.prototype, "emoji", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiItem.prototype, "size", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiItem.prototype, "withBorder", void 0);
+    EmojiItem = __decorate([
+        vue_class_component_esm({})
+    ], EmojiItem);
+    return EmojiItem;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));/* script */
+const __vue_script__$2 = v_emoji_picker_esm_EmojiItem;
+
+/* template */
+var __vue_render__$2 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{class:['emoji', { 'border': _vm.withBorder } ],style:(_vm.styleSize),domProps:{"innerHTML":_vm._s(_vm.emoji.data)}})};
+var __vue_staticRenderFns__$2 = [];
+
+  /* style */
+  const __vue_inject_styles__$2 = function (inject) {
+    if (!inject) return
+    inject("data-v-5a35c3ac_0", { source: ".emoji[data-v-5a35c3ac]{display:inline-block;text-align:center;padding:3px;box-sizing:content-box;overflow:hidden;transition:transform .2s;cursor:pointer}.emoji[data-v-5a35c3ac]:hover{transform:scale(1.05)}.border[data-v-5a35c3ac]:hover{background:#00000010;border-radius:8px}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$2 = "data-v-5a35c3ac";
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__$2 = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var v_emoji_picker_esm_CategoryLabel = /** @class */ (function (_super) {
+    __extends(CategoryLabel, _super);
+    function CategoryLabel() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    __decorate([
+        Prop({ required: true })
+    ], CategoryLabel.prototype, "name", void 0);
+    CategoryLabel = __decorate([
+        vue_class_component_esm({})
+    ], CategoryLabel);
+    return CategoryLabel;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));/* script */
+const __vue_script__$3 = v_emoji_picker_esm_CategoryLabel;
+
+/* template */
+var __vue_render__$3 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"category-title"},[_vm._v(_vm._s(_vm.name))])};
+var __vue_staticRenderFns__$3 = [];
+
+  /* style */
+  const __vue_inject_styles__$3 = function (inject) {
+    if (!inject) return
+    inject("data-v-b863a738_0", { source: ".category-title[data-v-b863a738]{text-transform:uppercase;font-size:.8em;padding:5px 0 0 16px;color:#676666}.category-title[data-v-b863a738]:not(:first-of-type){padding:10px 0 0 16px}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$3 = "data-v-b863a738";
+  /* module identifier */
+  const __vue_module_identifier__$3 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$3 = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__$3 = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
+    __vue_inject_styles__$3,
+    __vue_script__$3,
+    __vue_scope_id__$3,
+    __vue_is_functional_template__$3,
+    __vue_module_identifier__$3,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var v_emoji_picker_esm_EmojiList = /** @class */ (function (_super) {
+    __extends(EmojiList, _super);
+    function EmojiList() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    EmojiList.prototype.searchByAlias = function (term, emoji) {
+        var isRelevant = function (alias) { return alias.toLowerCase().includes(term); };
+        return emoji.aliases.some(function (alias) { return isRelevant(alias); });
+    };
+    EmojiList.prototype.calcScrollTop = function () {
+        return this.hasSearch ? 88 : 44;
+    };
+    Object.defineProperty(EmojiList.prototype, "gridDynamic", {
+        get: function () {
+            var percent = 100 / this.emojisByRow;
+            return {
+                gridTemplateColumns: "repeat(" + this.emojisByRow + ", " + percent + "%)"
+            };
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(EmojiList.prototype, "dataFiltered", {
+        get: function () {
+            var _this = this;
+            var data = this.data[this.category];
+            var searchValue = this.filter.trim().toLowerCase();
+            if (searchValue) {
+                data = data.filter(function (emoji) {
+                    return _this.searchByAlias(searchValue, emoji);
+                });
+            }
+            return data;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(EmojiList.prototype, "dataFilteredByCategory", {
+        get: function () {
+            var _this = this;
+            var _data = Object.assign({}, this.data);
+            var searchValue = this.filter.trim().toLowerCase();
+            if (searchValue) {
+                this.categories.forEach(function (category) {
+                    _data[category] = _this.data[category].filter(function (item) {
+                        return _this.searchByAlias(searchValue, item);
+                    });
+                });
+            }
+            return _data;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(EmojiList.prototype, "categories", {
+        get: function () {
+            return Object.keys(this.data);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(EmojiList.prototype, "containerEmoji", {
+        get: function () {
+            return this.$refs["container-emoji"];
+        },
+        enumerable: false,
+        configurable: true
+    });
+    EmojiList.prototype.onSelect = function (emoji) {
+        return emoji;
+    };
+    EmojiList.prototype.onDataChanged = function () {
+        this.containerEmoji.scrollTop = 0;
+    };
+    EmojiList.prototype.onCategoryChanged = function (newValue) {
+        if (this.continuousList) {
+            var categoryEl = this.$refs[newValue][0].$el;
+            this.containerEmoji.scrollTop =
+                categoryEl.offsetTop - this.calcScrollTop();
+        }
+    };
+    __decorate([
+        Prop({ required: true })
+    ], EmojiList.prototype, "data", void 0);
+    __decorate([
+        Prop({ required: true })
+    ], EmojiList.prototype, "emojisByRow", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiList.prototype, "emojiWithBorder", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiList.prototype, "emojiSize", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiList.prototype, "filter", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiList.prototype, "continuousList", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiList.prototype, "category", void 0);
+    __decorate([
+        Prop({})
+    ], EmojiList.prototype, "hasSearch", void 0);
+    __decorate([
+        Emit("select")
+    ], EmojiList.prototype, "onSelect", null);
+    __decorate([
+        Watch("data")
+    ], EmojiList.prototype, "onDataChanged", null);
+    __decorate([
+        Watch("category")
+    ], EmojiList.prototype, "onCategoryChanged", null);
+    EmojiList = __decorate([
+        vue_class_component_esm({
+            components: {
+                EmojiItem: __vue_component__$2,
+                CategoryLabel: __vue_component__$3
+            }
+        })
+    ], EmojiList);
+    return EmojiList;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));/* script */
+const __vue_script__$4 = v_emoji_picker_esm_EmojiList;
+
+/* template */
+var __vue_render__$4 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"Emojis"}},[_c('div',{ref:"container-emoji",staticClass:"container-emoji"},[(_vm.continuousList)?_vm._l((_vm.dataFilteredByCategory),function(category,category_name){return _c('div',{key:category_name},[_c('CategoryLabel',{directives:[{name:"show",rawName:"v-show",value:(category.length),expression:"category.length"}],ref:category_name,refInFor:true,attrs:{"name":category_name}}),_vm._v(" "),(category.length)?_c('div',{staticClass:"grid-emojis",style:(_vm.gridDynamic)},_vm._l((category),function(emoji,index_e){return _c('EmojiItem',{key:(category_name + "-" + index_e),attrs:{"emoji":emoji,"size":_vm.emojiSize,"withBorder":_vm.emojiWithBorder},nativeOn:{"click":function($event){return _vm.onSelect(emoji)}}})}),1):_vm._e()],1)}):[_c('div',{staticClass:"grid-emojis",style:(_vm.gridDynamic)},_vm._l((_vm.dataFiltered),function(emoji,index){return _c('EmojiItem',{key:index,attrs:{"emoji":emoji,"size":_vm.emojiSize,"withBorder":_vm.emojiWithBorder},nativeOn:{"click":function($event){return _vm.onSelect(emoji)}}})}),1)]],2)])};
+var __vue_staticRenderFns__$4 = [];
+
+  /* style */
+  const __vue_inject_styles__$4 = function (inject) {
+    if (!inject) return
+    inject("data-v-5c988bee_0", { source: "#Emojis[data-v-5c988bee]{font-family:Twemoji,NotomojiColor,Notomoji,EmojiOne Color,Symbola,Noto,Segoe UI Emoji,OpenSansEmoji,monospace;display:block;width:100%;max-width:100%;color:var(--ep-color-text)}#Emojis[data-v-5c988bee] ::-webkit-scrollbar{border-radius:4px;width:4px;overflow:hidden}.container-emoji[data-v-5c988bee]{overflow-x:hidden;overflow-y:scroll;height:350px}.grid-emojis[data-v-5c988bee]{display:grid;margin:5px 0;justify-items:center}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$4 = "data-v-5c988bee";
+  /* module identifier */
+  const __vue_module_identifier__$4 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$4 = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__$4 = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
+    __vue_inject_styles__$4,
+    __vue_script__$4,
+    __vue_scope_id__$4,
+    __vue_is_functional_template__$4,
+    __vue_module_identifier__$4,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var timemout = 500;
+var listenInput;
+var v_emoji_picker_esm_InputSearch = /** @class */ (function (_super) {
+    __extends(InputSearch, _super);
+    function InputSearch() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.inputSearch = "";
+        return _this;
+    }
+    InputSearch.prototype.onInputChanged = function (newValue, old) {
+        var _this = this;
+        clearTimeout(listenInput);
+        listenInput = setTimeout(function () { return _this.$emit("update", newValue); }, timemout);
+    };
+    Object.defineProperty(InputSearch.prototype, "placeholder", {
+        get: function () {
+            return v_emoji_picker_esm_t("search");
+        },
+        enumerable: false,
+        configurable: true
+    });
+    __decorate([
+        Watch("inputSearch")
+    ], InputSearch.prototype, "onInputChanged", null);
+    InputSearch = __decorate([
+        vue_class_component_esm({})
+    ], InputSearch);
+    return InputSearch;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));/* script */
+const __vue_script__$5 = v_emoji_picker_esm_InputSearch;
+
+/* template */
+var __vue_render__$5 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"InputSearch"}},[_c('div',{staticClass:"container-search"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.inputSearch),expression:"inputSearch"}],attrs:{"type":"text","placeholder":_vm.placeholder},domProps:{"value":(_vm.inputSearch)},on:{"input":function($event){if($event.target.composing){ return; }_vm.inputSearch=$event.target.value;}}})])])};
+var __vue_staticRenderFns__$5 = [];
+
+  /* style */
+  const __vue_inject_styles__$5 = function (inject) {
+    if (!inject) return
+    inject("data-v-839ecda0_0", { source: "#InputSearch[data-v-839ecda0]{display:block;width:100%;max-width:100%}.container-search[data-v-839ecda0]{display:block;justify-content:center;box-sizing:border-box;width:100%;margin:5px 0;padding:0 5%}.container-search input[data-v-839ecda0]{width:100%;font-size:14px;padding:6px 8px;box-sizing:border-box;border-radius:8px;background:var(--ep-color-sbg);color:var(--ep-color-text);border:1px solid var(--ep-color-border)}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$5 = "data-v-839ecda0";
+  /* module identifier */
+  const __vue_module_identifier__$5 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$5 = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__$5 = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
+    __vue_inject_styles__$5,
+    __vue_script__$5,
+    __vue_scope_id__$5,
+    __vue_is_functional_template__$5,
+    __vue_module_identifier__$5,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var v_emoji_picker_esm_VEmojiPicker = /** @class */ (function (_super) {
+    __extends(VEmojiPicker, _super);
+    function VEmojiPicker() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.mapEmojis = {};
+        _this.currentCategory = _this.initialCategory;
+        _this.filterEmoji = "";
+        return _this;
+    }
+    VEmojiPicker.prototype.created = function () {
+        var categoriesNames = this.customCategories.map(function (c) { return c.name; });
+        if (!categoriesNames.includes(this.initialCategory)) {
+            this.initialCategory = categoriesNames[0];
+        }
+        // Create map
+        this.mapperEmojisCategory(this.customEmojis);
+        this.restoreFrequentlyEmojis();
+        // Configure i18n
+        if (this.i18n) {
+            locale.i18n(this.i18n);
+        }
+    };
+    VEmojiPicker.prototype.beforeDestroy = function () {
+        this.mapEmojis = {};
+    };
+    VEmojiPicker.prototype.onSearch = function (term) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.filterEmoji = term;
+                return [2 /*return*/];
+            });
+        });
+    };
+    VEmojiPicker.prototype.changeCategory = function (category) {
+        return __awaiter(this, void 0, void 0, function () {
+            var hasEmojis;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        hasEmojis = this.mapEmojis[category.name].length;
+                        this.currentCategory = category.name;
+                        if (!hasEmojis) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.onChangeCategory(category)];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    VEmojiPicker.prototype.updateFrequently = function (emoji) {
+        return __awaiter(this, void 0, void 0, function () {
+            var oldEmojis, emojis;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        oldEmojis = this.mapEmojis["Frequently"];
+                        emojis = __spread(new Set(__spread([emoji], oldEmojis)));
+                        this.mapEmojis["Frequently"] = emojis.slice(0, this.limitFrequently);
+                        return [4 /*yield*/, this.saveFrequentlyEmojis(emojis)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    VEmojiPicker.prototype.mapperEmojisCategory = function (emojis) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.$set(this.mapEmojis, "Frequently", []);
+                emojis
+                    .filter(function (emoji) { return !_this.exceptEmojis.includes(emoji); })
+                    .forEach(function (emoji) {
+                    var _category = emoji.category;
+                    if (!_this.mapEmojis[_category]) {
+                        _this.$set(_this.mapEmojis, _category, []);
+                    }
+                    _this.mapEmojis[_category].push(emoji);
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    VEmojiPicker.prototype.restoreFrequentlyEmojis = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var jsonMapIndexEmojis, mapIndexEmojis;
+            var _this = this;
+            return __generator(this, function (_a) {
+                jsonMapIndexEmojis = localStorage.getItem("frequentlyEmojis");
+                mapIndexEmojis = JSON.parse(jsonMapIndexEmojis) || [];
+                this.mapEmojis["Frequently"] = mapIndexEmojis.map(function (index) { return _this.customEmojis[index]; });
+                return [2 /*return*/];
+            });
+        });
+    };
+    VEmojiPicker.prototype.saveFrequentlyEmojis = function (emojis) {
+        return __awaiter(this, void 0, void 0, function () {
+            var mapIndexEmojis;
+            var _this = this;
+            return __generator(this, function (_a) {
+                mapIndexEmojis = emojis.map(function (emoji) {
+                    return _this.customEmojis.indexOf(emoji);
+                });
+                localStorage.setItem("frequentlyEmojis", JSON.stringify(mapIndexEmojis));
+                return [2 /*return*/];
+            });
+        });
+    };
+    Object.defineProperty(VEmojiPicker.prototype, "categoriesFiltered", {
+        get: function () {
+            var _this = this;
+            return this.customCategories.filter(function (category) { return !_this.exceptCategories.includes(category); });
+        },
+        enumerable: false,
+        configurable: true
+    });
+    VEmojiPicker.prototype.onSelectEmoji = function (emoji) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.updateFrequently(emoji)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, emoji];
+                }
+            });
+        });
+    };
+    VEmojiPicker.prototype.onChangeCategory = function (category) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, category];
+            });
+        });
+    };
+    VEmojiPicker.prototype.onChangeCustomEmojis = function (newEmojis) {
+        if (newEmojis && newEmojis.length) {
+            this.mapEmojis = {};
+            this.mapperEmojisCategory(newEmojis);
+        }
+    };
+    __decorate([
+        Prop({ default: function () { return emojisDefault; } })
+    ], VEmojiPicker.prototype, "customEmojis", void 0);
+    __decorate([
+        Prop({ default: function () { return categoriesDefault; } })
+    ], VEmojiPicker.prototype, "customCategories", void 0);
+    __decorate([
+        Prop({ default: 15 })
+    ], VEmojiPicker.prototype, "limitFrequently", void 0);
+    __decorate([
+        Prop({ default: 5 })
+    ], VEmojiPicker.prototype, "emojisByRow", void 0);
+    __decorate([
+        Prop({ default: false })
+    ], VEmojiPicker.prototype, "continuousList", void 0);
+    __decorate([
+        Prop({ default: 32 })
+    ], VEmojiPicker.prototype, "emojiSize", void 0);
+    __decorate([
+        Prop({ default: true })
+    ], VEmojiPicker.prototype, "emojiWithBorder", void 0);
+    __decorate([
+        Prop({ default: true })
+    ], VEmojiPicker.prototype, "showSearch", void 0);
+    __decorate([
+        Prop({ default: true })
+    ], VEmojiPicker.prototype, "showCategories", void 0);
+    __decorate([
+        Prop({ default: false })
+    ], VEmojiPicker.prototype, "dark", void 0);
+    __decorate([
+        Prop({ default: "Peoples" })
+    ], VEmojiPicker.prototype, "initialCategory", void 0);
+    __decorate([
+        Prop({ default: function () { return []; } })
+    ], VEmojiPicker.prototype, "exceptCategories", void 0);
+    __decorate([
+        Prop({ default: function () { return []; } })
+    ], VEmojiPicker.prototype, "exceptEmojis", void 0);
+    __decorate([
+        Prop({})
+    ], VEmojiPicker.prototype, "i18n", void 0);
+    __decorate([
+        Emit("select")
+    ], VEmojiPicker.prototype, "onSelectEmoji", null);
+    __decorate([
+        Emit("changeCategory")
+    ], VEmojiPicker.prototype, "onChangeCategory", null);
+    __decorate([
+        Watch("customEmojis")
+    ], VEmojiPicker.prototype, "onChangeCustomEmojis", null);
+    VEmojiPicker = __decorate([
+        vue_class_component_esm({
+            components: {
+                Categories: __vue_component__$1,
+                EmojiList: __vue_component__$4,
+                InputSearch: __vue_component__$5
+            }
+        })
+    ], VEmojiPicker);
+    return VEmojiPicker;
+}(external_commonjs_vue_commonjs2_vue_root_Vue_default.a));/* script */
+const __vue_script__$6 = v_emoji_picker_esm_VEmojiPicker;
+
+/* template */
+var __vue_render__$6 = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{class:['emoji-picker', {dark: _vm.dark}],attrs:{"id":"EmojiPicker"}},[(_vm.showCategories)?_c('Categories',{attrs:{"categories":_vm.categoriesFiltered,"current":_vm.currentCategory},on:{"select":_vm.changeCategory}}):_vm._e(),_vm._v(" "),(_vm.showSearch)?_c('InputSearch',{on:{"update":_vm.onSearch}}):_vm._e(),_vm._v(" "),_c('EmojiList',{attrs:{"data":_vm.mapEmojis,"category":_vm.currentCategory,"filter":_vm.filterEmoji,"emojiWithBorder":_vm.emojiWithBorder,"emojiSize":_vm.emojiSize,"emojisByRow":_vm.emojisByRow,"continuousList":_vm.continuousList,"hasSearch":_vm.showSearch},on:{"select":_vm.onSelectEmoji}})],1)};
+var __vue_staticRenderFns__$6 = [];
+
+  /* style */
+  const __vue_inject_styles__$6 = function (inject) {
+    if (!inject) return
+    inject("data-v-f1d527bc_0", { source: ".emoji-picker[data-v-f1d527bc]{--ep-color-bg:#f0f0f0;--ep-color-sbg:#f6f6f6;--ep-color-border:#e4e4e4;--ep-color-text:#4a4a4a;--ep-color-active:#009688;display:inline-flex;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeSpeed;flex-direction:column;align-items:center;background-color:var(--ep-color-bg);border-radius:4px;border:1px solid var(--ep-color-border);overflow:hidden;width:325px;user-select:none}@media screen and (max-width:325px){.emoji-picker[data-v-f1d527bc]{width:100%}}.dark[data-v-f1d527bc]{--ep-color-bg:#191B1A;--ep-color-sbg:#212221;--ep-color-border:#3E3D42;--ep-color-text:#f0f0f0;--ep-color-active:#009688}", map: undefined, media: undefined });
+
+  };
+  /* scoped */
+  const __vue_scope_id__$6 = "data-v-f1d527bc";
+  /* module identifier */
+  const __vue_module_identifier__$6 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$6 = false;
+  /* style inject SSR */
+  
+  /* style inject shadow dom */
+  
+
+  
+  const __vue_component__$6 = /*#__PURE__*/v_emoji_picker_esm_normalizeComponent(
+    { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
+    __vue_inject_styles__$6,
+    __vue_script__$6,
+    __vue_scope_id__$6,
+    __vue_is_functional_template__$6,
+    __vue_module_identifier__$6,
+    false,
+    createInjector,
+    undefined,
+    undefined
+  );var defaultOptions = {
+    i18n: {}
+};
+var v_emoji_picker_esm_plugin = {
+    VEmojiPicker: __vue_component__$6,
+    install: function (Vue, opts) {
+        if (opts === void 0) { opts = defaultOptions; }
+        locale.i18n(opts.i18n);
+        Vue.component("VEmojiPicker", __vue_component__$6);
+    }
+};/* harmony default export */ var v_emoji_picker_esm = (v_emoji_picker_esm_plugin);
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JComment/src/JComment.vue?vue&type=script&lang=js&
 
 
@@ -9912,6 +11510,7 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
 
 
 
+
 //
 //
 //
@@ -10102,6 +11701,42 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ var JCommentvue_type_script_lang_js_ = ({
   name: "JComment",
   props: {
@@ -10126,7 +11761,8 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
       default: function _default() {
         return {
           pid: "pid",
-          id: "id"
+          id: "id",
+          isAdmin: "isAdmin"
         };
       }
     },
@@ -10137,13 +11773,18 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
       }
     }
   },
+  components: {
+    VEmojiPicker: __vue_component__$6
+  },
   data: function data() {
     return {
       showComentDatas: [],
       replyText: "",
       commentText: "",
       lastLength: 0,
-      showItem: []
+      showItem: [],
+      showVEmojiPicker: false,
+      emojiTextId: ""
     };
   },
   created: function created() {
@@ -10156,6 +11797,36 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
   },
   computed: {},
   methods: {
+    showEmoji: function showEmoji(el) {
+      console.log(el.x, el.y, el.target);
+      var v = document.getElementById("v-emoji-picker");
+      v.style.left = el.pageX + 5 + "px";
+      v.style.top = el.pageY + 5 + "px";
+      this.showVEmojiPicker = !this.showVEmojiPicker;
+      this.emojiTextId = el.target.id;
+    },
+    selectEmoji: function selectEmoji(emoji) {
+      // 选择emoji后调用的函数
+      var input = null;
+
+      if (this.emojiTextId === "comment-emoji") {
+        input = document.getElementById("j-comment-content");
+      } else {
+        var id = this.emojiTextId.split("emoji-");
+        input = document.getElementById(id[1]);
+      }
+
+      var startPos = input.selectionStart;
+      var endPos = input.selectionEnd;
+      var resultText = input.value.substring(0, startPos) + emoji.data + input.value.substring(endPos);
+      input.value = resultText;
+      input.focus();
+      input.selectionStart = startPos + emoji.data.length;
+      input.selectionEnd = startPos + emoji.data.length;
+      if (this.emojiTextId === "comment-emoji") this.commentText = resultText;else {
+        this.replyText = resultText;
+      }
+    },
     submitReply: function submitReply(id) {
       var params = {
         pid: id,
@@ -10308,8 +11979,8 @@ var JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns = []
 });
 // CONCATENATED MODULE: ./packages/JComment/src/JComment.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_JCommentvue_type_script_lang_js_ = (JCommentvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./packages/JComment/src/JComment.vue?vue&type=style&index=0&id=1f8a635a&lang=scss&scoped=true&
-var JCommentvue_type_style_index_0_id_1f8a635a_lang_scss_scoped_true_ = __webpack_require__("6e91");
+// EXTERNAL MODULE: ./packages/JComment/src/JComment.vue?vue&type=style&index=0&id=5abf223c&lang=scss&scoped=true&
+var JCommentvue_type_style_index_0_id_5abf223c_lang_scss_scoped_true_ = __webpack_require__("783c");
 
 // CONCATENATED MODULE: ./packages/JComment/src/JComment.vue
 
@@ -10322,11 +11993,11 @@ var JCommentvue_type_style_index_0_id_1f8a635a_lang_scss_scoped_true_ = __webpac
 
 var JComment_component = normalizeComponent(
   src_JCommentvue_type_script_lang_js_,
-  JCommentvue_type_template_id_1f8a635a_scoped_true_render,
-  JCommentvue_type_template_id_1f8a635a_scoped_true_staticRenderFns,
+  JCommentvue_type_template_id_5abf223c_scoped_true_render,
+  JCommentvue_type_template_id_5abf223c_scoped_true_staticRenderFns,
   false,
   null,
-  "1f8a635a",
+  "5abf223c",
   null
   
 )
@@ -10354,6 +12025,18 @@ JComment.install = function (Vue) {
 
 
 
+
+
+
+
+
+
+
+
+
+function packages_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function packages_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { packages_ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { packages_ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /*
  * @Author: zheng yong tao
@@ -10400,7 +12083,7 @@ if (typeof window !== "undefined" && window.Vue) {
   install(window.Vue);
 }
 
-/* harmony default export */ var packages_0 = (_objectSpread({
+/* harmony default export */ var packages_0 = (packages_objectSpread({
   // 导出的对象必须具有 install，才能被 Vue.use() 方法安装
   install: install
 }, components));
@@ -10413,31 +12096,12 @@ if (typeof window !== "undefined" && window.Vue) {
 
 /***/ }),
 
-/***/ "fde4":
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__("bf90");
-var $Object = __webpack_require__("584a").Object;
-module.exports = function getOwnPropertyDescriptor(it, key) {
-  return $Object.getOwnPropertyDescriptor(it, key);
-};
-
-
-/***/ }),
-
 /***/ "fdef":
 /***/ (function(module, exports) {
 
 module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003' +
   '\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF';
 
-
-/***/ }),
-
-/***/ "ffbd":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ })
 
