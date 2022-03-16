@@ -29,17 +29,16 @@
         </template>
         <template v-slot:right-p>
             <div>
-                <j-table
-                    :title="tableTitle"
-                    :tableData="tableData"
-                    style="height: 500px;"
-                >
-                </j-table>
+                <j-table :title="tableTitle" :tableData="tableData"> </j-table>
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -105,95 +104,102 @@ export default {
                     sort: false // 是否支持排序
                 }
             ],
-            tableData: [
-                {
-                    parameter: "bgColor",
-                    field: "按钮背景颜色",
-                    type: "String",
-                    describe: "默认为deepskyblue"
-                },
-                {
-                    parameter: "autoHide",
-                    field: "贴边隐藏",
-                    type: "Boolean",
-                    describe: "按钮移动到左右两侧会自动缩进两边，默认为true"
-                },
-                {
-                    parameter: "clickDis",
-                    field: "判断是否点击事件距离（px）",
-                    type: "Number",
-                    describe: "移动距离小于该值则为点击事件，默认为10"
-                },
-                {
-                    parameter: "showWidth",
-                    field: "贴边隐藏后露出宽度（px）",
-                    type: "Number",
-                    describe: "数字保留小数点，默认为15"
-                },
-                {
-                    parameter: "width",
-                    field: "按钮宽高（px）",
-                    type: "Number",
-                    describe: "默认为80"
-                },
-                {
-                    parameter: "radius",
-                    field: "是否圆角",
-                    type: "Boolean",
-                    describe: "默认为true"
-                },
-                {
-                    parameter: "btnStyle",
-                    field: "自定义样式",
-                    type: "Object",
-                    describe: "键值对形式，支持驼峰命名和-命名"
-                },
-                {
-                    parameter: "text",
-                    field: "按钮显示文字",
-                    type: "String",
-                    describe: "默认为'悬浮按钮'"
-                },
-                {
-                    parameter: "zIndex",
-                    field: "按钮层级",
-                    type: "Number",
-                    describe: "默认为999"
-                }
-            ]
+            tableData: []
         };
     },
     created() {
-        this.code = `
-		<j-hover-btn bgColor = 'pink' 
-					width = '80' 
-					text = '按钮文字' 
-					:btn-style = "btnStyle" 
-					@hoverBtnClick = "hoverBtnClick()">
-			
-		</j-hover-btn>
-		export default {
-			data(){
-			  return {
-				  btnStyle:{
-					"fontSize":'small',
-					"top":'60vh',
-					"left":'90vw'
-				  },
-			  }
-			},
-			methods:{
-			  hoverBtnClick(){
-				alert('触发点击事件');
-			  }
-			}
-		}
-	`;
+        this.initTableData();
+        this.initCodeContent();
     },
     mounted() {},
     methods: {
-        hoverBtnClick() {
-            alert("触发点击事件");
+        initCodeContent() {
+            this.code = `
+<template>
+    <div class="content">
+        <p>
+            hover
+            <j-tool-tip
+                tipText="one"
+                :textStyle="textStyle"
+                :toolTipStyle="toolTipStyle"
+                >here
+            </j-tool-tip>
+            to see one.
+        </p>
+        <p>
+            hover
+            <j-tool-tip tipText="another">here </j-tool-tip>
+            to see another.
+        </p>
+    </div>
+</template>
+export default {
+    data() {
+        return {
+            textStyle: {
+                borderBottom: "1px dotted skyblue",
+                fontSize: "large",
+                color: "skyblue"
+            },
+            toolTipStyle: {
+                backgroundColor: "grey",
+                color: "skyblue",
+                width: "100px"
+            },
+        }
+    }
+}
+            `;
+        },
+        initTableData() {
+            this.tableData = [
+                {
+                    parameter: "tipText",
+                    field: "提示内容",
+                    type: "String",
+                    describe: ""
+                },
+                {
+                    parameter: "textStyle",
+                    field: "文字样式",
+                    type: "Object",
+                    describe: "设置文字样式，如下划线样式",
+                    children: {
+                        type: "text",
+                        text: '{"border-bottom": "1px dotted black"}'
+                    }
+                },
+                {
+                    parameter: "toolTipStyle",
+                    field: "提示框内容样式",
+                    type: "Object",
+                    describe: "具体配置如下",
+                    children: {
+                        title: this.tableTitle,
+                        data: [
+                            {
+                                parameter: "backgroundColor",
+                                field: "提示框背景颜色",
+                                type: "String",
+                                describe: "默认为#062b45"
+                            },
+                            {
+                                parameter: "color",
+                                field: "提示框字体颜色",
+                                type: "String",
+                                describe: "默认为#fff"
+                            },
+                            {
+                                parameter: "width",
+                                field: "提示框宽度",
+                                type: "String",
+                                describe: "默认为100px"
+                            }
+                        ]
+                    }
+                }
+            ];
         }
     }
 };
