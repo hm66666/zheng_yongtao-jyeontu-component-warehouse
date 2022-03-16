@@ -45,3 +45,18 @@ export const camelTo_ = function(str) {
     }
     return res;
 };
+export const getRandomLetter = (size = 8) => {
+    let res = "";
+    for (let i = 0; i < size; i++) {
+        let ind = Math.floor(Math.random() * 26);
+        res += String.fromCharCode(ind + 65);
+    }
+    return res;
+};
+export const getUId = (letterNums = 8, numberNums = 6) => {
+    const uId =
+        getRandomLetter(letterNums) +
+        "-" +
+        Math.ceil(Math.random() * Math.pow(10, numberNums));
+    return uId;
+};

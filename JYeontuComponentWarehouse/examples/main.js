@@ -18,6 +18,13 @@ Vue.use(ElementUI);
 Vue.config.devtools = true;
 Vue.config.productionTip = false;
 
+Vue.directive("highlight", function(el) {
+    let blocks = el.querySelectorAll("pre code");
+    blocks.forEach(block => {
+        hljs.highlightBlock(block);
+    });
+});
+
 new Vue({
     router,
     render: h => h(App)

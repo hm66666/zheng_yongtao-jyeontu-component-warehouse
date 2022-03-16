@@ -220,6 +220,18 @@
             "children": []
         },
         {
+            "id": 21,
+            "name": "JToolTipView",
+            "path": "/JToolTipView",
+            "label": "悬浮提示",
+            "selected": false,
+            "icon": "icon-ciyuntu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JToolTipView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
