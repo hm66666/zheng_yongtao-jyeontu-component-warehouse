@@ -21,6 +21,7 @@ import JTagList from "./JTagList";
 import JToast from "./JToast";
 import JWordCloud from "./JWordCloud";
 import JComment from "./JComment";
+import JToolTip from "./JToolTip";
 
 // 存储组件列表
 const components = [
@@ -39,7 +40,8 @@ const components = [
     JTagList,
     JToast,
     JWordCloud,
-    JComment
+    JComment,
+    JToolTip
     // Toast
 ];
 
