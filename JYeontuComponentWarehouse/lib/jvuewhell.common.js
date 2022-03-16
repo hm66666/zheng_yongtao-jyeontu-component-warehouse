@@ -211,6 +211,17 @@ module.exports = function (S, index, unicode) {
 
 /***/ }),
 
+/***/ "097a":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToolTip_vue_vue_type_style_index_0_id_093afbf6_vars_7B_20backgroundColor_2C_20color_2C_20width_20_7D_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("9181");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToolTip_vue_vue_type_style_index_0_id_093afbf6_vars_7B_20backgroundColor_2C_20color_2C_20width_20_7D_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JToolTip_vue_vue_type_style_index_0_id_093afbf6_vars_7B_20backgroundColor_2C_20color_2C_20width_20_7D_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "0a49":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2488,6 +2499,13 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
+/***/ "9181":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "978c":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4302,6 +4320,23 @@ var camelTo_ = function camelTo_(str) {
   }
 
   return res;
+};
+var getRandomLetter = function getRandomLetter() {
+  var size = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
+  var res = "";
+
+  for (var i = 0; i < size; i++) {
+    var ind = Math.floor(Math.random() * 26);
+    res += String.fromCharCode(ind + 65);
+  }
+
+  return res;
+};
+var getUId = function getUId() {
+  var letterNums = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
+  var numberNums = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 6;
+  var uId = getRandomLetter(letterNums) + "-" + Math.ceil(Math.random() * Math.pow(10, numberNums));
+  return uId;
 };
 // CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2bebd93d-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JTable/src/JTr.vue?vue&type=template&id=0f011e48&scoped=true&
 var JTrvue_type_template_id_0f011e48_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('td',{staticClass:"j-tr-content",style:(_vm.getPadding()),attrs:{"colspan":_vm.title.length}},[_vm._l((_vm.tableData),function(item,index){return [(_vm.showTitle && index === 0)?_c('tr',{key:_vm.tableId + '-' + index + 'title',staticClass:"j-table-tr j-table-title"},_vm._l((_vm.title),function(item,index){return _c('td',{key:item.key,staticClass:"j-table-tr-th",attrs:{"width":item.width}},[_vm._v("\n                "+_vm._s(item.title)+"\n                "),(item.sort)?_c('button',{staticClass:"sort-btn",attrs:{"title":_vm.getSortWay(item)},on:{"click":function($event){return _vm.sortByKey(item.key, index)}}},[_vm._v("\n                    sort\n                ")]):_vm._e()])}),0):_vm._e(),_c('tr',{key:_vm.tableId + '-' + index + 'tr',staticClass:"j-tr-tr"},_vm._l((_vm.title),function(item1,index1){return _c('td',{key:index1,staticClass:"j-tr-tr-td",style:(_vm.getStyle(item1))},[(!item1.readOnly)?_c('input',{directives:[{name:"model",rawName:"v-model",value:(item[item1.key]),expression:"item[item1.key]"}],staticClass:"j-tr-tr-td-input",domProps:{"value":(item[item1.key])},on:{"input":function($event){if($event.target.composing){ return; }_vm.$set(item, item1.key, $event.target.value)}}}):_c('span',{attrs:{"title":item[item1.key]}},[(item.children && index1 == 0)?_c('span',{staticStyle:{"cursor":"pointer","color":"skyblue","font-weight":"bold"},on:{"click":function($event){return _vm.cellClick(index)}}},[_vm._v("\n                        "+_vm._s(_vm.expendList.indexOf(_vm.tableId + "-" + index) == -1
@@ -12091,6 +12126,125 @@ JComment.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JComment = (JComment);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"2bebd93d-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToolTip/src/JToolTip.vue?vue&type=template&id=093afbf6&scoped=true&
+var JToolTipvue_type_template_id_093afbf6_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('span',{style:({
+        '--backgroundColor': _vm.toolTipStyle.backgroundColor,
+        '--color': _vm.toolTipStyle.color,
+        '--width': _vm.toolTipStyle.width
+    })},[_c('span',{staticClass:"j-tooltip",style:(_vm.getTextStyle()),attrs:{"id":_vm.uid,"data-tooltip":_vm.tipText}},[_vm._t("default")],2)])}
+var JToolTipvue_type_template_id_093afbf6_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./packages/JToolTip/src/JToolTip.vue?vue&type=template&id=093afbf6&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JToolTip/src/JToolTip.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var JToolTipvue_type_script_lang_js_ = ({
+  name: "JToolTip",
+  props: {
+    tipText: {
+      type: String,
+      default: "Tooltip Content"
+    },
+    textStyle: {
+      type: Object,
+      default: function _default() {
+        return {
+          "border-bottom": "1px dotted black"
+        };
+      }
+    },
+    toolTipStyle: {
+      type: Object,
+      default: function _default() {
+        return {
+          backgroundColor: "#062b45",
+          color: "#fff",
+          width: "100px"
+        };
+      }
+    }
+  },
+  computed: {},
+  data: function data() {
+    return {
+      uid: "",
+      tipStyle: {}
+    };
+  },
+  created: function created() {
+    this.setUid();
+  },
+  methods: {
+    setUid: function setUid() {
+      this.uid = getUId();
+    },
+    getTextStyle: function getTextStyle() {
+      var textStyle = this.textStyle;
+      var styleStr = "";
+
+      for (var key in textStyle) {
+        styleStr += _toLittleCamel(key) + ":" + textStyle[key] + ";";
+      }
+
+      return styleStr;
+    }
+  }
+});
+// CONCATENATED MODULE: ./packages/JToolTip/src/JToolTip.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_JToolTipvue_type_script_lang_js_ = (JToolTipvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./packages/JToolTip/src/JToolTip.vue?vue&type=style&index=0&id=093afbf6&vars=%7B%20backgroundColor%2C%20color%2C%20width%20%7D&lang=scss&scoped=true&
+var JToolTipvue_type_style_index_0_id_093afbf6_vars_7B_20backgroundColor_2C_20color_2C_20width_20_7D_lang_scss_scoped_true_ = __webpack_require__("097a");
+
+// CONCATENATED MODULE: ./packages/JToolTip/src/JToolTip.vue
+
+
+
+
+
+
+/* normalize component */
+
+var JToolTip_component = normalizeComponent(
+  src_JToolTipvue_type_script_lang_js_,
+  JToolTipvue_type_template_id_093afbf6_scoped_true_render,
+  JToolTipvue_type_template_id_093afbf6_scoped_true_staticRenderFns,
+  false,
+  null,
+  "093afbf6",
+  null
+  
+)
+
+/* harmony default export */ var JToolTip = (JToolTip_component.exports);
+// CONCATENATED MODULE: ./packages/JToolTip/index.js
+
+
+
+JToolTip.install = function (Vue) {
+  return Vue.component(JToolTip.name, JToolTip);
+}; //注册组件
+
+
+/* harmony default export */ var packages_JToolTip = (JToolTip);
 // CONCATENATED MODULE: ./packages/index.js
 
 
@@ -12130,9 +12284,10 @@ function packages_objectSpread(target) { for (var i = 1; i < arguments.length; i
 
 
 
+
  // 存储组件列表
 
-var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment // Toast
+var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip // Toast
 ]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 
 var install = function install(Vue) {
