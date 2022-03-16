@@ -5,7 +5,7 @@
                 <div class="j-title">
                     版本介绍（jvuewheel）
                     <div class="j-detail">
-                        目前最新版本为0.3.1，更多好玩有用的组件正在构思中，敬请期待……
+                        目前最新版本为0.3.6，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
@@ -58,10 +58,16 @@ export default {
                     icon: "进"
                 },
                 {
-                    title: "版本0.3.2（已发布）",
+                    title: "版本0.3.6（已发布）",
+                    descript: "增加：toolTip悬浮提示组件",
+                    time: "2022-03-16",
+                    icon: "3.6"
+                },
+                {
+                    title: "版本0.3.2 ~ 0.3.5（已发布）",
                     descript: "优化：评论组件优化",
                     time: "2022-03-15",
-                    icon: "3.2"
+                    icon: "3.5"
                 },
                 {
                     title: "版本0.3.1（已发布）",
