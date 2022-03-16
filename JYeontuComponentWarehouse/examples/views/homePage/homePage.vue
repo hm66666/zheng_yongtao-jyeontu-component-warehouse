@@ -39,6 +39,10 @@ export default {
                 {
                     name: "掘金",
                     address: "https://juejin.cn/user/440244290727294"
+                },
+                {
+                    name: "个人博客",
+                    address: "http://120.79.163.94/JYeontuBlog/#/home"
                 }
             ]
         };
