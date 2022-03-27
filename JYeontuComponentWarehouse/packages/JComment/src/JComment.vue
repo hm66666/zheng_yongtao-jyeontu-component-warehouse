@@ -301,7 +301,6 @@ export default {
                 let L;
                 let code;
                 let s;
-
                 if (char.length === 2) {
                     H = char.charCodeAt(0); // 取出高位
                     L = char.charCodeAt(1); // 取出低位
@@ -310,21 +309,17 @@ export default {
                 } else {
                     s = char;
                 }
-
                 return s;
             });
-
             return str;
         },
         // 表情解码
         entitiestoUtf16(strObj) {
             const patt = /&#\d+;/g;
             const arr = strObj.match(patt) || [];
-
             let H;
             let L;
             let code;
-
             for (let i = 0; i < arr.length; i += 1) {
                 code = arr[i];
                 code = code.replace("&#", "").replace(";", "");
