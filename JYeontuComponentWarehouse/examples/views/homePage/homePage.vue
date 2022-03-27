@@ -2,11 +2,11 @@
  * @Author: zheng yong tao
  * @Date: 2022-01-26 21:47:09
  * @LastEditors: zheng yong tao
- * @LastEditTime: 2022-01-26 21:47:33
+ * @LastEditTime: 2022-03-27 21:27:33
  * @Description: 
 -->
 <template>
-    <div>
+    <div class="home">
         <img class="head-img" src="@/assets/logo.png" />
         <div class="per-link" v-for="item in myLink" :key="item.name">
             <span class="link-name">{{ item.name }}：</span>
@@ -42,7 +42,7 @@ export default {
                 },
                 {
                     name: "个人博客",
-                    address: "http://120.79.163.94/JYeontuBlog/#/home"
+                    address: "http://jyeontu.xyz/JYeontuBlog/#/home"
                 }
             ]
         };
@@ -57,6 +57,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.home {
+    text-align: center;
+}
 .head-img {
     border-radius: 50% 50%;
     margin-top: 1rem;
