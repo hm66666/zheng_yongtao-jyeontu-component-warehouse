@@ -18,10 +18,10 @@
                     :btnList="btnList"
                 >
                     <template v-slot:j-dialog-main-content>
-                        <p>人生就像海洋</p>
-                        <p>只有意志坚强的人才能到达彼岸</p>
-                        <!-- 注释 -->
-                        <input placeholder="请输入" />
+                        <div class="content-body">
+                            <p>人生就像海洋</p>
+                            <p>只有意志坚强的人才能到达彼岸</p>
+                        </div>
                     </template>
                 </j-dialog>
                 <button @click="showDialog()">
@@ -53,15 +53,6 @@ export default {
             btnList: [
                 {
                     text: "取消",
-                    style: {
-                        backgroundColor: "orangered",
-                        width: "100px",
-                        borderRadius: "5px"
-                    },
-                    click: "close"
-                },
-                {
-                    text: "测试",
                     style: {
                         backgroundColor: "orangered",
                         width: "100px",
@@ -242,6 +233,9 @@ export default {
 .content {
     margin: auto auto;
     // width: 50%;
+    .content-body {
+        text-align: center;
+    }
 }
 .header {
     min-height: 4rem;
