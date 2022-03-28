@@ -17,7 +17,13 @@
                 </div>
             </div>
         </div>
-        <j-code-height-light :code="code"></j-code-height-light>
+        <!-- <j-code-height-light :code="code"></j-code-height-light> -->
+        <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+        <pre v-highlight>
+            <code class="vue" v-text="code">
+            </code>
+        </pre>
     </div>
 </template>
 
@@ -176,51 +182,60 @@ export default {
         this.chartData.data = this.chartData.data.concat([...data]);
         this.chartData.data = this.chartData.data.concat([...data]);
         this.code = `
-          <j-flow-chart :chartData="chartData"></j-flow-chart>
-          chartData:{
-            title:'可拖拽流程图',
-            dragAble:true,
-            width:50,
-            radius:true,
-            data:[
-              {
-                icon:require('@/assets/logo.png'),
-                text:'准备'
-              },
-              {
-                icon:require('@/assets/1.png'),
-                text:'开始'
-              },
-              {
-                icon:require('@/assets/test.jpg'),
-                text:'开发'
-              },
-              {
-                icon:require('@/assets/1.png'),
-                text:'测试'
-              },
-              {
-                icon:require('@/assets/logo.png'),
-                text:'完成'
-              },
-              {
-                icon:require('@/assets/1.png'),
-                text:'开始'
-              },
-              {
-                icon:require('@/assets/test.jpg'),
-                text:'开发'
-              },
-              {
-                icon:require('@/assets/1.png'),
-                text:'测试'
-              },
-              {
-                icon:'',
-                text:'完成'
-              }
-            ]
-          },
+<template>
+    <div>
+        <j-flow-chart :chartData="chartData"></j-flow-chart>
+    </div>
+</template>
+export default {
+     data() {
+        return {
+            chartData:{
+                title:'可拖拽流程图',
+                dragAble:true,
+                width:50,
+                radius:true,
+                data:[
+                    {
+                        icon:require('@/assets/logo.png'),
+                        text:'准备'
+                    },
+                    {
+                        icon:require('@/assets/1.png'),
+                        text:'开始'
+                    },
+                    {
+                        icon:require('@/assets/test.jpg'),
+                        text:'开发'
+                    },
+                    {
+                        icon:require('@/assets/1.png'),
+                        text:'测试'
+                    },
+                    {
+                        icon:require('@/assets/logo.png'),
+                        text:'完成'
+                    },
+                    {
+                        icon:require('@/assets/1.png'),
+                        text:'开始'
+                    },
+                    {
+                        icon:require('@/assets/test.jpg'),
+                        text:'开发'
+                    },
+                    {
+                        icon:require('@/assets/1.png'),
+                        text:'测试'
+                    },
+                    {
+                        icon:'',
+                        text:'完成'
+                    }
+                ]
+            },
+        }
+    }
       `;
     }
 };

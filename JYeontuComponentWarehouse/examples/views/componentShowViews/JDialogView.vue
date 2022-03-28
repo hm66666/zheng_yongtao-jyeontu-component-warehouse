@@ -35,8 +35,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -160,18 +164,22 @@ export default {
     },
     created() {
         this.code = `
-    <j-dialog :title="title" 
-            closable="true" 
-            :btnList="btnList">
-        <template v-slot:j-dialog-main-content>
-            <div>人生就像海洋</div>
-            <div>只有意志坚强的人才能到达彼岸</div>
-        </template>
-    </j-dialog>
-    <button @click="showDialog()">
-        点我
-    </button>
-    
+<template>
+    <div>
+        <j-dialog :title="title" 
+                closable="true" 
+                :btnList="btnList">
+            <template v-slot:j-dialog-main-content>
+                <div>人生就像海洋</div>
+                <div>只有意志坚强的人才能到达彼岸</div>
+            </template>
+        </j-dialog>
+        <button @click="showDialog()">
+            点我
+        </button>
+    </div>
+</template>
+export default {
     data(){
         return {
         title:"我是标题",
@@ -205,6 +213,7 @@ export default {
             this.$refs.JDialog.closeDialog();
         }
     }
+}
     `;
     },
     mounted() {},

@@ -25,8 +25,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -114,27 +118,30 @@ export default {
     },
     created() {
         this.code = `
-		<j-calendar :title="title" 
-					:bgSrc="bgSrc" 
-					@selectDay="selectDay" 
-					@changeMonth="changeMonth">
-		</j-calendar>
-		
-		data(){
-		  return {
-			title:"JYeontu的日历",
-			bgSrc:"https://images8.alphacoders.com/992/992329.jpg",
-		  }
-		},
-		methods:{
-		  selectDay(e){
-			// console.log(e);
-		  },
-		  changeMonth(e){
-			// console.log(e);
-		  }
-		}
-	`;
+<template>
+    <div>
+        <j-calendar :title="title" 
+            :bgSrc="bgSrc" 
+            @selectDay="selectDay" 
+            @changeMonth="changeMonth">
+        </j-calendar>
+    </div>
+</template>
+data(){
+    return {
+    title:"JYeontu的日历",
+    bgSrc:"https://images8.alphacoders.com/992/992329.jpg",
+    }
+},
+methods:{
+    selectDay(e){
+    // console.log(e);
+    },
+    changeMonth(e){
+    // console.log(e);
+    }
+}
+`;
     },
     methods: {
         selectDay(e) {

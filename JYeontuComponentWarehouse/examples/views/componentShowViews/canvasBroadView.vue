@@ -28,8 +28,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -131,19 +135,24 @@ export default {
     },
     created() {
         this.code = `
-			<j-canvas-broad class="canvas-baroad" 
-						:toolsTabList="true" 
-						:height="height" 
-						:width="width">
-			</j-canvas-broad>
-			
-			data(){
-				return {
-					width:-1,
-					height:-1,
-				}
-			}
-			`;
+<template>
+    <div>
+        <j-canvas-broad class="canvas-baroad" 
+            :toolsTabList="true" 
+            :height="height" 
+            :width="width">
+        </j-canvas-broad>
+    </div>
+</template>
+export default {
+    data(){
+        return {
+            width:-1,
+            height:-1,
+        }
+    }
+}
+`;
     },
     methods: {}
 };

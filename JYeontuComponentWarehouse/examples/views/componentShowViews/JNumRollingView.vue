@@ -27,8 +27,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -132,38 +136,42 @@ export default {
     },
     created() {
         this.code = `
-		<j-num-rolling :nums = "nums" 
-					:fixNum = "2" 
-					:stepTime = "200" 
-					:refreshTime = "2" 
-					:fontSize = "4" 
-					:numStyle = "numStyle">
-				
-		</j-num-rolling>
-		
-		data(){
-		  return {
-			nums:'999999',
-			numStyle:{
-				border:'2px solid skyblue',
-				boxShadow:'10px 10px 5px #185D8C',
-				marginLeft:'0.5rem',
-			},
-		  }
-		},
-		mounted() {
-			this.autoChange();
-		},
-		methods:{
-		  //自动增加数字，测试
-		  autoChange(){
-		  	this.nums = parseFloat(this.nums) + 12345.67;
-		  	setTimeout(()=>{
-		  		this.autoChange();
-		  	},5000);
-		  },
-		}
-	`;
+<template>
+    <div>
+        <j-num-rolling :nums = "nums" 
+            :fixNum = "2" 
+            :stepTime = "200" 
+            :refreshTime = "2" 
+            :fontSize = "4" 
+            :numStyle = "numStyle">
+        </j-num-rolling>
+    </div>
+</template>
+export default {
+    data(){
+        return {
+        nums:'999999',
+        numStyle:{
+            border:'2px solid skyblue',
+            boxShadow:'10px 10px 5px #185D8C',
+            marginLeft:'0.5rem',
+        },
+        }
+    },
+    mounted() {
+        this.autoChange();
+    },
+    methods:{
+        //自动增加数字，测试
+        autoChange(){
+        this.nums = parseFloat(this.nums) + 12345.67;
+        setTimeout(()=>{
+            this.autoChange();
+        },5000);
+        },
+    }
+}
+`;
     },
     mounted() {
         this.autoChange();
