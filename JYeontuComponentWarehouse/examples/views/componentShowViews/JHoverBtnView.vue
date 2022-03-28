@@ -31,8 +31,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -153,30 +157,33 @@ export default {
     },
     created() {
         this.code = `
-		<j-hover-btn bgColor = 'pink' 
-					width = '80' 
-					text = '按钮文字' 
-					:btn-style = "btnStyle" 
-					@hoverBtnClick = "hoverBtnClick()">
-			
-		</j-hover-btn>
-		export default {
-			data(){
-			  return {
-				  btnStyle:{
-					"fontSize":'small',
-					"top":'60vh',
-					"left":'90vw'
-				  },
-			  }
-			},
-			methods:{
-			  hoverBtnClick(){
-				alert('触发点击事件');
-			  }
-			}
-		}
-	`;
+<template>
+    <div>
+        <j-hover-btn bgColor = 'pink' 
+            width = '80' 
+            text = '按钮文字' 
+            :btn-style = "btnStyle" 
+            @hoverBtnClick = "hoverBtnClick()">
+        </j-hover-btn>
+    </div>
+</template>
+export default {
+    data(){
+        return {
+            btnStyle:{
+            "fontSize":'small',
+            "top":'60vh',
+            "left":'90vw'
+            },
+        }
+    },
+    methods:{
+        hoverBtnClick(){
+        alert('触发点击事件');
+        }
+    }
+}
+`;
     },
     mounted() {},
     methods: {

@@ -19,8 +19,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -175,56 +179,57 @@ export default {
     },
     created() {
         this.code = `
+<template>
+    <div>
         <j-steps :dataList="dataList" :lineStyle="lineStyle">
         </j-steps>
-
-        data(){
-            return {
-                iconWidth:50,
-                lineStyle:{
-                    color:'skyblue',
-                    height:'100px'
-                },
-                dataList:[{
-                    title:'版本0.1.5（待发布）',
-                    descript:'优化：代码高亮组件；增加：步骤图组件',
-                    time:'未定',
-                    icon:'图标',
-                },{
-                    title:'版本0.1.4（已发布）',
-                    descript:'优化：代码高亮组件',
-                    time:'2021-12-01',
-                    icon:'图标',
-                },{
-                    title:'版本0.1.3（已发布）',
-                    descript:'增加：悬浮按钮组件、弹窗组件',
-                    time:'2021-11-28',
-                    icon:'图标',
-                },{
-                    title:'版本0.1.2（已发布）',
-                    descript:'增加：数字滚动变化效果组件；工具函数',
-                    time:'2021-11-26',
-                    icon:'图标',
-                },{
-                    title:'版本0.1.1（已发布）',
-                    descript:'项目搭建，导入：日历组件、电子屏数字组件、流程图组件、表格组件、代码高亮组件、canvas画板组件',
-                    time:'2021-11-24',
-                    icon:'图标',
-                },{
-                    title:'版本0.1.0（已发布）',
-                    descript:'初始化npm库',
-                    time:'2021-11-22',
-                    icon:'图标',
-                }],
-            }
-        },
-    mounted() {
-
+    </div>
+</template>
+export default {
+    data(){
+        return {
+            iconWidth:50,
+            lineStyle:{
+                color:'skyblue',
+                height:'100px'
+            },
+            dataList:[{
+                title:'版本0.1.5（待发布）',
+                descript:'优化：代码高亮组件；增加：步骤图组件',
+                time:'未定',
+                icon:'图标',
+            },{
+                title:'版本0.1.4（已发布）',
+                descript:'优化：代码高亮组件',
+                time:'2021-12-01',
+                icon:'图标',
+            },{
+                title:'版本0.1.3（已发布）',
+                descript:'增加：悬浮按钮组件、弹窗组件',
+                time:'2021-11-28',
+                icon:'图标',
+            },{
+                title:'版本0.1.2（已发布）',
+                descript:'增加：数字滚动变化效果组件；工具函数',
+                time:'2021-11-26',
+                icon:'图标',
+            },{
+                title:'版本0.1.1（已发布）',
+                descript:'项目搭建，导入：日历组件、电子屏数字组件、流程图组件、表格组件、代码高亮组件、canvas画板组件',
+                time:'2021-11-24',
+                icon:'图标',
+            },{
+                title:'版本0.1.0（已发布）',
+                descript:'初始化npm库',
+                time:'2021-11-22',
+                icon:'图标',
+            }],
+        }
     },
-    methods:{
-
-    }
-	`;
+mounted() {},
+methods:{}
+}
+`;
     },
     mounted() {},
     methods: {}

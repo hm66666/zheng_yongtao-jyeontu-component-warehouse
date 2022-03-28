@@ -38,8 +38,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -130,6 +134,8 @@ export default {
     },
     created() {
         this.code = `
+<template>
+    <div>
         <div class="choose-tag-list">
             <j-tag-list
                 :tagList="chooseTagList"
@@ -148,33 +154,35 @@ export default {
             @addTag="addTag"
         >
         </j-tag-list>
-        export default {
-            data(){
-                return {
-                    tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
-                    tagColor: ["orange", "pink"],
-                    chooseTagList: []
-                }
-            },
-            methods: {
-                addTag(item) {
-                    console.log(item);
-                },
-                tagClick(item) {
-                    if (this.chooseTagList.includes(item.text)) {
-                        return;
-                    }
-                    this.chooseTagList.push(item.text);
-                },
-                deleteTag(item) {
-                    const ind = this.chooseTagList.indexOf(item.text);
-                    if (ind !== -1) {
-                        this.chooseTagList.splice(ind, 1);
-                    }
-                }
+    </div>
+</template>
+export default {
+    data(){
+        return {
+            tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
+            tagColor: ["orange", "pink"],
+            chooseTagList: []
+        }
+    },
+    methods: {
+        addTag(item) {
+            console.log(item);
+        },
+        tagClick(item) {
+            if (this.chooseTagList.includes(item.text)) {
+                return;
+            }
+            this.chooseTagList.push(item.text);
+        },
+        deleteTag(item) {
+            const ind = this.chooseTagList.indexOf(item.text);
+            if (ind !== -1) {
+                this.chooseTagList.splice(ind, 1);
             }
         }
-    `;
+    }
+}
+`;
     },
     mounted() {},
     methods: {

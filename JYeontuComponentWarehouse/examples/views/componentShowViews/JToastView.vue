@@ -16,8 +16,12 @@
             </div>
         </template>
         <template #footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -35,23 +39,24 @@ export default {
     },
     created() {
         this.code = `
-    <template>
+<template>
+    <div>
         <button @click="showToast()">
             点我
         </button>
-    </template>
-    export default {
-        data(){
-            return {}
-        },
-        mounted() {},
-        methods:{
-            showToast() {
-                this.$JToast("测试Toast");
-            }
+    </div>
+</template>
+export default {
+    data(){
+        return {}
+    },
+    mounted() {},
+    methods:{
+        showToast() {
+            this.$JToast("测试Toast");
         }
     }
-    `;
+}`;
     },
     mounted() {},
     methods: {

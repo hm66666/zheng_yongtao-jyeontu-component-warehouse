@@ -20,8 +20,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -130,37 +134,44 @@ export default {
         };
     },
     created() {
-        this.code = `
-        <j-word-cloud :textList="textList"></j-word-cloud>
-        export default {
-            data(){
-                return {
-                    textList: [
-                        { text: "单词", freq: 10 },
-                        { text: "单词1", freq: 5 },
-                        { text: "单词2", freq: 7 },
-                        { text: "单词3", freq: 2 },
-                        { text: "单词5", freq: 3 },
-                        { text: "单词6", freq: 4 },
-                        { text: "单词7", freq: 5 },
-                        { text: "单词8", freq: 6 },
-                        { text: "单词9", freq: 6 },
-                        { text: "单词10", freq: 8 },
-                        { text: "单词11", freq: 4 },
-                        { text: "单词12", freq: 2 },
-                        { text: "单词13", freq: 4 },
-                        { text: "单词14", freq: 3 },
-                        { text: "单词15", freq: 1 },
-                        { text: "单词16", freq: 5 }
-                    ]
-                }
-            },
-            methods: {}
-        }
-    `;
+        this.setCode();
     },
     mounted() {},
+    methods: {
+        setCode() {
+            this.code = `
+<template>
+    <div>
+        <j-word-cloud :textList="textList"></j-word-cloud>
+    </div>
+</template>
+export default {
+    data(){
+        return {
+            textList: [
+                { text: "单词", freq: 10 },
+                { text: "单词1", freq: 5 },
+                { text: "单词2", freq: 7 },
+                { text: "单词3", freq: 2 },
+                { text: "单词5", freq: 3 },
+                { text: "单词6", freq: 4 },
+                { text: "单词7", freq: 5 },
+                { text: "单词8", freq: 6 },
+                { text: "单词9", freq: 6 },
+                { text: "单词10", freq: 8 },
+                { text: "单词11", freq: 4 },
+                { text: "单词12", freq: 2 },
+                { text: "单词13", freq: 4 },
+                { text: "单词14", freq: 3 },
+                { text: "单词15", freq: 1 },
+                { text: "单词16", freq: 5 }
+            ]
+        }
+    },
     methods: {}
+}`;
+        }
+    }
 };
 </script>
 <style scoped lang="scss">

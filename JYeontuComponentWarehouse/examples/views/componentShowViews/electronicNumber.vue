@@ -25,8 +25,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -110,28 +114,36 @@ export default {
     },
     created() {
         this.code = `
-            <j-electronic-number :numbers="numbers" 
-								:number-color="numberColor" 
-								:number-size="numberSize" >
-            </j-electronic-number>
-
+<template>
+    <div>
+        <j-electronic-number :numbers="numbers" 
+            :number-color="numberColor" 
+            :number-size="numberSize" >
+        </j-electronic-number>
+    </div>
+</template>
+export default {
+    data() {
+        return {
             numbers:[],
             numberColor:'#8076a3',
             numberSize:'1rem'
-
-            mounted(){
-              this.getTime();
-            },
-            methods:{
-              getTime(){
-                let day = getToday('yyyy-mm-dd hh:MM:ss');
-                this.numbers = [day];
-                setTimeout(()=>{
-                  this.getTime();
-                },1000);
-              }
-            }
-	`;
+        }
+    }
+    mounted(){
+        this.getTime();
+    },
+    methods:{
+        getTime(){
+        let day = getToday('yyyy-mm-dd hh:MM:ss');
+        this.numbers = [day];
+        setTimeout(()=>{
+            this.getTime();
+        },1000);
+        }
+    }
+}
+`;
     },
     mounted() {
         this.getTime();

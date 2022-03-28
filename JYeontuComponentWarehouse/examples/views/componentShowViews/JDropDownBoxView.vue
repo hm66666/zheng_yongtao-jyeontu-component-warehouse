@@ -29,8 +29,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -161,6 +165,8 @@ export default {
     },
     created() {
         this.code = `
+<template>
+    <div>
         <j-drop-down-box
             :value="selectVal"
             :defIndex="defIndex"
@@ -170,47 +176,49 @@ export default {
             @selectItem="selectItem"
             @selectIndexValue="selectIndexValue">
         </j-drop-down-box>
-        export default {
-            data(){
-                return {
-                    defIndex: "test",
-                    selectVal: "",
-                    filter: true,
-                    closed: false,
-                    selectData: [
-                        {
-                            id: "李白",
-                            value: "李白"
-                        },
-                        {
-                            id: "项羽",
-                            value: "项羽"
-                        },
-                        {
-                            id: "妲己",
-                            value: "妲己"
-                        },
-                        {
-                            id: "王昭君",
-                            value: "王昭君"
-                        },
-                        {
-                            id: "凯",
-                            value: "凯"
-                        }
-                    ],
-                }
-            },
-            methods: {
-                selectItem(id) {
-                    console.log("selectItem", id);
+    </div>
+</template>
+export default {
+    data(){
+        return {
+            defIndex: "test",
+            selectVal: "",
+            filter: true,
+            closed: false,
+            selectData: [
+                {
+                    id: "李白",
+                    value: "李白"
                 },
-                selectIndexValue(defIndex, value) {
-                    console.log("selectIndexValue", defIndex, value);
+                {
+                    id: "项羽",
+                    value: "项羽"
+                },
+                {
+                    id: "妲己",
+                    value: "妲己"
+                },
+                {
+                    id: "王昭君",
+                    value: "王昭君"
+                },
+                {
+                    id: "凯",
+                    value: "凯"
                 }
-            }
+            ],
         }
-    `;
+    },
+    methods: {
+        selectItem(id) {
+            console.log("selectItem", id);
+        },
+        selectIndexValue(defIndex, value) {
+            console.log("selectIndexValue", defIndex, value);
+        }
+    }
+}
+`;
     },
     mounted() {},
     methods: {

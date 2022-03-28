@@ -31,8 +31,12 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <j-code-height-light :code="code" class="footer">
-            </j-code-height-light>
+            <!-- <j-code-height-light :code="code" class="footer">
+            </j-code-height-light> -->
+            <pre v-highlight>
+                <code class="vue" v-text="code">
+                </code>
+            </pre>
         </template>
     </split-horizontal>
 </template>
@@ -297,133 +301,135 @@ export default {
     created() {
         this.initData();
         this.code = `
-        <template>
-            <j-table
-                :tableId="t"
-                ref="t"
-                :title="title"
-                :tableData="tableData">
-            </j-table>
-        </template>
-        export default {
-            name: "JTableView",
-            data() {
-                return {
-                    /**
-                     * title中的title字段会作为表头显示
-                     * title中key值代表列名 与 tableData中数据属性对应 
-                     * tableData的属性由title的key集合加children组成 children为下级数据
-                     * children的属性同样包含title(可空)和data，另外增加了type（指定下级类型，默认为table）和text（type为text时展示）
-                     * 可以递归嵌套
-                     */
-                    title:[
-                    {
-                        title:'姓名',//展示列名
-                        key:'name',//字段名
-                        type: '', // 列类型
-                        readOnly:true,//是否只读
-                        width:'35vw',//列宽度
-                        columnStyle: '', // 列样式
-                        fixed: false,//是否固定
-                        sort: false, // 是否支持排序
-                    },
-                    {
-                        title:'年龄',//展示列名
-                        key:'age',//字段名
-                        type: '', // 列类型
-                        readOnly:false,//是否只读
-                        width:'25vw',//列宽度
-                        columnStyle: '', // 列样式
-                        fixed: false,//是否固定
-                        sort: true, // 是否支持排序
-                    },
-                    {
-                        title:'职业',//展示列名
-                        key:'work',//字段名
-                        type: '', // 列类型
-                        readOnly:true,//是否只读
-                        width:'40vw',//列宽度
-                        columnStyle: '', // 列样式
-                        fixed: false,//是否固定
-                        sort: false, // 是否支持排序
-                    }
-                    ],
-                    tableData: [
-                        {
-                            name: "张三",
-                            age: "68",
-                            work: "法外狂徒",
-                            children: {
-                                title: [
-                                    {
-                                        title: "姓名", //展示列名
-                                        key: "name", //字段名
-                                        type: "", // 列类型
-                                        readOnly: true, //是否只读
-                                        width: "25vw", //列宽度
-                                        columnStyle: "", // 列样式
-                                        fixed: false, //是否固定
-                                        sort: false // 是否支持排序
-                                    },
-                                    {
-                                        title: "年龄", //展示列名
-                                        key: "age", //字段名
-                                        type: "", // 列类型
-                                        readOnly: true, //是否只读
-                                        width: "25vw", //列宽度
-                                        columnStyle: "", // 列样式
-                                        fixed: false, //是否固定
-                                        sort: true // 是否支持排序
-                                    },
-                                    {
-                                        title: "关系", //展示列名
-                                        key: "relation", //字段名
-                                        type: "", // 列类型
-                                        readOnly: true, //是否只读
-                                        width: "50vw", //列宽度
-                                        columnStyle: "", // 列样式
-                                        fixed: false, //是否固定
-                                        sort: false // 是否支持排序
-                                    }
-                                ],
-                                data: [
-                                    {
-                                        name: "张小三",
-                                        age: "40",
-                                        relation: "儿子",
-                                        children: {
-                                            data: [
-                                                {
-                                                    name: "张小四",
-                                                    age: "测试",
-                                                    relation: "测试",
-                                                    test: "测试"
-                                                }
-                                            ]
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            name: "李四",
-                            age: "18",
-                            work: "学生",
-                            children: {
-                                type: "text",
-                                text: "测试text"
-                            }
-                        },
-                        {
-                            name: "王五",
-                            age: "22",
-                            work: "工程师"
-                        }
-                    ],
-                }
+<template>
+    <div>
+        <j-table
+            :tableId="t"
+            ref="t"
+            :title="title"
+            :tableData="tableData">
+        </j-table>
+    </div>
+</template>
+export default {
+    name: "JTableView",
+    data() {
+        return {
+            /**
+             * title中的title字段会作为表头显示
+             * title中key值代表列名 与 tableData中数据属性对应 
+             * tableData的属性由title的key集合加children组成 children为下级数据
+             * children的属性同样包含title(可空)和data，另外增加了type（指定下级类型，默认为table）和text（type为text时展示）
+             * 可以递归嵌套
+             */
+            title:[
+            {
+                title:'姓名',//展示列名
+                key:'name',//字段名
+                type: '', // 列类型
+                readOnly:true,//是否只读
+                width:'35vw',//列宽度
+                columnStyle: '', // 列样式
+                fixed: false,//是否固定
+                sort: false, // 是否支持排序
             },
+            {
+                title:'年龄',//展示列名
+                key:'age',//字段名
+                type: '', // 列类型
+                readOnly:false,//是否只读
+                width:'25vw',//列宽度
+                columnStyle: '', // 列样式
+                fixed: false,//是否固定
+                sort: true, // 是否支持排序
+            },
+            {
+                title:'职业',//展示列名
+                key:'work',//字段名
+                type: '', // 列类型
+                readOnly:true,//是否只读
+                width:'40vw',//列宽度
+                columnStyle: '', // 列样式
+                fixed: false,//是否固定
+                sort: false, // 是否支持排序
+            }
+            ],
+            tableData: [
+                {
+                    name: "张三",
+                    age: "68",
+                    work: "法外狂徒",
+                    children: {
+                        title: [
+                            {
+                                title: "姓名", //展示列名
+                                key: "name", //字段名
+                                type: "", // 列类型
+                                readOnly: true, //是否只读
+                                width: "25vw", //列宽度
+                                columnStyle: "", // 列样式
+                                fixed: false, //是否固定
+                                sort: false // 是否支持排序
+                            },
+                            {
+                                title: "年龄", //展示列名
+                                key: "age", //字段名
+                                type: "", // 列类型
+                                readOnly: true, //是否只读
+                                width: "25vw", //列宽度
+                                columnStyle: "", // 列样式
+                                fixed: false, //是否固定
+                                sort: true // 是否支持排序
+                            },
+                            {
+                                title: "关系", //展示列名
+                                key: "relation", //字段名
+                                type: "", // 列类型
+                                readOnly: true, //是否只读
+                                width: "50vw", //列宽度
+                                columnStyle: "", // 列样式
+                                fixed: false, //是否固定
+                                sort: false // 是否支持排序
+                            }
+                        ],
+                        data: [
+                            {
+                                name: "张小三",
+                                age: "40",
+                                relation: "儿子",
+                                children: {
+                                    data: [
+                                        {
+                                            name: "张小四",
+                                            age: "测试",
+                                            relation: "测试",
+                                            test: "测试"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    name: "李四",
+                    age: "18",
+                    work: "学生",
+                    children: {
+                        type: "text",
+                        text: "测试text"
+                    }
+                },
+                {
+                    name: "王五",
+                    age: "22",
+                    work: "工程师"
+                }
+            ],
         }
-        `;
+    },
+}
+`;
     },
     //生命周期 - 挂载之前",html模板未渲染
     beforeMount() {},
