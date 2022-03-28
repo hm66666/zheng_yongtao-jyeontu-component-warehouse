@@ -58,6 +58,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.3.7（未发布）",
+                    descript: "优化：评论组件表情弹窗关闭机制",
+                    time: "进行中……",
+                    icon: "3.7"
+                },
+                {
                     title: "版本0.3.6（已发布）",
                     descript: "增加：toolTip悬浮提示组件",
                     time: "2022-03-16",
