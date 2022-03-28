@@ -6,12 +6,10 @@
  * @Description: 
 -->
 <template>
-    <div class="j-comment">
-        <VEmojiPicker
-            id="v-emoji-picker"
-            v-show="showVEmojiPicker"
-            @select="selectEmoji"
-        />
+    <div class="j-comment" @click="showVEmojiPicker = false">
+        <div id="v-emoji-picker" @click.stop="() => {}">
+            <VEmojiPicker v-show="showVEmojiPicker" @select="selectEmoji" />
+        </div>
         <textarea
             v-if="withCommentContent"
             v-model="commentText"
