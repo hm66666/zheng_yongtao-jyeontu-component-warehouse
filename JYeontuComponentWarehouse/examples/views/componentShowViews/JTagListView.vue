@@ -156,32 +156,34 @@ export default {
         </j-tag-list>
     </div>
 </template>
-export default {
-    data(){
-        return {
-            tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
-            tagColor: ["orange", "pink"],
-            chooseTagList: []
-        }
-    },
-    methods: {
-        addTag(item) {
-            console.log(item);
-        },
-        tagClick(item) {
-            if (this.chooseTagList.includes(item.text)) {
-                return;
+<script>
+    export default {
+        data(){
+            return {
+                tagList: ["c语言", "python", "JavaScript", "vue", "算法", "羽毛球"],
+                tagColor: ["orange", "pink"],
+                chooseTagList: []
             }
-            this.chooseTagList.push(item.text);
         },
-        deleteTag(item) {
-            const ind = this.chooseTagList.indexOf(item.text);
-            if (ind !== -1) {
-                this.chooseTagList.splice(ind, 1);
+        methods: {
+            addTag(item) {
+                console.log(item);
+            },
+            tagClick(item) {
+                if (this.chooseTagList.includes(item.text)) {
+                    return;
+                }
+                this.chooseTagList.push(item.text);
+            },
+            deleteTag(item) {
+                const ind = this.chooseTagList.indexOf(item.text);
+                if (ind !== -1) {
+                    this.chooseTagList.splice(ind, 1);
+                }
             }
         }
     }
-}
+</script>
 `;
     },
     mounted() {},
@@ -203,7 +205,7 @@ export default {
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;

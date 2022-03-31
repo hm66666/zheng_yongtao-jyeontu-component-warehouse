@@ -144,19 +144,21 @@ export default {
         </j-canvas-broad>
     </div>
 </template>
-export default {
-    data(){
-        return {
-            width:-1,
-            height:-1,
+<script>
+    export default {
+        data(){
+            return {
+                width:-1,
+                height:-1,
+            }
         }
     }
-}
+</script>
 `;
     },
     methods: {}
 };
-</script>
+</>
 
 <style lang="scss" scoped="scoped">
 .broad-title {

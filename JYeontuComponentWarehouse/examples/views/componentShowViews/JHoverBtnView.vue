@@ -167,22 +167,24 @@ export default {
         </j-hover-btn>
     </div>
 </template>
-export default {
-    data(){
-        return {
-            btnStyle:{
-            "fontSize":'small',
-            "top":'60vh',
-            "left":'90vw'
-            },
-        }
-    },
-    methods:{
-        hoverBtnClick(){
-        alert('触发点击事件');
+<script>
+    export default {
+        data(){
+            return {
+                btnStyle:{
+                "fontSize":'small',
+                "top":'60vh',
+                "left":'90vw'
+                },
+            }
+        },
+        methods:{
+            hoverBtnClick(){
+            alert('触发点击事件');
+            }
         }
     }
-}
+</script>
 `;
     },
     mounted() {},
@@ -192,7 +194,7 @@ export default {
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;

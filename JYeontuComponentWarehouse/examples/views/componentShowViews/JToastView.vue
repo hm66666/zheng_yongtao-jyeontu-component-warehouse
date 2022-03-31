@@ -46,17 +46,20 @@ export default {
         </button>
     </div>
 </template>
-export default {
-    data(){
-        return {}
-    },
-    mounted() {},
-    methods:{
-        showToast() {
-            this.$JToast("测试Toast");
+<script>
+    export default {
+        data(){
+            return {}
+        },
+        mounted() {},
+        methods:{
+            showToast() {
+                this.$JToast("测试Toast");
+            }
         }
     }
-}`;
+</script>
+`;
     },
     mounted() {},
     methods: {
@@ -65,7 +68,7 @@ export default {
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;

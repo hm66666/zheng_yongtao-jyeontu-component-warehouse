@@ -127,20 +127,22 @@ export default {
         </j-calendar>
     </div>
 </template>
-data(){
-    return {
-    title:"JYeontu的日历",
-    bgSrc:"https://images8.alphacoders.com/992/992329.jpg",
-    }
-},
-methods:{
-    selectDay(e){
-    // console.log(e);
+<script>
+    data(){
+        return {
+        title:"JYeontu的日历",
+        bgSrc:"https://images8.alphacoders.com/992/992329.jpg",
+        }
     },
-    changeMonth(e){
-    // console.log(e);
+    methods:{
+        selectDay(e){
+        // console.log(e);
+        },
+        changeMonth(e){
+        // console.log(e);
+        }
     }
-}
+</script>
 `;
     },
     methods: {
@@ -152,7 +154,7 @@ methods:{
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;
