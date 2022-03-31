@@ -279,7 +279,7 @@ export default {
             title1[1].width = "15vw";
             title1[2].width = "15vw";
             title1[3].width = "55vw";
-            for (let i = 0; i < tableData.length; i++) {
+            for (let i = 0; i <script tableData.length; i++) {
                 // tableData[i].children
                 if (tableData[i].parameter === "title") {
                     tableData[i].children = {
@@ -448,7 +448,7 @@ export default {
     //如果页面有keep-alive缓存功能，这个函数会触发",
     activated() {}
 };
-</>
+</script>
 
 <style lang="scss" scoped>
 .title {

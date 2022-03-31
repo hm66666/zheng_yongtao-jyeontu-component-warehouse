@@ -68,7 +68,7 @@ export default {
         }
     }
 };
-</>
+</script>
 <style scoped lang="scss">
 .title {
     font-size: x-large;
