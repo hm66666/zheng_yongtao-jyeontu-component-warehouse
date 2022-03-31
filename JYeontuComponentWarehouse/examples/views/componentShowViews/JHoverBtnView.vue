@@ -184,7 +184,7 @@ export default {
             }
         }
     }
-</script>
+<\/script>
 `;
     },
     mounted() {},

@@ -230,7 +230,7 @@ export default {
     mounted() {},
     methods:{}
     }
-</script>
+<\/script>
 `;
     },
     mounted() {},
