@@ -236,7 +236,7 @@ export default {
     mounted() {},
     methods: {}
 };
-</>
+</script>
 <style scoped lang="scss">
 .title {
     font-size: x-large;
