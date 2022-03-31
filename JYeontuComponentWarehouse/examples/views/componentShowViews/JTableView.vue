@@ -279,7 +279,7 @@ export default {
             title1[1].width = "15vw";
             title1[2].width = "15vw";
             title1[3].width = "55vw";
-            for (let i = 0; i <script tableData.length; i++) {
+            for (let i = 0; i < tableData.length; i++) {
                 // tableData[i].children
                 if (tableData[i].parameter === "title") {
                     tableData[i].children = {
@@ -318,7 +318,7 @@ export default {
             return {
                 /**
                  * title中的title字段会作为表头显示
-                 * title中key值代表列名 与 tableData中数据属性对应 
+                 * title中key值代表列名 与 tableData中数据属性对应
                  * tableData的属性由title的key集合加children组成 children为下级数据
                  * children的属性同样包含title(可空)和data，另外增加了type（指定下级类型，默认为table）和text（type为text时展示）
                  * 可以递归嵌套
@@ -430,7 +430,7 @@ export default {
             }
         },
     }
-</script>
+<\/script>
 `;
     },
     //生命周期 - 挂载之前",html模板未渲染
