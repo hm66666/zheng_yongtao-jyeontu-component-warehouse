@@ -134,22 +134,24 @@ export default {
         </p>
     </div>
 </template>
-export default {
-    data() {
-        return {
-            textStyle: {
-                borderBottom: "1px dotted skyblue",
-                fontSize: "large",
-                color: "skyblue"
-            },
-            toolTipStyle: {
-                backgroundColor: "grey",
-                color: "skyblue",
-                width: "100px"
-            },
+<script>
+    export default {
+        data() {
+            return {
+                textStyle: {
+                    borderBottom: "1px dotted skyblue",
+                    fontSize: "large",
+                    color: "skyblue"
+                },
+                toolTipStyle: {
+                    backgroundColor: "grey",
+                    color: "skyblue",
+                    width: "100px"
+                },
+            }
         }
     }
-}
+</script>
             `;
         },
         initTableData() {
@@ -203,7 +205,7 @@ export default {
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;

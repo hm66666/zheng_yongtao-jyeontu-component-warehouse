@@ -122,27 +122,29 @@ export default {
         </j-electronic-number>
     </div>
 </template>
-export default {
-    data() {
-        return {
-            numbers:[],
-            numberColor:'#8076a3',
-            numberSize:'1rem'
+<script>
+    export default {
+        data() {
+            return {
+                numbers:[],
+                numberColor:'#8076a3',
+                numberSize:'1rem'
+            }
         }
-    }
-    mounted(){
-        this.getTime();
-    },
-    methods:{
-        getTime(){
-        let day = getToday('yyyy-mm-dd hh:MM:ss');
-        this.numbers = [day];
-        setTimeout(()=>{
+        mounted(){
             this.getTime();
-        },1000);
+        },
+        methods:{
+            getTime(){
+            let day = getToday('yyyy-mm-dd hh:MM:ss');
+            this.numbers = [day];
+            setTimeout(()=>{
+                this.getTime();
+            },1000);
+            }
         }
     }
-}
+<script>
 `;
     },
     mounted() {

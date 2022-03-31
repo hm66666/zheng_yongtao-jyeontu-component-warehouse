@@ -147,30 +147,32 @@ export default {
         </j-num-rolling>
     </div>
 </template>
-export default {
-    data(){
-        return {
-        nums:'999999',
-        numStyle:{
-            border:'2px solid skyblue',
-            boxShadow:'10px 10px 5px #185D8C',
-            marginLeft:'0.5rem',
+<script>
+    export default {
+        data(){
+            return {
+            nums:'999999',
+            numStyle:{
+                border:'2px solid skyblue',
+                boxShadow:'10px 10px 5px #185D8C',
+                marginLeft:'0.5rem',
+            },
+            }
         },
-        }
-    },
-    mounted() {
-        this.autoChange();
-    },
-    methods:{
-        //自动增加数字，测试
-        autoChange(){
-        this.nums = parseFloat(this.nums) + 12345.67;
-        setTimeout(()=>{
+        mounted() {
             this.autoChange();
-        },5000);
         },
+        methods:{
+            //自动增加数字，测试
+            autoChange(){
+            this.nums = parseFloat(this.nums) + 12345.67;
+            setTimeout(()=>{
+                this.autoChange();
+            },5000);
+            },
+        }
     }
-}
+</script>
 `;
     },
     mounted() {
@@ -186,7 +188,7 @@ export default {
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;

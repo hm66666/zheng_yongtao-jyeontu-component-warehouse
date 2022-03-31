@@ -179,41 +179,43 @@ export default {
         </button>
     </div>
 </template>
-export default {
-    data(){
-        return {
-        title:"我是标题",
-        btnList:[
-            {
-                text:'取消',
-                style:{
-                    backgroundColor:'orangered'
+<script>
+    export default {
+        data(){
+            return {
+            title:"我是标题",
+            btnList:[
+                {
+                    text:'取消',
+                    style:{
+                        backgroundColor:'orangered'
+                    },
+                    click:'close'
                 },
-                click:'close'
-            },
-            {
-                text:'确认',
-                style:{
-                    backgroundColor:'seagreen'
-                },
-                click:'confirm'
+                {
+                    text:'确认',
+                    style:{
+                        backgroundColor:'seagreen'
+                    },
+                    click:'confirm'
+                }
+            ]
             }
-        ]
-        }
-    },
-    mounted() {
-        
-    },
-    methods:{
-        showDialog() {
-            this.$refs["JDialog"].showDialog();
         },
-        confirm(){
-            console.log('confirm');
-            this.$refs.JDialog.closeDialog();
+        mounted() {
+            
+        },
+        methods:{
+            showDialog() {
+                this.$refs["JDialog"].showDialog();
+            },
+            confirm(){
+                console.log('confirm');
+                this.$refs.JDialog.closeDialog();
+            }
         }
     }
-}
+</script>
     `;
     },
     mounted() {},
@@ -227,7 +229,7 @@ export default {
         }
     }
 };
-</script>
+</>
 <style scoped lang="scss">
 .title {
     font-size: x-large;
