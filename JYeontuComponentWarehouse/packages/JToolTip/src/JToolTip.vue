@@ -11,8 +11,8 @@
             class="j-tooltip"
             :data-tooltip="tipText"
             :style="getTextStyle()"
-            ><slot></slot
-        ></span>
+            ><slot></slot>
+        </span>
     </span>
 </template>
 
@@ -97,22 +97,7 @@ export default {
     word-break: break-all;
 }
 
-.j-tooltip:after {
-    content: "";
-    position: absolute;
-    bottom: 75%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    opacity: 0;
-    transition: opacity 0.6s;
-    border-color: var(--backgroundColor) transparent transparent transparent;
-    visibility: hidden;
-}
-
-.j-tooltip:hover:before,
-.j-tooltip:hover:after {
+.j-tooltip:hover:before {
     opacity: 1;
     visibility: visible;
 }
