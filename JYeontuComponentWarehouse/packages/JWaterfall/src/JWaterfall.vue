@@ -31,12 +31,13 @@ export default {
             let ul = document.createElement("ul");
             ul.style.listStyle = "none";
             ul.style.float = "left";
+            let trueWidth = Math.floor((100 - this.column * 0.5) / this.column);
             content.appendChild(ul);
             for (let i = 0; i < this.column; i++) {
                 let li = document.createElement("li");
                 li.style.listStyle = "none";
                 li.style.float = "left";
-                li.style.width = "24%";
+                li.style.width = `${trueWidth}%`;
                 li.style.margin = "0 0.5%";
                 ul.appendChild(li);
                 this.arr.push(li);
