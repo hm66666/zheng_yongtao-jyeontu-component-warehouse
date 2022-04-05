@@ -10,7 +10,7 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-waterfall :imgList="imgList"> </j-waterfall>
+                <j-waterfall :imgList="imgList" :column="5"> </j-waterfall>
             </div>
         </template>
         <template v-slot:right-p>
@@ -19,8 +19,6 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <!-- <j-code-height-light :code="code" class="footer">
-            </j-code-height-light> -->
             <pre v-highlight>
                 <code class="vue" v-text="code">
                 </code>
