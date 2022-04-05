@@ -131,6 +131,18 @@ export default {
                     describe: "默认为false"
                 },
                 {
+                    parameter: "close",
+                    field: "弹窗关闭时回调函数",
+                    type: "function",
+                    describe: ""
+                },
+                {
+                    parameter: "show",
+                    field: "弹窗打开时回调函数",
+                    type: "function",
+                    describe: ""
+                },
+                {
                     parameter: "btnList",
                     field: "底部按钮列表",
                     type: "Array",

@@ -89,9 +89,11 @@ export default {
             this.JDialogIsShow = !this.closable;
         },
         showDialog() {
+            this.$emit("show");
             this.JDialogIsShow = true;
         },
         closeDialog() {
+            this.$emit("close");
             this.JDialogIsShow = false;
         }
     }
