@@ -232,6 +232,18 @@
             "children": []
         },
         {
+            "id": 22,
+            "name": "JWaterfallView",
+            "path": "/JWaterfallView",
+            "label": "瀑布流照片容器",
+            "selected": false,
+            "icon": "icon-ciyuntu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JWaterfallView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
