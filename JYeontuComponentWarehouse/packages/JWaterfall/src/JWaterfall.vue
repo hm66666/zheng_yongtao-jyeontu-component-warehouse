@@ -13,6 +13,10 @@ export default {
         column: {
             type: Number,
             default: 4
+        },
+        imgMargin: {
+            type: Number,
+            default: 0.5
         }
     },
     data() {
@@ -21,55 +25,47 @@ export default {
             arr: []
         };
     },
-    created() {},
     mounted() {
         this.createImg();
     },
     methods: {
         createImg() {
-            const content = document.getElementById("j-water-fall-content");
-            let ul = document.createElement("ul");
-            ul.style.listStyle = "none";
-            ul.style.float = "left";
-            let trueWidth = Math.floor((100 - this.column * 0.5) / this.column);
-            content.appendChild(ul);
+            const ul = document.getElementById("j-water-fall-content");
+            let trueWidth = Math.floor(
+                (100 - this.column * this.imgMargin * 2) / this.column
+            );
             for (let i = 0; i < this.column; i++) {
                 let li = document.createElement("li");
                 li.style.listStyle = "none";
                 li.style.float = "left";
                 li.style.width = `${trueWidth}%`;
-                li.style.margin = "0 0.5%";
+                li.style.margin = `0 ${this.imgMargin}%`;
                 ul.appendChild(li);
                 this.arr.push(li);
                 this.minHeight.push(0);
             }
             let img = new Image();
             img.num = 0;
-            img.src = this.imgList[img.num]; // 素材图片的规律为 2-.jpg 3-.jpg 4-.jpg ...
+            img.src = this.imgList[img.num];
             img.style.width = "100%";
             // 当图片加载完后
             img.onload = this.loadHandler;
         },
         loadHandler(that) {
             const img = that.path[0];
-            let minHeight = this.minHeight;
-            let arr = this.arr;
+            const minHeight = this.minHeight;
+            const arr = this.arr;
             // 高度数组的最小值
-            let min = Math.min.apply(null, minHeight);
+            const min = Math.min.apply(null, minHeight);
             // 高度数组的最小值索引
-            let minIndex = minHeight.indexOf(min);
+            const minIndex = minHeight.indexOf(min);
             // 克隆一份图片
-            let im = img.cloneNode(true);
+            const im = img.cloneNode(true);
             // 将图片假如对应最小值索引的容器中
             arr[minIndex].appendChild(im);
             // 更新最小值索引的容器的高度
             minHeight[minIndex] += im.height;
             img.num++;
-            // 图片的个数只有79张
-            if (img.num > 79) {
-                img.off("load", loadHandler);
-                return;
-            }
             img.src = this.imgList[img.num];
         }
     }
@@ -80,9 +76,5 @@ export default {
 #j-water-fall-content {
     margin: 0;
     padding: 0;
-    ul li {
-        list-style: none !important;
-        float: left !important;
-    }
 }
 </style>

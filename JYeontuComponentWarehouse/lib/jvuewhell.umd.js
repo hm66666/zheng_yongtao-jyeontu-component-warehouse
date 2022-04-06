@@ -2937,6 +2937,17 @@ $export($export.P + $export.F * !__webpack_require__("2f21")([].map, true), 'Arr
 
 /***/ }),
 
+/***/ "703d":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWaterfall_vue_vue_type_style_index_0_id_1898e57c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("ebea");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWaterfall_vue_vue_type_style_index_0_id_1898e57c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWaterfall_vue_vue_type_style_index_0_id_1898e57c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JWaterfall_vue_vue_type_style_index_0_id_1898e57c_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "71c1":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5116,6 +5127,13 @@ module.exports = function (O, D) {
   return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
 };
 
+
+/***/ }),
+
+/***/ "ebea":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -13816,6 +13834,125 @@ JToolTip.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JToolTip = (JToolTip);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"57f0ae36-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWaterfall/src/JWaterfall.vue?vue&type=template&id=1898e57c&scoped=true&
+var JWaterfallvue_type_template_id_1898e57c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{attrs:{"id":"j-water-fall-content"}})}
+var JWaterfallvue_type_template_id_1898e57c_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./packages/JWaterfall/src/JWaterfall.vue?vue&type=template&id=1898e57c&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JWaterfall/src/JWaterfall.vue?vue&type=script&lang=js&
+
+
+//
+//
+//
+//
+/* harmony default export */ var JWaterfallvue_type_script_lang_js_ = ({
+  name: "JWaterfall",
+  props: {
+    imgList: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+    column: {
+      type: Number,
+      default: 4
+    },
+    imgMargin: {
+      type: Number,
+      default: 0.5
+    }
+  },
+  data: function data() {
+    return {
+      minHeight: [],
+      arr: []
+    };
+  },
+  mounted: function mounted() {
+    this.createImg();
+  },
+  methods: {
+    createImg: function createImg() {
+      var ul = document.getElementById("j-water-fall-content");
+      var trueWidth = Math.floor((100 - this.column * this.imgMargin * 2) / this.column);
+
+      for (var i = 0; i < this.column; i++) {
+        var li = document.createElement("li");
+        li.style.listStyle = "none";
+        li.style.float = "left";
+        li.style.width = "".concat(trueWidth, "%");
+        li.style.margin = "0 ".concat(this.imgMargin, "%");
+        ul.appendChild(li);
+        this.arr.push(li);
+        this.minHeight.push(0);
+      }
+
+      var img = new Image();
+      img.num = 0;
+      img.src = this.imgList[img.num];
+      img.style.width = "100%"; // 当图片加载完后
+
+      img.onload = this.loadHandler;
+    },
+    loadHandler: function loadHandler(that) {
+      var img = that.path[0];
+      var minHeight = this.minHeight;
+      var arr = this.arr; // 高度数组的最小值
+
+      var min = Math.min.apply(null, minHeight); // 高度数组的最小值索引
+
+      var minIndex = minHeight.indexOf(min); // 克隆一份图片
+
+      var im = img.cloneNode(true); // 将图片假如对应最小值索引的容器中
+
+      arr[minIndex].appendChild(im); // 更新最小值索引的容器的高度
+
+      minHeight[minIndex] += im.height;
+      img.num++;
+      img.src = this.imgList[img.num];
+    }
+  }
+});
+// CONCATENATED MODULE: ./packages/JWaterfall/src/JWaterfall.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_JWaterfallvue_type_script_lang_js_ = (JWaterfallvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./packages/JWaterfall/src/JWaterfall.vue?vue&type=style&index=0&id=1898e57c&lang=scss&scoped=true&
+var JWaterfallvue_type_style_index_0_id_1898e57c_lang_scss_scoped_true_ = __webpack_require__("703d");
+
+// CONCATENATED MODULE: ./packages/JWaterfall/src/JWaterfall.vue
+
+
+
+
+
+
+/* normalize component */
+
+var JWaterfall_component = normalizeComponent(
+  src_JWaterfallvue_type_script_lang_js_,
+  JWaterfallvue_type_template_id_1898e57c_scoped_true_render,
+  JWaterfallvue_type_template_id_1898e57c_scoped_true_staticRenderFns,
+  false,
+  null,
+  "1898e57c",
+  null
+  
+)
+
+/* harmony default export */ var JWaterfall = (JWaterfall_component.exports);
+// CONCATENATED MODULE: ./packages/JWaterfall/index.js
+
+
+
+JWaterfall.install = function (Vue) {
+  return Vue.component(JWaterfall.name, JWaterfall);
+}; //注册组件
+
+
+/* harmony default export */ var packages_JWaterfall = (JWaterfall);
 // CONCATENATED MODULE: ./packages/index.js
 
 
@@ -13844,9 +13981,10 @@ JToolTip.install = function (Vue) {
 
 
 
+
  // 存储组件列表
 
-var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip // Toast
+var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip, packages_JWaterfall // Toast
 ]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 
 var install = function install(Vue) {
