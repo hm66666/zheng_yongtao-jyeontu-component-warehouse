@@ -10,7 +10,12 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-waterfall :imgList="imgList" :column="5" :imgMargin="0.5">
+                <j-waterfall
+                    :imgList="imgList"
+                    :column="5"
+                    :imgMargin="0.5"
+                    @imgClick="imgClick"
+                >
                 </j-waterfall>
             </div>
         </template>
@@ -137,11 +142,14 @@ export default {
     },
     mounted() {},
     methods: {
+        imgClick(item) {
+            console.log("imgClick: ", item);
+        },
         initCodeContent() {
             this.code = `
 <template>
     <div class="content">
-        <j-waterfall :imgList="imgList" :column="5" :imgMargin="0.5">
+        <j-waterfall :imgList="imgList" :column="5" :imgMargin="0.5" @imgClick="imgClick">
         </j-waterfall>
     </div>
 </template>
@@ -199,6 +207,11 @@ export default {
                     "https://img2.baidu.com/it/u=9876582,1040648435&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
                 ],
             }
+        },
+        methods: {
+            imgClick(item) {
+                console.log("imgClick: ", item);
+            },
         }
     }
 <\/script>
@@ -231,6 +244,12 @@ export default {
                     field: "图片边距",
                     type: "Number",
                     describe: "图片边距"
+                },
+                {
+                    parameter: "imgClick",
+                    field: "图片点击回调事件",
+                    type: "function",
+                    describe: "图片点击回调事件"
                 }
             ];
         }

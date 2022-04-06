@@ -51,6 +51,10 @@ export default {
             // 当图片加载完后
             img.onload = this.loadHandler;
         },
+        imgClick(img) {
+            // console.log("img: ", img.srcElement.src);
+            this.$emit("imgClick", img.srcElement.src);
+        },
         loadHandler(that) {
             const img = that.path[0];
             const minHeight = this.minHeight;
@@ -61,6 +65,7 @@ export default {
             const minIndex = minHeight.indexOf(min);
             // 克隆一份图片
             const im = img.cloneNode(true);
+            im.onclick = this.imgClick;
             // 将图片假如对应最小值索引的容器中
             arr[minIndex].appendChild(im);
             // 更新最小值索引的容器的高度
