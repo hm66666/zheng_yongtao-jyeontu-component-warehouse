@@ -297,7 +297,19 @@
             "icon": "icon-youxiyouxiji",
             "open": false,
             "component": "",
-            "children": []
+            "children": [
+                {
+                    "id": 401,
+                    "name": "lineBlock",
+                    "path": "/lineBlock",
+                    "label": "连连看",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/games/lineBlock.vue",
+                    "children": []
+                }
+            ]
         }
     ]
 }

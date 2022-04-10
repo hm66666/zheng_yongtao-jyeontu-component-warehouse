@@ -26,7 +26,6 @@
 </template>
 
 <script>
-var numsFormat = require("@/utils/numsFormat.js");
 import methodTest from "@/components/common/methodTest.vue";
 export default {
     name: "numsFormatView",
@@ -183,8 +182,8 @@ export default {
     created() {
         this.code = `
         /*
-        *数字处理函数
-        */
+         * 数字处理函数
+         */
         var numsFormat = require('@/utils/numsFormat.js');//引入函数
         //使用函数
         numsFormat.numberToWords('321123');//数字转换为英文表示
