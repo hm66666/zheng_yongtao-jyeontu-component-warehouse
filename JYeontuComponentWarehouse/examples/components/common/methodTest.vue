@@ -72,10 +72,16 @@ const methodsMap = {
 export default {
     name: "methodTest",
     props: {
-        util: require("@/utils/dateTool.js"),
+        //require("@/utils/dateTool.js")
+        util: {
+            type: String,
+            default: "dateTool"
+        },
         methodData: {
             type: Array,
-            default: []
+            default: () => {
+                return [];
+            }
         }
     },
     components: {
