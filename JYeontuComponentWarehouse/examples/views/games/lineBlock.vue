@@ -1,7 +1,7 @@
 <template>
     <div class="line-block-body">
-        <div class="game-content">
-            <div class="column" id="column-0">
+        <div id="game-content" class="game-content">
+            <!-- <div class="column" id="column-0">
                 <div class="row" id="row-0-0">
                     <img
                         id="img-0-0"
@@ -90,7 +90,7 @@
                         src="./img/remove.png"
                     />
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="game-menu">
             <div class="game-menu-content">
@@ -172,6 +172,9 @@ export default {
     created() {
         this.initData();
     },
+    mounted() {
+        this.initPage();
+    },
     computed: {
         getPlayTime() {
             let playTime = this.playTime;
@@ -239,8 +242,37 @@ export default {
             blockList = this.randomSort(blockList);
         },
         initPage() {
-            let row = this.row,
+            const row = this.row,
                 column = this.column;
+            const content = document.getElementById("game-content");
+            content.innerHTML = "";
+            for (let i = 0; i <= parseInt(column) + 1; i++) {
+                const columnDom = document.createElement("div");
+                columnDom.classList.add("column");
+                columnDom.id = `column-${i}`;
+                for (let j = 0; j <= parseInt(row) + 1; j++) {
+                    const rowDom = document.createElement("div");
+                    rowDom.classList.add("row");
+                    rowDom.id = `row-${i}-${j}`;
+                    const img = document.createElement("img");
+                    img.id = `img-${i}-${j}`;
+                    img.classList.add("img-block");
+                    if (i == 0 || j == 0 || i == column + 1 || j == row + 1) {
+                        img.setAttribute("src", require("./img/remove.png"));
+                    } else {
+                        img.setAttribute(
+                            "src",
+                            this.blockList[(i - 1) * row + j - 1]
+                        );
+                    }
+                    img.onclick = () => {
+                        this.imgClick(i, j);
+                    };
+                    rowDom.appendChild(img);
+                    columnDom.appendChild(rowDom);
+                }
+                content.appendChild(columnDom);
+            }
             for (let i = 1; i <= column; i++) {
                 for (let j = 1; j <= row; j++) {
                     const img = document.getElementById(i + "-" + j);
@@ -303,7 +335,25 @@ export default {
     }
 };
 </script>
-
+<style scoped>
+/deep/.game-content {
+    flex: 1;
+}
+/deep/.column {
+    display: flex;
+}
+/deep/.row {
+    position: relative;
+}
+/deep/.img-block {
+    border: solid grey 2px;
+    width: 40px;
+    height: 40px;
+}
+/deep/.selected {
+    border: solid yellow 2px;
+}
+</style>
 <style lang="scss" scoped>
 .line-block-body {
     display: flex;
