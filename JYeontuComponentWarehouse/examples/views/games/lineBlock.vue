@@ -206,6 +206,96 @@ export default {
                 this.setTime();
             }
         },
+        getPath(startX, startY, targetX, targetY) {
+            let dx = [0, 1, 0, -1],
+                dy = [1, 0, -1, 0];
+            let queue = [[startX, startY]];
+            let flag = new Array(this.blockMap.length); //dfs标记走过的路径
+            for (let i = 0; i < flag.length; i++) {
+                flag[i] = new Array(this.blockMap[i].length).fill(false);
+            }
+            let step = new Array(this.blockMap.length); //bfs标记走过的路径
+            for (let i = 0; i < step.length; i++) {
+                step[i] = new Array(this.blockMap[i].length).fill(Infinity);
+            }
+            step[startX][startY] = 0;
+            flag[startX][startY] = true;
+            let f = false;
+            while (queue.length) {
+                let p = queue.shift();
+                let x = p[0],
+                    y = p[1];
+                if (x == targetX && y == targetY) break;
+                for (let i = 0; i < 4; i++) {
+                    let nx = x + dx[i],
+                        ny = y + dy[i];
+                    if (
+                        nx < 0 ||
+                        nx >= this.blockMap.length ||
+                        ny >= this.blockMap[0].length ||
+                        ny < 0
+                    ) {
+                        continue;
+                    }
+                    if (
+                        ((nx != targetX || ny != targetY) &&
+                            !this.blockMap[nx][ny]) ||
+                        flag[nx][ny] == true
+                    ) {
+                        continue;
+                    }
+                    flag[nx][ny] = true;
+                    step[nx][ny] = step[x][y] + 1;
+                    queue.push([nx, ny]);
+                    if (nx == targetX && ny == targetY) {
+                        f = true;
+                        break;
+                    }
+                }
+                if (f) break;
+            }
+            if (f) {
+                return this.getStep(step, startX, startY, targetX, targetY);
+            }
+            return f;
+        },
+        getStep(step, startX, startY, targetX, targetY) {
+            let steps = [];
+            let dx = [0, 1, 0, -1],
+                dy = [1, 0, -1, 0];
+            steps.unshift([targetX, targetY]);
+            while (targetX != startX || targetY != startY) {
+                for (let i = 0; i < 4; i++) {
+                    let x = targetX + dx[i],
+                        y = targetY + dy[i];
+                    if (
+                        x < 0 ||
+                        x >= step.length ||
+                        y < 0 ||
+                        y >= step[0].length
+                    )
+                        continue;
+                    if (step[x][y] == step[targetX][targetY] - 1) {
+                        targetX = x;
+                        targetY = y;
+                        steps.unshift([x, y]);
+                    }
+                }
+            }
+            return steps;
+        },
+        getLine(steps) {
+            let lines = [
+                {
+                    startX: steps[0],
+                    startY: steps[1]
+                }
+            ];
+            let num = 0;
+            // for(let i = 1; i < steps.length; i++){
+            //     if(steps[i][0] != steps[i - 1][0] )
+            // }
+        },
         initData() {
             this.firstClick = {};
             clearTimeout(this.setTimeFlag);
@@ -258,16 +348,21 @@ export default {
                     img.id = `img-${i}-${j}`;
                     img.classList.add("img-block");
                     if (i == 0 || j == 0 || i == column + 1 || j == row + 1) {
-                        img.setAttribute("src", require("./img/remove.png"));
+                        img &&
+                            img.setAttribute(
+                                "src",
+                                require("./img/remove.png")
+                            );
                     } else {
-                        img.setAttribute(
-                            "src",
-                            this.blockList[(i - 1) * row + j - 1]
-                        );
+                        img &&
+                            img.setAttribute(
+                                "src",
+                                this.blockList[(i - 1) * row + j - 1]
+                            );
+                        img.onclick = () => {
+                            this.imgClick(i, j);
+                        };
                     }
-                    img.onclick = () => {
-                        this.imgClick(i, j);
-                    };
                     rowDom.appendChild(img);
                     columnDom.appendChild(rowDom);
                 }
@@ -276,10 +371,11 @@ export default {
             for (let i = 1; i <= column; i++) {
                 for (let j = 1; j <= row; j++) {
                     const img = document.getElementById(i + "-" + j);
-                    img.setAttribute(
-                        "src",
-                        this.blockList[(i - 1) * row + j - 1]
-                    );
+                    img &&
+                        img.setAttribute(
+                            "src",
+                            this.blockList[(i - 1) * row + j - 1]
+                        );
                 }
             }
         },
@@ -311,6 +407,13 @@ export default {
                     return;
                 }
                 if (firstClick.src == blockList[(i - 1) * row + j - 1]) {
+                    const path = this.getPath(firstClick.i, firstClick.j, i, j);
+                    if (!path) {
+                        this.firstClick = {};
+                        return;
+                    } else {
+                        console.log(path);
+                    }
                     firstImg.src = require("./img/remove.png");
                     secondImg.src = require("./img/remove.png");
                     this.blockMap[firstClick.i][firstClick.j] = true;
