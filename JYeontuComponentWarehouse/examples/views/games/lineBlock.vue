@@ -1,97 +1,6 @@
 <template>
     <div class="line-block-body">
-        <div id="game-content" class="game-content">
-            <!-- <div class="column" id="column-0">
-                <div class="row" id="row-0-0">
-                    <img
-                        id="img-0-0"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-                <div
-                    class="row"
-                    :id="'row-0-' + j"
-                    v-for="j in row"
-                    :key="'row-0-' + j"
-                >
-                    <img
-                        :id="'img-0-' + j"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-                <div class="row" :id="'row-0-' + (row + 1)">
-                    <img
-                        :id="'img-0-' + (row + 1)"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-            </div>
-            <div
-                v-for="i in column"
-                :key="'column-' + i"
-                class="column"
-                :id="'column-' + i"
-            >
-                <div class="row" :id="'row-' + i + '-0'">
-                    <img
-                        :id="'img-' + i + '-0'"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-                <div
-                    v-for="j in row"
-                    :key="'row-' + i + '-' + j"
-                    class="row"
-                    :id="'row-' + i + '-' + j"
-                >
-                    <img
-                        :id="'img-' + i + '-' + j"
-                        class="img-block"
-                        :src="blockList[(i - 1) * row + j - 1]"
-                        @click="imgClick(i, j)"
-                    />
-                </div>
-                <div class="row" :id="'row-' + i + '-' + '(row + 1)'">
-                    <img
-                        :id="'img-' + i + '-' + (row + 1)"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-            </div>
-            <div class="column" :id="'column-' + (column + 1)">
-                <div class="row" :id="'row-' + (column + 1) + '-0'">
-                    <img
-                        :id="'img-' + column + 1 + '-0'"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-                <div
-                    class="row"
-                    :id="'row-' + (column + 1) + '-' + j"
-                    v-for="j in row"
-                    :key="'row-' + (column + 1) + '-' + j"
-                >
-                    <img
-                        :id="'img-' + column + 1 + '-' + j"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-                <div class="row" :id="'row-' + (column + 1) + '-' + (row + 1)">
-                    <img
-                        :id="'img-' + column + 1 + '-' + (row + 1)"
-                        class="img-block"
-                        src="./img/remove.png"
-                    />
-                </div>
-            </div> -->
-        </div>
+        <div id="game-content" class="game-content"></div>
         <div class="game-menu">
             <div class="game-menu-content">
                 <div class="game-menu-title">连连看</div>
@@ -166,7 +75,8 @@ export default {
             firstClick: {},
             setTimeFlag: null,
             playTime: 0,
-            removeNums: 0
+            removeNums: 0,
+            lineLists: []
         };
     },
     created() {
@@ -174,6 +84,7 @@ export default {
     },
     mounted() {
         this.initPage();
+        // this.test();
     },
     computed: {
         getPlayTime() {
@@ -192,6 +103,21 @@ export default {
         }
     },
     methods: {
+        test() {
+            let steps = [
+                [6, 10],
+                [5, 10],
+                [4, 10],
+                [4, 9],
+                [4, 8],
+                [3, 8],
+                [2, 8],
+                [2, 7],
+                [1, 7],
+                [1, 6]
+            ];
+            let lines = this.getLine(steps);
+        },
         setTime() {
             this.playTime++;
             this.setTimeFlag = setTimeout(() => {
@@ -282,19 +208,75 @@ export default {
                     }
                 }
             }
-            return steps;
+            let lines = this.getLine(steps);
+            const content = document.getElementById("game-content");
+            while (this.lineLists.length > 0) {
+                content.removeChild(this.lineLists.pop());
+            }
+            for (let i = 0; i < lines.length; i++) {
+                this.drawLine(
+                    [lines[i].startX, lines[i].startY],
+                    [lines[i].endX, lines[i].endY]
+                );
+            }
+            return lines;
         },
         getLine(steps) {
-            let lines = [
-                {
-                    startX: steps[0],
-                    startY: steps[1]
+            let lines = [];
+            let temp = {
+                startX: steps[0][0],
+                startY: steps[0][1]
+            };
+            let flag = "";
+            for (let i = 1; i < steps.length; i++) {
+                if (flag == "x") {
+                    if (steps[i][0] != steps[i - 1][0]) {
+                        temp.endX = steps[i - 1][0];
+                        temp.endY = steps[i - 1][1];
+                        flag = "";
+                        lines.push({ ...temp });
+                        temp = {
+                            startX: steps[i - 1][0],
+                            startY: steps[i - 1][1]
+                        };
+                    }
+                } else if (flag == "y") {
+                    if (steps[i][1] != steps[i - 1][1]) {
+                        temp.endX = steps[i - 1][0];
+                        temp.endY = steps[i - 1][1];
+                        flag = "";
+                        lines.push({ ...temp });
+                        temp = {
+                            startX: steps[i - 1][0],
+                            startY: steps[i - 1][1]
+                        };
+                    }
                 }
-            ];
-            let num = 0;
-            // for(let i = 1; i < steps.length; i++){
-            //     if(steps[i][0] != steps[i - 1][0] )
-            // }
+                if (steps[i][0] == temp.startX) flag = "x";
+                if (steps[i][1] == temp.startY) flag = "y";
+            }
+            let len = steps.length - 1;
+            temp.endX = steps[len][0];
+            temp.endY = steps[len][1];
+            lines.push({ ...temp });
+            return lines;
+        },
+        drawLine(p1, p2) {
+            const content = document.getElementById("game-content");
+            let div = document.createElement("div");
+            div.style.position = "absolute";
+            let img1 = document.getElementById(`row-${p1[0]}-${p1[1]}`);
+            let img2 = document.getElementById(`row-${p2[0]}-${p2[1]}`);
+            div.style.top =
+                Math.min(img1.offsetTop, img2.offsetTop) + 20 + "px";
+            div.style.left =
+                Math.min(img1.offsetLeft, img2.offsetLeft) + 20 + "px";
+            div.style.width =
+                Math.abs(img1.offsetLeft - img2.offsetLeft) + "px";
+            div.style.height = Math.abs(img1.offsetTop - img2.offsetTop) + "px";
+            div.style.border = "solid red 1px";
+            this.lineLists.push(div);
+            content.appendChild(div);
         },
         initData() {
             this.firstClick = {};
