@@ -212,6 +212,7 @@ export default {
             let lines = this.getLine(steps);
             const content = document.getElementById("game-content");
             while (this.lineLists.length > 0) {
+                console.log("lineLists: ", this.lineLists);
                 content.removeChild(this.lineLists.pop());
             }
             for (let i = 0; i < lines.length; i++) {
@@ -230,7 +231,16 @@ export default {
                             );
                             firstImg.src = require("./img/remove.png");
                             secondImg.src = require("./img/remove.png");
-                        }, 100);
+                            this.removeNums += 2;
+                            if (this.removeNums == this.blockList.length) {
+                                alert(
+                                    "您已全部消除，您的成绩为" +
+                                        this.getPlayTime
+                                );
+                                this.initData();
+                                this.initPage();
+                            }
+                        }, this.speed * 1000);
                     }
                 }, i * this.speed * 1000);
             }
@@ -268,9 +278,9 @@ export default {
         },
         drawLine(p1, p2) {
             const content = document.getElementById("game-content");
-            let div = document.createElement("div");
-            let img1 = document.getElementById(`row-${p1[0]}-${p1[1]}`);
-            let img2 = document.getElementById(`row-${p2[0]}-${p2[1]}`);
+            const div = document.createElement("div");
+            const img1 = document.getElementById(`row-${p1[0]}-${p1[1]}`);
+            const img2 = document.getElementById(`row-${p2[0]}-${p2[1]}`);
             div.style.top = img1.offsetTop + 20 + "px";
             let flag = "";
             if (img1.offsetTop > img2.offsetTop) {
@@ -307,6 +317,7 @@ export default {
             this.playTime = 0;
             this.removeNums = 0;
             this.blockList = [];
+            this.lineLists = [];
 
             const row = this.row;
             const column = this.column;
@@ -419,12 +430,6 @@ export default {
                     this.blockMap[firstClick.i][firstClick.j] = true;
                     this.blockMap[i][j] = true;
                     firstClick = {};
-                    this.removeNums += 2;
-                    if (this.removeNums == this.blockList.length) {
-                        alert("您已全部消除");
-                        this.initData();
-                        this.initPage();
-                    }
                 } else {
                     firstClick.id = "img-" + i + "-" + j;
                     firstClick.src = blockList[(i - 1) * row + j - 1];
