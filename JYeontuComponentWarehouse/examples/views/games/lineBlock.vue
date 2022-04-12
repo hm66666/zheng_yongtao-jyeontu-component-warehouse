@@ -76,7 +76,8 @@ export default {
             setTimeFlag: null,
             playTime: 0,
             removeNums: 0,
-            lineLists: []
+            lineLists: [],
+            speed: 0.2
         };
     },
     created() {
@@ -117,6 +118,11 @@ export default {
                 [1, 6]
             ];
             let lines = this.getLine(steps);
+            console.log(
+                "%c 🍶 lines: ",
+                "font-size:20px;background-color: #42b983;color:#fff;",
+                lines
+            );
         },
         setTime() {
             this.playTime++;
@@ -214,10 +220,12 @@ export default {
                 content.removeChild(this.lineLists.pop());
             }
             for (let i = 0; i < lines.length; i++) {
-                this.drawLine(
-                    [lines[i].startX, lines[i].startY],
-                    [lines[i].endX, lines[i].endY]
-                );
+                setTimeout(() => {
+                    this.drawLine(
+                        [lines[i].startX, lines[i].startY],
+                        [lines[i].endX, lines[i].endY]
+                    );
+                }, i * this.speed * 1000);
             }
             return lines;
         },
@@ -229,28 +237,18 @@ export default {
             };
             let flag = "";
             for (let i = 1; i < steps.length; i++) {
-                if (flag == "x") {
-                    if (steps[i][0] != steps[i - 1][0]) {
-                        temp.endX = steps[i - 1][0];
-                        temp.endY = steps[i - 1][1];
-                        flag = "";
-                        lines.push({ ...temp });
-                        temp = {
-                            startX: steps[i - 1][0],
-                            startY: steps[i - 1][1]
-                        };
-                    }
-                } else if (flag == "y") {
-                    if (steps[i][1] != steps[i - 1][1]) {
-                        temp.endX = steps[i - 1][0];
-                        temp.endY = steps[i - 1][1];
-                        flag = "";
-                        lines.push({ ...temp });
-                        temp = {
-                            startX: steps[i - 1][0],
-                            startY: steps[i - 1][1]
-                        };
-                    }
+                if (
+                    (steps[i][0] != steps[i - 1][0] && flag == "x") ||
+                    (steps[i][1] != steps[i - 1][1] && flag == "y")
+                ) {
+                    temp.endX = steps[i - 1][0];
+                    temp.endY = steps[i - 1][1];
+                    flag = "";
+                    lines.push({ ...temp });
+                    temp = {
+                        startX: steps[i - 1][0],
+                        startY: steps[i - 1][1]
+                    };
                 }
                 if (steps[i][0] == temp.startX) flag = "x";
                 if (steps[i][1] == temp.startY) flag = "y";
@@ -264,19 +262,23 @@ export default {
         drawLine(p1, p2) {
             const content = document.getElementById("game-content");
             let div = document.createElement("div");
-            div.style.position = "absolute";
             let img1 = document.getElementById(`row-${p1[0]}-${p1[1]}`);
             let img2 = document.getElementById(`row-${p2[0]}-${p2[1]}`);
             div.style.top =
                 Math.min(img1.offsetTop, img2.offsetTop) + 20 + "px";
             div.style.left =
                 Math.min(img1.offsetLeft, img2.offsetLeft) + 20 + "px";
-            div.style.width =
-                Math.abs(img1.offsetLeft - img2.offsetLeft) + "px";
-            div.style.height = Math.abs(img1.offsetTop - img2.offsetTop) + "px";
-            div.style.border = "solid red 1px";
-            this.lineLists.push(div);
+            const width = Math.abs(img1.offsetLeft - img2.offsetLeft);
+            const height = Math.abs(img1.offsetTop - img2.offsetTop);
+            if (width == 0) div.style.transition = `height ${this.speed}s`;
+            else div.style.transition = `width ${this.speed}s`;
+            div.classList.add("line-style");
             content.appendChild(div);
+            setTimeout(() => {
+                div.style.width = width + "px";
+                div.style.height = height + "px";
+            }, 0);
+            this.lineLists.push(div);
         },
         initData() {
             this.firstClick = {};
@@ -437,6 +439,13 @@ export default {
 }
 /deep/.selected {
     border: solid yellow 2px;
+}
+/deep/.line-style {
+    position: absolute;
+    border: solid skyblue 2px;
+    background-color: skyblue;
+    width: 0;
+    height: 0;
 }
 </style>
 <style lang="scss" scoped>
