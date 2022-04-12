@@ -118,11 +118,6 @@ export default {
                 [1, 6]
             ];
             let lines = this.getLine(steps);
-            console.log(
-                "%c 🍶 lines: ",
-                "font-size:20px;background-color: #42b983;color:#fff;",
-                lines
-            );
         },
         setTime() {
             this.playTime++;
@@ -225,6 +220,18 @@ export default {
                         [lines[i].startX, lines[i].startY],
                         [lines[i].endX, lines[i].endY]
                     );
+                    if (i == lines.length - 1) {
+                        setTimeout(() => {
+                            const firstImg = document.getElementById(
+                                "img-" + lines[0].startX + "-" + lines[0].startY
+                            );
+                            const secondImg = document.getElementById(
+                                "img-" + lines[i].endX + "-" + lines[i].endY
+                            );
+                            firstImg.src = require("./img/remove.png");
+                            secondImg.src = require("./img/remove.png");
+                        }, 100);
+                    }
                 }, i * this.speed * 1000);
             }
             return lines;
@@ -264,10 +271,19 @@ export default {
             let div = document.createElement("div");
             let img1 = document.getElementById(`row-${p1[0]}-${p1[1]}`);
             let img2 = document.getElementById(`row-${p2[0]}-${p2[1]}`);
-            div.style.top =
-                Math.min(img1.offsetTop, img2.offsetTop) + 20 + "px";
-            div.style.left =
-                Math.min(img1.offsetLeft, img2.offsetLeft) + 20 + "px";
+            div.style.top = img1.offsetTop + 20 + "px";
+            let flag = "";
+            if (img1.offsetTop > img2.offsetTop) {
+                flag = "h";
+                div.style.transform = "rotateZ(180deg)";
+                div.style.transformOrigin = "top";
+            }
+            div.style.left = img1.offsetLeft + 20 + "px";
+            if (img1.offsetLeft > img2.offsetLeft) {
+                flag = "w";
+                div.style.transform = "rotateZ(180deg)";
+                div.style.transformOrigin = "left";
+            }
             const width = Math.abs(img1.offsetLeft - img2.offsetLeft);
             const height = Math.abs(img1.offsetTop - img2.offsetTop);
             if (width == 0) div.style.transition = `height ${this.speed}s`;
@@ -275,8 +291,12 @@ export default {
             div.classList.add("line-style");
             content.appendChild(div);
             setTimeout(() => {
-                div.style.width = width + "px";
-                div.style.height = height + "px";
+                let h = 0,
+                    w = 0;
+                if (flag == "h") h = 4;
+                else if (flag == "w") w = 4;
+                div.style.width = width - w + "px";
+                div.style.height = height - h + "px";
             }, 0);
             this.lineLists.push(div);
         },
@@ -395,11 +415,7 @@ export default {
                     if (!path) {
                         this.firstClick = {};
                         return;
-                    } else {
-                        console.log(path);
                     }
-                    firstImg.src = require("./img/remove.png");
-                    secondImg.src = require("./img/remove.png");
                     this.blockMap[firstClick.i][firstClick.j] = true;
                     this.blockMap[i][j] = true;
                     firstClick = {};
