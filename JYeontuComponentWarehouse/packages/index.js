@@ -23,6 +23,7 @@ import JWordCloud from "./JWordCloud";
 import JComment from "./JComment";
 import JToolTip from "./JToolTip";
 import JWaterfall from "./JWaterfall";
+import JBarrage from "./JBarrage";
 
 // 存储组件列表
 const components = [
@@ -43,7 +44,8 @@ const components = [
     JWordCloud,
     JComment,
     JToolTip,
-    JWaterfall
+    JWaterfall,
+    JBarrage
     // Toast
 ];
 

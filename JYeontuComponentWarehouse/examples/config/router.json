@@ -244,6 +244,18 @@
             "children": []
         },
         {
+            "id": 24,
+            "name": "JBarrageView",
+            "path": "/JBarrageView",
+            "label": "弹幕组件",
+            "selected": false,
+            "icon": "icon-ciyuntu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JBarrageView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
