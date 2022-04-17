@@ -97,7 +97,8 @@ export default {
                 position: "random"
             },
             showToolsBox: false,
-            barrageNums: 0
+            barrageNums: 0,
+            clearBarrageTime: null
         };
     },
     created() {},
@@ -111,8 +112,23 @@ export default {
     mounted() {
         this.formatDataList();
         this.generateBarrage();
+        this.clearBarrage();
+    },
+    beforeDestroy() {
+        clearTimeout(this.clearBarrageTime);
     },
     methods: {
+        clearBarrage() {
+            let content = this.content;
+            let barrageList = document.getElementsByClassName("j-barrage-span");
+            barrageList = Array.from(barrageList);
+            barrageList.map(item => {
+                if (item.offsetLeft == 0) content.removeChild(item);
+            });
+            this.clearBarrageTime = setTimeout(() => {
+                this.clearBarrage();
+            }, this.time * 1000);
+        },
         sendBarrage() {
             const obj = this.formatData({ ...this.sendObj });
             this.showBarrageDate.push(obj);
@@ -130,7 +146,6 @@ export default {
         },
         getPosition(position = "") {
             let content = this.content;
-            let top = content.offsetTop;
             let height = content.offsetHeight * 0.9;
             this.width =
                 content.offsetWidth +
@@ -175,8 +190,8 @@ export default {
             }
         },
         createBarrage(item) {
-            let content = this.content;
-            let span = document.createElement("span");
+            const content = this.content;
+            const span = document.createElement("span");
             span.style.color = item.color;
             span.innerHTML = item.text;
             if (this.full) span.style.position = "fixed";
@@ -193,16 +208,16 @@ export default {
                 span.style.backgroundColor = "#bbb2b2";
             }
             span.classList.add("j-barrage-span", "text");
-            span.onmouseover = () => {
-                console.log("onmouseover");
-                span.style.fontSize = "larger";
-                span.style.animationPlayState = "paused";
-            };
-            span.onmouseout = () => {
-                console.log("onmouseout");
-                span.style.fontSize = "unset";
-                span.style.animationPlayState = "running";
-            };
+            // span.onmouseover = () => {
+            //     console.log("onmouseover");
+            //     span.style.fontSize = "larger";
+            //     span.style.animationPlayState = "paused";
+            // };
+            // span.onmouseout = () => {
+            //     console.log("onmouseout");
+            //     span.style.fontSize = "unset";
+            //     span.style.animationPlayState = "running";
+            // };
             content.appendChild(span);
             this.barrageNums++;
             this.destroyBarrage(span);
@@ -210,7 +225,6 @@ export default {
         generateBarrage() {
             let timeFlag = 0;
             this.showBarrageDate.map((item, index) => {
-                // let time = this.getRandom(1, 10);
                 timeFlag += this.getRandom(0, 2);
                 setTimeout(() => {
                     this.createBarrage(item);

@@ -25,8 +25,6 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <!-- <j-code-height-light :code="code" class="footer">
-            </j-code-height-light> -->
             <pre v-highlight>
                 <code class="vue" v-text="code">
                 </code>
