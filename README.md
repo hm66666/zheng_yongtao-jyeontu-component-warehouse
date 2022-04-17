@@ -220,15 +220,17 @@ Vue.use(jvuewheel);
 
 #### 效果预览
 
-[预览地址(使用文档)](http://120.79.163.94/JYeontuComponents/#/homePage)
+[预览地址(使用文档)](http://jyeontu.xyz/jvuewheel/#/homePage)
 
-#### 相关说明
+#### 组件文档
 
-组件文档：[http://120.79.163.94/JYeontuComponents/#/homePage](http://120.79.163.94/JYeontuComponents/#/homePage)
+组件文档：[http://jyeontu.xyz/jvuewheel/#/homePage](http://jyeontu.xyz/jvuewheel/#/homePage)
+
+#### 组件博客说明
 
 1.  日历组件（JCalendar）：[https://blog.csdn.net/Twinkle_sone/article/details/120465663](http://https://blog.csdn.net/Twinkle_sone/article/details/120465663)
 2.  电子屏数字（JElectronicNumber）：[https://blog.csdn.net/Twinkle_sone/article/details/120582994](https://blog.csdn.net/Twinkle_sone/article/details/120582994)
-3.  流程图组件（JFlowchart）
+3.  流程图组件（JFlowchart）：[https://juejin.cn/post/7027147256914526216](https://juejin.cn/post/7027147256914526216)
 4.  表格组件（JTable）
 5.  代码高亮组件（JCodeHeightLight）：[https://blog.csdn.net/Twinkle_sone/article/details/121964878](https://blog.csdn.net/Twinkle_sone/article/details/121964878)
 6.  canvas 画板组件（JCanvasBroad）：[https://blog.csdn.net/Twinkle_sone/article/details/121476250](https://blog.csdn.net/Twinkle_sone/article/details/121476250)
@@ -240,9 +242,12 @@ Vue.use(jvuewheel);
 12. 下拉列表（JDropDownBox）
 13. 提示弹框（JToast）
 14. 词云图（JWordCloud）：[https://juejin.cn/post/7063366122766073869](https://juejin.cn/post/7063366122766073869)
-15. 评论组件（JComment）
-16. 悬浮提示（JToolTip）
-17. 工具函数
+15. 评论组件（JComment）：[https://juejin.cn/post/7081304655048736804](https://juejin.cn/post/7081304655048736804)
+16. 悬浮提示（JToolTip）：[https://juejin.cn/post/7083030853332238343](https://juejin.cn/post/7083030853332238343)
+17. 瀑布流照片容器（JWaterfall）：[https://juejin.cn/post/7083511816902410254](https://juejin.cn/post/7083511816902410254)
+18. 弹幕组件（JBarrage）：[https://juejin.cn/post/7087599645387391012](https://juejin.cn/post/7087599645387391012)
+19. 游戏（连连看）：[https://juejin.cn/post/7085933111308976158](https://juejin.cn/post/7085933111308976158)
+20. 工具函数
 
 #### 参与贡献
 
