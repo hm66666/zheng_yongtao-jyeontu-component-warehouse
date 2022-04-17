@@ -10,7 +10,13 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-barrage></j-barrage>
+                <j-barrage
+                    :barrageDate="barrageDate"
+                    :repetition="repetition"
+                    :full="full"
+                    :time="time"
+                    :showBtn="showBtn"
+                ></j-barrage>
             </div>
         </template>
         <template v-slot:right-p>
@@ -38,16 +44,82 @@ export default {
     data() {
         return {
             code: "",
-            textStyle: {
-                borderBottom: "1px dotted skyblue",
-                fontSize: "large",
-                color: "skyblue"
-            },
-            toolTipStyle: {
-                backgroundColor: "grey",
-                color: "skyblue",
-                width: "100px"
-            },
+            showBtn: true,
+            full: true,
+            repetition: true,
+            time: 10,
+            barrageDate: [
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "blue",
+                    position: "center" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "blue",
+                    position: "center" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                }
+            ],
             tableTitle: [
                 {
                     title: "参数", //展示列名
@@ -103,37 +175,95 @@ export default {
             this.code = `
 <template>
     <div class="content">
-        <p>
-            hover
-            <j-tool-tip
-                tipText="one"
-                :textStyle="textStyle"
-                :toolTipStyle="toolTipStyle"
-                >here
-            </j-tool-tip>
-            to see one.
-        </p>
-        <p>
-            hover
-            <j-tool-tip tipText="another">here </j-tool-tip>
-            to see another.
-        </p>
+        <j-barrage
+            :barrageDate="barrageDate"
+            :repetition="repetition"
+            :full="full"
+            :time="time"
+            :showBtn="showBtn"
+        ></j-barrage>
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
-                textStyle: {
-                    borderBottom: "1px dotted skyblue",
-                    fontSize: "large",
-                    color: "skyblue"
-                },
-                toolTipStyle: {
-                    backgroundColor: "grey",
-                    color: "skyblue",
-                    width: "100px"
-                },
+                showBtn: true,
+                full: true,
+                repetition: true,
+                time: 10,
+                barrageDate: [
+                    {
+                        text: "111",
+                        color: "red",
+                        position: "top" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "red",
+                        position: "top" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "red",
+                        position: "top" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "red",
+                        position: "top" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "red",
+                        position: "top" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "blue",
+                        position: "center" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "blue",
+                        position: "center" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    },
+                    {
+                        text: "111",
+                        color: "yellow",
+                        position: "bottom" //top,center,bottom
+                    }
+                ],
             }
         }
     }
@@ -143,49 +273,65 @@ export default {
         initTableData() {
             this.tableData = [
                 {
-                    parameter: "tipText",
-                    field: "提示内容",
-                    type: "String",
-                    describe: ""
-                },
-                {
-                    parameter: "textStyle",
-                    field: "文字样式",
-                    type: "Object",
-                    describe: "设置文字样式，如下划线样式",
+                    parameter: "barrageDate",
+                    field: "弹幕列表",
+                    type: "Array",
+                    describe: "弹幕列表",
                     children: {
-                        type: "text",
-                        text: '{"border-bottom": "1px dotted black"}'
-                    }
-                },
-                {
-                    parameter: "toolTipStyle",
-                    field: "提示框内容样式",
-                    type: "Object",
-                    describe: "具体配置如下",
-                    children: {
-                        title: this.tableTitle,
+                        type: this.tableTitle,
                         data: [
                             {
-                                parameter: "backgroundColor",
-                                field: "提示框背景颜色",
+                                parameter: "text",
+                                field: "弹幕内容",
                                 type: "String",
-                                describe: "默认为#062b45"
+                                describe: "弹幕内容"
                             },
                             {
                                 parameter: "color",
-                                field: "提示框字体颜色",
+                                field: "弹幕文字颜色",
                                 type: "String",
-                                describe: "默认为#fff"
+                                describe: "弹幕文字颜色"
                             },
                             {
-                                parameter: "width",
-                                field: "提示框宽度",
+                                parameter: "position",
+                                field: "弹幕位置",
                                 type: "String",
-                                describe: "默认为100px"
+                                describe:
+                                    "弹幕位置，可以为'top','center','bottom','random'"
                             }
                         ]
                     }
+                },
+                {
+                    parameter: "full",
+                    field: "是否全屏弹幕",
+                    type: "Boolean",
+                    describe: "是否全屏弹幕，默认为true"
+                },
+                {
+                    parameter: "time",
+                    field: "弹幕滑过屏幕时间",
+                    type: "Number",
+                    describe: "弹幕滑过屏幕时间，默认为10（单位为秒）"
+                },
+                {
+                    parameter: "repetition",
+                    field: "是否重复弹幕",
+                    type: "Boolean",
+                    describe:
+                        "是否重复弹幕，即一轮弹幕展示完后会重新循环播放，默认为true"
+                },
+                {
+                    parameter: "startFrom",
+                    field: "弹幕出现位置",
+                    type: "String",
+                    describe: "弹幕出现位置，可以为'left'或'right'默认为left"
+                },
+                {
+                    parameter: "showBtn",
+                    field: "是否展示弹幕发送框",
+                    type: "Boolean",
+                    describe: "是否展示弹幕发送框，默认为true"
                 }
             ];
         }

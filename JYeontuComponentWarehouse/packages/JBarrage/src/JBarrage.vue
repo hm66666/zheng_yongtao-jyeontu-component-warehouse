@@ -29,7 +29,7 @@
                     </template>
                 </div>
             </span>
-            <span class="j-barrage-send-box-item input-box">
+            <span class="j-barrage-send-box-item input-box" v-if="showBtn">
                 <span
                     class="j-barrage-send-box-item-tools"
                     @click.stop="showToolsBox = !showToolsBox"
@@ -56,78 +56,7 @@ export default {
         barrageDate: {
             type: Array,
             default: () => {
-                return [
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "blue",
-                        position: "center" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "blue",
-                        position: "center" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    }
-                ];
+                return [];
             }
         },
         full: {
@@ -144,11 +73,15 @@ export default {
         },
         repetition: {
             type: Boolean,
-            default: false
+            default: true
         },
         startFrom: {
             type: String,
             default: "left"
+        },
+        showBtn: {
+            type: Boolean,
+            default: true
         }
     },
     data() {
@@ -163,10 +96,18 @@ export default {
                 color: "#FFFFFF",
                 position: "random"
             },
-            showToolsBox: false
+            showToolsBox: false,
+            barrageNums: 0
         };
     },
     created() {},
+    // watch: {
+    //     barrageNums(newVal) {
+    //         if (newVal == 0 && this.repetition) {
+    //             this.generateBarrage();
+    //         }
+    //     }
+    // },
     mounted() {
         this.formatDataList();
         this.generateBarrage();
@@ -174,6 +115,7 @@ export default {
     methods: {
         sendBarrage() {
             const obj = this.formatData({ ...this.sendObj });
+            this.showBarrageDate.push(obj);
             this.createBarrage(obj);
         },
         getRandom(min, max) {
@@ -194,7 +136,6 @@ export default {
                 content.offsetWidth +
                 (5 * content.offsetWidth) / this.time +
                 "px";
-            console.log("this.width", this.width);
             switch (position) {
                 case "top":
                     return this.getRandom(0, height / 3);
@@ -224,9 +165,10 @@ export default {
         destroyBarrage(dom = null) {
             if (!dom) return;
             let content = this.content;
-            if (content.offsetLeft + content.offsetWidth < dom.offsetLeft)
+            if (content.offsetLeft + content.offsetWidth < dom.offsetLeft) {
                 content.removeChild(dom);
-            else {
+                this.barrageNums--;
+            } else {
                 setTimeout(() => {
                     this.destroyBarrage(dom);
                 }, 1000);
@@ -237,7 +179,6 @@ export default {
             let span = document.createElement("span");
             span.style.color = item.color;
             span.innerHTML = item.text;
-            span.style.position = "relative";
             if (this.full) span.style.position = "fixed";
             span.style.top = item.position + "px";
             if (this.startFrom == "left") {
@@ -247,24 +188,41 @@ export default {
                 span.style.right = "0px";
                 span.style.animation = `moveRight ${this.time}s linear`;
             }
+            if (this.mask) {
+                span.style.padding = "0.2em 0.5em";
+                span.style.backgroundColor = "#bbb2b2";
+            }
             span.classList.add("j-barrage-span", "text");
             span.onmouseover = () => {
+                console.log("onmouseover");
                 span.style.fontSize = "larger";
                 span.style.animationPlayState = "paused";
             };
             span.onmouseout = () => {
+                console.log("onmouseout");
                 span.style.fontSize = "unset";
                 span.style.animationPlayState = "running";
             };
             content.appendChild(span);
+            this.barrageNums++;
             this.destroyBarrage(span);
         },
         generateBarrage() {
-            this.showBarrageDate.map(item => {
-                let time = this.getRandom(1, 10);
+            let timeFlag = 0;
+            this.showBarrageDate.map((item, index) => {
+                // let time = this.getRandom(1, 10);
+                timeFlag += this.getRandom(0, 2);
                 setTimeout(() => {
                     this.createBarrage(item);
-                }, time * 1000);
+                }, timeFlag * 1000);
+                if (
+                    index == this.showBarrageDate.length - 1 &&
+                    this.repetition
+                ) {
+                    setTimeout(() => {
+                        this.generateBarrage();
+                    }, timeFlag * 1000 + this.time / 3);
+                }
             });
         }
     }
@@ -299,7 +257,6 @@ export default {
     pointer-events: none;
 }
 #j-barrage-content {
-    background-color: #a46689;
     width: 500px;
     height: 100px;
     // position: absolute;
