@@ -256,6 +256,18 @@
             "children": []
         },
         {
+            "id": 25,
+            "name": "JBarrageRainView",
+            "path": "/JBarrageRainView",
+            "label": "弹幕雨组件",
+            "selected": false,
+            "icon": "icon-ciyuntu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JBarrageRainView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
