@@ -24,6 +24,7 @@ import JComment from "./JComment";
 import JToolTip from "./JToolTip";
 import JWaterfall from "./JWaterfall";
 import JBarrage from "./JBarrage";
+import JBarrageRain from "./JBarrageRain";
 
 // 存储组件列表
 const components = [
@@ -45,7 +46,8 @@ const components = [
     JComment,
     JToolTip,
     JWaterfall,
-    JBarrage
+    JBarrage,
+    JBarrageRain
     // Toast
 ];
 
