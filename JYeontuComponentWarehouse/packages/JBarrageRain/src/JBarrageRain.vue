@@ -1,18 +1,16 @@
 <template>
     <div class="j-barrage-rain" id="j-barrage-rain">
-        <div class="j-barrage-rain-sky" id="j-barrage-rain-sky"></div>
+        <div class="j-barrage-rain-panel" id="j-barrage-rain-panel"></div>
         <div class="j-barrage-rain-content" id="j-barrage-rain-content">
             <div @click="fallRain" style="text-align: center;" class="add">
                 fall
             </div>
         </div>
-        <div class="j-barrage-rain-floor" id="j-barrage-rain-floor">
-            <div class="wave">
-                <div class="water1 water"></div>
-                <div class="water2 water"></div>
-                <div class="water3 water"></div>
-                <div class="water4 water"></div>
-            </div>
+        <div class="wave">
+            <div class="water1 water"></div>
+            <div class="water2 water"></div>
+            <div class="water3 water"></div>
+            <div class="water4 water"></div>
         </div>
     </div>
 </template>
@@ -20,13 +18,81 @@
 <script>
 export default {
     name: "JBarrageRain",
+    props: {
+        barrageDate: {
+            type: Array,
+            default: () => {
+                return [];
+            }
+        },
+        full: {
+            type: Boolean,
+            default: true
+        },
+        time: {
+            type: Number,
+            default: 10
+        },
+        mask: {
+            type: Boolean,
+            default: false
+        },
+        repetition: {
+            type: Boolean,
+            default: true
+        },
+        startFrom: {
+            type: String,
+            default: "left"
+        },
+        showBtn: {
+            type: Boolean,
+            default: true
+        }
+    },
     data() {
-        return {};
+        return {
+            panel: "j-barrage-rain-panel",
+            showBarrageDate: [
+                {
+                    color: "",
+                    text: "测试一下1"
+                },
+                {
+                    color: "",
+                    text: "测试一下2"
+                },
+                {
+                    color: "",
+                    text: "测试一下3"
+                },
+                {
+                    color: "",
+                    text: "测试一下4"
+                },
+                {
+                    color: "",
+                    text: "测试一下5"
+                },
+                {
+                    color: "",
+                    text: "测试一下6"
+                },
+                {
+                    color: "",
+                    text: "测试一下7"
+                },
+                {
+                    color: "",
+                    text: "测试一下8"
+                }
+            ]
+        };
     },
     mounted() {
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < this.showBarrageDate.length; i++) {
             setTimeout(() => {
-                this.fallRain();
+                this.fallRain(this.showBarrageDate[i]);
             }, i * 1000);
         }
     },
@@ -34,22 +100,25 @@ export default {
         getRandom(min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         },
+        getColors() {
+            const arr = "0123456789abcdef";
+            let color = "#";
+            let n = 6;
+            while (n--) color += arr[this.getRandom(0, 15)];
+            return color;
+        },
         getPoint() {
-            const sky = document.getElementById("j-barrage-rain-sky");
-            const floor = document.getElementById("j-barrage-rain-floor");
-            const skyTop = sky.offsetTop;
-            const skyBottom = sky.offsetTop + sky.offsetHeight;
-            const skyLeft = sky.offsetLeft;
-            const skyRight = sky.offsetWidth + sky.offsetLeft;
-            const floorTop = floor.offsetTop - 100;
-            const floorBottom = floor.offsetTop + floor.offsetHeight - 100;
-            const x = this.getRandom(skyLeft, skyRight);
-            const y1 = this.getRandom(skyTop, skyBottom);
-            const y2 = this.getRandom(floorTop, floorBottom);
-            return { x, y1, y2 };
+            const content = document.getElementById(this.panel);
+            const contentTop = content.offsetTop;
+            const contentBottom = content.offsetTop + content.offsetHeight;
+            const contentLeft = content.offsetLeft;
+            const contentRight = content.offsetWidth + content.offsetLeft;
+            const x = this.getRandom(contentLeft, contentRight);
+            const y2 = this.getRandom(contentBottom - 300, contentBottom - 100);
+            return { x, y: contentTop - 100, y2 };
         },
         generatWave(x, y, span) {
-            const content = document.getElementById("j-barrage-rain");
+            const content = document.getElementById(this.panel);
             const wave = document.getElementsByClassName("wave")[0];
             const newWave = wave.cloneNode(true);
             newWave.style.position = "fixed";
@@ -72,14 +141,15 @@ export default {
             let mask = document.createElement("span");
             mask.classList.add("j-barrage-rain-mask");
         },
-        generatBarrage(x, y, y2) {
-            const content = document.getElementById("j-barrage-rain");
+        generatBarrage(x, y, y2, data) {
+            const content = document.getElementById(this.panel);
             const span = document.createElement("span");
             span.classList.add("barrage-rain-span");
-            span.innerHTML = "ssss测试";
+            span.innerHTML = data.text;
             span.style.top = y + "px";
             span.style.left = x + "px";
             span.style.transition = `transform 5s ease-in`;
+            span.style.color = data.color ? this.getColors() : data.color;
             content.appendChild(span);
             setTimeout(() => {
                 span.style.transform = `translateY(${y2 - y}px)`;
@@ -88,9 +158,9 @@ export default {
                 }, 4900);
             }, 100);
         },
-        fallRain() {
+        fallRain(data) {
             const { x, y1, y2 } = this.getPoint();
-            this.generatBarrage(x, -100, y2);
+            this.generatBarrage(x, -100, y2, data);
         }
     }
 };
@@ -118,16 +188,14 @@ export default {
     animation: mask 3s;
 }
 .barrage-rain-span {
-    color: blue;
     position: fixed;
     transition: transform 10s ease-in;
     width: 0.99em;
-    height: 8em;
+    max-height: 8em;
     display: block;
     word-break: break-all;
     overflow: hidden;
-    height: 8em;
-    /* transform: translateY(100px); */
+    writing-mode: "vertical-lr";
 }
 </style>
 
@@ -145,23 +213,14 @@ export default {
     }
 }
 .j-barrage-rain {
-    height: 100vh;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    .j-barrage-rain-sky {
-        height: 10%;
-        // border: 1px solid gray;
-    }
-    .j-barrage-rain-content {
-        height: 55%;
-        // border: 1px solid gray;
-    }
-    .j-barrage-rain-floor {
-        height: 35%;
-        // border: 1px solid gray;
+    .j-barrage-rain-panel {
+        pointer-events: none;
+        height: 100vh;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
     }
 }
 .wave {
@@ -169,10 +228,6 @@ export default {
     width: 200px;
     height: 200px;
     display: none;
-    // margin: 10px auto;
-    // transform: skew(60deg, 10deg);
-    // transform: rotate3d(1, 1, 1, 263deg);
-    // border: 1px solid yellow;
     transform: rotateX(75deg);
 }
 .water1 {
