@@ -45,12 +45,12 @@ export default {
             code: "",
             keyMap: {
                 pid: "parent_comment_id",
-                id: "id",
+                id: "mid",
                 isAdmin: "admin_comment"
             },
             commentDatas: [
                 {
-                    id: 1,
+                    mid: 1,
                     admin_comment: 0,
                     avatar:
                         "https://img2.baidu.com/it/u=134769530,4268043097&fm=253&fmt=auto&app=138&f=JPEG?w=533&h=333",
@@ -62,7 +62,7 @@ export default {
                     admin_comment: 0
                 },
                 {
-                    id: 2,
+                    mid: 2,
                     admin_comment: 0,
                     avatar:
                         "https://img2.baidu.com/it/u=3133697304,2308274678&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=313",
@@ -74,7 +74,7 @@ export default {
                     admin_comment: 1
                 },
                 {
-                    id: 3,
+                    mid: 3,
                     admin_comment: 0,
                     avatar:
                         "https://img2.baidu.com/it/u=3772577665,2044310843&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=727",
@@ -86,7 +86,7 @@ export default {
                     admin_comment: 1
                 },
                 {
-                    id: 4,
+                    mid: 4,
                     admin_comment: 0,
                     avatar:
                         "https://img0.baidu.com/it/u=3966731730,957573008&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500",
@@ -287,7 +287,7 @@ export default {
     methods: {
         submitComment(item) {
             this.commentDatas.push({
-                id: this.commentDatas.length + 1,
+                mid: this.commentDatas.length + 1,
                 admin_comment: 0,
                 avatar:
                     "https://img0.baidu.com/it/u=3966731730,957573008&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500",
