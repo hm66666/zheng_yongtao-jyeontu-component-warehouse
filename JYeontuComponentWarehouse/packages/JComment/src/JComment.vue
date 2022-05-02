@@ -191,7 +191,9 @@
                             style="width:20px;height:20px;cursor:pointer;"
                             src="../img/表情.png"
                         />
-                        <button @click="submitReply(children.id)">
+                        <button
+                            @click="submitReply(children[keyMap.id || 'id'])"
+                        >
                             发表
                         </button>
                     </div>
