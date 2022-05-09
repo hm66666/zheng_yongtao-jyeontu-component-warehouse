@@ -77,9 +77,7 @@ export default {
             content.addEventListener("touchstart", this.mousedown);
             content.addEventListener("touchend", this.mouseup);
             content.addEventListener("dragstart", () => {});
-            content.addEventListener("touchmove", eve => {
-                this.touchmoveTip = JSON.stringify(eve);
-            });
+            content.addEventListener("touchmove", this.touchmove);
         },
         drawLine() {
             const domPoints = this.getPoints();
