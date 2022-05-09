@@ -19,8 +19,8 @@
                         :key="'cell' + cInd"
                         :style="getCellStyle()"
                         @dragstart.prevent
-                        @mouseover.stop="mouseover(cInd)"
-                        @touchmove.stop="touchmove"
+                        @mouseover="mouseover(cInd)"
+                        @touchmove="touchmove(cInd)"
                     >
                         <span
                             :id="'point-' + cInd"
@@ -160,10 +160,10 @@ export default {
             this.choosePoints.push(ind);
         },
         touchmove(ind) {
-            this.touchmoveTip = JSON.stringify(ind);
-            // if (!this.isDown) return;
-            // if (this.choosePoints.includes(ind)) return;
-            this.choosePoints.push(JSON.stringify(ind));
+            this.touchmoveTip = ind;
+            if (!this.isDown) return;
+            if (this.choosePoints.includes(ind)) return;
+            this.choosePoints.push(ind);
         },
         initData() {
             //getUId
