@@ -178,7 +178,18 @@ export default {
                     (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
                     2;
                 const r = point.offsetHeight / 2;
-                this.touchmoveTip = x + "," + y + "," + nx + "," + ny + "," + r;
+                this.touchmoveTip =
+                    x +
+                    "," +
+                    y +
+                    "," +
+                    nx.toFixed(2) +
+                    "," +
+                    ny.toFixed(2) +
+                    "," +
+                    r +
+                    "," +
+                    i;
                 if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
                     if (this.choosePoints.includes(i)) return;
                     this.choosePoints.push(i);
