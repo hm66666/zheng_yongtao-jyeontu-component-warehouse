@@ -161,13 +161,13 @@ export default {
             this.choosePoints.push(ind);
         },
         touchmove(event) {
-            alert(
-                "提示：在元素区内触发了滑动事件。包含" +
-                    event.touches.length +
-                    "个" +
-                    event.touches[0]
-            );
-            // this.touchmoveTip = ind;
+            // alert(
+            //     "提示：在元素区内触发了滑动事件。包含" +
+            //         event.touches.length +
+            //         "个" +
+            //         event.touches[0]
+            // );
+            this.touchmoveTip = JSON.stringify(event.touches[0]);
             // if (!this.isDown) return;
             // if (this.choosePoints.includes(ind)) return;
             // this.choosePoints.push(ind);
