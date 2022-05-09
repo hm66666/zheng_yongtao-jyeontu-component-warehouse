@@ -61,6 +61,8 @@ export default {
         this.initData();
         window.addEventListener("mousedown", this.mousedown);
         window.addEventListener("mouseup", this.mouseup);
+        window.addEventListener("touchstart", this.mousedown);
+        window.addEventListener("touchend", this.mouseup);
         window.addEventListener("dragstart", () => {
             // document.selection.empty();
             return;
