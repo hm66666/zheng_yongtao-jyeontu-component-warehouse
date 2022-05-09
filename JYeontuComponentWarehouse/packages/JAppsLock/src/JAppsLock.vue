@@ -166,8 +166,9 @@ export default {
             //     event.targetTouches[0].pageX +
             //     "," +
             //     event.targetTouches[0].pageY;
-            const nx = event.targetTouches[0].pageX;
-            const ny = event.targetTouches[0].pageY;
+            const content = document.getElementById(this.JAppsLockId);
+            let nx = event.targetTouches[0].pageX - content.offsetLeft;
+            let ny = event.targetTouches[0].pageY - content.offsetTop;
 
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
