@@ -149,6 +149,7 @@ export default {
         mouseup() {
             this.isDown = false;
             this.drawLine();
+            alert(this.choosePoints);
             this.choosePoints = [];
         },
         mouseover(ind) {
