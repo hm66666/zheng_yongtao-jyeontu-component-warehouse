@@ -20,7 +20,7 @@
                         :style="getCellStyle()"
                         @dragstart.prevent
                         @mouseover.stop="mouseover(cInd)"
-                        @touchmove.stop="touchmove(cInd)"
+                        @touchmove.stop="touchmove"
                     >
                         <span
                             :id="'point-' + cInd"
