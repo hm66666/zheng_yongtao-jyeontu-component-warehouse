@@ -4,8 +4,8 @@
         class="j-apps-lock-body"
         @mousedown.prevent="mousedown()"
         @touchstart.prevent="mousedown()"
-        @touchend.prevent="mouseup()"
-        @mouseup.prevent="mouseup()"
+        @touchend.stop="mouseup()"
+        @mouseup.stop="mouseup()"
         style=""
     >
         <div class="j-apps-lock" @dragstart.prevent>
