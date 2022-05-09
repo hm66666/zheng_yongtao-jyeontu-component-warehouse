@@ -167,7 +167,7 @@ export default {
             //         "个" +
             //         event.touches[0]
             // );
-            this.touchmoveTip = JSON.stringify(event.touches[0]);
+            this.touchmoveTip = JSON.stringify(event);
             // if (!this.isDown) return;
             // if (this.choosePoints.includes(ind)) return;
             // this.choosePoints.push(ind);
