@@ -1,6 +1,7 @@
 <template>
     <div style="width:100%;height:100%">
         <div>{{ choosePoints }}</div>
+        <div>{{ touchmoveTip }}</div>
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
@@ -19,7 +20,7 @@
                         :style="getCellStyle()"
                         @dragstart.prevent
                         @mouseover.stop="mouseover(cInd)"
-                        @touchmove.stop="mouseover(cInd)"
+                        @touchmove.stop="touchmove(cInd)"
                     >
                         <span
                             :id="'point-' + cInd"
@@ -57,7 +58,8 @@ export default {
             cellH: "",
             cellW: "",
             isDown: false,
-            choosePoints: []
+            choosePoints: [],
+            touchmoveTip: "wu"
         };
     },
     created() {
@@ -156,6 +158,12 @@ export default {
             if (!this.isDown) return;
             if (this.choosePoints.includes(ind)) return;
             this.choosePoints.push(ind);
+        },
+        touchmove(event) {
+            this.touchmoveTip = event;
+            // if (!this.isDown) return;
+            // if (this.choosePoints.includes(ind)) return;
+            // this.choosePoints.push(ind);
         },
         initData() {
             //getUId
