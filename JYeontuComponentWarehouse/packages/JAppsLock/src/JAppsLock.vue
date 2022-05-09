@@ -162,10 +162,10 @@ export default {
         },
         touchmove(event) {
             if (!this.isDown) return;
-            this.touchmoveTip =
-                event.targetTouches[0].pageX +
-                "," +
-                event.targetTouches[0].pageY;
+            // this.touchmoveTip =
+            //     event.targetTouches[0].pageX +
+            //     "," +
+            //     event.targetTouches[0].pageY;
             const nx = event.targetTouches[0].pageX;
             const ny = event.targetTouches[0].pageY;
 
@@ -178,6 +178,7 @@ export default {
                     (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
                     2;
                 const r = point.offsetHeight / 2;
+                this.touchmoveTip = x + "," + y + "," + nx + "," + ny + "," + r;
                 if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
                     if (this.choosePoints.includes(i)) return;
                     this.choosePoints.push(i);
