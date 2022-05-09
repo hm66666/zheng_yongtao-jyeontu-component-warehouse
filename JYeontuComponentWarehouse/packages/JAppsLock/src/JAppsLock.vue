@@ -20,7 +20,7 @@
                         :style="getCellStyle()"
                         @dragstart.prevent
                         @mouseover="mouseover(cInd)"
-                        @touchmove="touchmove(cInd)"
+                        @touchmove="mouseover(cInd)"
                     >
                         <span
                             :id="'point-' + cInd"
@@ -77,6 +77,9 @@ export default {
             content.addEventListener("touchstart", this.mousedown);
             content.addEventListener("touchend", this.mouseup);
             content.addEventListener("dragstart", () => {});
+            content.addEventListener("touchmove", eve => {
+                this.touchmoveTip = JSON.stringify(eve);
+            });
         },
         drawLine() {
             const domPoints = this.getPoints();
