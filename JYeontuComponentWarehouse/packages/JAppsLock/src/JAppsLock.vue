@@ -64,10 +64,10 @@ export default {
     },
     created() {
         this.initData();
-        this.eventListen();
     },
     mounted() {
         this.initCell();
+        this.eventListen();
     },
     methods: {
         eventListen() {
