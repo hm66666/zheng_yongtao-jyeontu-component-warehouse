@@ -1,30 +1,33 @@
 <template>
-    <div
-        :id="JAppsLockId"
-        class="j-apps-lock-body"
-        @mousedown.prevent="mousedown()"
-        @touchstart.prevent="mousedown()"
-        @touchend.stop="mouseup()"
-        @mouseup.stop="mouseup()"
-        style=""
-    >
-        <div class="j-apps-lock" @dragstart.prevent>
-            <div class="j-apps-lock-cells">
-                <span
-                    class="j-apps-lock-cell"
-                    v-for="(cell, cInd) in size * size"
-                    :key="'cell' + cInd"
-                    :style="getCellStyle()"
-                    @dragstart.prevent
-                    @mouseover.stop="mouseover(cInd)"
-                    @touchmove.stop="mouseover(cInd)"
-                >
+    <div style="width:100%;height:100%">
+        <div>{{ choosePoints }}</div>
+        <div
+            :id="JAppsLockId"
+            class="j-apps-lock-body"
+            @mousedown.prevent="mousedown()"
+            @touchstart.prevent="mousedown()"
+            @touchend.stop="mouseup()"
+            @mouseup.stop="mouseup()"
+            style=""
+        >
+            <div class="j-apps-lock" @dragstart.prevent>
+                <div class="j-apps-lock-cells">
                     <span
-                        :id="'point-' + cInd"
-                        class="j-apps-lock-point"
+                        class="j-apps-lock-cell"
+                        v-for="(cell, cInd) in size * size"
+                        :key="'cell' + cInd"
+                        :style="getCellStyle()"
                         @dragstart.prevent
-                    ></span>
-                </span>
+                        @mouseover.stop="mouseover(cInd)"
+                        @touchmove.stop="mouseover(cInd)"
+                    >
+                        <span
+                            :id="'point-' + cInd"
+                            class="j-apps-lock-point"
+                            @dragstart.prevent
+                        ></span>
+                    </span>
+                </div>
             </div>
         </div>
     </div>
@@ -59,14 +62,7 @@ export default {
     },
     created() {
         this.initData();
-        window.addEventListener("mousedown", this.mousedown);
-        window.addEventListener("mouseup", this.mouseup);
-        window.addEventListener("touchstart", this.mousedown);
-        window.addEventListener("touchend", this.mouseup);
-        window.addEventListener("dragstart", () => {
-            // document.selection.empty();
-            return;
-        });
+        this.eventListen();
     },
     mounted() {
         this.initCell();
@@ -74,6 +70,11 @@ export default {
     methods: {
         eventListen() {
             const content = document.getElementById(this.JAppsLockId);
+            content.addEventListener("mousedown", this.mousedown);
+            content.addEventListener("mouseup", this.mouseup);
+            content.addEventListener("touchstart", this.mousedown);
+            content.addEventListener("touchend", this.mouseup);
+            content.addEventListener("dragstart", () => {});
         },
         drawLine() {
             const domPoints = this.getPoints();
@@ -149,7 +150,6 @@ export default {
         mouseup() {
             this.isDown = false;
             this.drawLine();
-            alert(this.choosePoints);
             this.choosePoints = [];
         },
         mouseover(ind) {
