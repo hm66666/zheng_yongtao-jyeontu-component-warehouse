@@ -1,7 +1,7 @@
 <template>
     <div style="width:100%;height:100%">
         <div>{{ choosePoints }}</div>
-        <div>{{ touchmoveTip }}</div>
+        <div>{{ touchmoveTip }}，{{ isDown }}</div>
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
@@ -159,11 +159,11 @@ export default {
             if (this.choosePoints.includes(ind)) return;
             this.choosePoints.push(ind);
         },
-        touchmove(event) {
-            this.touchmoveTip = event;
-            // if (!this.isDown) return;
-            // if (this.choosePoints.includes(ind)) return;
-            // this.choosePoints.push(ind);
+        touchmove(ind) {
+            this.touchmoveTip = ind;
+            if (!this.isDown) return;
+            if (this.choosePoints.includes(ind)) return;
+            this.choosePoints.push(ind);
         },
         initData() {
             //getUId
