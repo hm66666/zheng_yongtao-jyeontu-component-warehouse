@@ -3,6 +3,8 @@
         :id="JAppsLockId"
         class="j-apps-lock-body"
         @mousedown="mousedown()"
+        @touchstart="mousedown()"
+        @touchend="mouseup()"
         @mouseup="mouseup()"
         style=""
     >
@@ -15,6 +17,7 @@
                     :style="getCellStyle()"
                     @dragstart.prevent
                     @mouseover="mouseover(cInd)"
+                    @touchmove="mouseover(cInd)"
                 >
                     <span
                         :id="'point-' + cInd"
