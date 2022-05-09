@@ -2,10 +2,10 @@
     <div
         :id="JAppsLockId"
         class="j-apps-lock-body"
-        @mousedown.stop="mousedown()"
-        @touchstart.stop="mousedown()"
-        @touchend.stop="mouseup()"
-        @mouseup.stop="mouseup()"
+        @mousedown.prevent="mousedown()"
+        @touchstart.prevent="mousedown()"
+        @touchend.prevent="mouseup()"
+        @mouseup.prevent="mouseup()"
         style=""
     >
         <div class="j-apps-lock" @dragstart.prevent>
@@ -70,9 +70,11 @@ export default {
         this.initCell();
     },
     methods: {
+        eventListen() {
+            const content = document.getElementById(this.JAppsLockId);
+        },
         drawLine() {
             const domPoints = this.getPoints();
-            // const content = document.getElementById(this.JAppsLockId);
             for (let i = 1; i < domPoints.length; i++) {
                 const x1 =
                     domPoints[i - 1].offsetWidth + domPoints[i - 1].offsetLeft;
