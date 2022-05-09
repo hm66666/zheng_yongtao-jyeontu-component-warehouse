@@ -166,8 +166,8 @@ export default {
             //     event.targetTouches[0].pageX +
             //     "," +
             //     event.targetTouches[0].pageY;
-            const nx = event.targetTouches[0].x;
-            const ny = event.targetTouches[0].y;
+            const nx = event.targetTouches[0].pageX;
+            const ny = event.targetTouches[0].pageY;
 
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
