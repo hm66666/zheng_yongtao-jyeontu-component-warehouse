@@ -160,10 +160,10 @@ export default {
             this.choosePoints.push(ind);
         },
         touchmove(ind) {
-            this.touchmoveTip = ind;
-            if (!this.isDown) return;
-            if (this.choosePoints.includes(ind)) return;
-            this.choosePoints.push(ind);
+            this.touchmoveTip = JSON.stringify(ind);
+            // if (!this.isDown) return;
+            // if (this.choosePoints.includes(ind)) return;
+            // this.choosePoints.push(ind);
         },
         initData() {
             //getUId
