@@ -169,9 +169,6 @@ export default {
             const nx = event.targetTouches[0].pageX;
             const ny = event.targetTouches[0].pageY;
 
-            this.choosePoints.map(cInd => {
-                domPoints.push(document.getElementById("point-" + cInd));
-            });
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
                 const x =
