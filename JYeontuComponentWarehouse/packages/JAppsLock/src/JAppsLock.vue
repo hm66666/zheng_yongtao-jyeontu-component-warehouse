@@ -167,7 +167,10 @@ export default {
             //         "个" +
             //         event.touches[0]
             // );
-            this.touchmoveTip = JSON.stringify(event);
+            this.touchmoveTip =
+                event.targetTouches[0].pageX +
+                "," +
+                event.targetTouches[0].pageY;
             // if (!this.isDown) return;
             // if (this.choosePoints.includes(ind)) return;
             // this.choosePoints.push(ind);
