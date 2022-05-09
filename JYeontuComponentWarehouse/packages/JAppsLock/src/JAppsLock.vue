@@ -161,19 +161,32 @@ export default {
             this.choosePoints.push(ind);
         },
         touchmove(event) {
-            // alert(
-            //     "提示：在元素区内触发了滑动事件。包含" +
-            //         event.touches.length +
-            //         "个" +
-            //         event.touches[0]
-            // );
+            if (!this.isDown) return;
             this.touchmoveTip =
                 event.targetTouches[0].pageX +
                 "," +
                 event.targetTouches[0].pageY;
-            // if (!this.isDown) return;
-            // if (this.choosePoints.includes(ind)) return;
-            // this.choosePoints.push(ind);
+            const nx = event.targetTouches[0].pageX;
+            const ny = event.targetTouches[0].pageY;
+
+            this.choosePoints.map(cInd => {
+                domPoints.push(document.getElementById("point-" + cInd));
+            });
+            for (let i = 0; i < this.size * this.size; i++) {
+                const point = document.getElementById("point-" + i);
+                const x =
+                    (point.offsetTop + point.offsetHeight + point.offsetTop) /
+                    2;
+                const y =
+                    (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
+                    2;
+                const r = point.offsetHeight / 2;
+                if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
+                    if (this.choosePoints.includes(i)) return;
+                    this.choosePoints.push(i);
+                    break;
+                }
+            }
         },
         initData() {
             //getUId
