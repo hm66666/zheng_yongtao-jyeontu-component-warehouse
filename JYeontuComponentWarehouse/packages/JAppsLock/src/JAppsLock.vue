@@ -78,6 +78,10 @@ export default {
             content.addEventListener("touchend", this.mouseup);
             content.addEventListener("dragstart", () => {});
             content.addEventListener("touchmove", this.touchmove);
+            // for (let i = 0; i < this.size * this.size; i++) {
+            //     const point = document.getElementById("point-" + i);
+            //     point.addEventListener("touchmove", this.touchmove);
+            // }
         },
         drawLine() {
             const domPoints = this.getPoints();
@@ -162,10 +166,6 @@ export default {
         },
         touchmove(event) {
             if (!this.isDown) return;
-            // this.touchmoveTip =
-            //     event.targetTouches[0].pageX +
-            //     "," +
-            //     event.targetTouches[0].pageY;
             const content = document.getElementById(this.JAppsLockId);
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
@@ -173,10 +173,18 @@ export default {
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
                 const x =
-                    (point.offsetTop + point.offsetHeight + point.offsetTop) /
+                    (point.offsetTop +
+                        point.offsetHeight +
+                        point.offsetTop -
+                        content.offsetTop -
+                        content.offsetTop) /
                     2;
                 const y =
-                    (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
+                    (point.offsetLeft +
+                        point.offsetWidth +
+                        point.offsetLeft -
+                        content.offsetLeft -
+                        content.offsetLeft) /
                     2;
                 const r = point.offsetHeight / 2;
                 if (i == 0)
