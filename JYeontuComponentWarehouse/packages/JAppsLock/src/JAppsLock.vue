@@ -1,7 +1,6 @@
 <template>
     <div style="width:100%;height:100%">
         <div>{{ choosePoints }}</div>
-        <div>{{ touchmoveTip }}，{{ isDown }}</div>
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
@@ -31,6 +30,7 @@
                 </div>
             </div>
         </div>
+        <div>{{ touchmoveTip }}，{{ isDown }}</div>
     </div>
 </template>
 
@@ -173,18 +173,10 @@ export default {
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
                 const x =
-                    (point.offsetTop +
-                        point.offsetHeight +
-                        point.offsetTop -
-                        content.offsetTop -
-                        content.offsetTop) /
+                    (point.offsetTop + point.offsetHeight + point.offsetTop) /
                     2;
                 const y =
-                    (point.offsetLeft +
-                        point.offsetWidth +
-                        point.offsetLeft -
-                        content.offsetLeft -
-                        content.offsetLeft) /
+                    (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
                     2;
                 const r = point.offsetHeight / 2;
                 if (i == 0)
@@ -198,6 +190,10 @@ export default {
                         ny.toFixed(2) +
                         "," +
                         r +
+                        "," +
+                        point.offsetTop +
+                        "," +
+                        point.offsetLeft +
                         "," +
                         i;
                 if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
