@@ -173,10 +173,10 @@ export default {
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
                 const x =
-                    (point.offsetTop + point.offsetHeight + point.offsetTop) /
+                    (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
                     2;
                 const y =
-                    (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
+                    (point.offsetTop + point.offsetHeight + point.offsetTop) /
                     2;
                 const r = point.offsetHeight / 2;
                 if (i == 0)
