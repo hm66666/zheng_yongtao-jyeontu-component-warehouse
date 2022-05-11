@@ -205,8 +205,8 @@ export default {
 }
 .content {
     margin: auto auto;
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
     // width: 50%;
 }
 .header {
