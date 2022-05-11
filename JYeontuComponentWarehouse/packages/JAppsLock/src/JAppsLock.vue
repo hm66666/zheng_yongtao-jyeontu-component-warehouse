@@ -10,7 +10,7 @@
             @mouseup.stop="mouseup()"
             style=""
         >
-            <div class="j-apps-lock" @dragstart.prevent>
+            <div id="j-apps-lock" class="j-apps-lock" @dragstart.prevent>
                 <div class="j-apps-lock-cells">
                     <span
                         class="j-apps-lock-cell"
@@ -166,7 +166,7 @@ export default {
         },
         touchmove(event) {
             if (!this.isDown) return;
-            const content = document.getElementById(this.JAppsLockId);
+            const content = document.getElementById("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
 
