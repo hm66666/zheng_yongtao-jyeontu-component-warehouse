@@ -157,12 +157,12 @@ export default {
         },
         mousedown() {
             this.isDown = true;
+            this.choosePoints = [];
             this.removeLines();
         },
         mouseup() {
             this.isDown = false;
             this.drawLine();
-            this.choosePoints = [];
         },
         mouseover(ind) {
             if (!this.isDown) return;
