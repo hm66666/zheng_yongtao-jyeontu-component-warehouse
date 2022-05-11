@@ -21,8 +21,8 @@
                         :key="'cell' + cInd"
                         :style="getCellStyle(cInd)"
                         @dragstart.prevent
-                        @mouseover.prevent="mouseover(cInd)"
-                        @touchmove.prevent="mouseover(cInd)"
+                        @mouseover="mouseover(cInd)"
+                        @touchmove="mouseover(cInd)"
                     >
                         <span
                             :id="'point-' + cInd"
@@ -61,7 +61,6 @@ export default {
             cellW: "",
             isDown: false,
             choosePoints: [],
-            touchmoveTip: "wu",
             pointsArea: []
         };
     },
@@ -183,10 +182,10 @@ export default {
             }
         },
         touchmove(event) {
-            if (!this.isDown) return;
             if (this.pointsArea === []) {
                 this.initPointsArea();
             }
+            if (!this.isDown) return;
             const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
