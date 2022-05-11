@@ -188,20 +188,14 @@ export default {
             if (this.pointsArea === []) {
                 this.initPointsArea();
             }
+            this.touchmoveTip = "111";
             const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
-            this.touchmoveTip =
-                nx +
-                "," +
-                ny +
-                "," +
-                this.pointsArea[0].x +
-                "," +
-                this.pointsArea[0].y;
             for (let i = 0; i < this.pointsArea.length; i++) {
                 const item = this.pointsArea[i];
                 const { x, y, r } = item;
+                this.touchmoveTip = nx + "," + ny + "," + x + "," + y + ";";
                 if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
                     if (this.choosePoints.includes(i)) return;
                     this.choosePoints.push(i);
