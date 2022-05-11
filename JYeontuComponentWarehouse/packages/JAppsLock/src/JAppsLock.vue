@@ -182,10 +182,10 @@ export default {
             }
         },
         touchmove(event) {
+            if (!this.isDown) return;
             if (this.pointsArea === []) {
                 this.initPointsArea();
             }
-            if (!this.isDown) return;
             const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
