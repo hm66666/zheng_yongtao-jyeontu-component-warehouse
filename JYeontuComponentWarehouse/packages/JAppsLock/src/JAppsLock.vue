@@ -3,8 +3,8 @@
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
-            @mousedown.stop="mousedown()"
-            @touchstart.stop="mousedown()"
+            @mousedown.prevent="mousedown()"
+            @touchstart.prevent="mousedown()"
             @touchend.stop="mouseup()"
             @mouseup.stop="mouseup()"
             style=""
@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <div>{{ touchmoveTip }}</div>
+        <div>{{ touchmoveTip }}{{ isDown }}</div>
     </div>
 </template>
 
