@@ -149,7 +149,9 @@ export default {
         },
         getCellStyle(cInd) {
             let res = "";
-            res += choosePoints.includes(cInd) ? "border: 1px solid gray;" : "";
+            res += this.choosePoints.includes(cInd)
+                ? "border: 1px solid gray;"
+                : "";
             res += `width:${this.cellW};height:${this.cellH};`;
             return res;
         },
