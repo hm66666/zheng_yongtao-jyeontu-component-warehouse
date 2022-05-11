@@ -1,6 +1,5 @@
 <template>
     <div style="width:100%;height:100%">
-        <div>{{ choosePoints }}</div>
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
@@ -10,7 +9,11 @@
             @mouseup.stop="mouseup()"
             style=""
         >
-            <div id="j-apps-lock" class="j-apps-lock" @dragstart.prevent>
+            <div
+                :id="JAppsLockId + 'lock'"
+                class="j-apps-lock"
+                @dragstart.prevent
+            >
                 <div class="j-apps-lock-cells">
                     <span
                         class="j-apps-lock-cell"
@@ -30,7 +33,6 @@
                 </div>
             </div>
         </div>
-        <div>{{ touchmoveTip }}，{{ isDown }}</div>
     </div>
 </template>
 
@@ -45,7 +47,7 @@ export default {
         },
         size: {
             type: Number,
-            default: 3
+            default: 4
         },
         id: {
             type: String,
@@ -171,7 +173,7 @@ export default {
         },
         touchmove(event) {
             if (!this.isDown) return;
-            const content = document.getElementById(this.JAppsLockId); //("j-apps-lock");
+            const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
 
