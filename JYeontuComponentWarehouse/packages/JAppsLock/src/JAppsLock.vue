@@ -185,13 +185,13 @@ export default {
         },
         touchmove(event) {
             if (!this.isDown) return;
-            if (this.pointsArea === []) {
+            if (this.pointsArea.length === 0) {
                 this.initPointsArea();
             }
             this.touchmoveTip = "111";
             const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
-            let nx = event.targetTouches[0].pageX - content.offsetLeft;
-            let ny = event.targetTouches[0].pageY - content.offsetTop;
+            let ny = event.targetTouches[0].pageX - content.offsetLeft;
+            let nx = event.targetTouches[0].pageY - content.offsetTop;
             this.touchmoveTip = nx + "," + ny + "," + this.pointsArea.length;
             for (let i = 0; i < this.pointsArea.length; i++) {
                 const item = this.pointsArea[i];
