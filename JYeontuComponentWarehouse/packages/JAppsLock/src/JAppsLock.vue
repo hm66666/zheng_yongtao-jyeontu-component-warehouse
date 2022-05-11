@@ -33,7 +33,6 @@
                 </div>
             </div>
         </div>
-        <div>{{ touchmoveTip }}{{ isDown }}</div>
     </div>
 </template>
 
