@@ -21,8 +21,8 @@
                         :key="'cell' + cInd"
                         :style="getCellStyle(cInd)"
                         @dragstart.prevent
-                        @mouseover="mouseover(cInd)"
-                        @touchmove="mouseover(cInd)"
+                        @mouseover.prevent="mouseover(cInd)"
+                        @touchmove.prevent="mouseover(cInd)"
                     >
                         <span
                             :id="'point-' + cInd"
@@ -199,21 +199,6 @@ export default {
                     break;
                 }
             }
-            // for (let i = 0; i < this.size * this.size; i++) {
-            //     const point = document.getElementById("point-" + i);
-            //     const x =
-            //         (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
-            //         2;
-            //     const y =
-            //         (point.offsetTop + point.offsetHeight + point.offsetTop) /
-            //         2;
-            //     const r = point.offsetHeight / 2;
-            //     if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
-            //         if (this.choosePoints.includes(i)) return;
-            //         this.choosePoints.push(i);
-            //         break;
-            //     }
-            // }
         },
         initData() {
             let id = this.id;
