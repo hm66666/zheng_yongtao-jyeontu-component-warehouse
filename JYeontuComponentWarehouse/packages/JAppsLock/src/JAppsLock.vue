@@ -16,7 +16,7 @@
                         class="j-apps-lock-cell"
                         v-for="(cell, cInd) in size * size"
                         :key="'cell' + cInd"
-                        :style="getCellStyle()"
+                        :style="getCellStyle(cInd)"
                         @dragstart.prevent
                         @mouseover="mouseover(cInd)"
                         @touchmove="mouseover(cInd)"
@@ -147,8 +147,11 @@ export default {
             });
             return domPoints;
         },
-        getCellStyle() {
-            return `width:${this.cellW};height:${this.cellH};`;
+        getCellStyle(cInd) {
+            let res = "";
+            res += choosePoints.includes(cInd) ? "border: 1px solid gray;" : "";
+            res += `width:${this.cellW};height:${this.cellH};`;
+            return res;
         },
         mousedown() {
             this.isDown = true;
@@ -166,7 +169,7 @@ export default {
         },
         touchmove(event) {
             if (!this.isDown) return;
-            const content = document.getElementById("j-apps-lock");
+            const content = document.getElementById(this.JAppsLockId); //("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
 
@@ -179,23 +182,6 @@ export default {
                     (point.offsetTop + point.offsetHeight + point.offsetTop) /
                     2;
                 const r = point.offsetHeight / 2;
-                if (i == 0)
-                    this.touchmoveTip =
-                        x +
-                        "," +
-                        y +
-                        "," +
-                        nx.toFixed(2) +
-                        "," +
-                        ny.toFixed(2) +
-                        "," +
-                        r +
-                        "," +
-                        point.offsetTop +
-                        "," +
-                        point.offsetLeft +
-                        "," +
-                        i;
                 if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
                     if (this.choosePoints.includes(i)) return;
                     this.choosePoints.push(i);
@@ -251,7 +237,7 @@ export default {
                 // background-color: gray;
                 border-radius: 50%;
                 // margin-top: 5px;
-                border: 1px solid gray;
+                // border: 1px solid gray;
                 justify-content: center;
                 margin: 5px;
             }
