@@ -3,10 +3,10 @@
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
-            @mousedown.stop="mousedown()"
-            @touchstart.stop="mousedown()"
-            @touchend.stop="mouseup()"
-            @mouseup.stop="mouseup()"
+            @mousedown.prevent="mousedown()"
+            @touchstart.prevent="mousedown()"
+            @touchend.prevent="mouseup()"
+            @mouseup.prevent="mouseup()"
             style=""
         >
             <div
@@ -33,6 +33,7 @@
                 </div>
             </div>
         </div>
+        <div>{{ touchmoveTip }}</div>
     </div>
 </template>
 
@@ -190,6 +191,7 @@ export default {
             const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
             let nx = event.targetTouches[0].pageX - content.offsetLeft;
             let ny = event.targetTouches[0].pageY - content.offsetTop;
+            this.touchmoveTip = nx + "," + ny + ",";
             for (let i = 0; i < this.pointsArea.length; i++) {
                 const item = this.pointsArea[i];
                 const { x, y, r } = item;
