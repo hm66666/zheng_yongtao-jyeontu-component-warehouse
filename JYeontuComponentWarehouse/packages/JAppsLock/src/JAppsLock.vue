@@ -170,6 +170,7 @@ export default {
         },
         initPointsArea() {
             this.pointsArea === [];
+            const cell = document.getElementsByClassName("j-apps-lock-cell")[0];
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
                 const x =
@@ -178,7 +179,7 @@ export default {
                 const y =
                     (point.offsetTop + point.offsetHeight + point.offsetTop) /
                     2;
-                const r = point.offsetHeight / 2;
+                const r = cell.offsetHeight / 2;
                 this.pointsArea.push({ x, y, r });
             }
         },
