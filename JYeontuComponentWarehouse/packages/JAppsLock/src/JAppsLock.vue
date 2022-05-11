@@ -3,8 +3,8 @@
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
-            @mousedown.prevent="mousedown()"
-            @touchstart.prevent="mousedown()"
+            @mousedown.stop="mousedown()"
+            @touchstart.stop="mousedown()"
             @touchend.stop="mouseup()"
             @mouseup.stop="mouseup()"
             style=""
