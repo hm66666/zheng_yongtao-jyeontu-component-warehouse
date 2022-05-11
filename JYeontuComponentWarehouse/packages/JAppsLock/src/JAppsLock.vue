@@ -61,7 +61,8 @@ export default {
             cellW: "",
             isDown: false,
             choosePoints: [],
-            touchmoveTip: "wu"
+            touchmoveTip: "wu",
+            pointsArea: []
         };
     },
     created() {
@@ -80,10 +81,6 @@ export default {
             content.addEventListener("touchend", this.mouseup);
             content.addEventListener("dragstart", () => {});
             content.addEventListener("touchmove", this.touchmove);
-            // for (let i = 0; i < this.size * this.size; i++) {
-            //     const point = document.getElementById("point-" + i);
-            //     point.addEventListener("touchmove", this.touchmove);
-            // }
         },
         drawLine() {
             const domPoints = this.getPoints();
@@ -171,12 +168,8 @@ export default {
             if (this.choosePoints.includes(ind)) return;
             this.choosePoints.push(ind);
         },
-        touchmove(event) {
-            if (!this.isDown) return;
-            const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
-            let nx = event.targetTouches[0].pageX - content.offsetLeft;
-            let ny = event.targetTouches[0].pageY - content.offsetTop;
-
+        initPointsArea() {
+            this.pointsArea === [];
             for (let i = 0; i < this.size * this.size; i++) {
                 const point = document.getElementById("point-" + i);
                 const x =
@@ -186,15 +179,43 @@ export default {
                     (point.offsetTop + point.offsetHeight + point.offsetTop) /
                     2;
                 const r = point.offsetHeight / 2;
+                this.pointsArea.push({ x, y, r });
+            }
+        },
+        touchmove(event) {
+            if (!this.isDown) return;
+            if (this.pointsArea === []) {
+                this.initPointsArea();
+            }
+            const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
+            let nx = event.targetTouches[0].pageX - content.offsetLeft;
+            let ny = event.targetTouches[0].pageY - content.offsetTop;
+            for (let i = 0; i < this.pointsArea.length; i++) {
+                const item = this.pointsArea[i];
+                const { x, y, r } = item;
                 if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
                     if (this.choosePoints.includes(i)) return;
                     this.choosePoints.push(i);
                     break;
                 }
             }
+            // for (let i = 0; i < this.size * this.size; i++) {
+            //     const point = document.getElementById("point-" + i);
+            //     const x =
+            //         (point.offsetLeft + point.offsetWidth + point.offsetLeft) /
+            //         2;
+            //     const y =
+            //         (point.offsetTop + point.offsetHeight + point.offsetTop) /
+            //         2;
+            //     const r = point.offsetHeight / 2;
+            //     if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
+            //         if (this.choosePoints.includes(i)) return;
+            //         this.choosePoints.push(i);
+            //         break;
+            //     }
+            // }
         },
         initData() {
-            //getUId
             let id = this.id;
             if (id == "") {
                 id = getUId();
