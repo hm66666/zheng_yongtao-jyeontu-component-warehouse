@@ -189,8 +189,8 @@ export default {
                 this.initPointsArea();
             }
             const content = document.getElementById(this.JAppsLockId + "lock"); //("j-apps-lock");
-            let nx = event.targetTouches[0].pageX - content.offsetLeft;
-            let ny = event.targetTouches[0].pageY - content.offsetTop;
+            let nx = event.targetTouches[0].pageX - content.offsetTop;
+            let ny = event.targetTouches[0].pageY - content.offsetLeft;
             this.touchmoveTip = nx + "," + ny + ",";
             for (let i = 0; i < this.pointsArea.length; i++) {
                 const item = this.pointsArea[i];
