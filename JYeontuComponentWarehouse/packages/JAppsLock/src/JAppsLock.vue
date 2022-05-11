@@ -3,8 +3,8 @@
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
-            @mousedown.stop="mousedown()"
-            @touchstart.stop="mousedown()"
+            @mousedown.prevent="mousedown()"
+            @touchstart.prevent="mousedown()"
             @touchend.stop="mouseup()"
             @mouseup.stop="mouseup()"
             style=""
@@ -61,6 +61,7 @@ export default {
             cellW: "",
             isDown: false,
             choosePoints: [],
+            touchmoveTip: "wu",
             pointsArea: []
         };
     },
