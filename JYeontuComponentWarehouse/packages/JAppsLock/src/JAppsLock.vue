@@ -5,6 +5,8 @@
             class="j-apps-lock-body"
             @mousedown.prevent="mousedown()"
             @touchstart.prevent="mousedown()"
+            @mouseup.stop="isDown = false"
+            @touchend.stop="isDown = false"
             style=""
         >
             <div
@@ -115,12 +117,15 @@ export default {
             arrow.style.margin = "auto";
             arrow.style.fontSize = "1.5rem";
             arrow.style.zIndex = "10";
+            arrow.style.display = "block";
+            arrow.style.minWidth = "1.4rem";
+            arrow.style.textAlign = "center";
             if (y1 === y2) {
                 arrow.innerText = x1 > x2 ? "<" : ">";
                 arrow.style.top = "-0.8rem";
             } else {
                 arrow.innerText = y1 > y2 ? "∧" : "∨";
-                arrow.style.left = "-0.55rem";
+                arrow.style.left = "-0.65rem";
             }
             return arrow;
         },
