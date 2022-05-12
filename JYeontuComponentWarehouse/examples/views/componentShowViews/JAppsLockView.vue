@@ -10,7 +10,7 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-apps-lock @commit="commit" size="4"></j-apps-lock>
+                <j-apps-lock @commit="commit" :size="size"></j-apps-lock>
             </div>
         </template>
         <template v-slot:right-p>
@@ -37,6 +37,7 @@ export default {
     },
     data() {
         return {
+            size: 4,
             code: "",
             textStyle: {
                 borderBottom: "1px dotted skyblue",
