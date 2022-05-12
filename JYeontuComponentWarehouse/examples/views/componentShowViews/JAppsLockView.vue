@@ -10,7 +10,7 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-apps-lock></j-apps-lock>
+                <j-apps-lock @commit="commit" size="4"></j-apps-lock>
             </div>
         </template>
         <template v-slot:right-p>
@@ -103,37 +103,18 @@ export default {
             this.code = `
 <template>
     <div class="content">
-        <p>
-            hover
-            <j-tool-tip
-                tipText="one"
-                :textStyle="textStyle"
-                :toolTipStyle="toolTipStyle"
-                >here
-            </j-tool-tip>
-            to see one.
-        </p>
-        <p>
-            hover
-            <j-tool-tip tipText="another">here </j-tool-tip>
-            to see another.
-        </p>
+        <j-apps-lock @commit="commit" size="5"></j-apps-lock>
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
-                textStyle: {
-                    borderBottom: "1px dotted skyblue",
-                    fontSize: "large",
-                    color: "skyblue"
-                },
-                toolTipStyle: {
-                    backgroundColor: "grey",
-                    color: "skyblue",
-                    width: "100px"
-                },
+            }
+        },
+        methods:{
+            commit(password) {
+                this.$JToast(password);
             }
         }
     }
@@ -143,51 +124,39 @@ export default {
         initTableData() {
             this.tableData = [
                 {
-                    parameter: "tipText",
-                    field: "提示内容",
+                    parameter: "id",
+                    field: "组件id",
                     type: "String",
-                    describe: ""
+                    describe: "自定义组件的id，不设置则自动生成"
                 },
                 {
-                    parameter: "textStyle",
-                    field: "文字样式",
-                    type: "Object",
-                    describe: "设置文字样式，如下划线样式",
-                    children: {
-                        type: "text",
-                        text: '{"border-bottom": "1px dotted black"}'
-                    }
+                    parameter: "backgroundColor",
+                    field: "背景颜色",
+                    type: "String",
+                    describe: "图案锁背景颜色，默认为aquamarine"
                 },
                 {
-                    parameter: "toolTipStyle",
-                    field: "提示框内容样式",
-                    type: "Object",
-                    describe: "具体配置如下",
-                    children: {
-                        title: this.tableTitle,
-                        data: [
-                            {
-                                parameter: "backgroundColor",
-                                field: "提示框背景颜色",
-                                type: "String",
-                                describe: "默认为#062b45"
-                            },
-                            {
-                                parameter: "color",
-                                field: "提示框字体颜色",
-                                type: "String",
-                                describe: "默认为#fff"
-                            },
-                            {
-                                parameter: "width",
-                                field: "提示框宽度",
-                                type: "String",
-                                describe: "默认为100px"
-                            }
-                        ]
-                    }
+                    parameter: "size",
+                    field: "图案锁尺寸",
+                    type: "Number",
+                    describe: "默认为3(即3 * 3 个点)"
+                },
+                {
+                    parameter: "commit",
+                    field: "获取图案",
+                    type: "Function",
+                    describe: "手指抬起的回调方法，返回参数图案列表"
+                },
+                {
+                    parameter: "showArrow",
+                    field: "展示方向箭头",
+                    type: "Boolean",
+                    describe: "默认显示"
                 }
             ];
+        },
+        commit(password) {
+            this.$JToast(password);
         }
     }
 };

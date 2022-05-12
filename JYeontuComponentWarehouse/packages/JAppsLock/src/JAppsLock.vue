@@ -5,8 +5,6 @@
             class="j-apps-lock-body"
             @mousedown.prevent="mousedown()"
             @touchstart.prevent="mousedown()"
-            @touchend.stop="mouseup()"
-            @mouseup.stop="mouseup()"
             style=""
         >
             <div
@@ -47,11 +45,19 @@ export default {
         },
         size: {
             type: Number,
-            default: 4
+            default: 3
         },
         id: {
             type: String,
             default: ""
+        },
+        limit: {
+            type: Number,
+            default: 3
+        },
+        showArrow: {
+            type: Boolean,
+            default: true
         }
     },
     data() {
@@ -61,7 +67,6 @@ export default {
             cellW: "",
             isDown: false,
             choosePoints: [],
-            touchmoveTip: "wu",
             pointsArea: []
         };
     },
@@ -101,19 +106,37 @@ export default {
                 );
             }
             // console.log(content);
-            console.log(domPoints);
+            // console.log(domPoints);
+        },
+        createArrow(x1, x2, y1, y2) {
+            let arrow = document.createElement("span");
+            arrow.classList.add("j-apps-lock-arrow");
+            arrow.style.position = "relative";
+            arrow.style.margin = "auto";
+            arrow.style.fontSize = "1.5rem";
+            arrow.style.zIndex = "10";
+            if (y1 === y2) {
+                arrow.innerText = x1 > x2 ? "<" : ">";
+                arrow.style.top = "-0.8rem";
+            } else {
+                arrow.innerText = y1 > y2 ? "∧" : "∨";
+                arrow.style.left = "-0.5rem";
+            }
+            return arrow;
         },
         createLine(x1, x2, y1, y2, p1, p2) {
             let line = document.createElement("span");
             line.classList.add("j-apps-lock-line");
             line.style.position = "absolute";
-            line.style.display = "block";
+            line.style.display = "flex";
             line.style.left = "50%";
             line.style.top = "50%";
             line.style.margin = "center";
             line.style.width = Math.max(Math.abs(x2 - x1), 2) + "px";
             line.style.height = Math.max(Math.abs(y2 - y1), 2) + "px";
             line.style.backgroundColor = "gray";
+            if (this.showArrow)
+                line.appendChild(this.createArrow(x1, x2, y1, y2));
             if (x1 != x2 && y1 != y2) {
                 const x = Math.abs(x1 - x2);
                 const y = Math.abs(y1 - y2);
@@ -150,7 +173,7 @@ export default {
             let res = "";
             res += this.choosePoints.includes(cInd)
                 ? "border: 1px solid gray;"
-                : "";
+                : "border: 1px solid transparent;";
             res += `width:${this.cellW};height:${this.cellH};`;
             return res;
         },
@@ -162,6 +185,7 @@ export default {
         mouseup() {
             this.isDown = false;
             this.drawLine();
+            this.$emit("commit", this.choosePoints);
         },
         mouseover(ind) {
             if (!this.isDown) return;
@@ -215,8 +239,8 @@ export default {
             const content = document.getElementById(id);
             const cH = content.offsetHeight;
             const cW = content.offsetWidth;
-            const cellH = (cH - 20 - size * 8 * 2) / size + "px";
-            const cellW = (cW - 20 - size * 8 * 2) / size + "px";
+            const cellH = (cH - 20 - size * 6 * 2) / size + "px";
+            const cellW = (cW - 20 - size * 6 * 2) / size + "px";
             this.cellH = cellH;
             this.cellW = cellW;
         }
