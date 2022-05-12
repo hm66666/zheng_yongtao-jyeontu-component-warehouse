@@ -120,7 +120,7 @@ export default {
                 arrow.style.top = "-0.8rem";
             } else {
                 arrow.innerText = y1 > y2 ? "∧" : "∨";
-                arrow.style.left = "-0.5rem";
+                arrow.style.left = "-0.55rem";
             }
             return arrow;
         },
