@@ -5,8 +5,6 @@
             class="j-apps-lock-body"
             @mousedown.prevent="mousedown()"
             @touchstart.prevent="mousedown()"
-            @mouseup.stop="isDown = false"
-            @touchend.stop="isDown = false"
             style=""
         >
             <div
@@ -84,8 +82,14 @@ export default {
             const content = document.getElementById(this.JAppsLockId);
             content.addEventListener("mousedown", this.mousedown);
             content.addEventListener("mouseup", this.mouseup);
+
+            window.addEventListener("mouseup", this.mouseup);
+
             content.addEventListener("touchstart", this.mousedown);
             content.addEventListener("touchend", this.mouseup);
+
+            window.addEventListener("touchend", this.mouseup);
+
             content.addEventListener("dragstart", () => {});
             content.addEventListener("touchmove", this.touchmove);
         },
@@ -188,6 +192,7 @@ export default {
             this.removeLines();
         },
         mouseup() {
+            if (!this.isDown) return;
             this.isDown = false;
             this.drawLine();
             this.$emit("commit", this.choosePoints);

@@ -37,7 +37,7 @@ export default {
         },
         refreshMenu() {
             localStorage.removeItem("jyeontuMenu");
-            let routeId = localStorage.getItem("jyeontuRouteId");
+            let jyeontuRouteId = localStorage.getItem("jyeontuRouteId");
             localStorage.removeItem("jyeontuRouteId");
             // this.$router.push('/homePage')
             this.getNewMenu();
@@ -106,13 +106,9 @@ export default {
                     if (menu[i].iconColor) {
                         iconColor = menu[i].iconColor;
                     }
-                    temp += `<i class="${
-                        menu[i].icon
-                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 } else if (menu[i].icon.split("-")[0] === "icon") {
-                    temp += `<i class="iconfont ${
-                        menu[i].icon
-                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="iconfont ${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 }
                 temp += `${menu[i].label.trim()}`;
                 if (
@@ -147,10 +143,9 @@ export default {
             return temp;
         }
     },
-    created() {
-        this.refreshMenu();
-    },
+    created() {},
     mounted() {
+        this.refreshMenu();
         window.chooseNode = this.chooseNode;
         window.refreshMenu = this.refreshMenu;
         this.getNewMenu();
