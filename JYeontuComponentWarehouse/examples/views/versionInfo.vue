@@ -58,6 +58,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.4.3（已发布）",
+                    descript: "增加：图案手势锁组件",
+                    time: "2022-05-30",
+                    icon: "4.3"
+                },
+                {
                     title: "版本0.4.2（已发布）",
                     descript: "修复：评论组件id无法自定义问题",
                     time: "2022-05-03",
