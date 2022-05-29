@@ -2531,6 +2531,17 @@ module.exports = function (exec, skipClosing) {
 
 /***/ }),
 
+/***/ "5d31":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_1_id_6aa283fa_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("b737");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_1_id_6aa283fa_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_1_id_6aa283fa_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_node_modules_css_loader_index_js_ref_8_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_2_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_1_id_6aa283fa_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
 /***/ "5dbc":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3039,6 +3050,17 @@ module.exports = function (TO_STRING) {
   };
 };
 
+
+/***/ }),
+
+/***/ "72d1":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("d53d");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JAppsLock_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -4262,6 +4284,13 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "b737":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "b8e3":
 /***/ (function(module, exports) {
 
@@ -4895,6 +4924,13 @@ module.exports = function (done, value) {
   return { value: value, done: !!done };
 };
 
+
+/***/ }),
+
+/***/ "d53d":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -14635,6 +14671,312 @@ JBarrageRain.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JBarrageRain = (JBarrageRain);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4d109d0e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JAppsLock/src/JAppsLock.vue?vue&type=template&id=6aa283fa&scoped=true&
+var JAppsLockvue_type_template_id_6aa283fa_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticStyle:{"width":"100%","height":"100%"}},[_c('div',{staticClass:"j-apps-lock-body",attrs:{"id":_vm.JAppsLockId},on:{"mousedown":function($event){$event.preventDefault();return _vm.mousedown()},"touchstart":function($event){$event.preventDefault();return _vm.mousedown()}}},[_c('div',{staticClass:"j-apps-lock",attrs:{"id":_vm.JAppsLockId + 'lock'},on:{"dragstart":function($event){$event.preventDefault();}}},[_c('div',{staticClass:"j-apps-lock-cells"},_vm._l((_vm.size * _vm.size),function(cell,cInd){return _c('span',{key:'cell' + cInd,staticClass:"j-apps-lock-cell",style:(_vm.getCellStyle(cInd)),on:{"dragstart":function($event){$event.preventDefault();},"mouseover":function($event){return _vm.mouseover(cInd)},"touchmove":function($event){return _vm.mouseover(cInd)}}},[_c('span',{staticClass:"j-apps-lock-point",attrs:{"id":'point-' + cInd},on:{"dragstart":function($event){$event.preventDefault();}}})])}),0)])])])}
+var JAppsLockvue_type_template_id_6aa283fa_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./packages/JAppsLock/src/JAppsLock.vue?vue&type=template&id=6aa283fa&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JAppsLock/src/JAppsLock.vue?vue&type=script&lang=js&
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var JAppsLockvue_type_script_lang_js_ = ({
+  name: "JAppsLock",
+  props: {
+    backgroundColor: {
+      type: String,
+      default: "aquamarine"
+    },
+    size: {
+      type: Number,
+      default: 3
+    },
+    id: {
+      type: String,
+      default: ""
+    },
+    limit: {
+      type: Number,
+      default: 3
+    },
+    showArrow: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data: function data() {
+    return {
+      JAppsLockId: "",
+      cellH: "",
+      cellW: "",
+      isDown: false,
+      choosePoints: [],
+      pointsArea: []
+    };
+  },
+  created: function created() {
+    this.initData();
+  },
+  mounted: function mounted() {
+    this.initCell();
+    this.eventListen();
+  },
+  methods: {
+    eventListen: function eventListen() {
+      var content = document.getElementById(this.JAppsLockId);
+      content.addEventListener("mousedown", this.mousedown);
+      content.addEventListener("mouseup", this.mouseup);
+      window.addEventListener("mouseup", this.mouseup);
+      content.addEventListener("touchstart", this.mousedown);
+      content.addEventListener("touchend", this.mouseup);
+      window.addEventListener("touchend", this.mouseup);
+      content.addEventListener("dragstart", function () {});
+      content.addEventListener("touchmove", this.touchmove);
+    },
+    drawLine: function drawLine() {
+      var domPoints = this.getPoints();
+
+      for (var i = 1; i < domPoints.length; i++) {
+        var x1 = domPoints[i - 1].offsetWidth + domPoints[i - 1].offsetLeft;
+        var x2 = domPoints[i].offsetWidth + domPoints[i].offsetLeft;
+        var y1 = domPoints[i - 1].offsetHeight + domPoints[i - 1].offsetTop;
+        var y2 = domPoints[i].offsetHeight + domPoints[i].offsetTop;
+        var line = this.createLine(x1, x2, y1, y2, domPoints[i - 1], domPoints[i]);
+      } // console.log(content);
+      // console.log(domPoints);
+
+    },
+    createArrow: function createArrow(x1, x2, y1, y2) {
+      var arrow = document.createElement("span");
+      arrow.classList.add("j-apps-lock-arrow");
+      arrow.style.position = "relative";
+      arrow.style.margin = "auto";
+      arrow.style.fontSize = "1.5rem";
+      arrow.style.zIndex = "10";
+      arrow.style.display = "block";
+      arrow.style.minWidth = "1.4rem";
+      arrow.style.textAlign = "center";
+
+      if (y1 === y2) {
+        arrow.innerText = x1 > x2 ? "<" : ">";
+        arrow.style.top = "-0.8rem";
+      } else {
+        arrow.innerText = y1 > y2 ? "∧" : "∨";
+        arrow.style.left = "-0.65rem";
+      }
+
+      return arrow;
+    },
+    createLine: function createLine(x1, x2, y1, y2, p1, p2) {
+      var line = document.createElement("span");
+      line.classList.add("j-apps-lock-line");
+      line.style.position = "absolute";
+      line.style.display = "flex";
+      line.style.left = "50%";
+      line.style.top = "50%";
+      line.style.margin = "center";
+      line.style.width = Math.max(Math.abs(x2 - x1), 2) + "px";
+      line.style.height = Math.max(Math.abs(y2 - y1), 2) + "px";
+      line.style.backgroundColor = "gray";
+      if (this.showArrow) line.appendChild(this.createArrow(x1, x2, y1, y2));
+
+      if (x1 != x2 && y1 != y2) {
+        var x = Math.abs(x1 - x2);
+        var y = Math.abs(y1 - y2);
+        line.style.height = Math.sqrt(x * x + y * y) + "px";
+        line.style.width = "2px";
+        var angle = Math.atan(x / y) * 180 / Math.PI;
+        if (x2 > x1 && y2 > y1 || x2 < x1 && y2 < y1) angle = "-" + angle;
+        line.style.transform = "rotate(".concat(angle, "deg)");
+        line.style.transformOrigin = "left top";
+        if (y2 > y1) p1.appendChild(line);else p2.appendChild(line);
+      } else if (x2 > x1 || y2 > y1) {
+        p1.appendChild(line);
+      } else {
+        p2.appendChild(line);
+      }
+
+      return line;
+    },
+    removeLines: function removeLines() {
+      var points = document.getElementsByClassName("j-apps-lock-point");
+
+      for (var i = 0; i < points.length; i++) {
+        points[i].innerHTML = "";
+      }
+    },
+    getPoints: function getPoints() {
+      var domPoints = [];
+      this.choosePoints.map(function (cInd) {
+        domPoints.push(document.getElementById("point-" + cInd));
+      });
+      return domPoints;
+    },
+    getCellStyle: function getCellStyle(cInd) {
+      var res = "";
+      res += this.choosePoints.includes(cInd) ? "border: 1px solid gray;" : "border: 1px solid transparent;";
+      res += "width:".concat(this.cellW, ";height:").concat(this.cellH, ";");
+      return res;
+    },
+    mousedown: function mousedown() {
+      this.isDown = true;
+      this.choosePoints = [];
+      this.removeLines();
+    },
+    mouseup: function mouseup() {
+      if (!this.isDown) return;
+      this.isDown = false;
+      this.drawLine();
+      this.$emit("commit", this.choosePoints);
+    },
+    mouseover: function mouseover(ind) {
+      if (!this.isDown) return;
+      if (this.choosePoints.includes(ind)) return;
+      this.choosePoints.push(ind);
+    },
+    initPointsArea: function initPointsArea() {
+      this.pointsArea === [];
+      var cell = document.getElementsByClassName("j-apps-lock-cell")[0];
+
+      for (var i = 0; i < this.size * this.size; i++) {
+        var point = document.getElementById("point-" + i);
+        var x = (point.offsetLeft + point.offsetWidth + point.offsetLeft) / 2;
+        var y = (point.offsetTop + point.offsetHeight + point.offsetTop) / 2;
+        var r = cell.offsetHeight / 2;
+        this.pointsArea.push({
+          x: x,
+          y: y,
+          r: r
+        });
+      }
+    },
+    touchmove: function touchmove(event) {
+      if (!this.isDown) return;
+
+      if (this.pointsArea.length === 0) {
+        this.initPointsArea();
+      }
+
+      var content = document.getElementById(this.JAppsLockId + "lock");
+      var nx = event.targetTouches[0].pageX - content.offsetLeft;
+      var ny = event.targetTouches[0].pageY - content.offsetTop;
+
+      for (var i = 0; i < this.pointsArea.length; i++) {
+        var item = this.pointsArea[i];
+        var x = item.x,
+            y = item.y,
+            r = item.r;
+
+        if (Math.pow(x - nx, 2) + Math.pow(y - ny, 2) <= r * r) {
+          if (this.choosePoints.includes(i)) return;
+          this.choosePoints.push(i);
+          break;
+        }
+      }
+    },
+    initData: function initData() {
+      var id = this.id;
+
+      if (id == "") {
+        id = getUId();
+      }
+
+      this.JAppsLockId = id;
+    },
+    initCell: function initCell() {
+      var id = this.JAppsLockId;
+      var size = this.size;
+      var nums = size * size;
+      var content = document.getElementById(id);
+      var cH = content.offsetHeight;
+      var cW = content.offsetWidth;
+      var cellH = (cH - 20 - size * 6 * 2) / size + "px";
+      var cellW = (cW - 20 - size * 6 * 2) / size + "px";
+      this.cellH = cellH;
+      this.cellW = cellW;
+    }
+  }
+});
+// CONCATENATED MODULE: ./packages/JAppsLock/src/JAppsLock.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_JAppsLockvue_type_script_lang_js_ = (JAppsLockvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./packages/JAppsLock/src/JAppsLock.vue?vue&type=style&index=0&lang=css&
+var JAppsLockvue_type_style_index_0_lang_css_ = __webpack_require__("72d1");
+
+// EXTERNAL MODULE: ./packages/JAppsLock/src/JAppsLock.vue?vue&type=style&index=1&id=6aa283fa&lang=scss&scoped=true&
+var JAppsLockvue_type_style_index_1_id_6aa283fa_lang_scss_scoped_true_ = __webpack_require__("5d31");
+
+// CONCATENATED MODULE: ./packages/JAppsLock/src/JAppsLock.vue
+
+
+
+
+
+
+
+/* normalize component */
+
+var JAppsLock_component = normalizeComponent(
+  src_JAppsLockvue_type_script_lang_js_,
+  JAppsLockvue_type_template_id_6aa283fa_scoped_true_render,
+  JAppsLockvue_type_template_id_6aa283fa_scoped_true_staticRenderFns,
+  false,
+  null,
+  "6aa283fa",
+  null
+  
+)
+
+/* harmony default export */ var JAppsLock = (JAppsLock_component.exports);
+// CONCATENATED MODULE: ./packages/JAppsLock/index.js
+
+
+
+JAppsLock.install = function (Vue) {
+  return Vue.component(JAppsLock.name, JAppsLock);
+}; //注册组件
+
+
+/* harmony default export */ var packages_JAppsLock = (JAppsLock);
 // CONCATENATED MODULE: ./packages/index.js
 
 
@@ -14666,9 +15008,10 @@ JBarrageRain.install = function (Vue) {
 
 
 
+
  // 存储组件列表
 
-var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip, packages_JWaterfall, packages_JBarrage, packages_JBarrageRain // Toast
+var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip, packages_JWaterfall, packages_JBarrage, packages_JBarrageRain, packages_JAppsLock // Toast
 ]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 
 var install = function install(Vue) {
