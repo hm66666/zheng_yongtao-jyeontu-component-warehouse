@@ -2,7 +2,7 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                图案手势锁（JAppsLockView）
+                图案手势锁（JAppsLock）
                 <div class="j-detail">
                     仿手机图案手势锁
                 </div>
