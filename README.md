@@ -246,8 +246,9 @@ Vue.use(jvuewheel);
 16. 悬浮提示（JToolTip）：[https://juejin.cn/post/7083030853332238343](https://juejin.cn/post/7083030853332238343)
 17. 瀑布流照片容器（JWaterfall）：[https://juejin.cn/post/7083511816902410254](https://juejin.cn/post/7083511816902410254)
 18. 弹幕组件（JBarrage）：[https://juejin.cn/post/7087599645387391012](https://juejin.cn/post/7087599645387391012)
-19. 游戏（连连看）：[https://juejin.cn/post/7085933111308976158](https://juejin.cn/post/7085933111308976158)
-20. 工具函数
+19. 图案手势锁组件（JAppsLock）：[https://juejin.cn/post/7103699272436023332](https://juejin.cn/post/7103699272436023332)
+100. 游戏（连连看）：[https://juejin.cn/post/7085933111308976158](https://juejin.cn/post/7085933111308976158)
+200. 工具函数
 
 #### 参与贡献
 
