@@ -58,6 +58,13 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.4.4（已发布）",
+                    descript:
+                        "完成issues(#I5HAWD):修复评论组件表情的弹出位置不正常问题",
+                    time: "2022-07-17",
+                    icon: "4.4"
+                },
+                {
                     title: "版本0.4.3（已发布）",
                     descript: "增加：图案手势锁组件",
                     time: "2022-05-30",
