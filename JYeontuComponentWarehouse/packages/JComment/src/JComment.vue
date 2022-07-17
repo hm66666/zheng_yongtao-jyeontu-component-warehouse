@@ -634,6 +634,7 @@ export default {
             }
         }
         .j-comment-reply-btns {
+            position: relative;
             display: flex;
             .emoji-btn {
                 margin-left: calc(40px + 1em);
