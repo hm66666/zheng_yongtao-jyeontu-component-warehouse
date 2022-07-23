@@ -88,6 +88,7 @@ body {
 }
 .top-content {
     position: fixed;
+    z-index: 100000;
 }
 .left-content {
     display: block;
