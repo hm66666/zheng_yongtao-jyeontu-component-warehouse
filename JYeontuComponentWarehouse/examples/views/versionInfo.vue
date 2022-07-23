@@ -5,7 +5,7 @@
                 <div class="j-title">
                     版本介绍（jvuewheel）
                     <div class="j-detail">
-                        目前最新版本为0.3.6，更多好玩有用的组件正在构思中，敬请期待……
+                        目前最新版本为0.4.5，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
