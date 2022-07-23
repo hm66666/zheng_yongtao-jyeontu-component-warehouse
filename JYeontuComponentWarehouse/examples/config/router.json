@@ -280,6 +280,18 @@
             "children": []
         },
         {
+            "id": 27,
+            "name": "JVideoCover",
+            "path": "/JVideoCover",
+            "label": "视频动态封面",
+            "selected": false,
+            "icon": "icon-suoding",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JVideoCoverView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",

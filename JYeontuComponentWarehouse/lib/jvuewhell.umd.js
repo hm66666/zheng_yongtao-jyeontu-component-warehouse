@@ -2433,6 +2433,13 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 /***/ }),
 
+/***/ "58cd":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "5b4e":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3037,6 +3044,17 @@ $export($export.P + $export.F * !__webpack_require__("2f21")([].map, true), 'Arr
   }
 });
 
+
+/***/ }),
+
+/***/ "6eee":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JVideoCover_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("58cd");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JVideoCover_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JVideoCover_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+ /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_JVideoCover_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -14977,6 +14995,216 @@ JAppsLock.install = function (Vue) {
 
 
 /* harmony default export */ var packages_JAppsLock = (JAppsLock);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"4d109d0e-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JVideoCover/src/JVideoCover.vue?vue&type=template&id=ac535fba&
+var JVideoCovervue_type_template_id_ac535fba_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"j-video-cover",attrs:{"id":_vm.uid + '-j-video-cover'}},[_c('video',{staticClass:"j-video",attrs:{"src":_vm.videoUrl,"id":_vm.uid + '-video',"controls":"controls","playsinline":"","autoplay":"","muted":"","loop":"false"},domProps:{"muted":true}}),_c('img',{staticClass:"j-coverImg",attrs:{"id":_vm.uid + '-coverImg',"src":_vm.coverSrc},on:{"mousemove":_vm.imgHover,"mouseleave":_vm.hoverOut,"click":_vm.coverClick}}),(_vm.imgList.length > 1)?_c('progress',{staticClass:"j-progress-bo j-progress",style:('width:' + _vm.width),attrs:{"id":_vm.uid + '-progress',"max":_vm.duration},domProps:{"value":_vm.pauseTime}}):_vm._e(),(_vm.imgList.length > 1)?_c('progress',{staticClass:"j-progress-to j-progress",style:('width:' + _vm.width),attrs:{"id":_vm.uid + '-progress1',"max":_vm.stepNums},domProps:{"value":_vm.progressValue}}):_vm._e()])}
+var JVideoCovervue_type_template_id_ac535fba_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./packages/JVideoCover/src/JVideoCover.vue?vue&type=template&id=ac535fba&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./packages/JVideoCover/src/JVideoCover.vue?vue&type=script&lang=js&
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ var JVideoCovervue_type_script_lang_js_ = ({
+  name: "JVideoCover",
+  props: {
+    width: {
+      type: String,
+      default: "300px"
+    },
+    height: {
+      type: String,
+      default: "200px"
+    },
+    stepNums: {
+      type: String,
+      default: "30"
+    },
+    videoUrl: {
+      type: String,
+      default: ""
+    }
+  },
+  data: function data() {
+    return {
+      uid: "",
+      video: "",
+      imgList: [],
+      currentTime: 0,
+      duration: 100,
+      pauseTime: 0,
+      coverSrc: "",
+      pauseCover: "",
+      progressValue: 0
+    };
+  },
+  created: function created() {
+    this.setUid();
+  },
+  mounted: function mounted() {
+    this.init();
+  },
+  methods: {
+    setUid: function setUid() {
+      this.uid = getUId();
+    },
+    init: function init() {
+      var _this = this;
+
+      var videoContentShow = document.getElementById(this.uid + "-video");
+      videoContentShow.style.height = this.height;
+      videoContentShow.style.width = this.width;
+      var videoContent = videoContentShow.cloneNode();
+      videoContent.addEventListener("canplay", function () {
+        if (_this.currentTime < _this.duration) _this.cut(videoContent);else _this.progressValue = 0;
+      });
+      var coverImg = document.getElementById(this.uid + "-coverImg");
+      coverImg.style.height = parseInt(this.height) - 20 + "px";
+      coverImg.style.width = this.width;
+      coverImg.style.marginTop = "20px";
+      videoContentShow.addEventListener("pause", function (e) {
+        _this.pauseTime = videoContentShow.currentTime;
+        _this.pauseCover = _this.cutCover(videoContentShow, videoContentShow.currentTime);
+        coverImg.setAttribute("src", _this.pauseCover);
+        var step = _this.duration / _this.stepNums;
+        var index = Math.ceil(_this.pauseTime / step);
+        _this.progressValue = index;
+        setTimeout(function () {
+          if (videoContentShow.paused) _this.doHide();
+        }, 200);
+      });
+    },
+    imgHover: function imgHover(e) {
+      var coverImg = document.getElementById(this.uid + "-coverImg");
+      var w = coverImg.offsetWidth / this.stepNums;
+      var x = e.offsetX - coverImg.offsetLeft;
+      var index = Math.min(Math.max(Math.ceil(x / w), 1), this.stepNums);
+      if (this.imgList.length < index) return;
+      this.progressValue = index;
+      coverImg.setAttribute("src", this.imgList[Math.min(this.imgList.length - 1, index)]);
+    },
+    hoverOut: function hoverOut(e) {
+      var coverImg = document.getElementById(this.uid + "-coverImg");
+      var step = this.duration / this.stepNums;
+      var index = Math.ceil(this.pauseTime / step);
+      this.progressValue = index;
+      coverImg.setAttribute("src", this.pauseCover || this.coverSrc);
+    },
+    doHide: function doHide() {
+      var hide = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var videoContent = document.getElementById(this.uid + "-video");
+      videoContent.style.display = hide ? "block" : "none";
+      videoContent.currentTime = this.pauseTime;
+      hide ? videoContent.play() : videoContent.pause();
+      var img = document.getElementById(this.uid + "-coverImg");
+      img.style.display = hide ? "none" : "block";
+      var progress = document.getElementById(this.uid + "-progress");
+      progress.style.display = hide ? "none" : "block";
+      var progress1 = document.getElementById(this.uid + "-progress1");
+      progress1.style.display = hide ? "none" : "block";
+    },
+    coverClick: function coverClick() {
+      this.doHide(true);
+    },
+    cutCover: function cutCover(video, currentTime) {
+      video.currentTime = currentTime;
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+      canvas.width = parseInt(this.width);
+      canvas.height = parseInt(this.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      var img = canvas.toDataURL("image/png");
+      return img;
+    },
+    cut: function cut(video) {
+      var duration = video.duration;
+      this.duration = duration;
+      this.currentTime += duration / this.stepNums;
+      var img = this.cutCover(video, this.currentTime);
+      this.imgList.push(img);
+
+      if (this.imgList.length == 2) {
+        this.coverSrc = img;
+        var coverImg = document.getElementById(this.uid + "-coverImg");
+        coverImg.setAttribute("src", img);
+      }
+    }
+  }
+});
+// CONCATENATED MODULE: ./packages/JVideoCover/src/JVideoCover.vue?vue&type=script&lang=js&
+ /* harmony default export */ var src_JVideoCovervue_type_script_lang_js_ = (JVideoCovervue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./packages/JVideoCover/src/JVideoCover.vue?vue&type=style&index=0&lang=css&
+var JVideoCovervue_type_style_index_0_lang_css_ = __webpack_require__("6eee");
+
+// CONCATENATED MODULE: ./packages/JVideoCover/src/JVideoCover.vue
+
+
+
+
+
+
+/* normalize component */
+
+var JVideoCover_component = normalizeComponent(
+  src_JVideoCovervue_type_script_lang_js_,
+  JVideoCovervue_type_template_id_ac535fba_render,
+  JVideoCovervue_type_template_id_ac535fba_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var JVideoCover = (JVideoCover_component.exports);
+// CONCATENATED MODULE: ./packages/JVideoCover/index.js
+
+
+
+JVideoCover.install = function (Vue) {
+  return Vue.component(JVideoCover.name, JVideoCover);
+}; //注册组件
+
+
+/* harmony default export */ var packages_JVideoCover = (JVideoCover);
 // CONCATENATED MODULE: ./packages/index.js
 
 
@@ -15009,9 +15237,10 @@ JAppsLock.install = function (Vue) {
 
 
 
+
  // 存储组件列表
 
-var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip, packages_JWaterfall, packages_JBarrage, packages_JBarrageRain, packages_JAppsLock // Toast
+var components = [packages_JCalendar, packages_JTable, packages_JCanvasBroad, packages_JCodeHeightLight, packages_JFlowChart, packages_JElectronicNumber, packages_JNumRolling, packages_JDialog, packages_JHoverBtn, packages_JFloatDiv, packages_JSteps, packages_JDropDownBox, packages_JTagList, packages_JToast, packages_JWordCloud, packages_JComment, packages_JToolTip, packages_JWaterfall, packages_JBarrage, packages_JBarrageRain, packages_JAppsLock, packages_JVideoCover // Toast
 ]; // 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
 
 var install = function install(Vue) {

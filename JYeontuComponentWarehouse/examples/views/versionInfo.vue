@@ -58,6 +58,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.4.5（已发布）",
+                    descript: "增加：视频动态封面预览组件",
+                    time: "2022-07-24",
+                    icon: "4.4"
+                },
+                {
                     title: "版本0.4.4（已发布）",
                     descript:
                         "完成issues(#I5HAWD):修复评论组件表情的弹出位置不正常问题",

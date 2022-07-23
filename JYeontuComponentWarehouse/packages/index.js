@@ -26,6 +26,7 @@ import JWaterfall from "./JWaterfall";
 import JBarrage from "./JBarrage";
 import JBarrageRain from "./JBarrageRain";
 import JAppsLock from "./JAppsLock";
+import JVideoCover from "./JVideoCover";
 
 // 存储组件列表
 const components = [
@@ -49,7 +50,8 @@ const components = [
     JWaterfall,
     JBarrage,
     JBarrageRain,
-    JAppsLock
+    JAppsLock,
+    JVideoCover
     // Toast
 ];
 
