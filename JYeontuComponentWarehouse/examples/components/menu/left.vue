@@ -59,6 +59,7 @@ export default {
             }
         },
         findNodeById(node, id) {
+            if (!id) id = "";
             for (let i = 0; i < node.length; i++) {
                 if (id.toString() === node[i].id.toString()) {
                     node[i].selected = true;
@@ -106,9 +107,13 @@ export default {
                     if (menu[i].iconColor) {
                         iconColor = menu[i].iconColor;
                     }
-                    temp += `<i class="${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="${
+                        menu[i].icon
+                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
                 } else if (menu[i].icon.split("-")[0] === "icon") {
-                    temp += `<i class="iconfont ${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="iconfont ${
+                        menu[i].icon
+                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
                 }
                 temp += `${menu[i].label.trim()}`;
                 if (
