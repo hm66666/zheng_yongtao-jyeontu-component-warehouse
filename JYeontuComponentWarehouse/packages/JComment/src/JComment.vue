@@ -287,11 +287,13 @@ export default {
             lastLength: 0,
             showItem: [],
             showVEmojiPicker: false,
-            emojiTextId: ""
+            emojiTextId: "",
+            scrollTop: 0
         };
     },
     created() {
         this.initData();
+        this.initListen();
     },
     watch: {
         commentDatas() {
@@ -300,6 +302,17 @@ export default {
     },
     computed: {},
     methods: {
+        initListen() {
+            window.onscroll = function() {
+                var scrollTop =
+                    document.documentElement.scrollTop ||
+                    document.body.scrollTop;
+                let v = document.getElementById("v-emoji-picker");
+                v.style.top =
+                    parseInt(v.style.top) - (scrollTop - this.scrollTop) + "px";
+                this.scrollTop = scrollTop;
+            };
+        },
         // 表情转码
         utf16toEntities(str) {
             const patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
@@ -342,8 +355,11 @@ export default {
         },
         showEmoji(el) {
             let v = document.getElementById("v-emoji-picker");
-            v.style.left = el.pageX + 5 + "px";
-            v.style.top = el.pageY + 5 + "px";
+            const srcElement = el.srcElement;
+            v.style.left = el.x + 5 + "px";
+            v.style.top = el.y + 5 + "px";
+            this.scrollTop =
+                document.documentElement.scrollTop || document.body.scrollTop;
             this.showVEmojiPicker = !this.showVEmojiPicker;
             this.emojiTextId = el.target.id;
         },
@@ -549,8 +565,9 @@ export default {
     text-align: left;
     width: 80%;
     padding: 1rem;
+    position: relative;
     #v-emoji-picker {
-        position: absolute;
+        position: fixed;
     }
     .j-comment-content {
         width: 100%;
