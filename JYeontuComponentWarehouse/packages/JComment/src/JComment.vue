@@ -20,6 +20,7 @@
         ></textarea>
         <div v-if="withCommentContent" class="j-comment-content-btns">
             <img
+                v-if="useEmoji"
                 @click.stop="showEmoji"
                 id="comment-emoji"
                 style="width:20px;height:20px;cursor:pointer;"
@@ -83,6 +84,7 @@
             ></textarea>
             <div v-if="item.showReply" class="j-comment-reply-btns">
                 <img
+                    v-if="useEmoji"
                     class="emoji-btn"
                     @click.stop="showEmoji"
                     :id="'emoji-reply-' + index"
@@ -185,6 +187,7 @@
                     ></textarea>
                     <div v-if="children.showReply" class="j-comment-reply-btns">
                         <img
+                            v-if="useEmoji"
                             class="emoji-btn"
                             @click.stop="showEmoji"
                             :id="'emoji-reply-' + index + '-' + childrenIndex"
@@ -249,6 +252,10 @@ export default {
             default: 2
         },
         withCommentContent: {
+            type: Boolean,
+            default: true
+        },
+        useEmoji: {
             type: Boolean,
             default: true
         },

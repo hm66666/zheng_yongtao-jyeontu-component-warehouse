@@ -15,6 +15,7 @@
                     :showNumber="2"
                     :comment-datas="commentDatas"
                     :orderBy="'create_time'"
+                    :useEmoji="true"
                     @submitComment="submitComment"
                 >
                 </j-comment>
@@ -179,6 +180,12 @@ export default {
                 {
                     parameter: "withCommentContent",
                     field: "是否有评论框",
+                    type: "Boolean",
+                    describe: "默认为true"
+                },
+                {
+                    parameter: "useEmoji",
+                    field: "是否使用表情",
                     type: "Boolean",
                     describe: "默认为true"
                 },
