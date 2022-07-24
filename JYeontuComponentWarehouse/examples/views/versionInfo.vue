@@ -5,7 +5,9 @@
                 <div class="j-title">
                     版本介绍（jvuewheel）
                     <div class="j-detail">
-                        目前最新版本为0.4.5，更多好玩有用的组件正在构思中，敬请期待……
+                        目前最新版本为0.{{
+                            dataList[1].icon
+                        }}，更多好玩有用的组件正在构思中，敬请期待……
                     </div>
                 </div>
             </template>
@@ -58,10 +60,16 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.4.6（已发布）",
+                    descript: "修复评论组件相关bug",
+                    time: "2022-07-24",
+                    icon: "4.6"
+                },
+                {
                     title: "版本0.4.5（已发布）",
                     descript: "增加：视频动态封面预览组件",
                     time: "2022-07-24",
-                    icon: "4.4"
+                    icon: "4.5"
                 },
                 {
                     title: "版本0.4.4（已发布）",
