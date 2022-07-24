@@ -20,6 +20,7 @@
         ></textarea>
         <div v-if="withCommentContent" class="j-comment-content-btns">
             <img
+                v-if="useEmoji"
                 @click.stop="showEmoji"
                 id="comment-emoji"
                 style="width:20px;height:20px;cursor:pointer;"
@@ -83,6 +84,7 @@
             ></textarea>
             <div v-if="item.showReply" class="j-comment-reply-btns">
                 <img
+                    v-if="useEmoji"
                     class="emoji-btn"
                     @click.stop="showEmoji"
                     :id="'emoji-reply-' + index"
@@ -185,6 +187,7 @@
                     ></textarea>
                     <div v-if="children.showReply" class="j-comment-reply-btns">
                         <img
+                            v-if="useEmoji"
                             class="emoji-btn"
                             @click.stop="showEmoji"
                             :id="'emoji-reply-' + index + '-' + childrenIndex"
@@ -252,6 +255,10 @@ export default {
             type: Boolean,
             default: true
         },
+        useEmoji: {
+            type: Boolean,
+            default: true
+        },
         keyMap: {
             type: Object,
             default: () => {
@@ -280,11 +287,13 @@ export default {
             lastLength: 0,
             showItem: [],
             showVEmojiPicker: false,
-            emojiTextId: ""
+            emojiTextId: "",
+            scrollTop: 0
         };
     },
     created() {
         this.initData();
+        this.initListen();
     },
     watch: {
         commentDatas() {
@@ -293,6 +302,17 @@ export default {
     },
     computed: {},
     methods: {
+        initListen() {
+            window.onscroll = function() {
+                var scrollTop =
+                    document.documentElement.scrollTop ||
+                    document.body.scrollTop;
+                let v = document.getElementById("v-emoji-picker");
+                v.style.top =
+                    parseInt(v.style.top) - (scrollTop - this.scrollTop) + "px";
+                this.scrollTop = scrollTop;
+            };
+        },
         // 表情转码
         utf16toEntities(str) {
             const patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
@@ -335,8 +355,11 @@ export default {
         },
         showEmoji(el) {
             let v = document.getElementById("v-emoji-picker");
-            v.style.left = el.pageX + 5 + "px";
-            v.style.top = el.pageY + 5 + "px";
+            const srcElement = el.srcElement;
+            v.style.left = el.x + 5 + "px";
+            v.style.top = el.y + 5 + "px";
+            this.scrollTop =
+                document.documentElement.scrollTop || document.body.scrollTop;
             this.showVEmojiPicker = !this.showVEmojiPicker;
             this.emojiTextId = el.target.id;
         },
@@ -542,8 +565,9 @@ export default {
     text-align: left;
     width: 80%;
     padding: 1rem;
+    position: relative;
     #v-emoji-picker {
-        position: absolute;
+        position: fixed;
     }
     .j-comment-content {
         width: 100%;
