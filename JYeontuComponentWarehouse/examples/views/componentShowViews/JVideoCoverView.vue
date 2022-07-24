@@ -44,8 +44,8 @@ export default {
     data() {
         return {
             code: "",
-            videoUrl: require("../../assets/video/密码箱.mp4"),
-            // videoUrl: "http://jyeontu.xyz/video/202112250058.mp4",
+            // videoUrl: require("../../assets/video/密码箱.mp4"),
+            videoUrl: "http://jyeontu.xyz/video/202112250058.mp4",
             tableTitle: [
                 {
                     title: "参数", //展示列名
