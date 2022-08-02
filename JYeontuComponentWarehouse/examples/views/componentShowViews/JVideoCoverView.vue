@@ -20,11 +20,11 @@
                         :width="'384px'"
                     >
                         <template v-slot:video-info-slot>
-                            <span style="margin-left:1em;font-size:small;">
+                            <span style="margin-left:1em;font-size:medium;">
                                 <i class="el-icon-video-play"></i>
                                 <span style="margin-left:0.1em;">171.4万</span>
                             </span>
-                            <span style="margin-left:1em;font-size:small;">
+                            <span style="margin-left:1em;font-size:medium;">
                                 <i class="el-icon-chat-line-square"></i>
                                 <span style="margin-left:0.1em;">6302</span>
                             </span>
@@ -58,7 +58,7 @@ export default {
             code: "",
             videoUrl: require("../../assets/video/密码箱.mp4"),
             // videoUrl: "http://jyeontu.xyz/video/202112250058.mp4",
-            coverLongImg: "",
+            coverLongImg: require("../../assets/img/1659408054780.jpg"),
             tableTitle: [
                 {
                     title: "参数", //展示列名
@@ -118,8 +118,22 @@ export default {
             <j-video-cover
                 class="video"
                 :videoUrl="videoUrl"
-                stepNums="40"
-            ></j-video-cover>
+                stepNums="10"
+                :coverLongImg="coverLongImg"
+                :height="'206px'"
+                :width="'384px'"
+            >
+                <template v-slot:video-info-slot>
+                    <span style="margin-left:1em;font-size:medium;">
+                        <i class="el-icon-video-play"></i>
+                        <span style="margin-left:0.1em;">171.4万</span>
+                    </span>
+                    <span style="margin-left:1em;font-size:medium;">
+                        <i class="el-icon-chat-line-square"></i>
+                        <span style="margin-left:0.1em;">6302</span>
+                    </span>
+                </template>
+            </j-video-cover>
         </div>
     </div>
 </template>
@@ -128,6 +142,7 @@ export default {
         data() {
             return {
                 videoUrl: require("../../assets/video/202112250058.mp4"),
+                coverLongImg: require("../../assets/img/1659408054780.jpg")
             }
         }
     }
