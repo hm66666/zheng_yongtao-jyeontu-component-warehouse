@@ -100,7 +100,7 @@ export default {
             video: "",
             imgList: [],
             currentTime: 0,
-            duration: 100,
+            duration: 0,
             pauseTime: 0,
             coverSrc: "",
             pauseCover: "",
