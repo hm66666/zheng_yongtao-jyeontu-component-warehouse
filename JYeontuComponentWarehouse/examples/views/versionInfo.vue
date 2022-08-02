@@ -60,6 +60,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.4.7（已发布）",
+                    descript: "视频动态封面预览组件增加精灵图模式",
+                    time: "2022-08-02",
+                    icon: "4.7"
+                },
+                {
                     title: "版本0.4.6（已发布）",
                     descript: "修复评论组件相关bug",
                     time: "2022-07-24",
