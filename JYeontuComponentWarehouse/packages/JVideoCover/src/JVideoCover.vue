@@ -119,6 +119,7 @@ export default {
             this.uid = getUId();
         },
         calcTime(seconds) {
+            if (seconds == 0) return "";
             seconds = parseInt(seconds);
             let h = Math.floor(seconds / 3600);
             h = h > 9 ? h : "0" + h;
