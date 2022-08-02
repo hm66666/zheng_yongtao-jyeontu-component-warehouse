@@ -14,7 +14,7 @@
                     <j-video-cover
                         class="video"
                         :videoUrl="videoUrl"
-                        stepNums="10"
+                        stepNums="15"
                         :coverLongImg="coverLongImg"
                         :height="'206px'"
                         :width="'384px'"
@@ -58,7 +58,7 @@ export default {
             code: "",
             videoUrl: require("../../assets/video/密码箱.mp4"),
             // videoUrl: "http://jyeontu.xyz/video/202112250058.mp4",
-            coverLongImg: require("../../assets/img/1659408054780.jpg"),
+            coverLongImg: require("../../assets/img/1659429006156.jpg"),
             tableTitle: [
                 {
                     title: "参数", //展示列名
@@ -118,7 +118,7 @@ export default {
             <j-video-cover
                 class="video"
                 :videoUrl="videoUrl"
-                stepNums="10"
+                stepNums="15"
                 :coverLongImg="coverLongImg"
                 :height="'206px'"
                 :width="'384px'"
