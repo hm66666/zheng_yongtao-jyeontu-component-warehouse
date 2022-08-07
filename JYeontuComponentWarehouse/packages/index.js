@@ -27,6 +27,7 @@ import JBarrage from "./JBarrage";
 import JBarrageRain from "./JBarrageRain";
 import JAppsLock from "./JAppsLock";
 import JVideoCover from "./JVideoCover";
+import J3DSwipe from "./J3DSwipe";
 
 // 存储组件列表
 const components = [
@@ -51,7 +52,8 @@ const components = [
     JBarrage,
     JBarrageRain,
     JAppsLock,
-    JVideoCover
+    JVideoCover,
+    J3DSwipe
     // Toast
 ];
 

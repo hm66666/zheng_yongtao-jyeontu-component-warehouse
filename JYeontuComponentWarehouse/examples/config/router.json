@@ -292,6 +292,18 @@
             "children": []
         },
         {
+            "id": 28,
+            "name": "J3DSwipe",
+            "path": "/J3DSwipe",
+            "label": "3D轮播图",
+            "selected": false,
+            "icon": "icon-suoding",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/J3DSwipeView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
