@@ -1,44 +1,124 @@
 <template>
-    <div class="j-3d-swipe">
-        <base
-            href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/wanaka-tree.jpg"
-        />
+    <div
+        :id="uid + '-j-3d-swipe'"
+        class="j-3d-swipe"
+        :style="{
+            '--maxWidth': maxWidth
+        }"
+    >
         <div id="carousel">
-            <figure id="spinner">
-                <img src="wanaka-tree.jpg" alt />
-                <img src="still-lake.jpg" alt />
-                <img src="pink-milford-sound.jpg" alt />
-                <img src="paradise.jpg" alt />
-                <img src="morekai.jpg" alt />
-                <img src="milky-blue-lagoon.jpg" alt />
-                <img src="lake-tekapo.jpg" alt />
-                <img src="milford-sound.jpg" alt />
+            <figure :id="uid + '-spinner'" class="spinner">
+                <img
+                    v-for="(item, index) in imgList"
+                    :key="'img-' + index"
+                    :src="item"
+                    :class="uid + '-img img'"
+                    @mouseenter="mouseenter"
+                    @mouseleave="mouseleave"
+                />
             </figure>
         </div>
-        <span style="float:left" class="ss-icon" @click="galleryspin('-')"
-            >&lt;</span
-        >
-        <span style="float:right" class="ss-icon" @click="galleryspin('')"
-            >&gt;</span
-        >
     </div>
 </template>
 
 <script>
+import { getUId } from "../../utils/strTool";
 export default {
     name: "J3DSwipe",
+    props: {
+        maxWidth: {
+            type: String,
+            default: "150px"
+        },
+        hoverPause: {
+            type: Boolean,
+            default: true
+        },
+        blurPause: {
+            type: Boolean,
+            default: true
+        },
+        speed: {
+            type: String,
+            default: "1500"
+        },
+        multiple: {
+            type: String,
+            default: "1.4"
+        },
+        autoPlay: {
+            type: Boolean,
+            default: true
+        },
+        imgList: {
+            type: Array,
+            default: () => {
+                return [];
+            }
+        }
+    },
     data() {
         return {
-            angle: 0
+            uid: "",
+            angle: 0,
+            isActive: true,
+            mouseHover: false
+        };
+    },
+    mounted() {
+        this.initView();
+        if (this.autoPlay) {
+            setInterval(() => {
+                this.galleryspin();
+            }, this.speed);
+        }
+    },
+    created() {
+        this.setUid();
+        window.onfocus = () => {
+            this.isActive = true;
+        };
+        window.onblur = () => {
+            this.isActive = false;
         };
     },
     methods: {
+        mouseleave(e) {
+            const el = e.target;
+            const newWidth = parseInt(el.offsetWidth) / this.multiple + "px";
+            el.style.width = newWidth;
+            el.style.maxWidth = newWidth;
+            this.mouseHover = false;
+        },
+        mouseenter(e) {
+            const el = e.target;
+            const newWidth = parseInt(el.offsetWidth) * this.multiple + "px";
+            el.style.width = newWidth;
+            el.style.maxWidth = newWidth;
+            this.mouseHover = true;
+        },
+        setUid() {
+            this.uid = getUId();
+        },
+        initView() {
+            const imgs = document.getElementsByClassName(`${this.uid}-img`);
+            for (let i = 0; i < imgs.length; i++) {
+                const angle = (360 / imgs.length) * i;
+                imgs[i].setAttribute(
+                    "style",
+                    `transform: rotateY(-${angle}deg)`
+                );
+            }
+        },
         galleryspin(sign) {
-            const spinner = document.querySelector("#spinner");
+            if (this.blurPause && !this.isActive) return;
+            if (this.hoverPause && this.mouseHover) return;
+            const id = this.uid + "-spinner";
+            const spinner = document.getElementById(id);
             if (!sign) {
-                this.angle = this.angle + 45;
+                this.angle = this.angle + 360 / this.imgList.length;
             } else {
-                this.angle = this.angle - 45;
+                this.angle = this.angle - 360 / this.imgList.length;
             }
             spinner.setAttribute(
                 "style",
@@ -55,67 +135,23 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" vars="{ maxWidth }" scoped>
 div#carousel {
     perspective: 1200px;
-    background: #100000;
-    padding-top: 10%;
     font-size: 0;
-    margin-bottom: 3rem;
     overflow: hidden;
 }
-figure#spinner {
+figure.spinner {
     transform-style: preserve-3d;
-    height: 300px;
     transform-origin: 50% 50% -500px;
+    height: 200px;
     transition: 1s;
 }
-figure#spinner img {
-    width: 40%;
-    max-width: 425px;
+figure.spinner img {
+    max-width: var(--maxWidth);
     position: absolute;
-    left: 30%;
+    left: 40%;
     transform-origin: 50% 50% -500px;
     outline: 1px solid transparent;
-}
-figure#spinner img:nth-child(1) {
-    transform: rotateY(0deg);
-}
-figure#spinner img:nth-child(2) {
-    transform: rotateY(-45deg);
-}
-figure#spinner img:nth-child(3) {
-    transform: rotateY(-90deg);
-}
-figure#spinner img:nth-child(4) {
-    transform: rotateY(-135deg);
-}
-figure#spinner img:nth-child(5) {
-    transform: rotateY(-180deg);
-}
-figure#spinner img:nth-child(6) {
-    transform: rotateY(-225deg);
-}
-figure#spinner img:nth-child(7) {
-    transform: rotateY(-270deg);
-}
-figure#spinner img:nth-child(8) {
-    transform: rotateY(-315deg);
-}
-div#carousel ~ span {
-    color: #fff;
-    margin: 5%;
-    display: inline-block;
-    text-decoration: none;
-    font-size: 2rem;
-    transition: 0.6s color;
-    position: relative;
-    margin-top: -6rem;
-    border-bottom: none;
-    line-height: 0;
-}
-div#carousel ~ span:hover {
-    color: #888;
-    cursor: pointer;
 }
 </style>

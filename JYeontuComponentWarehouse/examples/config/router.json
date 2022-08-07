@@ -281,14 +281,14 @@
         },
         {
             "id": 27,
-            "name": "3DSwipe",
-            "path": "/3DSwipe",
+            "name": "J3DSwipe",
+            "path": "/J3DSwipe",
             "label": "3D轮播图",
             "selected": false,
             "icon": "icon-suoding",
             "open": false,
             "hide": false,
-            "component": "views/componentShowViews/3DSwipeView.vue",
+            "component": "views/componentShowViews/J3DSwipeView.vue",
             "children": []
         },
         {
