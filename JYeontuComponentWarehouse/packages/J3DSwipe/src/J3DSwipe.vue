@@ -9,6 +9,7 @@
         <div id="carousel">
             <figure :id="uid + '-spinner'" class="spinner">
                 <img
+                    alt=""
                     v-for="(item, index) in imgList"
                     :key="'img-' + index"
                     :src="item"
