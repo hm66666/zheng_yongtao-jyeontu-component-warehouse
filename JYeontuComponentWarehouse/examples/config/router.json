@@ -304,6 +304,18 @@
             "children": []
         },
         {
+            "id": 29,
+            "name": "JGiteeInfoTag",
+            "path": "/JGiteeInfoTag",
+            "label": "gitee信息",
+            "selected": false,
+            "icon": "icon-lunbotu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JGiteeInfoTagView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",

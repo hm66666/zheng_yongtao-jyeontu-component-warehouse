@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1251375",
+      "name": "watch",
+      "font_class": "watch",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "4766954",
+      "name": "star",
+      "font_class": "star1",
+      "unicode": "e7df",
+      "unicode_decimal": 59359
+    },
+    {
+      "icon_id": "4767091",
+      "name": "code",
+      "font_class": "code",
+      "unicode": "e7fc",
+      "unicode_decimal": 59388
+    },
+    {
+      "icon_id": "10448496",
+      "name": "fork",
+      "font_class": "fork",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "14943135",
+      "name": "详情",
+      "font_class": "xiangqing",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
       "icon_id": "3023661",
       "name": "文案封面",
       "font_class": "wenanfengmian",
