@@ -60,6 +60,12 @@ export default {
                     icon: "进"
                 },
                 {
+                    title: "版本0.5.1（已发布）",
+                    descript: "增加刮刮卡组件",
+                    time: "2022-08-22",
+                    icon: "5.1"
+                },
+                {
                     title: "版本0.5.0（已发布）",
                     descript: "增加3D轮播图组件",
                     time: "2022-08-08",

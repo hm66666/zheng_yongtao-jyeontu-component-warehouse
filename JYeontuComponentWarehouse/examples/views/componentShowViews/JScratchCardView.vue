@@ -10,10 +10,23 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-scratch-card>
+                <j-scratch-card
+                    :block="block"
+                    :width="'300px'"
+                    :height="'300px'"
+                    :mode="'dom'"
+                    :color="'gray'"
+                >
                     <template v-slot:j-scratch-card-bg-slot>
-                        <div>
-                            <img alt="" src="../../assets/test.jpg" />
+                        <div class="j-scratch-card-bg-slot">
+                            <div class="slot-text-title">特等奖</div>
+                            <div class="slot-text-content">
+                                恭喜您获得
+                                <span class="bold">1年带薪调休假期</span>
+                            </div>
+                            <div class="slot-text-dec">
+                                本奖项的中奖几率为0.001%，恭喜您成为本次活动的天选之子，获得本次活动的特等奖，可凭此卡到财务办理相关手续进行调休安排，在此预祝您假期愉快。
+                            </div>
                         </div>
                     </template>
                 </j-scratch-card>
@@ -42,15 +55,9 @@ export default {
     data() {
         return {
             code: "",
-            textStyle: {
-                borderBottom: "1px dotted skyblue",
-                fontSize: "large",
-                color: "skyblue"
-            },
-            toolTipStyle: {
-                backgroundColor: "grey",
-                color: "skyblue",
-                width: "100px"
+            block: {
+                width: "20px",
+                height: "20px"
             },
             tableTitle: [
                 {
@@ -107,88 +114,112 @@ export default {
             this.code = `
 <template>
     <div class="content">
-        <p>
-            hover
-            <j-tool-tip
-                tipText="one"
-                :textStyle="textStyle"
-                :toolTipStyle="toolTipStyle"
-                >here
-            </j-tool-tip>
-            to see one.
-        </p>
-        <p>
-            hover
-            <j-tool-tip tipText="another">here </j-tool-tip>
-            to see another.
-        </p>
+        <j-scratch-card
+            :block="block"
+            :width="'300px'"
+            :height="'300px'"
+            :mode="'dom'"
+            :color="'gray'"
+        >
+            <template v-slot:j-scratch-card-bg-slot>
+                <div class="j-scratch-card-bg-slot">
+                    <div class="slot-text-title">特等奖</div>
+                    <div class="slot-text-content">
+                        恭喜您获得
+                        <span class="bold">1年带薪调休假期</span>
+                    </div>
+                    <div class="slot-text-dec">
+                        本奖项的中奖几率为0.001%，恭喜您成为本次活动的天选之子，获得本次活动的特等奖，可凭此卡到财务办理相关手续进行调休安排，在此预祝您假期愉快。
+                    </div>
+                </div>
+            </template>
+        </j-scratch-card>
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
-                textStyle: {
-                    borderBottom: "1px dotted skyblue",
-                    fontSize: "large",
+                block: {
+                    width: "20px",
+                    height: "20px",
                     color: "skyblue"
-                },
-                toolTipStyle: {
-                    backgroundColor: "grey",
-                    color: "skyblue",
-                    width: "100px"
                 },
             }
         }
     }
 <\/script>
+<style scoped lang="scss">
+.j-scratch-card-bg-slot {
+    width: 298px;
+    height: 298px;
+    border: 1px solid skyblue;
+    background-image: linear-gradient(
+        to right,
+        rgba(160, 34, 34, 0),
+        rgb(21, 163, 245)
+    );
+    .slot-text-title {
+        font-size: x-large;
+        text-align: center;
+        font-weight: bolder;
+        padding: 1em;
+    }
+    .slot-text-content {
+        text-align: center;
+        padding-top: 1em;
+        font-size: medium;
+        .bold {
+            font-size: large;
+            color: orange;
+            font-weight: bolder;
+        }
+    }
+    .slot-text-dec {
+        text-align: left;
+        font-size: small;
+        text-indent: 2em;
+        line-height: 1.5em;
+        padding: 1em 0.5em;
+    }
+}
+</style>
             `;
         },
         initTableData() {
             this.tableData = [
                 {
-                    parameter: "tipText",
-                    field: "提示内容",
+                    parameter: "width",
+                    field: "刮刮卡宽度",
                     type: "String",
-                    describe: ""
+                    describe: "默认为300px"
                 },
                 {
-                    parameter: "textStyle",
-                    field: "文字样式",
+                    parameter: "height",
+                    field: "刮刮卡高度",
+                    type: "String",
+                    describe: "默认为200px"
+                },
+                {
+                    parameter: "mode",
+                    field: "刮刮卡模式",
+                    type: "String",
+                    describe: "默认为canvas,其他则为dom"
+                },
+                {
+                    parameter: "color",
+                    field: "刮刮卡涂层颜色",
+                    type: "String",
+                    describe: "默认为gray"
+                },
+                {
+                    parameter: "block",
+                    field: "遮罩小块配置",
                     type: "Object",
-                    describe: "设置文字样式，如下划线样式",
+                    describe: "设置遮罩小块的属性参数",
                     children: {
                         type: "text",
-                        text: '{"border-bottom": "1px dotted black"}'
-                    }
-                },
-                {
-                    parameter: "toolTipStyle",
-                    field: "提示框内容样式",
-                    type: "Object",
-                    describe: "具体配置如下",
-                    children: {
-                        title: this.tableTitle,
-                        data: [
-                            {
-                                parameter: "backgroundColor",
-                                field: "提示框背景颜色",
-                                type: "String",
-                                describe: "默认为#062b45"
-                            },
-                            {
-                                parameter: "color",
-                                field: "提示框字体颜色",
-                                type: "String",
-                                describe: "默认为#fff"
-                            },
-                            {
-                                parameter: "width",
-                                field: "提示框宽度",
-                                type: "String",
-                                describe: "默认为100px"
-                            }
-                        ]
+                        text: '{width: "20px",height: "20px"}'
                     }
                 }
             ];
@@ -197,6 +228,39 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.j-scratch-card-bg-slot {
+    width: 298px;
+    height: 298px;
+    border: 1px solid skyblue;
+    background-image: linear-gradient(
+        to right,
+        rgba(160, 34, 34, 0),
+        rgb(21, 163, 245)
+    );
+    .slot-text-title {
+        font-size: x-large;
+        text-align: center;
+        font-weight: bolder;
+        padding: 1em;
+    }
+    .slot-text-content {
+        text-align: center;
+        padding-top: 1em;
+        font-size: medium;
+        .bold {
+            font-size: large;
+            color: orange;
+            font-weight: bolder;
+        }
+    }
+    .slot-text-dec {
+        text-align: left;
+        font-size: small;
+        text-indent: 2em;
+        line-height: 1.5em;
+        padding: 1em 0.5em;
+    }
+}
 .title {
     font-size: x-large;
     text-align: left;
