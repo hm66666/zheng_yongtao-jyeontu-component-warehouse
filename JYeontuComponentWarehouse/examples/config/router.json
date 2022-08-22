@@ -304,6 +304,18 @@
             "children": []
         },
         {
+            "id": 29,
+            "name": "JScratchCard",
+            "path": "/JScratchCard",
+            "label": "刮刮卡",
+            "selected": false,
+            "icon": "icon-lunbotu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JScratchCardView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
