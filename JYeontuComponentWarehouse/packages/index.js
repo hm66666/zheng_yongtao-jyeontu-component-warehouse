@@ -29,6 +29,7 @@ import JAppsLock from "./JAppsLock";
 import JVideoCover from "./JVideoCover";
 import J3DSwipe from "./J3DSwipe";
 import JScratchCard from "./JScratchCard";
+import JGiteeInfoTag from "./JGiteeInfoTag";
 
 // 存储组件列表
 const components = [
@@ -55,7 +56,8 @@ const components = [
     JAppsLock,
     JVideoCover,
     J3DSwipe,
-    JScratchCard
+    JScratchCard,
+    JGiteeInfoTag
     // Toast
 ];
 
