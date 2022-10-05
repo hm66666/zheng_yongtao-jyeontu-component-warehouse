@@ -2,15 +2,20 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                悬浮提示（JToolTip）
+                Gitee仓库信息组件（JGiteeInfoTag）
                 <div class="j-detail">
-                    动态工具悬浮提示
+                    Gitee仓库信息组件
                 </div>
             </div>
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-gitee-info-tag></j-gitee-info-tag>
+                <j-gitee-info-tag
+                    v-for="(item, index) in repoList"
+                    :key="'repo-' + index"
+                    :repo="item.repo"
+                    :owner="item.owner"
+                ></j-gitee-info-tag>
             </div>
         </template>
         <template v-slot:right-p>
@@ -88,7 +93,21 @@ export default {
                     sort: false // 是否支持排序
                 }
             ],
-            tableData: []
+            tableData: [],
+            repoList: [
+                {
+                    owner: "zheng_yongtao",
+                    repo: "jyeontu-component-warehouse"
+                },
+                {
+                    owner: "zheng_yongtao",
+                    repo: "me-and-my-doodle"
+                },
+                {
+                    owner: "peng_zhihui",
+                    repo: "HelloWord-Keyboard"
+                }
+            ]
         };
     },
     created() {
@@ -141,49 +160,16 @@ export default {
         initTableData() {
             this.tableData = [
                 {
-                    parameter: "tipText",
-                    field: "提示内容",
+                    parameter: "owner",
+                    field: "仓库作者",
                     type: "String",
-                    describe: ""
+                    describe: "仓库作者"
                 },
                 {
-                    parameter: "textStyle",
-                    field: "文字样式",
-                    type: "Object",
-                    describe: "设置文字样式，如下划线样式",
-                    children: {
-                        type: "text",
-                        text: '{"border-bottom": "1px dotted black"}'
-                    }
-                },
-                {
-                    parameter: "toolTipStyle",
-                    field: "提示框内容样式",
-                    type: "Object",
-                    describe: "具体配置如下",
-                    children: {
-                        title: this.tableTitle,
-                        data: [
-                            {
-                                parameter: "backgroundColor",
-                                field: "提示框背景颜色",
-                                type: "String",
-                                describe: "默认为#062b45"
-                            },
-                            {
-                                parameter: "color",
-                                field: "提示框字体颜色",
-                                type: "String",
-                                describe: "默认为#fff"
-                            },
-                            {
-                                parameter: "width",
-                                field: "提示框宽度",
-                                type: "String",
-                                describe: "默认为100px"
-                            }
-                        ]
-                    }
+                    parameter: "repo",
+                    field: "仓库名",
+                    type: "String",
+                    describe: "仓库名"
                 }
             ];
         }
