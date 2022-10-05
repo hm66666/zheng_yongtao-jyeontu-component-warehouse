@@ -41,16 +41,6 @@ export default {
     data() {
         return {
             code: "",
-            textStyle: {
-                borderBottom: "1px dotted skyblue",
-                fontSize: "large",
-                color: "skyblue"
-            },
-            toolTipStyle: {
-                backgroundColor: "grey",
-                color: "skyblue",
-                width: "100px"
-            },
             tableTitle: [
                 {
                     title: "参数", //展示列名
@@ -120,37 +110,31 @@ export default {
             this.code = `
 <template>
     <div class="content">
-        <p>
-            hover
-            <j-tool-tip
-                tipText="one"
-                :textStyle="textStyle"
-                :toolTipStyle="toolTipStyle"
-                >here
-            </j-tool-tip>
-            to see one.
-        </p>
-        <p>
-            hover
-            <j-tool-tip tipText="another">here </j-tool-tip>
-            to see another.
-        </p>
+        <j-gitee-info-tag
+            v-for="(item, index) in repoList"
+            :key="'repo-' + index"
+            :repo="item.repo"
+            :owner="item.owner"
+        ></j-gitee-info-tag>
     </div>
 </template>
 <script>
     export default {
         data() {
             return {
-                textStyle: {
-                    borderBottom: "1px dotted skyblue",
-                    fontSize: "large",
-                    color: "skyblue"
+                repoList: [
+                {
+                    owner: "zheng_yongtao",
+                    repo: "jyeontu-component-warehouse"
                 },
-                toolTipStyle: {
-                    backgroundColor: "grey",
-                    color: "skyblue",
-                    width: "100px"
+                {
+                    owner: "zheng_yongtao",
+                    repo: "me-and-my-doodle"
                 },
+                {
+                    owner: "peng_zhihui",
+                    repo: "HelloWord-Keyboard"
+                }]
             }
         }
     }
