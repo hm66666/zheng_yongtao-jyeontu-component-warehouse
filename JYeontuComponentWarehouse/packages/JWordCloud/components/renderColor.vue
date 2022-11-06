@@ -19,7 +19,7 @@ export default {
             // 保存图片路径的数组
             var urlArr = [
                 "https://www.kkkk1000.com/images/globalCompositeOperation/bg2.png",
-                "https://www.kkkk1000.com/images/globalCompositeOperation/clear.png"
+                "https://www.kkkk1000.com/images/globalCompositeOperation/clear.png",
             ];
             // imgArr 保存加载后的图片的数组，imgArr中保存的是真实的图片
             // loadImg 函数用来加载 urlArr 中所有的图片
@@ -44,7 +44,7 @@ export default {
                     img.src = url;
                     // 不管当前图片是否加载成功，都要加载下一张图片
                     img.onload = next;
-                    img.onerror = function() {
+                    img.onerror = function () {
                         console.log(res[index] + "加载失败");
                         next();
                     };
@@ -106,12 +106,12 @@ export default {
                     }
                 }
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 canvas {
     /* 设置鼠标的光标是一张图片， 16和22 分别表示热点的X坐标和Y坐标 */
     /* https://developer.mozilla.org/zh-CN/docs/Web/CSS/cursor/url */

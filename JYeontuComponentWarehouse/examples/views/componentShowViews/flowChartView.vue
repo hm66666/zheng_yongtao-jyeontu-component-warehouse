@@ -2,9 +2,7 @@
     <div>
         <div class="j-title">
             流程图组件（JFlowchart）
-            <div class="j-detail">
-                可拖拽流程图组件
-            </div>
+            <div class="j-detail">可拖拽流程图组件</div>
         </div>
         <div class="view-body">
             <div class="flowchart-body">
@@ -41,41 +39,41 @@ export default {
                 data: [
                     {
                         icon: require("@/assets/logo.png"),
-                        text: "准备"
+                        text: "准备",
                     },
                     {
                         icon: require("@/assets/1.png"),
-                        text: "开始"
+                        text: "开始",
                     },
                     {
                         icon: require("@/assets/test.jpg"),
-                        text: "开发"
+                        text: "开发",
                     },
                     {
                         icon: require("@/assets/1.png"),
-                        text: "测试"
+                        text: "测试",
                     },
                     {
                         icon: require("@/assets/logo.png"),
-                        text: "完成"
+                        text: "完成",
                     },
                     {
                         icon: require("@/assets/1.png"),
-                        text: "开始"
+                        text: "开始",
                     },
                     {
                         icon: require("@/assets/test.jpg"),
-                        text: "开发"
+                        text: "开发",
                     },
                     {
                         icon: require("@/assets/1.png"),
-                        text: "测试"
+                        text: "测试",
                     },
                     {
                         icon: "",
-                        text: "完成"
-                    }
-                ]
+                        text: "完成",
+                    },
+                ],
             },
             title: [
                 {
@@ -86,7 +84,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -96,7 +94,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -106,7 +104,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -116,60 +114,60 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "title",
                     field: "标题",
                     type: "String",
-                    describe: "顶部显示标题"
+                    describe: "顶部显示标题",
                 },
                 {
                     parameter: "dragAble",
                     field: "拖拽",
                     type: "Boolean",
-                    describe: "是否可拖拽，默认为false"
+                    describe: "是否可拖拽，默认为false",
                 },
                 {
                     parameter: "width",
                     field: "宽度",
                     type: "Number",
-                    describe: "每个流程的宽度"
+                    describe: "每个流程的宽度",
                 },
                 {
                     parameter: "data",
                     field: "流程数据",
                     type: "Array",
-                    describe: "定义流程配置信息，具体如下表"
+                    describe: "定义流程配置信息，具体如下表",
                 },
                 {
                     parameter: "radius",
                     field: "圆角",
                     type: "Boolean",
-                    describe: "流程icon是否为圆角"
-                }
+                    describe: "流程icon是否为圆角",
+                },
             ],
             tableData1: [
                 {
                     parameter: "icon",
                     field: "图标",
                     type: "require图片数据",
-                    describe: "注意要使用require，组件才可以接收到图片"
+                    describe: "注意要使用require，组件才可以接收到图片",
                 },
                 {
                     parameter: "text",
                     field: "显示文字",
                     type: "String",
-                    describe: "icon下方显示的文字"
-                }
+                    describe: "icon下方显示的文字",
+                },
             ],
             code: "",
             cmOptions: {
                 mode: "text/javascript",
-                theme: "base16-dark"
-            }
+                theme: "base16-dark",
+            },
         };
     },
     created() {
@@ -177,7 +175,7 @@ export default {
         let data = this.chartData.data;
         this.tableData[3].children = {
             title: this.title,
-            data: this.tableData1
+            data: this.tableData1,
         };
         this.chartData.data = this.chartData.data.concat([...data]);
         this.chartData.data = this.chartData.data.concat([...data]);
@@ -239,11 +237,11 @@ export default {
         }
 <\/script>
       `;
-    }
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .title {
     font-size: x-large;
     text-align: left;

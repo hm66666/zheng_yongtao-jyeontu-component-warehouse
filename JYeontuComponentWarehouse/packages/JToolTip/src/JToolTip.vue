@@ -3,7 +3,7 @@
         :style="{
             '--backgroundColor': toolTipStyle.backgroundColor,
             '--color': toolTipStyle.color,
-            '--width': toolTipStyle.width
+            '--width': toolTipStyle.width,
         }"
     >
         <span
@@ -23,15 +23,15 @@ export default {
     props: {
         tipText: {
             type: String,
-            default: "Tooltip Content"
+            default: "Tooltip Content",
         },
         textStyle: {
             type: Object,
             default: () => {
                 return {
-                    "border-bottom": "1px dotted black"
+                    "border-bottom": "1px dotted black",
                 };
-            }
+            },
         },
         toolTipStyle: {
             type: Object,
@@ -39,16 +39,16 @@ export default {
                 return {
                     backgroundColor: "#062b45",
                     color: "#fff",
-                    width: "100px"
+                    width: "100px",
                 };
-            }
-        }
+            },
+        },
     },
     computed: {},
     data() {
         return {
             uid: "",
-            tipStyle: {}
+            tipStyle: {},
         };
     },
     created() {
@@ -65,12 +65,12 @@ export default {
                 styleStr += _toLittleCamel(key) + ":" + textStyle[key] + ";";
             }
             return styleStr;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style vars="{ backgroundColor, color, width }" lang="scss" scoped>
+<style vars="{ backgroundColor, color, width }" lang="less" scoped>
 .j-tooltip {
     position: relative;
     border-bottom: 1px dotted black;

@@ -49,43 +49,43 @@ export default {
             type: Array,
             default: () => {
                 return ["测试1", "测试2"];
-            }
+            },
         },
         //允许删除
         canDelete: {
             type: Boolean,
-            default: true
+            default: true,
         },
         //允许重复
         canRepeat: {
             type: Boolean,
-            default: false
+            default: false,
         },
         //标签背景颜色
         tagColor: {
             type: Array,
             default: () => {
                 return ["orange"];
-            }
+            },
         },
         //仅展示
         isShow: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     data() {
         return {
             addTagFlag: false,
             inputTag: "",
             showTagList: [],
-            uId: ""
+            uId: "",
         };
     },
     watch: {
         tagList(newVal) {
             this.initTagStyle();
-        }
+        },
     },
     created() {
         this.getUId();
@@ -110,7 +110,7 @@ export default {
         },
         initTagStyle() {
             let showTagList = [];
-            this.tagList.map(item => {
+            this.tagList.map((item) => {
                 showTagList.push({ text: item, style: this.getTagStyle() });
             });
             this.showTagList = showTagList;
@@ -149,19 +149,19 @@ export default {
                 if (this.tagList.length > this.showTagList.length) {
                     this.showTagList.push({
                         text: this.inputTag,
-                        style: this.getTagStyle()
+                        style: this.getTagStyle(),
                     });
                     this.$emit("addTag", this.inputTag);
                 }
                 this.inputTag = "";
             }
             this.hideAddTag();
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-tag-list {
     .tag-list {
         display: flex;

@@ -70,14 +70,14 @@ export default {
                 "https://img2.baidu.com/it/u=2922694860,2270800253&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
                 "https://img0.baidu.com/it/u=595403291,2269048245&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
                 "https://img0.baidu.com/it/u=1164365158,2722332607&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
-                "https://img2.baidu.com/it/u=9876582,1040648435&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
+                "https://img2.baidu.com/it/u=9876582,1040648435&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
             ],
             firstClick: {},
             setTimeFlag: null,
             playTime: 0,
             removeNums: 0,
             lineLists: [],
-            speed: 0.2
+            speed: 0.2,
         };
     },
     created() {
@@ -101,7 +101,7 @@ export default {
             m = m > 9 ? m : "0" + m;
             s = playTime > 9 ? playTime : "0" + playTime;
             return h + ":" + m + ":" + s;
-        }
+        },
     },
     methods: {
         test() {
@@ -115,7 +115,7 @@ export default {
                 [2, 8],
                 [2, 7],
                 [1, 7],
-                [1, 6]
+                [1, 6],
             ];
             let lines = this.getLine(steps);
         },
@@ -250,7 +250,7 @@ export default {
             let lines = [];
             let temp = {
                 startX: steps[0][0],
-                startY: steps[0][1]
+                startY: steps[0][1],
             };
             let flag = "";
             for (let i = 1; i < steps.length; i++) {
@@ -264,7 +264,7 @@ export default {
                     lines.push({ ...temp });
                     temp = {
                         startX: steps[i - 1][0],
-                        startY: steps[i - 1][1]
+                        startY: steps[i - 1][1],
                     };
                 }
                 if (steps[i][0] == temp.startX) flag = "x";
@@ -439,8 +439,8 @@ export default {
                 }
             }
             this.firstClick = firstClick;
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped>
@@ -469,7 +469,7 @@ export default {
     height: 0;
 }
 </style>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .line-block-body {
     display: flex;
     flex-wrap: wrap;

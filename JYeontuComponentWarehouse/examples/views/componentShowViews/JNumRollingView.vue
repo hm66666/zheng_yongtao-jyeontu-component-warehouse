@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 数字滚动变化效果（JNumRolling）
-                <div class="j-detail">
-                    数字滚动变化效果组件
-                </div>
+                <div class="j-detail">数字滚动变化效果组件</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -41,7 +39,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JNumRollingView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -49,7 +47,7 @@ export default {
             numStyle: {
                 border: "2px solid skyblue",
                 boxShadow: "10px 10px 5px #185D8C",
-                marginLeft: "0.5rem"
+                marginLeft: "0.5rem",
             },
             code: "",
             tableTitle: [
@@ -61,7 +59,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -71,7 +69,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -81,7 +79,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -91,47 +89,47 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "nums",
                     field: "数字",
                     type: "String",
-                    describe: "需要滚动的数字"
+                    describe: "需要滚动的数字",
                 },
                 {
                     parameter: "fontSize",
                     field: "数字尺寸，行高",
                     type: "Number",
-                    describe: "默认为4，fone-size为参数除于3"
+                    describe: "默认为4，fone-size为参数除于3",
                 },
                 {
                     parameter: "stepTime",
                     field: "滚动速度",
                     type: "Number",
-                    describe: "每走一步的时间(ms)，默认值为200"
+                    describe: "每走一步的时间(ms)，默认值为200",
                 },
                 {
                     parameter: "fixNum",
                     field: "保留小数点",
                     type: "Number",
-                    describe: "数字保留小数点，默认为2"
+                    describe: "数字保留小数点，默认为2",
                 },
                 {
                     parameter: "numStyle",
                     field: "自定义数字格子样式",
                     type: "Object",
-                    describe: ""
+                    describe: "",
                 },
                 {
                     parameter: "refreshTime",
                     field: "数字刷新间隔",
                     type: "Number",
-                    describe: "数字刷新间隔(s)，默认为3"
-                }
-            ]
+                    describe: "数字刷新间隔(s)，默认为3",
+                },
+            ],
         };
     },
     created() {
@@ -185,11 +183,11 @@ export default {
             setTimeout(() => {
                 this.autoChange();
             }, 5000);
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

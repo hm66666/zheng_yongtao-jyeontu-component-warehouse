@@ -67,32 +67,32 @@ export default {
     props: {
         width: {
             type: String,
-            default: "300px"
+            default: "300px",
         },
         height: {
             type: String,
-            default: "200px"
+            default: "200px",
         },
         stepNums: {
             type: String,
-            default: "30"
+            default: "30",
         },
         videoUrl: {
             type: String,
-            default: ""
+            default: "",
         },
         loop: {
             type: Boolean,
-            default: false
+            default: false,
         },
         showDuration: {
             type: Boolean,
-            default: true
+            default: true,
         },
         coverLongImg: {
             type: String,
-            default: ""
-        }
+            default: "",
+        },
     },
     data() {
         return {
@@ -104,7 +104,7 @@ export default {
             pauseTime: 0,
             coverSrc: "",
             pauseCover: "",
-            progressValue: 0
+            progressValue: 0,
         };
     },
     computed: {},
@@ -282,12 +282,12 @@ export default {
                 );
                 coverImg.setAttribute("src", img);
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-video-cover {
     position: relative;
 }

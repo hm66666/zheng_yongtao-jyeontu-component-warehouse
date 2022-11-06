@@ -26,22 +26,22 @@ export default {
             default: [
                 {
                     label: "tab",
-                    id: "tab"
+                    id: "tab",
                 },
                 {
                     label: "tab1",
-                    id: "tab1"
-                }
-            ]
+                    id: "tab1",
+                },
+            ],
         },
         defaultShowTab: {
             type: Number,
-            default: 0
-        }
+            default: 0,
+        },
     },
     data() {
         return {
-            showTab: 0
+            showTab: 0,
         };
     },
     created() {
@@ -61,12 +61,12 @@ export default {
                 res += "active-tab";
             }
             return res + " " + val;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="less" scoped="scoped">
 .j-tab-bar {
     .bar-items {
         display: flex;

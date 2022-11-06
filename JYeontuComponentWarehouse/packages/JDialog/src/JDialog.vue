@@ -41,11 +41,11 @@ export default {
     props: {
         title: {
             type: String,
-            default: "我是标题"
+            default: "我是标题",
         },
         closable: {
             type: Boolean,
-            default: false
+            default: false,
         },
         btnList: {
             type: Array,
@@ -53,22 +53,22 @@ export default {
                 {
                     text: "取消",
                     style: {
-                        backgroundColor: "orangered"
+                        backgroundColor: "orangered",
                     },
-                    click: "close"
+                    click: "close",
                 },
                 {
                     text: "确认",
                     style: {
-                        backgroundColor: "seagreen"
-                    }
-                }
-            ]
-        }
+                        backgroundColor: "seagreen",
+                    },
+                },
+            ],
+        },
     },
     data() {
         return {
-            JDialogIsShow: false
+            JDialogIsShow: false,
         };
     },
     methods: {
@@ -95,12 +95,12 @@ export default {
         closeDialog() {
             this.$emit("close");
             this.JDialogIsShow = false;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-dialog {
     display: auto;
     .mask {

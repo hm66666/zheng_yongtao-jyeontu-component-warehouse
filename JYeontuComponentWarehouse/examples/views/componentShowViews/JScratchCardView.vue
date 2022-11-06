@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 刮刮卡效果（JScratchCard）
-                <div class="j-detail">
-                    dom原生简单实现刮刮卡效果
-                </div>
+                <div class="j-detail">dom原生简单实现刮刮卡效果</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -50,14 +48,14 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JScratchCardView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
             code: "",
             block: {
                 width: "20px",
-                height: "20px"
+                height: "20px",
             },
             tableTitle: [
                 {
@@ -68,7 +66,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -78,7 +76,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -88,7 +86,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -98,10 +96,10 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
-            tableData: []
+            tableData: [],
         };
     },
     created() {
@@ -149,7 +147,7 @@ export default {
         }
     }
 <\/script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .j-scratch-card-bg-slot {
     width: 298px;
     height: 298px;
@@ -192,25 +190,25 @@ export default {
                     parameter: "width",
                     field: "刮刮卡宽度",
                     type: "String",
-                    describe: "默认为300px"
+                    describe: "默认为300px",
                 },
                 {
                     parameter: "height",
                     field: "刮刮卡高度",
                     type: "String",
-                    describe: "默认为200px"
+                    describe: "默认为200px",
                 },
                 {
                     parameter: "mode",
                     field: "刮刮卡模式",
                     type: "String",
-                    describe: "默认为canvas,其他则为dom"
+                    describe: "默认为canvas,其他则为dom",
                 },
                 {
                     parameter: "color",
                     field: "刮刮卡涂层颜色",
                     type: "String",
-                    describe: "默认为gray"
+                    describe: "默认为gray",
                 },
                 {
                     parameter: "block",
@@ -219,15 +217,15 @@ export default {
                     describe: "设置遮罩小块的属性参数",
                     children: {
                         type: "text",
-                        text: '{width: "20px",height: "20px"}'
-                    }
-                }
+                        text: '{width: "20px",height: "20px"}',
+                    },
+                },
             ];
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .j-scratch-card-bg-slot {
     width: 298px;
     height: 298px;

@@ -20,13 +20,13 @@
                         :width="'384px'"
                     >
                         <template v-slot:video-info-slot>
-                            <span style="margin-left:1em;font-size:medium;">
+                            <span style="margin-left: 1em; font-size: medium">
                                 <i class="el-icon-video-play"></i>
-                                <span style="margin-left:0.1em;">171.4万</span>
+                                <span style="margin-left: 0.1em">171.4万</span>
                             </span>
-                            <span style="margin-left:1em;font-size:medium;">
+                            <span style="margin-left: 1em; font-size: medium">
                                 <i class="el-icon-chat-line-square"></i>
-                                <span style="margin-left:0.1em;">6302</span>
+                                <span style="margin-left: 0.1em">6302</span>
                             </span>
                         </template>
                     </j-video-cover>
@@ -51,7 +51,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JVideoCoverView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -68,7 +68,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -78,7 +78,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -88,7 +88,7 @@ export default {
                     width: "10vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -98,10 +98,10 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
-            tableData: []
+            tableData: [],
         };
     },
     created() {
@@ -155,57 +155,57 @@ export default {
                     parameter: "width",
                     field: "视频宽度",
                     type: "String",
-                    describe: "默认值为300px"
+                    describe: "默认值为300px",
                 },
                 {
                     parameter: "Height",
                     field: "视频高度",
                     type: "String",
-                    describe: "默认值为200px"
+                    describe: "默认值为200px",
                 },
                 {
                     parameter: "coverLongImg",
                     field: "封面精灵图",
                     type: "String",
                     describe:
-                        "有精灵图时优先使用精灵图制作封面，图片中包含帧数应与stepNums截取帧数一致"
+                        "有精灵图时优先使用精灵图制作封面，图片中包含帧数应与stepNums截取帧数一致",
                 },
                 {
                     parameter: "stepNums",
                     field: "截取帧数",
                     type: "String",
-                    describe: "默认值为30"
+                    describe: "默认值为30",
                 },
                 {
                     parameter: "videoUrl",
                     field: "视频链接",
                     type: "String",
-                    describe: "视频链接地址，本地视频需要使用require"
+                    describe: "视频链接地址，本地视频需要使用require",
                 },
                 {
                     parameter: "loop",
                     field: "循环播放",
                     type: "Boolean",
-                    describe: "视频是否循环播放，默认为false"
+                    describe: "视频是否循环播放，默认为false",
                 },
                 {
                     parameter: "showDuration",
                     field: "封面显示视频时长",
                     type: "Boolean",
-                    describe: "封面右下角是否显示视频时长，默认为true"
+                    describe: "封面右下角是否显示视频时长，默认为true",
                 },
                 {
                     parameter: "video-info-slot",
                     field: "自定义信息",
                     type: "slot",
-                    describe: "可在封面视频时长等高处添加展示信息"
-                }
+                    describe: "可在封面视频时长等高处添加展示信息",
+                },
             ];
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

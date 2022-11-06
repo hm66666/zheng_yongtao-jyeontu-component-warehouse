@@ -2,7 +2,7 @@
     <div class="j-barrage-rain" id="j-barrage-rain">
         <div class="j-barrage-rain-panel" id="j-barrage-rain-panel"></div>
         <div class="j-barrage-rain-content" id="j-barrage-rain-content">
-            <div @click="fallRain" style="text-align: center;" class="add">
+            <div @click="fallRain" style="text-align: center" class="add">
                 fall
             </div>
         </div>
@@ -23,32 +23,32 @@ export default {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         full: {
             type: Boolean,
-            default: true
+            default: true,
         },
         time: {
             type: Number,
-            default: 10
+            default: 10,
         },
         mask: {
             type: Boolean,
-            default: false
+            default: false,
         },
         repetition: {
             type: Boolean,
-            default: true
+            default: true,
         },
         startFrom: {
             type: String,
-            default: "left"
+            default: "left",
         },
         showBtn: {
             type: Boolean,
-            default: true
-        }
+            default: true,
+        },
     },
     data() {
         return {
@@ -56,37 +56,37 @@ export default {
             showBarrageDate: [
                 {
                     color: "",
-                    text: "测试一下1"
+                    text: "测试一下1",
                 },
                 {
                     color: "",
-                    text: "测试一下2"
+                    text: "测试一下2",
                 },
                 {
                     color: "",
-                    text: "测试一下3"
+                    text: "测试一下3",
                 },
                 {
                     color: "",
-                    text: "测试一下4"
+                    text: "测试一下4",
                 },
                 {
                     color: "",
-                    text: "测试一下5"
+                    text: "测试一下5",
                 },
                 {
                     color: "",
-                    text: "测试一下6"
+                    text: "测试一下6",
                 },
                 {
                     color: "",
-                    text: "测试一下7"
+                    text: "测试一下7",
                 },
                 {
                     color: "",
-                    text: "测试一下8"
-                }
-            ]
+                    text: "测试一下8",
+                },
+            ],
         };
     },
     mounted() {
@@ -161,8 +161,8 @@ export default {
         fallRain(data) {
             const { x, y1, y2 } = this.getPoint();
             this.generatBarrage(x, -100, y2, data);
-        }
-    }
+        },
+    },
 };
 </script>
 <style>
@@ -199,7 +199,7 @@ export default {
 }
 </style>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 @keyframes wateranimate {
     0% {
         -webkit-transform: scale(0);

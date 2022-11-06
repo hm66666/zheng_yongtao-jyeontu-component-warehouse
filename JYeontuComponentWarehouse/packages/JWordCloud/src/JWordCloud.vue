@@ -25,34 +25,34 @@ export default {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         width: {
             type: Number,
-            default: 300
+            default: 300,
         },
         colorList: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
         baseSize: {
             type: Number,
-            default: 2
+            default: 2,
         },
         maxSize: {
             type: Number,
-            default: 5
+            default: 5,
         },
         minSize: {
             type: Number,
-            default: 1
+            default: 1,
         },
         transformDeg: {
             type: Array,
             default: () => {
                 return [-45, 45];
-            }
-        }
+            },
+        },
     },
     data() {
         return {
@@ -60,7 +60,7 @@ export default {
             minFreq: 0,
             showTextList: [],
             pointList: [],
-            height: 200
+            height: 200,
         };
     },
     mounted() {
@@ -135,7 +135,7 @@ export default {
             const textList = this.textList;
             let maxF = textList[0].freq,
                 minF = textList[0].freq;
-            textList.map(item => {
+            textList.map((item) => {
                 maxF = Math.max(maxF, item.freq);
                 minF = Math.min(minF, item.freq);
             });
@@ -163,22 +163,22 @@ export default {
                     let tl = { x: dom.offsetLeft, y: dom.offsetTop };
                     let tr = {
                         x: dom.offsetLeft + dom.offsetWidth,
-                        y: dom.offsetTop
+                        y: dom.offsetTop,
                     };
                     let bl = {
                         x: dom.offsetLeft,
-                        y: dom.offsetTop + dom.offsetHeight
+                        y: dom.offsetTop + dom.offsetHeight,
                     };
                     let br = {
                         x: dom.offsetLeft + dom.offsetWidth,
-                        y: dom.offsetTop
+                        y: dom.offsetTop,
                     };
                     newHeight = Math.max(newHeight, bl.y);
                     showTextList[i].fourPoints = {
                         tl: tl,
                         tr: tr,
                         bl: bl,
-                        br: br
+                        br: br,
                     };
                 }
                 this.height = newHeight;
@@ -187,7 +187,7 @@ export default {
         //组装显示列表属性数据
         comShowtexList() {
             let showTextList = [];
-            this.textList.map(item => {
+            this.textList.map((item) => {
                 let temp = item;
                 temp.size = this.getSize(item.freq);
                 const point = this.getRandomPoint();
@@ -203,12 +203,12 @@ export default {
                 return 0.5 - Math.random();
             });
             this.showTextList = showTextList;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-word-cloud {
     border: 1px solid black;
     position: relative;

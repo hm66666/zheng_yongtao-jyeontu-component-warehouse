@@ -6,7 +6,7 @@
         <!-- 拖拽时移动的div -->
         <div
             id="moveDiv"
-            style="position: fixed; left: 0px; top: 0px;visibility: hidden;"
+            style="position: fixed; left: 0px; top: 0px; visibility: hidden"
         >
             <img
                 :src="selectedItem.icon"
@@ -30,18 +30,20 @@
                 class="chart-content-column"
                 :style="getColumnStyle(index1)"
                 v-for="(dataList, index1) in chartDataList"
+                :key="'chartDataList-' + index1"
             >
                 <div
                     class="chart-content-item"
                     :style="getItemStyle()"
                     v-for="(item, index) in dataList"
+                    :key="'dataList-' + index"
                 >
                     <div
                         class="chart-content-line"
                         v-if="
                             index == 0 &&
-                                index1 % 2 == 1 &&
-                                index1 < chartDataList.length - 1
+                            index1 % 2 == 1 &&
+                            index1 < chartDataList.length - 1
                         "
                         :style="getLineStyle(index, index1, 'left')"
                     ></div>
@@ -93,9 +95,9 @@ export default {
                 dragAble: false, //是否可拖拽
                 width: 0, //每个item的宽度
                 data: [],
-                radius: false //图标是否圆角
-            }
-        }
+                radius: false, //图标是否圆角
+            },
+        },
     },
     data() {
         return {
@@ -108,7 +110,7 @@ export default {
             startX: "",
             startY: "",
             oldInd: null,
-            selectedItem: {}
+            selectedItem: {},
         };
     },
     created() {},
@@ -140,10 +142,10 @@ export default {
         },
         //阻止默认事件
         preventEvent() {
-            document.getElementById("flow-chart").ondragstart = function() {
+            document.getElementById("flow-chart").ondragstart = function () {
                 return false;
             };
-            document.getElementById("flow-chart").onselectstart = function() {
+            document.getElementById("flow-chart").onselectstart = function () {
                 return false;
             };
         },
@@ -362,12 +364,12 @@ export default {
                 res += k + ":" + obj[k] + ";";
             }
             return res;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .chart-content-item-text {
     margin: 0 auto;
     width: 1.25rem;
@@ -379,8 +381,7 @@ export default {
 }
 .flow-chart {
     width: 100%;
-    .chart-title {
-    }
+    text-align: center;
     .chart-content {
         display: flex;
         flex-wrap: wrap;

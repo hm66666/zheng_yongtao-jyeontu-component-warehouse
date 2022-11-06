@@ -23,7 +23,7 @@
                 v-if="useEmoji"
                 @click.stop="showEmoji"
                 id="comment-emoji"
-                style="width:20px;height:20px;cursor:pointer;"
+                style="width: 20px; height: 20px; cursor: pointer"
                 src="../img/表情.png"
             />
             <button @click="submitComment()">发表</button>
@@ -41,7 +41,7 @@
                         >{{ item.nickname
                         }}<span
                             v-if="item[keyMap.isAdmin] === 1"
-                            style="color:skyblue;"
+                            style="color: skyblue"
                             >(博主)</span
                         ></span
                     >
@@ -88,7 +88,7 @@
                     class="emoji-btn"
                     @click.stop="showEmoji"
                     :id="'emoji-reply-' + index"
-                    style="width:20px;height:20px;cursor:pointer;"
+                    style="width: 20px; height: 20px; cursor: pointer"
                     src="../img/表情.png"
                 />
                 <button @click="submitReply(item.id)">发表</button>
@@ -112,7 +112,7 @@
                                 {{ children.nickname
                                 }}<span
                                     v-if="children[keyMap.isAdmin] === 1"
-                                    style="color:skyblue;"
+                                    style="color: skyblue"
                                     >(博主)</span
                                 >
                             </span>
@@ -191,7 +191,7 @@
                             class="emoji-btn"
                             @click.stop="showEmoji"
                             :id="'emoji-reply-' + index + '-' + childrenIndex"
-                            style="width:20px;height:20px;cursor:pointer;"
+                            style="width: 20px; height: 20px; cursor: pointer"
                             src="../img/表情.png"
                         />
                         <button
@@ -237,27 +237,27 @@ export default {
     props: {
         title: {
             type: String,
-            default: "热门评论"
+            default: "热门评论",
         },
         orderBy: {
             type: String,
-            default: "time"
+            default: "time",
         },
         rank: {
             type: String,
-            default: "desc"
+            default: "desc",
         },
         showNumber: {
             type: Number,
-            default: 2
+            default: 2,
         },
         withCommentContent: {
             type: Boolean,
-            default: true
+            default: true,
         },
         useEmoji: {
             type: Boolean,
-            default: true
+            default: true,
         },
         keyMap: {
             type: Object,
@@ -265,19 +265,19 @@ export default {
                 return {
                     pid: "pid",
                     id: "id",
-                    isAdmin: "isAdmin"
+                    isAdmin: "isAdmin",
                 };
-            }
+            },
         },
         commentDatas: {
             type: Array,
             default: () => {
                 return [];
-            }
-        }
+            },
+        },
     },
     components: {
-        VEmojiPicker
+        VEmojiPicker,
     },
     data() {
         return {
@@ -288,7 +288,7 @@ export default {
             showItem: [],
             showVEmojiPicker: false,
             emojiTextId: "",
-            scrollTop: 0
+            scrollTop: 0,
         };
     },
     created() {
@@ -298,12 +298,12 @@ export default {
     watch: {
         commentDatas() {
             this.initData();
-        }
+        },
     },
     computed: {},
     methods: {
         initListen() {
-            window.onscroll = function() {
+            window.onscroll = function () {
                 var scrollTop =
                     document.documentElement.scrollTop ||
                     document.body.scrollTop;
@@ -316,7 +316,7 @@ export default {
         // 表情转码
         utf16toEntities(str) {
             const patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
-            str = str.replace(patt, char => {
+            str = str.replace(patt, (char) => {
                 let H;
                 let L;
                 let code;
@@ -391,7 +391,7 @@ export default {
         submitReply(id) {
             const params = {
                 pid: id,
-                content: this.utf16toEntities(this.replyText)
+                content: this.utf16toEntities(this.replyText),
             };
             this.replyText = "";
             this.showVEmojiPicker = false;
@@ -400,7 +400,7 @@ export default {
         submitComment(id = null) {
             const params = {
                 pid: id,
-                content: this.utf16toEntities(this.commentText)
+                content: this.utf16toEntities(this.commentText),
             };
             this.commentText = "";
             this.showVEmojiPicker = false;
@@ -444,10 +444,10 @@ export default {
         },
         hideAll() {
             this.replyText = "";
-            this.showComentDatas.map(item => {
+            this.showComentDatas.map((item) => {
                 item.showReply = false;
                 item.showChildren &&
-                    item.showChildren.map(item1 => {
+                    item.showChildren.map((item1) => {
                         item1.showReply = false;
                     });
             });
@@ -524,7 +524,7 @@ export default {
         treeToArr(data, pName = null, pContent = "") {
             let cloneData = JSON.parse(JSON.stringify(data));
             let res = [];
-            cloneData.map(item => {
+            cloneData.map((item) => {
                 if (item.children) {
                     res.unshift(
                         ...this.treeToArr(
@@ -545,9 +545,9 @@ export default {
         },
         getTreeData(data, id = "id", pid = "pid") {
             let cloneData = JSON.parse(JSON.stringify(data));
-            return cloneData.filter(parent => {
+            return cloneData.filter((parent) => {
                 let branchArr = cloneData.filter(
-                    child => parent[id] == child[pid]
+                    (child) => parent[id] == child[pid]
                 );
                 for (let i = 0; i < branchArr.length; i++) {
                     branchArr.parent_nickname = parent.nickname;
@@ -555,12 +555,12 @@ export default {
                 branchArr.length > 0 ? (parent["children"] = branchArr) : "";
                 return parent[pid] === null;
             });
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-comment {
     text-align: left;
     width: 80%;

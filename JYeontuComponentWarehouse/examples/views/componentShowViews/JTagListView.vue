@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 tag标签列表（JTagList）
-                <div class="j-detail">
-                    添加自定义标签
-                </div>
+                <div class="j-detail">添加自定义标签</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -52,7 +50,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JTagListView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -68,7 +66,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -78,7 +76,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -88,7 +86,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -98,38 +96,38 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "tagList",
                     field: "标签列表",
                     type: "Array",
-                    describe: "展示的标签列表"
+                    describe: "展示的标签列表",
                 },
                 {
                     parameter: "tagColor",
                     field: "标签颜色",
                     type: "Array",
-                    describe: "标签背景颜色，默认为['orange'],多种时会随机展示"
+                    describe: "标签背景颜色，默认为['orange'],多种时会随机展示",
                 },
                 {
                     parameter: "canRepeat",
                     field: "是否允许重复",
                     type: "Boolean",
                     describe:
-                        "为true时允许重复，反正则在添加的时候去重，默认为false"
+                        "为true时允许重复，反正则在添加的时候去重，默认为false",
                 },
                 {
                     parameter: "isShow",
                     field: "是否仅展示",
                     type: "Boolean",
                     describe:
-                        "为true时仅展示标签，为false时显示添加和删除按钮，默认为false"
-                }
+                        "为true时仅展示标签，为false时显示添加和删除按钮，默认为false",
+                },
             ],
-            chooseTagList: []
+            chooseTagList: [],
         };
     },
     created() {
@@ -202,11 +200,11 @@ export default {
             if (ind !== -1) {
                 this.chooseTagList.splice(ind, 1);
             }
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

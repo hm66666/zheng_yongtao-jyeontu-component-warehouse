@@ -4,7 +4,13 @@
             id="copy_content"
             type="text"
             value=""
-            style="position: absolute;top: 0;left: 0;opacity: 0;z-index: -10;"
+            style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                z-index: -10;
+            "
         />
         <div class="content">
             <div
@@ -33,11 +39,11 @@ export default {
     props: {
         code: {
             type: String,
-            default: ""
+            default: "",
         },
         keyWords: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
         color: {
             type: Object,
@@ -51,10 +57,10 @@ export default {
                     attrValue: "yellow",
                     methodkeyWord: "#74759b",
                     functionkeyWord: "#2c9678",
-                    note: "grey"
+                    note: "grey",
                 };
-            }
-        }
+            },
+        },
     },
     data() {
         //这里存放数据",
@@ -94,7 +100,7 @@ export default {
                 "default",
                 "console",
                 "log",
-                "error"
+                "error",
             ],
             jsKeyObj: [
                 "Array",
@@ -116,9 +122,9 @@ export default {
                 "String",
                 "toString",
                 "undefined",
-                "valueOf"
+                "valueOf",
             ],
-            methodKeyWord: ["setTimeout", "toString", "praseInt", "praseFloat"]
+            methodKeyWord: ["setTimeout", "toString", "praseInt", "praseFloat"],
         };
     },
     //监听属性 类似于data概念",
@@ -229,9 +235,8 @@ export default {
         },
         replaceKeyWord() {
             let colors = this.color;
-            const contentCodeHtml = document.getElementById(
-                "content-code-html"
-            );
+            const contentCodeHtml =
+                document.getElementById("content-code-html");
             let showCode = this.code;
             //html标签
             let htmlReg = /.*<(.|[\r\n])*>(.|[\r\n])*<\/.*>/g;
@@ -241,7 +246,8 @@ export default {
                     .join("\n")
                     .replace(/[\t]/g, "缩进符")
                     .replace(/[\n]/g, "换行符");
-                let tagReg = /((<)([a-zA-Z](-*[a-zA-Z])+)(.*)(>))|((<\/)([a-zA-Z](-*[a-zA-Z])+)(>))/g;
+                let tagReg =
+                    /((<)([a-zA-Z](-*[a-zA-Z])+)(.*)(>))|((<\/)([a-zA-Z](-*[a-zA-Z])+)(>))/g;
                 let t = this.findTag(textCode);
                 for (let i = 0; i < t.length; i++) {
                     textCode = textCode.replace(
@@ -295,7 +301,7 @@ export default {
             let functions = /([a-zA-Z0-9_]+)\([A-Za-z,0-9]*\)/g;
             let functionKeyWord = showCode.match(functions) || [];
             functionKeyWord = functionKeyWord
-                .map(item => {
+                .map((item) => {
                     return item.slice(0, item.indexOf("("));
                 })
                 .sort((a, b) => {
@@ -333,7 +339,7 @@ export default {
                 "<span style='color :" + colors.note + "'>$1$2</span>"
             );
             this.showCode = showCode;
-        }
+        },
     },
     //生命周期 - 创建之前",数据模型未加载,方法未加载,html模板未加载
     beforeCreate() {},
@@ -359,11 +365,11 @@ export default {
     destroyed() {},
     //生命周期 - 销毁完成",
     //如果页面有keep-alive缓存功能，这个函数会触发",
-    activated() {}
+    activated() {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .code-height-light {
     background-color: #111827;
     .content {

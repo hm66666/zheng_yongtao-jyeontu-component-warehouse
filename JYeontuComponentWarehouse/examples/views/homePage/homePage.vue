@@ -26,37 +26,37 @@ export default {
             myLink: [
                 {
                     name: "CSDN",
-                    address: "https://blog.csdn.net/Twinkle_sone"
+                    address: "https://blog.csdn.net/Twinkle_sone",
                 },
                 {
                     name: "Gitee",
-                    address: "https://gitee.com/zheng_yongtao"
+                    address: "https://gitee.com/zheng_yongtao",
                 },
                 {
                     name: "GitHub",
-                    address: "https://github.com/yongtaozheng"
+                    address: "https://github.com/yongtaozheng",
                 },
                 {
                     name: "掘金",
-                    address: "https://juejin.cn/user/440244290727294"
+                    address: "https://juejin.cn/user/440244290727294",
                 },
                 {
                     name: "个人博客",
-                    address: "http://jyeontu.xyz/JYeontuBlog/#/home"
-                }
-            ]
+                    address: "http://jyeontu.xyz/JYeontuBlog/#/home",
+                },
+            ],
         };
     },
     methods: {
         toAddress(url) {
             window.open(url);
-        }
+        },
     },
-    mounted() {}
+    mounted() {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .home {
     text-align: center;
 }

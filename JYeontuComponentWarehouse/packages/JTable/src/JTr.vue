@@ -39,7 +39,11 @@
                         <span
                             v-if="item.children && index1 == 0"
                             @click="cellClick(index)"
-                            style="cursor: pointer;color:skyblue;font-weight:bold;"
+                            style="
+                                cursor: pointer;
+                                color: skyblue;
+                                font-weight: bold;
+                            "
                         >
                             {{
                                 expendList.indexOf(tableId + "-" + index) == -1
@@ -80,30 +84,30 @@ export default {
     props: {
         tableId: {
             type: String,
-            default: "1"
+            default: "1",
         },
         showTitle: {
             type: Boolean,
-            default: true
+            default: true,
         },
         title: {
             //表格头
             type: Array,
             default() {
                 return [];
-            }
+            },
         },
         tableData: {
             //表格数据
             type: Array,
             default() {
                 return [];
-            }
-        }
+            },
+        },
     },
     data() {
         return {
-            expendList: []
+            expendList: [],
         };
     },
     methods: {
@@ -166,7 +170,7 @@ export default {
                         columnStyle: "", // 列样式
                         fixed: false, //是否固定
                         sort: false, // 是否支持排序
-                        sortWay: "asc" //asc:升序,desc:降序
+                        sortWay: "asc", //asc:升序,desc:降序
                     };
                     title.push(obj);
                 }
@@ -212,16 +216,16 @@ export default {
                 res += camelTo_(item[0]) + ":" + item[1] + ";";
             }
             return res;
-        }
+        },
     },
     mounted() {
         this.initTitle();
         this.initTable();
-    }
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-tr-content {
     border-bottom: 1px solid black;
     margin-bottom: 1rem;

@@ -1,5 +1,5 @@
 <template>
-    <div style="width:100%;height:100%">
+    <div style="width: 100%; height: 100%">
         <div
             :id="JAppsLockId"
             class="j-apps-lock-body"
@@ -41,24 +41,24 @@ export default {
     props: {
         backgroundColor: {
             type: String,
-            default: "aquamarine"
+            default: "aquamarine",
         },
         size: {
             type: Number,
-            default: 3
+            default: 3,
         },
         id: {
             type: String,
-            default: ""
+            default: "",
         },
         limit: {
             type: Number,
-            default: 3
+            default: 3,
         },
         showArrow: {
             type: Boolean,
-            default: true
-        }
+            default: true,
+        },
     },
     data() {
         return {
@@ -67,7 +67,7 @@ export default {
             cellW: "",
             isDown: false,
             choosePoints: [],
-            pointsArea: []
+            pointsArea: [],
         };
     },
     created() {
@@ -173,7 +173,7 @@ export default {
         },
         getPoints() {
             const domPoints = [];
-            this.choosePoints.map(cInd => {
+            this.choosePoints.map((cInd) => {
                 domPoints.push(document.getElementById("point-" + cInd));
             });
             return domPoints;
@@ -253,8 +253,8 @@ export default {
             const cellW = (cW - 20 - size * 6 * 2) / size + "px";
             this.cellH = cellH;
             this.cellW = cellW;
-        }
-    }
+        },
+    },
 };
 </script>
 <style>
@@ -262,7 +262,7 @@ export default {
     margin: auto;
 }
 </style>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-apps-lock-body {
     width: calc(100% - 10px);
     height: calc(100% - 10px);

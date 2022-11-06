@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="position: relative;" v-if="mode == 'canvas'">
+        <div style="position: relative" v-if="mode == 'canvas'">
             <canvas
                 :id="uid + '-canvas'"
                 :width="parseInt(width)"
@@ -30,34 +30,34 @@ export default {
     props: {
         width: {
             type: String,
-            default: "300px"
+            default: "300px",
         },
         height: {
             type: String,
-            default: "200px"
+            default: "200px",
         },
         mode: {
             type: String,
-            default: "canvas"
+            default: "canvas",
         },
         color: {
             type: String,
-            default: "gray"
+            default: "gray",
         },
         block: {
             type: Object,
             default: () => {
                 return {
                     width: "20px",
-                    height: "20px"
+                    height: "20px",
                 };
-            }
-        }
+            },
+        },
     },
     data() {
         return {
             uid: "",
-            isMouseDown: false
+            isMouseDown: false,
         };
     },
     created() {
@@ -81,7 +81,7 @@ export default {
             canvas.onmousedown = () => {
                 this.isMouseDown = true;
             };
-            canvas.onmousemove = e => {
+            canvas.onmousemove = (e) => {
                 if (!this.isMouseDown) return;
                 // 计算鼠标在canvas里的位置
                 console.log(e);
@@ -105,9 +105,8 @@ export default {
             scratchCardDom.style.height = this.height;
 
             const scratchCardMaskId = this.uid + "j-scratch-card-mask";
-            const scratchCardMaskDom = document.getElementById(
-                scratchCardMaskId
-            );
+            const scratchCardMaskDom =
+                document.getElementById(scratchCardMaskId);
             scratchCardMaskDom.addEventListener("mousedown", () => {
                 this.isMouseDown = true;
             });
@@ -132,7 +131,7 @@ export default {
                     rowDom.classList.add("j-scratch-card-mask-row");
                     rowDom.id = `j-scratch-card-mask-row-${col}-${row}`;
                     rowDom.style = `width:${block.width};height:${block.height};background-color: ${this.color};`;
-                    rowDom.addEventListener("mouseover", e => {
+                    rowDom.addEventListener("mouseover", (e) => {
                         if (!this.isMouseDown) return;
                         e.target.style.opacity = "0";
                     });
@@ -140,12 +139,12 @@ export default {
                 }
                 scratchCardMaskDom.appendChild(colDom);
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .canvas-bg {
     position: absolute;
     left: 0px;

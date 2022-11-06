@@ -8,21 +8,21 @@ export default {
     props: {
         imgList: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
         column: {
             type: Number,
-            default: 4
+            default: 4,
         },
         imgMargin: {
             type: Number,
-            default: 0.5
-        }
+            default: 0.5,
+        },
     },
     data() {
         return {
             minHeight: [],
-            arr: []
+            arr: [],
         };
     },
     mounted() {
@@ -72,12 +72,12 @@ export default {
             minHeight[minIndex] += im.height;
             img.num++;
             img.src = this.imgList[img.num];
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 #j-water-fall-content {
     margin: 0;
     padding: 0;

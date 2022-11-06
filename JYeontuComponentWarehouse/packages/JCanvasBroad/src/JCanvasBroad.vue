@@ -46,14 +46,13 @@
                     <span class="info">选择画笔大小：</span>
                     <progress
                         :value="progressValue"
-                        style="cursor: pointer;"
+                        style="cursor: pointer"
                         id="progress"
                         max="1"
                         :title="progressValue * 100 + '%'"
                         @click="setPenWidth"
-                    >
-                    </progress>
-                    <span style="margin-left: 0.3125rem;"
+                    ></progress>
+                    <span style="margin-left: 0.3125rem"
                         >{{ 20 * progressValue }}px</span
                     >
                 </div>
@@ -96,14 +95,13 @@
                 <span class="info">选择画笔大小：</span>
                 <progress
                     :value="progressValue"
-                    style="cursor: pointer;"
+                    style="cursor: pointer"
                     id="progress"
                     max="1"
                     :title="progressValue * 100 + '%'"
                     @click="setPenWidth"
-                >
-                </progress>
-                <span style="margin-left: 0.3125rem;"
+                ></progress>
+                <span style="margin-left: 0.3125rem"
                     >{{ 20 * progressValue }}px</span
                 >
             </div>
@@ -123,38 +121,38 @@ export default {
     props: {
         height: {
             type: Number,
-            default: -1
+            default: -1,
         },
         width: {
             type: Number,
-            default: -1
+            default: -1,
         },
         defaultPenColor: {
             type: String,
-            default: "#000000"
+            default: "#000000",
         },
         defaultPenSize: {
             type: Number,
-            default: 4
+            default: 4,
         },
         defaultBackGroundColor: {
             type: String,
-            default: "#ffffff"
+            default: "#ffffff",
         },
         toolsTabList: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     components: {
-        JTabBar
+        JTabBar,
     },
     watch: {
         brackGroudColor: {
             handler(newVal, oldVal) {
                 this.setBackGround();
-            }
-        }
+            },
+        },
     },
     data() {
         return {
@@ -170,26 +168,26 @@ export default {
             tabList: [
                 {
                     label: "背景颜色",
-                    id: "back-ground-color"
+                    id: "back-ground-color",
                 },
                 {
                     label: "画笔颜色",
-                    id: "pen-color"
+                    id: "pen-color",
                 },
                 {
                     label: "橡皮擦",
-                    id: "eraser"
+                    id: "eraser",
                 },
                 {
                     label: "画笔大小",
-                    id: "pen-size"
+                    id: "pen-size",
                 },
                 {
                     label: "导出图片",
-                    id: "export"
-                }
+                    id: "export",
+                },
             ],
-            showTab: 0
+            showTab: 0,
         };
     },
     created() {},
@@ -287,12 +285,12 @@ export default {
             const img_png_src = canvas.toDataURL("image/png"); //将画板保存为图片格式的函数
             // console.log('=====',img_png_src);//data:image/png;base64,iVBOR.....
             document.getElementById("image_png").src = img_png_src;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="less" scoped="scoped">
 * {
     margin: 0;
     padding: 0;

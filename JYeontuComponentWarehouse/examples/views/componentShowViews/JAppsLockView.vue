@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 图案手势锁（JAppsLock）
-                <div class="j-detail">
-                    仿手机图案手势锁
-                </div>
+                <div class="j-detail">仿手机图案手势锁</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -33,7 +31,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JToolTipView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -42,12 +40,12 @@ export default {
             textStyle: {
                 borderBottom: "1px dotted skyblue",
                 fontSize: "large",
-                color: "skyblue"
+                color: "skyblue",
             },
             toolTipStyle: {
                 backgroundColor: "grey",
                 color: "skyblue",
-                width: "100px"
+                width: "100px",
             },
             tableTitle: [
                 {
@@ -58,7 +56,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -68,7 +66,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -78,7 +76,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -88,10 +86,10 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
-            tableData: []
+            tableData: [],
         };
     },
     created() {
@@ -128,41 +126,41 @@ export default {
                     parameter: "id",
                     field: "组件id",
                     type: "String",
-                    describe: "自定义组件的id，不设置则自动生成"
+                    describe: "自定义组件的id，不设置则自动生成",
                 },
                 {
                     parameter: "backgroundColor",
                     field: "背景颜色",
                     type: "String",
-                    describe: "图案锁背景颜色，默认为aquamarine"
+                    describe: "图案锁背景颜色，默认为aquamarine",
                 },
                 {
                     parameter: "size",
                     field: "图案锁尺寸",
                     type: "Number",
-                    describe: "默认为3(即3 * 3 个点)"
+                    describe: "默认为3(即3 * 3 个点)",
                 },
                 {
                     parameter: "commit",
                     field: "获取图案",
                     type: "Function",
-                    describe: "手指抬起的回调方法，返回参数图案列表"
+                    describe: "手指抬起的回调方法，返回参数图案列表",
                 },
                 {
                     parameter: "showArrow",
                     field: "展示方向箭头",
                     type: "Boolean",
-                    describe: "默认显示"
-                }
+                    describe: "默认显示",
+                },
             ];
         },
         commit(password) {
             this.$JToast(password);
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

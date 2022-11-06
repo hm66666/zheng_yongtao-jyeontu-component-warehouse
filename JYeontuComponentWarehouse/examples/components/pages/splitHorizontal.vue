@@ -22,7 +22,7 @@
 
 <script></script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .view-header {
     .j-title {
         font-size: x-large;

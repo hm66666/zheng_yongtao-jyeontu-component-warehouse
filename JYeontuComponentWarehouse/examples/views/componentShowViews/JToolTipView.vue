@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 悬浮提示（JToolTip）
-                <div class="j-detail">
-                    动态工具悬浮提示
-                </div>
+                <div class="j-detail">动态工具悬浮提示</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -47,7 +45,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JToolTipView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -55,12 +53,12 @@ export default {
             textStyle: {
                 borderBottom: "1px dotted skyblue",
                 fontSize: "large",
-                color: "skyblue"
+                color: "skyblue",
             },
             toolTipStyle: {
                 backgroundColor: "grey",
                 color: "skyblue",
-                width: "100px"
+                width: "100px",
             },
             tableTitle: [
                 {
@@ -71,7 +69,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -81,7 +79,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -91,7 +89,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -101,10 +99,10 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
-            tableData: []
+            tableData: [],
         };
     },
     created() {
@@ -160,7 +158,7 @@ export default {
                     parameter: "tipText",
                     field: "提示内容",
                     type: "String",
-                    describe: ""
+                    describe: "",
                 },
                 {
                     parameter: "textStyle",
@@ -169,8 +167,8 @@ export default {
                     describe: "设置文字样式，如下划线样式",
                     children: {
                         type: "text",
-                        text: '{"border-bottom": "1px dotted black"}'
-                    }
+                        text: '{"border-bottom": "1px dotted black"}',
+                    },
                 },
                 {
                     parameter: "toolTipStyle",
@@ -184,29 +182,29 @@ export default {
                                 parameter: "backgroundColor",
                                 field: "提示框背景颜色",
                                 type: "String",
-                                describe: "默认为#062b45"
+                                describe: "默认为#062b45",
                             },
                             {
                                 parameter: "color",
                                 field: "提示框字体颜色",
                                 type: "String",
-                                describe: "默认为#fff"
+                                describe: "默认为#fff",
                             },
                             {
                                 parameter: "width",
                                 field: "提示框宽度",
                                 type: "String",
-                                describe: "默认为100px"
-                            }
-                        ]
-                    }
-                }
+                                describe: "默认为100px",
+                            },
+                        ],
+                    },
+                },
             ];
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

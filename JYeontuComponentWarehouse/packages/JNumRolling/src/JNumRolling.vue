@@ -12,33 +12,33 @@ export default {
         //数字
         nums: {
             type: String,
-            default: "0"
+            default: "0",
         },
         //数字尺寸
         fontSize: {
             type: Number,
-            default: 4
+            default: 4,
         },
         //每走一步的时间(ms)
         stepTime: {
             type: Number,
-            default: 200
+            default: 200,
         },
         //保存小数点
         fixNum: {
             type: Number,
-            default: 2
+            default: 2,
         },
         //自定义样式
         numStyle: {
             type: Object,
-            default: {}
+            default: {},
         },
         //数字刷新时间
         refreshTime: {
             type: Number,
-            default: 3
-        }
+            default: 3,
+        },
     },
     watch: {
         nums: {
@@ -55,8 +55,8 @@ export default {
                     this.oldTime = new Date().getTime();
                     this.numRolling(newVal, this.oldVal);
                 }
-            }
-        }
+            },
+        },
     },
     data() {
         return {
@@ -65,7 +65,7 @@ export default {
             oldTime: 0,
             oldVal: "",
             numChangeTimeout: "",
-            viewChangeTimeout: ""
+            viewChangeTimeout: "",
         };
     },
     mounted() {
@@ -102,14 +102,15 @@ export default {
                 if (num >= 0 && num <= 9) {
                     if (num > 0) flag = false;
                     dom += `
-                        <div class="j-num-rolling-body" style="${(flag
-                            ? "display:none;"
-                            : "") +
+                        <div class="j-num-rolling-body" style="${
+                            (flag ? "display:none;" : "") +
                             this.getStyle() +
-                            this.getNumStyle()}">
+                            this.getNumStyle()
+                        }">
                         <div id="j-num-content${i}" 
-                        style="bottom:${num *
-                            this.fontSize}rem;${this.getStyle()}" 
+                        style="bottom:${
+                            num * this.fontSize
+                        }rem;${this.getStyle()}" 
                         class="j-num-content">
                         `;
                     for (let j = 0; j < 20; j++) {
@@ -135,9 +136,7 @@ export default {
         },
         //初始化数据
         init() {
-            this.numArr = parseFloat(this.nums)
-                .toFixed(this.fixNum)
-                .split("");
+            this.numArr = parseFloat(this.nums).toFixed(this.fixNum).split("");
             let temp = new Array(this.headNum).fill(0);
             this.numArr = temp.concat(this.numArr);
             this.initElement();
@@ -209,12 +208,12 @@ export default {
                     this.chang(oldV, newV, "j-num-content" + (i + headNum));
                 }
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .j-num-rolling {
     display: flex;
     .j-num-rolling-body {

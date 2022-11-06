@@ -2,9 +2,7 @@
     <div class="strToolView">
         <div class="j-title">
             字符串处理函数（strTool）
-            <div class="j-detail">
-                字符串格式转换及常用字符串处理
-            </div>
+            <div class="j-detail">字符串格式转换及常用字符串处理</div>
         </div>
         <div class="explain">
             <div class="j-title">说明</div>
@@ -31,7 +29,7 @@ import methodTest from "@/components/common/methodTest.vue";
 export default {
     name: "strToolView",
     components: {
-        methodTest
+        methodTest,
     },
     data() {
         return {
@@ -42,9 +40,9 @@ export default {
                         {
                             name: "-连接的字符串",
                             value: "my-test-div",
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "_toBigCamel",
@@ -52,9 +50,9 @@ export default {
                         {
                             name: "-连接的字符串",
                             value: "my-test-div",
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "camelTo_",
@@ -62,10 +60,10 @@ export default {
                         {
                             name: "驼峰命名字符串",
                             value: "myTestDiv",
-                            required: true
-                        }
-                    ]
-                }
+                            required: true,
+                        },
+                    ],
+                },
             ],
             code: "",
             title: [
@@ -77,7 +75,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "说明", //展示列名
@@ -87,7 +85,7 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "参数", //展示列名
@@ -97,32 +95,32 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     method: "_toLittleCamel(str: String)",
                     explain: "'-'连接命名转换成小驼峰命名",
-                    parameter: "str:字符串"
+                    parameter: "str:字符串",
                 },
                 {
                     method: "_toBigCamel(str: String)",
                     explain: "'-'连接命名转换成大驼峰命名",
-                    parameter: "str:字符串"
+                    parameter: "str:字符串",
                 },
                 {
                     method: "camelTo_(str:String)",
                     explain: "驼峰命名转换成'-'连接命名",
-                    parameter: "str:字符串"
-                }
+                    parameter: "str:字符串",
+                },
             ],
             keyWords: [
                 {
                     value: "strTool",
-                    color: "green"
-                }
-            ]
+                    color: "green",
+                },
+            ],
         };
     },
     created() {
@@ -138,11 +136,11 @@ export default {
         strTool.camelTo_('littleCamel');//驼峰命名转换成-连接命名 little-camel
             `;
     },
-    methods: {}
+    methods: {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .strToolView {
     padding: 0.2rem;
     .j-title {

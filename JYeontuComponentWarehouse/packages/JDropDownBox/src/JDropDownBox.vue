@@ -45,64 +45,64 @@ export default {
     props: {
         defIndex: {
             type: String,
-            default: ""
+            default: "",
         },
         value: {
             type: String,
-            default: ""
+            default: "",
         },
         placeholder: {
             type: String,
-            default: "请输入"
+            default: "请输入",
         },
         filter: {
             type: Boolean,
-            default: false
+            default: false,
         },
         closed: {
             type: Boolean,
-            default: true
+            default: true,
         },
         readOnly: {
             type: Boolean,
-            default: false
+            default: false,
         },
         selectData: {
             type: Array,
             default: [
                 {
                     id: 1,
-                    value: "选项一"
+                    value: "选项一",
                 },
                 {
                     id: 2,
-                    value: "选项二"
+                    value: "选项二",
                 },
                 {
                     id: 3,
-                    value: "选项三"
+                    value: "选项三",
                 },
                 {
                     id: 4,
-                    value: "选项四"
+                    value: "选项四",
                 },
                 {
                     id: 5,
-                    value: "选项五"
+                    value: "选项五",
                 },
                 {
                     id: 6,
-                    value: "选项六"
-                }
-            ]
-        }
+                    value: "选项六",
+                },
+            ],
+        },
     },
     data() {
         return {
             boxIsShow: false,
             inputData: "",
             idMap: {},
-            valueMap: {}
+            valueMap: {},
         };
     },
     created() {
@@ -111,14 +111,14 @@ export default {
     watch: {
         inputData(newVal) {
             // this.value = this.valueMap[newVal];
-        }
+        },
     },
     methods: {
         initData() {
             let idMap = {};
             let valueMap = {};
             this.showSelectData = this.selectData;
-            this.selectData.map(item => {
+            this.selectData.map((item) => {
                 idMap[item.id] = item.value;
                 valueMap[item.value] = item.id;
             });
@@ -141,7 +141,7 @@ export default {
         },
         bindInput() {
             if (this.filter) {
-                this.showSelectData = this.selectData.filter(sItem => {
+                this.showSelectData = this.selectData.filter((sItem) => {
                     return sItem.value.indexOf(this.inputData) != -1;
                 });
             }
@@ -156,12 +156,12 @@ export default {
             this.$emit("selectItem", itemData.id);
             this.$emit("selectIndexValue", this.defIndex, itemData.value);
             this.boxIsShow = false;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .drop-down-box {
     // border: lightskyblue 1px solid;
     color: black;
@@ -197,6 +197,7 @@ export default {
             font-size: medium;
             transform: scale(0.7);
             color: #c21f30;
+            text-align: center;
         }
     }
     .box-area {

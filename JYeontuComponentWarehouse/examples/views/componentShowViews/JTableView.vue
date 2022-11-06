@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 表格组件（JTable）
-                <div class="j-detail">
-                    表格组件,支持指定行排序，展开行
-                </div>
+                <div class="j-detail">表格组件,支持指定行排序，展开行</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -47,7 +45,7 @@ export default {
     name: "JTableView",
     //import引入的组件需要注入到对象中才能使用",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         //这里存放数据",
@@ -61,7 +59,7 @@ export default {
                     width: "25vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "年龄", //展示列名
@@ -71,7 +69,7 @@ export default {
                     width: "25vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: true // 是否支持排序
+                    sort: true, // 是否支持排序
                 },
                 {
                     title: "职业", //展示列名
@@ -81,8 +79,8 @@ export default {
                     width: "50vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
@@ -99,7 +97,7 @@ export default {
                                 width: "25vw", //列宽度
                                 columnStyle: "", // 列样式
                                 fixed: false, //是否固定
-                                sort: false // 是否支持排序
+                                sort: false, // 是否支持排序
                             },
                             {
                                 title: "年龄", //展示列名
@@ -109,7 +107,7 @@ export default {
                                 width: "25vw", //列宽度
                                 columnStyle: "", // 列样式
                                 fixed: false, //是否固定
-                                sort: true // 是否支持排序
+                                sort: true, // 是否支持排序
                             },
                             {
                                 title: "关系", //展示列名
@@ -119,8 +117,8 @@ export default {
                                 width: "50vw", //列宽度
                                 columnStyle: "", // 列样式
                                 fixed: false, //是否固定
-                                sort: false // 是否支持排序
-                            }
+                                sort: false, // 是否支持排序
+                            },
                         ],
                         data: [
                             {
@@ -133,13 +131,13 @@ export default {
                                             name: "张小四",
                                             age: "测试",
                                             relation: "测试",
-                                            test: "测试"
-                                        }
-                                    ]
-                                }
-                            }
-                        ]
-                    }
+                                            test: "测试",
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                    },
                 },
                 {
                     name: "李四",
@@ -147,14 +145,14 @@ export default {
                     work: "学生",
                     children: {
                         type: "text",
-                        text: "测试text"
-                    }
+                        text: "测试text",
+                    },
                 },
                 {
                     name: "王五",
                     age: "22",
-                    work: "工程师"
-                }
+                    work: "工程师",
+                },
             ],
             title1: [
                 {
@@ -165,7 +163,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -175,7 +173,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -185,7 +183,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -195,25 +193,25 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData1: [
                 {
                     parameter: "title",
                     field: "表头",
                     type: "Array",
-                    describe: "详细参数请展开"
+                    describe: "详细参数请展开",
                 },
                 {
                     parameter: "tableData",
                     field: "表数据",
                     type: "Array",
-                    describe: "对应title参数的key字段，具体使用如下代码"
-                }
+                    describe: "对应title参数的key字段，具体使用如下代码",
+                },
             ],
             chatData: {},
-            code: ""
+            code: "",
         };
     },
     //监听属性 类似于data概念",
@@ -229,50 +227,50 @@ export default {
                     parameter: "title",
                     field: "展示列名",
                     type: "String",
-                    describe: "表头展示的列名"
+                    describe: "表头展示的列名",
                 },
                 {
                     parameter: "key",
                     field: "字段名",
                     type: "String",
-                    describe: "对应展示的字段名"
+                    describe: "对应展示的字段名",
                 },
                 {
                     parameter: "type",
                     field: "列类型",
                     type: "String",
-                    describe: "列的类型(text，input)"
+                    describe: "列的类型(text，input)",
                 },
                 {
                     parameter: "readOnly",
                     field: "是否只读",
                     type: "Boolean",
-                    describe: "限制是否可读"
+                    describe: "限制是否可读",
                 },
                 {
                     parameter: "width",
                     field: "列宽度",
                     type: "String",
-                    describe: "设置列宽度"
+                    describe: "设置列宽度",
                 },
                 {
                     parameter: "columnStyle",
                     field: "列样式",
                     type: "Object",
-                    describe: "设置列样式"
+                    describe: "设置列样式",
                 },
                 {
                     parameter: "sort",
                     field: "排序",
                     type: "Boolean",
-                    describe: "是否支持排序"
+                    describe: "是否支持排序",
                 },
                 {
                     parameter: "sortWay",
                     field: "排序方式",
                     type: "String",
-                    describe: "asc:升序,desc:降序"
-                }
+                    describe: "asc:升序,desc:降序",
+                },
             ];
             const title1 = [...this.title1];
             title1[0].width = "15vw";
@@ -284,16 +282,16 @@ export default {
                 if (tableData[i].parameter === "title") {
                     tableData[i].children = {
                         title: title1,
-                        data: titleObj
+                        data: titleObj,
                     };
                 } else if (tableData[i].parameter === "tableData") {
                     tableData[i].children = {
                         type: "text",
-                        text: "children:{type:'text',text:'展示数据'}"
+                        text: "children:{type:'text',text:'展示数据'}",
                     };
                 }
             }
-        }
+        },
     },
     //生命周期 - 创建之前",数据模型未加载,方法未加载,html模板未加载
     beforeCreate() {},
@@ -446,11 +444,11 @@ export default {
     //生命周期 - 销毁完成",
     destroyed() {},
     //如果页面有keep-alive缓存功能，这个函数会触发",
-    activated() {}
+    activated() {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .title {
     font-size: x-large;
     text-align: left;

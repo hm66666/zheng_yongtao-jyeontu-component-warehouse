@@ -56,19 +56,19 @@ export default {
     props: {
         owner: {
             type: String,
-            default: "zheng_yongtao"
+            default: "zheng_yongtao",
         },
         repo: {
             type: String,
-            default: "jyeontu-component-warehouse"
-        }
+            default: "jyeontu-component-warehouse",
+        },
     },
     data() {
         return {
             api: {
-                getRepo: "https://gitee.com/api/v5/repos/" //获取用户的某个仓库
+                getRepo: "https://gitee.com/api/v5/repos/", //获取用户的某个仓库
             },
-            repoInfo: {}
+            repoInfo: {},
         };
     },
     created() {
@@ -79,15 +79,15 @@ export default {
         getRepo() {
             this.$http
                 .get(this.api.getRepo + this.owner + "/" + this.repo)
-                .then(res => {
+                .then((res) => {
                     this.repoInfo = res.body;
                 });
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-gitee-repo-info {
     margin: 0.5em !important;
     padding: 1em;

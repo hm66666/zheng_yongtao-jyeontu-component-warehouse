@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 电子屏数字（JElectronicNumber）
-                <div class="j-detail">
-                    电子屏风格数字组件
-                </div>
+                <div class="j-detail">电子屏风格数字组件</div>
             </div>
             <div class="header"></div>
         </template>
@@ -40,7 +38,7 @@ import { getToday } from "@/utils/dateTool";
 export default {
     name: "electronicNumbers",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -57,7 +55,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -67,7 +65,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -77,7 +75,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -87,29 +85,29 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "numbers",
                     field: "数字数组",
                     type: "Array",
-                    describe: '需要展示的数字，如:["2021-11-11 10:57:52"]'
+                    describe: '需要展示的数字，如:["2021-11-11 10:57:52"]',
                 },
                 {
                     parameter: "numberColor",
                     field: "数字颜色",
                     type: "String",
-                    describe: '如："#000000" 或 "pink"'
+                    describe: '如："#000000" 或 "pink"',
                 },
                 {
                     parameter: "numberSize",
                     field: "数字大小",
                     type: "String",
-                    describe: '如："1rem"'
-                }
-            ]
+                    describe: '如："1rem"',
+                },
+            ],
         };
     },
     created() {
@@ -157,11 +155,11 @@ export default {
             setTimeout(() => {
                 this.getTime();
             }, 1000);
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

@@ -3,7 +3,7 @@
         :id="uid + '-j-3d-swipe'"
         class="j-3d-swipe"
         :style="{
-            '--maxWidth': maxWidth
+            '--maxWidth': maxWidth,
         }"
     >
         <div id="carousel">
@@ -29,41 +29,41 @@ export default {
     props: {
         maxWidth: {
             type: String,
-            default: "150px"
+            default: "150px",
         },
         hoverPause: {
             type: Boolean,
-            default: true
+            default: true,
         },
         blurPause: {
             type: Boolean,
-            default: true
+            default: true,
         },
         speed: {
             type: String,
-            default: "1500"
+            default: "1500",
         },
         multiple: {
             type: String,
-            default: "1.4"
+            default: "1.4",
         },
         autoPlay: {
             type: Boolean,
-            default: true
+            default: true,
         },
         imgList: {
             type: Array,
             default: () => {
                 return [];
-            }
-        }
+            },
+        },
     },
     data() {
         return {
             uid: "",
             angle: 0,
             isActive: true,
-            mouseHover: false
+            mouseHover: false,
         };
     },
     mounted() {
@@ -131,12 +131,12 @@ export default {
                     this.angle +
                     "deg);"
             );
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" vars="{ maxWidth }" scoped>
+<style lang="less" vars="{ maxWidth }" scoped>
 div#carousel {
     perspective: 1200px;
     font-size: 0;

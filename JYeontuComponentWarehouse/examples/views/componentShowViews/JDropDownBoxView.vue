@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 下拉列表（JDropDownBox）
-                <div class="j-detail">
-                    下拉列表组件
-                </div>
+                <div class="j-detail">下拉列表组件</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -43,7 +41,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JDropDownBoxView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -55,24 +53,24 @@ export default {
             selectData: [
                 {
                     id: "1",
-                    value: "李白"
+                    value: "李白",
                 },
                 {
                     id: "2",
-                    value: "项羽"
+                    value: "项羽",
                 },
                 {
                     id: "3",
-                    value: "妲己"
+                    value: "妲己",
                 },
                 {
                     id: "4",
-                    value: "王昭君"
+                    value: "王昭君",
                 },
                 {
                     id: "5",
-                    value: "凯"
-                }
+                    value: "凯",
+                },
             ],
             tableTitle: [
                 {
@@ -83,7 +81,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -93,7 +91,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -103,7 +101,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -113,54 +111,54 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "defIndex",
                     field: "标识",
                     type: "String",
-                    describe: "选择事件回调的时候会带上该标识"
+                    describe: "选择事件回调的时候会带上该标识",
                 },
                 {
                     parameter: "value",
                     field: "选中的值",
                     type: "String",
-                    describe: "选中会更新该值"
+                    describe: "选中会更新该值",
                 },
                 {
                     parameter: "placeholder",
                     field: "输入提示",
                     type: "String",
-                    describe: "设置输入框提示语，默认为'请输入'"
+                    describe: "设置输入框提示语，默认为'请输入'",
                 },
                 {
                     parameter: "filter",
                     field: "是否过滤",
                     type: "Boolean",
                     describe:
-                        "为true时开启过滤，输入会自动筛选备选框的值，默认为false"
+                        "为true时开启过滤，输入会自动筛选备选框的值，默认为false",
                 },
                 {
                     parameter: "closed",
                     field: "清空按钮",
                     type: "Boolean",
-                    describe: "为true时显示，点击清空输入框，默认为true"
+                    describe: "为true时显示，点击清空输入框，默认为true",
                 },
                 {
                     parameter: "readOnly",
                     field: "是否只读",
                     type: "Boolean",
-                    describe: "为true时只读，只能选择，无法输入，默认为false"
+                    describe: "为true时只读，只能选择，无法输入，默认为false",
                 },
                 {
                     parameter: "selectData",
                     field: "筛选项",
                     type: "Array",
-                    describe: "格式:[{id:'id',value:'value'}]"
-                }
-            ]
+                    describe: "格式:[{id:'id',value:'value'}]",
+                },
+            ],
         };
     },
     created() {
@@ -229,11 +227,11 @@ export default {
         },
         selectIndexValue(defIndex, value) {
             console.log("selectIndexValue", defIndex, value);
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

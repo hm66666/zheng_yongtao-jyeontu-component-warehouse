@@ -18,16 +18,16 @@ import JTr from "./JTr.vue";
 export default {
     name: "JTable",
     components: {
-        JTr
+        JTr,
     },
     props: {
         tableId: {
             type: String,
-            default: "1"
+            default: "1",
         },
         id: {
             type: String,
-            default: "t"
+            default: "t",
         },
         title: {
             //表格头
@@ -43,18 +43,18 @@ export default {
                         columnStyle: "", // 列样式
                         fixed: false, //是否固定
                         sort: false, // 是否支持排序
-                        sortWay: "asc" //asc:升序,desc:降序
-                    }
+                        sortWay: "asc", //asc:升序,desc:降序
+                    },
                 ];
-            }
+            },
         },
         tableData: {
             //表格数据
             type: Array,
             default() {
                 return [];
-            }
-        }
+            },
+        },
     },
     data() {
         return {};
@@ -126,15 +126,15 @@ export default {
                 res += camelTo_(item[0]) + ":" + item[1] + ";";
             }
             return res;
-        }
+        },
     },
     mounted() {
         this.initTable();
-    }
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-table-content {
     overflow: scroll;
     overflow-y: hidden;

@@ -33,7 +33,7 @@
                             :title="param.name"
                             :placeholder="param.name"
                             @input="bindInput"
-                            style="min-width: 195px;"
+                            style="min-width: 195px"
                             v-model="param.value"
                         />
                     </div>
@@ -67,7 +67,7 @@ var strTool = require("@/utils/strTool.js");
 const methodsMap = {
     dateTool: dateTool,
     numsFormat: numsFormat,
-    strTool: strTool
+    strTool: strTool,
 };
 export default {
     name: "methodTest",
@@ -75,17 +75,17 @@ export default {
         //require("@/utils/dateTool.js")
         util: {
             type: String,
-            default: "dateTool"
+            default: "dateTool",
         },
         methodData: {
             type: Array,
             default: () => {
                 return [];
-            }
-        }
+            },
+        },
     },
     components: {
-        JDropDrowBox
+        JDropDrowBox,
     },
     data() {
         return {
@@ -94,7 +94,7 @@ export default {
             chooseMethod: "",
             chooseParams: [],
             result: "",
-            methodRep: ""
+            methodRep: "",
         };
     },
     watch: {
@@ -114,7 +114,7 @@ export default {
             } else {
                 this.methodRep = "";
             }
-        }
+        },
     },
     created() {
         let methodData = this.methodData;
@@ -122,7 +122,7 @@ export default {
         for (let i = 0; i < methodData.length; i++) {
             this.methodList.push({
                 id: i,
-                value: methodData[i].name
+                value: methodData[i].name,
             });
         }
     },
@@ -174,7 +174,7 @@ export default {
             for (let i = 0; i < options.length; i++) {
                 res.push({
                     id: i,
-                    value: options[i]
+                    value: options[i],
                 });
             }
             return res;
@@ -192,16 +192,15 @@ export default {
                     methodList[chooseMethod].value
                 ](methodParams[0].value);
             } else {
-                this.result = methodsMap[this.util][
-                    methodList[chooseMethod].value
-                ]();
+                this.result =
+                    methodsMap[this.util][methodList[chooseMethod].value]();
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .method-test-box {
     display: flex;
     flex-wrap: wrap;

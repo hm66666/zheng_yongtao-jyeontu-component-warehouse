@@ -8,14 +8,14 @@ export default {
     name: "left",
     data() {
         return {
-            menu: []
+            menu: [],
         };
     },
     watch: {
         $route(to, from) {
             // console.log(to, from);
             this.findNodeByName(this.menu, to.name);
-        }
+        },
     },
     methods: {
         getNewMenu() {
@@ -107,13 +107,9 @@ export default {
                     if (menu[i].iconColor) {
                         iconColor = menu[i].iconColor;
                     }
-                    temp += `<i class="${
-                        menu[i].icon
-                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 } else if (menu[i].icon.split("-")[0] === "icon") {
-                    temp += `<i class="iconfont ${
-                        menu[i].icon
-                    }" style="margin-right: 5px;color:${iconColor};"></i>`;
+                    temp += `<i class="iconfont ${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 }
                 temp += `${menu[i].label.trim()}`;
                 if (
@@ -146,7 +142,7 @@ export default {
                 temp += `</div>`;
             }
             return temp;
-        }
+        },
     },
     created() {},
     mounted() {
@@ -154,11 +150,11 @@ export default {
         window.chooseNode = this.chooseNode;
         window.refreshMenu = this.refreshMenu;
         this.getNewMenu();
-    }
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 #leftMenu {
     min-height: calc(100vh - 44px - 1rem);
     background-color: #1f2937;

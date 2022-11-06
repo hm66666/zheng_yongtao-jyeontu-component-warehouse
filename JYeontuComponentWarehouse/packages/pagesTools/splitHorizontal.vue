@@ -22,7 +22,7 @@
 
 <script></script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .view-body {
     display: flex;
     flex-direction: row;

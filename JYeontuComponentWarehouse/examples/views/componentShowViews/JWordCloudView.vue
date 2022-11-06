@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 词云图（JWordCloud）
-                <div class="j-detail">
-                    通过词频统计绘制词云图
-                </div>
+                <div class="j-detail">通过词频统计绘制词云图</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -34,7 +32,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JWordCloudView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -48,7 +46,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -58,7 +56,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -68,7 +66,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -78,40 +76,40 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "textList",
                     field: "词频列表",
                     type: "Array",
-                    describe: "如：[{ text: '单词', freq: 10 }]"
+                    describe: "如：[{ text: '单词', freq: 10 }]",
                 },
                 {
                     parameter: "width",
                     field: "容器宽度",
                     type: "Number",
-                    describe: "容器宽度，默认为300"
+                    describe: "容器宽度，默认为300",
                 },
                 {
                     parameter: "baseSize",
                     field: "字体基准值",
                     type: "Number",
-                    describe: "字体基准值，默认为2"
+                    describe: "字体基准值，默认为2",
                 },
                 {
                     parameter: "maxSize",
                     field: "字体大小浮动范围最大值",
                     type: "Number",
-                    describe: "字体大小浮动范围最大值，默认为5"
+                    describe: "字体大小浮动范围最大值，默认为5",
                 },
                 {
                     parameter: "minSize",
                     field: "字体大小浮动范围最小值",
                     type: "Number",
-                    describe: "字体大小浮动范围最小值，默认为1"
-                }
+                    describe: "字体大小浮动范围最小值，默认为1",
+                },
             ],
             textList: [
                 { text: "单词", freq: 10 },
@@ -129,8 +127,8 @@ export default {
                 { text: "单词13", freq: 4 },
                 { text: "单词14", freq: 3 },
                 { text: "单词15", freq: 1 },
-                { text: "单词16", freq: 5 }
-            ]
+                { text: "单词16", freq: 5 },
+            ],
         };
     },
     created() {
@@ -172,11 +170,11 @@ export default {
         methods: {}
     }
 <\/script>`;
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

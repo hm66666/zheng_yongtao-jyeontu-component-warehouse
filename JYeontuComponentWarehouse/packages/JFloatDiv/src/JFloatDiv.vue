@@ -1,9 +1,7 @@
 <template>
     <div>
         {{ text }}
-        <div id="float-content">
-            我是图片
-        </div>
+        <div id="float-content">我是图片</div>
     </div>
 </template>
 
@@ -12,7 +10,7 @@ export default {
     name: "JFloatDiv",
     data() {
         return {
-            text: "我是文字"
+            text: "我是文字",
         };
     },
     created() {
@@ -22,12 +20,12 @@ export default {
         textReapt() {
             let i = 8;
             while (i--) this.text += this.text;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 #float-content {
     width: 200px;
     height: 200px;

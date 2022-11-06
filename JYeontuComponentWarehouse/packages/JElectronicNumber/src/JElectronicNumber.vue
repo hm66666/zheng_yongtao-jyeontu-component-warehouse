@@ -27,21 +27,21 @@ export default {
     props: {
         numbers: {
             type: Array,
-            default: [0, 22]
+            default: [0, 22],
         },
         numberColor: {
             type: String,
-            default: "black"
+            default: "black",
         },
         numberSize: {
             type: String,
-            default: "1rem"
-        }
+            default: "1rem",
+        },
     },
     data() {
         //这里存放数据",
         return {
-            showNum: []
+            showNum: [],
         };
     },
     //监听属性 类似于data概念",
@@ -59,7 +59,7 @@ export default {
                         [1, 0, 1],
                         [1, 0, 1],
                         [1, 0, 1],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case "1":
@@ -68,7 +68,7 @@ export default {
                         [0, 1, 0],
                         [0, 1, 0],
                         [0, 1, 0],
-                        [0, 1, 0]
+                        [0, 1, 0],
                     ];
                     break;
                 case "2":
@@ -77,7 +77,7 @@ export default {
                         [0, 0, 1],
                         [1, 1, 1],
                         [1, 0, 0],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case "3":
@@ -86,7 +86,7 @@ export default {
                         [0, 0, 1],
                         [1, 1, 1],
                         [0, 0, 1],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case "4":
@@ -95,7 +95,7 @@ export default {
                         [1, 0, 1],
                         [1, 1, 1],
                         [0, 0, 1],
-                        [0, 0, 1]
+                        [0, 0, 1],
                     ];
                     break;
                 case "5":
@@ -104,7 +104,7 @@ export default {
                         [1, 0, 0],
                         [1, 1, 1],
                         [0, 0, 1],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case "6":
@@ -113,7 +113,7 @@ export default {
                         [1, 0, 0],
                         [1, 1, 1],
                         [1, 0, 1],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case "7":
@@ -122,7 +122,7 @@ export default {
                         [0, 0, 1],
                         [0, 0, 1],
                         [0, 0, 1],
-                        [0, 0, 1]
+                        [0, 0, 1],
                     ];
                     break;
                 case "8":
@@ -131,7 +131,7 @@ export default {
                         [1, 0, 1],
                         [1, 1, 1],
                         [1, 0, 1],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case "9":
@@ -140,7 +140,7 @@ export default {
                         [1, 0, 1],
                         [1, 1, 1],
                         [0, 0, 1],
-                        [1, 1, 1]
+                        [1, 1, 1],
                     ];
                     break;
                 case ":":
@@ -149,7 +149,7 @@ export default {
                         [0, 1, 0],
                         [0, 0, 0],
                         [0, 1, 0],
-                        [0, 0, 0]
+                        [0, 0, 0],
                     ];
                     break;
                 case ".":
@@ -158,7 +158,7 @@ export default {
                         [0, 0, 0],
                         [0, 0, 0],
                         [0, 0, 0],
-                        [0, 1, 0]
+                        [0, 1, 0],
                     ];
                     break;
                 case "/":
@@ -167,7 +167,7 @@ export default {
                         [0, 0, 1],
                         [0, 1, 0],
                         [1, 0, 0],
-                        [0, 0, 0]
+                        [0, 0, 0],
                     ];
                     break;
                 case "\\":
@@ -176,7 +176,7 @@ export default {
                         [1, 0, 0],
                         [0, 1, 0],
                         [0, 0, 1],
-                        [0, 0, 0]
+                        [0, 0, 0],
                     ];
                     break;
                 case "+":
@@ -185,7 +185,7 @@ export default {
                         [0, 1, 0],
                         [1, 1, 1],
                         [0, 1, 0],
-                        [0, 0, 0]
+                        [0, 0, 0],
                     ];
                     break;
                 case "-":
@@ -194,7 +194,7 @@ export default {
                         [0, 0, 0],
                         [1, 1, 1],
                         [0, 0, 0],
-                        [0, 0, 0]
+                        [0, 0, 0],
                     ];
                     break;
                 case "=":
@@ -203,7 +203,7 @@ export default {
                         [1, 1, 1],
                         [0, 0, 0],
                         [1, 1, 1],
-                        [0, 0, 0]
+                        [0, 0, 0],
                     ];
                     break;
                 case " ":
@@ -242,12 +242,12 @@ export default {
                 }
             }
             return res;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .numbers-style {
     display: flex;
     flex-wrap: wrap;

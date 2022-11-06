@@ -46,15 +46,15 @@ export default {
                     name: "文档",
                     type: "router",
                     value: "homePage",
-                    click: "clickDoc"
+                    click: "clickDoc",
                 },
                 {
                     name: "博客",
                     type: "router",
                     value: "blog",
-                    click: "clickBlog"
-                }
-            ]
+                    click: "clickBlog",
+                },
+            ],
         };
     },
     methods: {
@@ -67,7 +67,7 @@ export default {
             setTimeout(() => {
                 this.getTime();
             }, 1000);
-        }
+        },
     },
     created() {
         this.getTime();
@@ -81,11 +81,11 @@ export default {
         username.querySelectorAll("span").forEach((span, index) => {
             span.style.setProperty("--delay", `${index * 0.1}s`);
         });
-    }
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .avatar:hover + .hover-board {
     display: block;
 }

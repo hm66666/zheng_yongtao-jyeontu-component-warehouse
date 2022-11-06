@@ -57,32 +57,32 @@ export default {
             type: Array,
             default: () => {
                 return [];
-            }
+            },
         },
         full: {
             type: Boolean,
-            default: true
+            default: true,
         },
         time: {
             type: Number,
-            default: 10
+            default: 10,
         },
         mask: {
             type: Boolean,
-            default: false
+            default: false,
         },
         repetition: {
             type: Boolean,
-            default: true
+            default: true,
         },
         startFrom: {
             type: String,
-            default: "left"
+            default: "left",
         },
         showBtn: {
             type: Boolean,
-            default: true
-        }
+            default: true,
+        },
     },
     data() {
         return {
@@ -94,11 +94,11 @@ export default {
             sendObj: {
                 text: "",
                 color: "#FFFFFF",
-                position: "random"
+                position: "random",
             },
             showToolsBox: false,
             barrageNums: 0,
-            clearBarrageTime: null
+            clearBarrageTime: null,
         };
     },
     created() {},
@@ -122,7 +122,7 @@ export default {
             let content = this.content;
             let barrageList = document.getElementsByClassName("j-barrage-span");
             barrageList = Array.from(barrageList);
-            barrageList.map(item => {
+            barrageList.map((item) => {
                 if (item.offsetLeft == 0) content.removeChild(item);
             });
             this.clearBarrageTime = setTimeout(() => {
@@ -172,7 +172,7 @@ export default {
                 this.content = document.getElementById("full-barrage-content");
             else this.content = document.getElementById("j-barrage-content");
             let showBarrageDate = [...this.barrageDate];
-            showBarrageDate.map(item => {
+            showBarrageDate.map((item) => {
                 item = this.formatData(item);
             });
             this.showBarrageDate = showBarrageDate;
@@ -238,11 +238,11 @@ export default {
                     }, timeFlag * 1000 + this.time / 3);
                 }
             });
-        }
-    }
+        },
+    },
 };
 </script>
-<style vars="{width}" lang="scss">
+<style vars="{ width }" lang="less">
 @keyframes moveLeft {
     from {
         left: 0px;
@@ -260,7 +260,7 @@ export default {
     }
 }
 </style>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 #full-barrage-content {
     position: fixed;
     width: 100vw;

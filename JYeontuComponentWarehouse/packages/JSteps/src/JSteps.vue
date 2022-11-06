@@ -85,54 +85,54 @@ export default {
     props: {
         direction: {
             type: String,
-            default: "horizontal" //horizontal 横向 vertical 纵向
+            default: "horizontal", //horizontal 横向 vertical 纵向
         },
         iconWidth: {
             type: Number,
-            default: 50
+            default: 50,
         },
         sortBy: {
             type: String,
-            default: "time"
+            default: "time",
         },
         iconStyle: {
             type: Object,
             default: () => {
                 return {
-                    color: "black"
+                    color: "black",
                 };
-            }
+            },
         },
         lineStyle: {
             type: Object,
             default: () => {
                 return {
                     color: "skyblue",
-                    height: "100px"
+                    height: "100px",
                 };
-            }
+            },
         },
         titleStyle: {
             type: Object,
             default: () => {
                 return {
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                 };
-            }
+            },
         },
         descriptStyle: {
             type: Object,
             default: () => {
                 return {};
-            }
+            },
         },
         timeStyle: {
             type: Object,
             default: () => {
                 return {
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                 };
-            }
+            },
         },
         dataList: {
             type: Array,
@@ -142,39 +142,39 @@ export default {
                         title: "版本0.1.4",
                         descript: "优化：代码高亮组件",
                         time: "2021-12-01",
-                        icon: "图标"
+                        icon: "图标",
                     },
                     {
                         title: "版本0.1.3",
                         descript: "增加：悬浮按钮组件，弹窗组件",
                         time: "2021-11-28",
-                        icon: "图标"
+                        icon: "图标",
                     },
                     {
                         title: "版本0.1.2",
                         descript: "增加：数字滚动变化效果组件",
                         time: "2021-11-26",
-                        icon: "图标"
+                        icon: "图标",
                     },
                     {
                         title: "版本0.1.1",
                         descript: "项目搭建",
                         time: "2021-11-24",
-                        icon: "图标"
+                        icon: "图标",
                     },
                     {
                         title: "版本0.1.0",
                         descript: "创建npm库",
                         time: "2021-11-22",
-                        icon: "图标"
-                    }
+                        icon: "图标",
+                    },
                 ];
-            }
-        }
+            },
+        },
     },
     data() {
         return {
-            showDataList: 0
+            showDataList: 0,
         };
     },
     created() {},
@@ -230,12 +230,12 @@ export default {
                 res += "active-tab";
             }
             return res + " " + val;
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="less" scoped="scoped">
 .j-steps {
     width: 100%;
     .j-steps-item {

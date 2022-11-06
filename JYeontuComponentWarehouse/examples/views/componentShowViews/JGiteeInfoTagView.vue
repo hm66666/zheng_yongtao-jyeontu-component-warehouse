@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 Gitee仓库信息组件（JGiteeInfoTag）
-                <div class="j-detail">
-                    Gitee仓库信息组件
-                </div>
+                <div class="j-detail">Gitee仓库信息组件</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -36,7 +34,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JToolTipView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -50,7 +48,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -60,7 +58,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -70,7 +68,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -80,24 +78,24 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [],
             repoList: [
                 {
                     owner: "zheng_yongtao",
-                    repo: "jyeontu-component-warehouse"
+                    repo: "jyeontu-component-warehouse",
                 },
                 {
                     owner: "zheng_yongtao",
-                    repo: "me-and-my-doodle"
+                    repo: "me-and-my-doodle",
                 },
                 {
                     owner: "peng_zhihui",
-                    repo: "HelloWord-Keyboard"
-                }
-            ]
+                    repo: "HelloWord-Keyboard",
+                },
+            ],
         };
     },
     created() {
@@ -147,20 +145,20 @@ export default {
                     parameter: "owner",
                     field: "仓库作者",
                     type: "String",
-                    describe: "仓库作者"
+                    describe: "仓库作者",
                 },
                 {
                     parameter: "repo",
                     field: "仓库名",
                     type: "String",
-                    describe: "仓库名"
-                }
+                    describe: "仓库名",
+                },
             ];
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

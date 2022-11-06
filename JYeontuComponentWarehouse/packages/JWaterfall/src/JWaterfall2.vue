@@ -16,16 +16,16 @@ export default {
     props: {
         imgList: {
             type: Array,
-            default: () => []
+            default: () => [],
         },
         imgWidth: {
             type: Number,
-            default: 100
+            default: 100,
         },
         imgMargin: {
             type: Number,
-            default: 3
-        }
+            default: 3,
+        },
     },
     mounted() {
         window.onresize = () => {
@@ -56,12 +56,12 @@ export default {
                 item.style.left = minIndex * imgWidth + "px";
                 heightArr[minIndex] += itemHeight;
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .img-content {
     height: 30vh;
     width: 350px;

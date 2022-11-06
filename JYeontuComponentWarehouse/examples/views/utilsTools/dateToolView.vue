@@ -2,9 +2,7 @@
     <div class="dateToolView">
         <div class="j-title">
             日期处理函数（dateTool）
-            <div class="j-detail">
-                日期格式转换及常用日期获取
-            </div>
+            <div class="j-detail">日期格式转换及常用日期获取</div>
         </div>
         <div class="explain">
             <div class="j-title">说明</div>
@@ -31,7 +29,7 @@ import methodTest from "@/components/common/methodTest.vue";
 export default {
     name: "dateToolView",
     components: {
-        methodTest
+        methodTest,
     },
     data() {
         return {
@@ -44,7 +42,7 @@ export default {
                         {
                             name: "日期(必填)",
                             value: dateTool.getToday(),
-                            required: true
+                            required: true,
                         },
                         {
                             name: "格式(默认yyyy-mm-dd)",
@@ -61,10 +59,10 @@ export default {
                                 "hh",
                                 "MM",
                                 "ss",
-                                "mm-dd"
-                            ]
-                        }
-                    ]
+                                "mm-dd",
+                            ],
+                        },
+                    ],
                 },
                 {
                     name: "getToday",
@@ -84,10 +82,10 @@ export default {
                                 "hh",
                                 "MM",
                                 "ss",
-                                "mm-dd"
-                            ]
-                        }
-                    ]
+                                "mm-dd",
+                            ],
+                        },
+                    ],
                 },
                 {
                     name: "beforeDay",
@@ -95,14 +93,14 @@ export default {
                         {
                             name: "日期(必填)",
                             value: dateTool.getToday(),
-                            required: true
+                            required: true,
                         },
                         {
                             name: "前n天(必填)",
                             value: 15,
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "afterDay",
@@ -110,15 +108,15 @@ export default {
                         {
                             name: "日期(必填)",
                             value: dateTool.getToday(),
-                            required: true
+                            required: true,
                         },
                         {
                             name: "后n天(必填)",
                             value: 15,
-                            required: true
-                        }
-                    ]
-                }
+                            required: true,
+                        },
+                    ],
+                },
             ],
             code: "",
             title: [
@@ -130,7 +128,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "说明", //展示列名
@@ -140,7 +138,7 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "参数", //展示列名
@@ -150,38 +148,38 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     method: "dateFormat(value: String,formatStr: string)",
                     explain: "将时间按照所传入的时间格式进行转换",
                     parameter:
-                        "value:日期(必填)，formatStr:格式(默认值：'yyyy-mm-dd')"
+                        "value:日期(必填)，formatStr:格式(默认值：'yyyy-mm-dd')",
                 },
                 {
                     method: "getToday(str: String)",
                     explain: "获取当前时间并按照所传入的时间格式进行转换",
-                    parameter: "str:格式(默认值：'yyyy-mm-dd')"
+                    parameter: "str:格式(默认值：'yyyy-mm-dd')",
                 },
                 {
                     method: "beforeDay(date:String,n:Number)",
                     explain: "获取前n天日期",
-                    parameter: "date:日期，n:前n天"
+                    parameter: "date:日期，n:前n天",
                 },
                 {
                     method: "afterDay(date:String,n:Number)",
                     explain: "获取后n天日期",
-                    parameter: "date:日期，n:后n天"
-                }
+                    parameter: "date:日期，n:后n天",
+                },
             ],
             keyWords: [
                 {
                     value: "dateTool",
-                    color: "green"
-                }
-            ]
+                    color: "green",
+                },
+            ],
         };
     },
     created() {
@@ -198,11 +196,11 @@ export default {
         dateTool.afterDay('2021-11-15',10);//获取2021-11-15后10天的日期
         `;
     },
-    methods: {}
+    methods: {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .dateToolView {
     padding: 0.2rem;
     .j-title {

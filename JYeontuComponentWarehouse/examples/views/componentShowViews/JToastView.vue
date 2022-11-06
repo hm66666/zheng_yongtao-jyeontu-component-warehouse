@@ -3,16 +3,12 @@
         <template #header-p>
             <div class="j-title">
                 提示弹框（JToast）
-                <div class="j-detail">
-                    toast提示组件
-                </div>
+                <div class="j-detail">toast提示组件</div>
             </div>
         </template>
         <template #mid-p>
             <div class="content">
-                <button @click="showToast()">
-                    点我
-                </button>
+                <button @click="showToast()">点我</button>
             </div>
         </template>
         <template #footer-p>
@@ -30,11 +26,11 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JToastView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
-            code: ""
+            code: "",
         };
     },
     created() {
@@ -65,11 +61,11 @@ export default {
     methods: {
         showToast() {
             this.$JToast("测试Toast");
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

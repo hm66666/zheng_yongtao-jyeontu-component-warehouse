@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 对话弹窗（JDialog）
-                <div class="j-detail">
-                    页面弹出窗口
-                </div>
+                <div class="j-detail">页面弹出窗口</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -24,9 +22,7 @@
                         </div>
                     </template>
                 </j-dialog>
-                <button @click="showDialog()">
-                    点我
-                </button>
+                <button @click="showDialog()">点我</button>
             </div>
         </template>
         <template v-slot:right-p>
@@ -49,7 +45,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JDialogView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -60,19 +56,19 @@ export default {
                     style: {
                         backgroundColor: "orangered",
                         width: "100px",
-                        borderRadius: "5px"
+                        borderRadius: "5px",
                     },
-                    click: "close"
+                    click: "close",
                 },
                 {
                     text: "确认",
                     style: {
                         backgroundColor: "seagreen",
                         width: "100px",
-                        borderRadius: "5px"
+                        borderRadius: "5px",
                     },
-                    click: "confirm"
-                }
+                    click: "confirm",
+                },
             ],
             code: "",
             tableTitle: [
@@ -84,7 +80,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -94,7 +90,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -104,7 +100,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -114,33 +110,33 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     parameter: "title",
                     field: "标题",
                     type: "String",
-                    describe: "左上角显示标题"
+                    describe: "左上角显示标题",
                 },
                 {
                     parameter: "closable",
                     field: "点击遮罩关闭弹窗",
                     type: "Boolean",
-                    describe: "默认为false"
+                    describe: "默认为false",
                 },
                 {
                     parameter: "close",
                     field: "弹窗关闭时回调函数",
                     type: "function",
-                    describe: ""
+                    describe: "",
                 },
                 {
                     parameter: "show",
                     field: "弹窗打开时回调函数",
                     type: "function",
-                    describe: ""
+                    describe: "",
                 },
                 {
                     parameter: "btnList",
@@ -154,24 +150,24 @@ export default {
                                 parameter: "text",
                                 field: "按钮文字",
                                 type: "String",
-                                describe: "按钮文字"
+                                describe: "按钮文字",
                             },
                             {
                                 parameter: "style",
                                 field: "按钮样式",
                                 type: "String",
-                                describe: "按钮样式"
+                                describe: "按钮样式",
                             },
                             {
                                 parameter: "click",
                                 field: "按钮点击事件",
                                 type: "String",
-                                describe: "按钮点击事件"
-                            }
-                        ]
-                    }
-                }
-            ]
+                                describe: "按钮点击事件",
+                            },
+                        ],
+                    },
+                },
+            ],
         };
     },
     created() {
@@ -238,11 +234,11 @@ export default {
         confirm() {
             // console.log("confirm");
             this.$refs.JDialog.closeDialog();
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

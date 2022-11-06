@@ -2,9 +2,7 @@
     <div class="numsFormatView">
         <div class="j-title">
             数字处理函数（numsFormat）
-            <div class="j-detail">
-                数字格式转换及常用数字处理
-            </div>
+            <div class="j-detail">数字格式转换及常用数字处理</div>
         </div>
         <div class="explain">
             <div class="j-title">说明</div>
@@ -30,7 +28,7 @@ import methodTest from "@/components/common/methodTest.vue";
 export default {
     name: "numsFormatView",
     components: {
-        methodTest
+        methodTest,
     },
     data() {
         return {
@@ -41,9 +39,9 @@ export default {
                         {
                             name: "数字(必填)",
                             value: 12345,
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "numberToChineseWords",
@@ -51,9 +49,9 @@ export default {
                         {
                             name: "数字字符串(必填)",
                             value: "12345",
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "numberToSplitWords",
@@ -61,14 +59,14 @@ export default {
                         {
                             name: "数字字符串(必填)",
                             value: "12345",
-                            required: true
+                            required: true,
                         },
                         {
                             name: "分隔符(默认为',')",
                             value: "",
-                            required: false
-                        }
-                    ]
+                            required: false,
+                        },
+                    ],
                 },
                 {
                     name: "intToRoman",
@@ -76,9 +74,9 @@ export default {
                         {
                             name: "整数数字(必填)[1:3999]",
                             value: 345,
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "romanToInt",
@@ -86,9 +84,9 @@ export default {
                         {
                             name: "罗马数字(必填)",
                             value: "CCCXLV",
-                            required: true
-                        }
-                    ]
+                            required: true,
+                        },
+                    ],
                 },
                 {
                     name: "getRandomNum",
@@ -96,15 +94,15 @@ export default {
                         {
                             name: "最小值(必填)",
                             value: 1,
-                            required: true
+                            required: true,
                         },
                         {
                             name: "最大值(必填)",
                             value: 10,
-                            required: true
-                        }
-                    ]
-                }
+                            required: true,
+                        },
+                    ],
+                },
             ],
             title: [
                 {
@@ -115,7 +113,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "说明", //展示列名
@@ -125,7 +123,7 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "参数", //展示列名
@@ -135,48 +133,48 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData: [
                 {
                     method: "numberToWords(num: Number)",
                     explain: "数字转换为英文表示",
-                    parameter: "num:数字"
+                    parameter: "num:数字",
                 },
                 {
                     method: "numberToChineseWords(str: String)",
                     explain: "数字转换为大写中文表示",
-                    parameter: "str:数字字符串"
+                    parameter: "str:数字字符串",
                 },
                 {
                     method: "numberToSplitWords(num:String,separator:String)",
                     explain: "数字千分位分隔",
-                    parameter: "num:数字字符串,separator:分隔符(默认为',')"
+                    parameter: "num:数字字符串,separator:分隔符(默认为',')",
                 },
                 {
                     method: "intToRoman(num:Number)",
                     explain: "整数转罗马数字",
-                    parameter: "num:整数"
+                    parameter: "num:整数",
                 },
                 {
                     method: "romanToInt(s:String)",
                     explain: "罗马数字转整数",
-                    parameter: "s:罗马数字"
+                    parameter: "s:罗马数字",
                 },
                 {
                     method: "getRandomNum(minNum:Number,maxNum:Number)",
                     explain: "获取随机数",
-                    parameter: "minNum:最小值，maxNum:最大值"
-                }
+                    parameter: "minNum:最小值，maxNum:最大值",
+                },
             ],
             keyWords: [
                 {
                     value: "numsFormat",
-                    color: "green"
-                }
+                    color: "green",
+                },
             ],
-            code: ""
+            code: "",
         };
     },
     created() {
@@ -194,11 +192,11 @@ export default {
         numsFormat.getRandomNum(0,100);//随机获取0-100的数字
         `;
     },
-    methods: {}
+    methods: {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .numsFormatView {
     padding: 0.2rem;
     .j-title {

@@ -16,47 +16,47 @@ export default {
     props: {
         bgColor: {
             type: String,
-            default: "deepskyblue"
+            default: "deepskyblue",
         },
         autoHide: {
             type: Boolean,
-            default: true
+            default: true,
         },
         clickDis: {
             type: Number,
-            default: 10
+            default: 10,
         },
         showWidth: {
             type: Number,
-            default: 15
+            default: 15,
         },
         width: {
             type: Number,
-            default: 80
+            default: 80,
         },
         radius: {
             type: Boolean,
-            default: true
+            default: true,
         },
         btnStyle: {
             type: Object,
-            default: () => {}
+            default: () => {},
         },
         text: {
             type: String,
-            default: "悬浮按钮"
+            default: "悬浮按钮",
         },
         zIndex: {
             type: Number,
-            default: 999
-        }
+            default: 999,
+        },
     },
     data() {
         return {
             startX: "",
             startY: "",
             clickStatus: false,
-            isClick: true
+            isClick: true,
         };
     },
     mounted() {
@@ -82,18 +82,18 @@ export default {
         },
         //阻止默认事件
         preventEvent() {
-            document.getElementById("j-hover-btn").ondragstart = function() {
+            document.getElementById("j-hover-btn").ondragstart = function () {
                 return false;
             };
-            document.getElementById("j-hover-btn").onselectstart = function() {
+            document.getElementById("j-hover-btn").onselectstart = function () {
                 return false;
             };
         },
         windowPreventEvent() {
-            window.ondragstart = function() {
+            window.ondragstart = function () {
                 return false;
             };
-            window.onselectstart = function() {
+            window.onselectstart = function () {
                 return false;
             };
         },
@@ -145,12 +145,12 @@ export default {
                 dom.style.left = endX - this.width / 2 + "px";
                 dom.style.top = endY - this.width / 2 + "px";
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .j-hover-btn {
     text-align: center;
     cursor: pointer;

@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 3D轮播图（J3DSwipe）
-                <div class="j-detail">
-                    3D轮播图
-                </div>
+                <div class="j-detail">3D轮播图</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -35,7 +33,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "J3DSwipeView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -55,7 +53,7 @@ export default {
                 "https://img2.baidu.com/it/u=2165957654,3023194084&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
                 "https://img0.baidu.com/it/u=1280320387,1585665801&fm=253&fmt=auto&app=138&f=JPEG?w=368&h=368",
                 "https://img0.baidu.com/it/u=1403512971,1919400898&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
-                "https://img0.baidu.com/it/u=707869343,3146161581&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"
+                "https://img0.baidu.com/it/u=707869343,3146161581&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500",
             ],
             tableTitle: [
                 {
@@ -66,7 +64,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -76,7 +74,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -86,7 +84,7 @@ export default {
                     width: "10vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -96,10 +94,10 @@ export default {
                     width: "40vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
-            tableData: []
+            tableData: [],
         };
     },
     created() {
@@ -152,51 +150,51 @@ export default {
                     parameter: "maxWidth",
                     field: "图片宽度",
                     type: "String",
-                    describe: "默认为150px"
+                    describe: "默认为150px",
                 },
                 {
                     parameter: "hoverPause",
                     field: "鼠标移动到图片上暂停",
                     type: "Boolean",
-                    describe: "鼠标移动到图片上是否暂停轮播，默认为true"
+                    describe: "鼠标移动到图片上是否暂停轮播，默认为true",
                 },
                 {
                     parameter: "blurPause",
                     field: "页面窗口失去焦点时停止轮播",
                     type: "Boolean",
-                    describe: "页面窗口失去焦点时停止轮播，默认为true"
+                    describe: "页面窗口失去焦点时停止轮播，默认为true",
                 },
                 {
                     parameter: "speed",
                     field: "轮播速度",
                     type: "String",
-                    describe: "单位为ms，默认为1500"
+                    describe: "单位为ms，默认为1500",
                 },
                 {
                     parameter: "multiple",
                     field: "图片放大倍数",
                     type: "String",
-                    describe: "鼠标移动到图片上，图片放大倍数，默认为1.4"
+                    describe: "鼠标移动到图片上，图片放大倍数，默认为1.4",
                 },
                 {
                     parameter: "autoPlay",
                     field: "自动轮播",
                     type: "Boolean",
-                    describe: "是否自动轮播，默认为true"
+                    describe: "是否自动轮播，默认为true",
                 },
                 {
                     parameter: "imgList",
                     field: "图片列表",
                     type: "Array",
                     describe:
-                        "轮播图片列表，可以是网络图片或者require(本地图片路径)"
-                }
+                        "轮播图片列表，可以是网络图片或者require(本地图片路径)",
+                },
             ];
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 弹幕组件（JBarrage）
-                <div class="j-detail">
-                    弹幕组件
-                </div>
+                <div class="j-detail">弹幕组件</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -37,7 +35,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "JBarrageView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -50,73 +48,73 @@ export default {
                 {
                     text: "111",
                     color: "red",
-                    position: "top" //top,center,bottom
+                    position: "top", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "red",
-                    position: "top" //top,center,bottom
+                    position: "top", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "red",
-                    position: "top" //top,center,bottom
+                    position: "top", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "red",
-                    position: "top" //top,center,bottom
+                    position: "top", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "red",
-                    position: "top" //top,center,bottom
+                    position: "top", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "blue",
-                    position: "center" //top,center,bottom
+                    position: "center", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "blue",
-                    position: "center" //top,center,bottom
+                    position: "center", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
+                    position: "bottom", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
+                    position: "bottom", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
+                    position: "bottom", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
+                    position: "bottom", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
+                    position: "bottom", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
+                    position: "bottom", //top,center,bottom
                 },
                 {
                     text: "111",
                     color: "yellow",
-                    position: "bottom" //top,center,bottom
-                }
+                    position: "bottom", //top,center,bottom
+                },
             ],
             tableTitle: [
                 {
@@ -127,7 +125,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -137,7 +135,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -147,7 +145,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -157,10 +155,10 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
-            tableData: []
+            tableData: [],
         };
     },
     created() {
@@ -282,61 +280,61 @@ export default {
                                 parameter: "text",
                                 field: "弹幕内容",
                                 type: "String",
-                                describe: "弹幕内容"
+                                describe: "弹幕内容",
                             },
                             {
                                 parameter: "color",
                                 field: "弹幕文字颜色",
                                 type: "String",
-                                describe: "弹幕文字颜色"
+                                describe: "弹幕文字颜色",
                             },
                             {
                                 parameter: "position",
                                 field: "弹幕位置",
                                 type: "String",
                                 describe:
-                                    "弹幕位置，可以为'top','center','bottom','random'"
-                            }
-                        ]
-                    }
+                                    "弹幕位置，可以为'top','center','bottom','random'",
+                            },
+                        ],
+                    },
                 },
                 {
                     parameter: "full",
                     field: "是否全屏弹幕",
                     type: "Boolean",
-                    describe: "是否全屏弹幕，默认为true"
+                    describe: "是否全屏弹幕，默认为true",
                 },
                 {
                     parameter: "time",
                     field: "弹幕滑过屏幕时间",
                     type: "Number",
-                    describe: "弹幕滑过屏幕时间，默认为10（单位为秒）"
+                    describe: "弹幕滑过屏幕时间，默认为10（单位为秒）",
                 },
                 {
                     parameter: "repetition",
                     field: "是否重复弹幕",
                     type: "Boolean",
                     describe:
-                        "是否重复弹幕，即一轮弹幕展示完后会重新循环播放，默认为true"
+                        "是否重复弹幕，即一轮弹幕展示完后会重新循环播放，默认为true",
                 },
                 {
                     parameter: "startFrom",
                     field: "弹幕出现位置",
                     type: "String",
-                    describe: "弹幕出现位置，可以为'left'或'right'默认为left"
+                    describe: "弹幕出现位置，可以为'left'或'right'默认为left",
                 },
                 {
                     parameter: "showBtn",
                     field: "是否展示弹幕发送框",
                     type: "Boolean",
-                    describe: "是否展示弹幕发送框，默认为true"
-                }
+                    describe: "是否展示弹幕发送框，默认为true",
+                },
             ];
-        }
-    }
+        },
+    },
 };
 </script>
-<style scoped lang="scss">
+<style scoped lang="less">
 .title {
     font-size: x-large;
     text-align: left;

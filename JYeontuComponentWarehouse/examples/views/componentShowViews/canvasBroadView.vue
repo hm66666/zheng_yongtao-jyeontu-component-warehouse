@@ -3,15 +3,11 @@
         <template v-slot:header-p>
             <div class="j-title">
                 canvas画板组件（JCanvasBroad）
-                <div class="j-detail">
-                    canvas画板组件
-                </div>
+                <div class="j-detail">canvas画板组件</div>
             </div>
         </template>
         <template v-slot:left-p>
-            <div class="broad-title">
-                我的画板
-            </div>
+            <div class="broad-title">我的画板</div>
             <div class="broad-contain">
                 <j-canvas-broad
                     class="canvas-baroad"
@@ -43,7 +39,7 @@ import splitHorizontal from "@/components/pages/splitHorizontal.vue";
 export default {
     name: "canvasBroadView",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         return {
@@ -58,7 +54,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -68,7 +64,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -78,7 +74,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -88,49 +84,49 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData1: [
                 {
                     parameter: "height",
                     field: "画板高度",
                     type: "Number",
-                    describe: "默认为父元素高度*0.7"
+                    describe: "默认为父元素高度*0.7",
                 },
                 {
                     parameter: "width",
                     field: "画板宽度",
                     type: "Number",
-                    describe: "默认为父元素宽度*0.9"
+                    describe: "默认为父元素宽度*0.9",
                 },
                 {
                     parameter: "defaultPenColor",
                     field: "默认画笔颜色",
                     type: "String",
-                    describe: "默认为#000000"
+                    describe: "默认为#000000",
                 },
                 {
                     parameter: "defaultPenSize",
                     field: "默认画笔尺寸",
                     type: "Number",
-                    describe: "默认为4px"
+                    describe: "默认为4px",
                 },
                 {
                     parameter: "defaultBackGroundColor",
                     field: "默认背景颜色",
                     type: "String",
-                    describe: "默认为#ffffff"
+                    describe: "默认为#ffffff",
                 },
                 {
                     parameter: "toolsTabList",
                     field: "工具栏tabbar显示",
                     type: "Boolean",
-                    describe: "默认为false"
-                }
+                    describe: "默认为false",
+                },
             ],
             chatData: {},
-            code: ""
+            code: "",
         };
     },
     created() {
@@ -156,11 +152,11 @@ export default {
 <\/script>
 `;
     },
-    methods: {}
+    methods: {},
 };
 </script>
 
-<style lang="scss" scoped="scoped">
+<style lang="less" scoped="scoped">
 .broad-title {
     line-height: 3rem;
 }

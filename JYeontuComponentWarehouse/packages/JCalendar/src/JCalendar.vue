@@ -1,5 +1,5 @@
 <template>
-    <div class="template" :id="id">
+    <div class="template j-calendar" :id="id">
         <div id="j-header" class="j-header">
             <div class="j-header-title">{{ title }}</div>
             <div class="j-btn-list">
@@ -40,23 +40,23 @@ export default {
     props: {
         id: {
             type: String,
-            default: "j-canlendar"
+            default: "j-canlendar",
         },
         title: {
             type: String,
-            default: "日历"
+            default: "日历",
         },
         bgSrc: {
             type: String,
-            default: "https://images8.alphacoders.com/992/992329.jpg"
-        }
+            default: "https://images8.alphacoders.com/992/992329.jpg",
+        },
     },
     data() {
         return {
             weeks: ["日", "一", "二", "三", "四", "五", "六"],
             days: [],
             selectDay: "",
-            selectMonth: ""
+            selectMonth: "",
         };
     },
     methods: {
@@ -211,17 +211,17 @@ export default {
             }
             this.days = this.fillDays(year, month);
             this.$emit("changeMonth", year + "-" + this.zero(month));
-        }
+        },
     },
     mounted() {
         this.toNowDay();
         this.setBg();
-    }
+    },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="less" scoped>
 @media screen and (max-width: 500px) {
     .j-header {
         height: calc(100vw * 9 / 16);
@@ -231,6 +231,9 @@ export default {
         font-size: medium !important;
         font-weight: bold !important;
     }
+}
+.j-calendar {
+    text-align: center;
 }
 .j-header {
     display: flex;

@@ -3,7 +3,7 @@
         <div class="top-content" id="top-content">
             <top></top>
         </div>
-        <div style="display: flex;">
+        <div style="display: flex">
             <el-drawer
                 class="drawer-left-content"
                 title="菜单"
@@ -20,7 +20,7 @@
                 class="menuBtn el-icon-menu drawer-left-content"
                 @click="drawer = true"
                 type="primary"
-                style="margin-left: 10px;"
+                style="margin-left: 10px"
             >
             </i>
             <div class="router-viewContent" id="routerViewContent">
@@ -38,12 +38,12 @@ export default {
     name: "app",
     components: {
         top,
-        left
+        left,
     },
     data() {
         return {
             drawer: false,
-            direction: "ltr"
+            direction: "ltr",
         };
     },
     methods: {
@@ -64,17 +64,17 @@ export default {
             c.style.padding = "2rem";
             a.style.marginTop = parseInt(bHeight) + "px";
             // console.log(aWidth,bWidth);
-        }
+        },
     },
     mounted() {
         // setTimeout(() => {
         this.reSizeWidth();
         // }, 1000)
-    }
+    },
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 body {
     overflow-x: hidden;
 }

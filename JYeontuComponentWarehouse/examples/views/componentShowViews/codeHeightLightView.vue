@@ -3,9 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 代码高亮组件（JCodeHeightLight）
-                <div class="j-detail">
-                    自定义代码关键字高亮组件
-                </div>
+                <div class="j-detail">自定义代码关键字高亮组件</div>
             </div>
         </template>
         <template v-slot:mid-p>
@@ -25,7 +23,7 @@ export default {
     name: "codeHeightLightView",
     //import引入的组件需要注入到对象中才能使用",
     components: {
-        splitHorizontal
+        splitHorizontal,
     },
     data() {
         //这里存放数据",
@@ -39,7 +37,7 @@ export default {
                     width: "20vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "字段名", //展示列名
@@ -49,7 +47,7 @@ export default {
                     width: "30vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "数据类型", //展示列名
@@ -59,7 +57,7 @@ export default {
                     width: "15vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
+                    sort: false, // 是否支持排序
                 },
                 {
                     title: "描述", //展示列名
@@ -69,31 +67,31 @@ export default {
                     width: "35vw", //列宽度
                     columnStyle: "", // 列样式
                     fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
+                    sort: false, // 是否支持排序
+                },
             ],
             tableData1: [
                 {
                     parameter: "code",
                     field: "代码串",
                     type: "String",
-                    describe: "需要展示的代码串，可以使用模板字符串定义传入"
+                    describe: "需要展示的代码串，可以使用模板字符串定义传入",
                 },
                 {
                     parameter: "color",
                     field: "关键字颜色配置",
                     type: "Object",
-                    describe: "详细参数可展开查看"
+                    describe: "详细参数可展开查看",
                 },
                 {
                     parameter: "keyWords",
                     field: "自定义高亮关键字",
                     type: "Array",
                     describe:
-                        "如：keyWords:[{value:'numsFormat',color:'green'}]"
-                }
+                        "如：keyWords:[{value:'numsFormat',color:'green'}]",
+                },
             ],
-            code: ""
+            code: "",
         };
     },
     //监听属性 类似于data概念",
@@ -112,57 +110,57 @@ export default {
                         parameter: "keyWord",
                         field: "js关键字颜色",
                         type: "String",
-                        describe: "设置js关键字颜色，默认值为orange"
+                        describe: "设置js关键字颜色，默认值为orange",
                     },
                     {
                         parameter: "varWord",
                         field: "js变量颜色",
                         type: "String",
-                        describe: "设置js变量颜色，默认值为purple"
+                        describe: "设置js变量颜色，默认值为purple",
                     },
                     {
                         parameter: "tagWord",
                         field: "html标签颜色",
                         type: "String",
-                        describe: "设置html标签颜色，默认值为#F9273F"
+                        describe: "设置html标签颜色，默认值为#F9273F",
                     },
                     {
                         parameter: "attrWord",
                         field: "html属性颜色",
                         type: "String",
-                        describe: "设置html属性颜色，默认值为green"
+                        describe: "设置html属性颜色，默认值为green",
                     },
                     {
                         parameter: "attrValue",
                         field: "html属性值颜色",
                         type: "String",
-                        describe: "设置html属性值颜色，默认值为yellow"
+                        describe: "设置html属性值颜色，默认值为yellow",
                     },
                     {
                         parameter: "strWord",
                         field: "字符串变量值颜色",
                         type: "String",
-                        describe: "设置字符串变量值颜色，默认值为green"
+                        describe: "设置字符串变量值颜色，默认值为green",
                     },
                     {
                         parameter: "methodkeyWord",
                         field: "js方法名颜色",
                         type: "String",
-                        describe: "设置js方法名颜色，默认值为#74759b"
+                        describe: "设置js方法名颜色，默认值为#74759b",
                     },
                     {
                         parameter: "functionkeyWord",
                         field: "自定义函数名颜色",
                         type: "String",
-                        describe: "设置自定义函数名颜色，默认值为#2c9678"
+                        describe: "设置自定义函数名颜色，默认值为#2c9678",
                     },
                     {
                         parameter: "note",
                         field: "注释颜色",
                         type: "String",
-                        describe: "设置注释颜色，默认值为grey"
-                    }
-                ]
+                        describe: "设置注释颜色，默认值为grey",
+                    },
+                ],
             };
             let keyWordObj = {
                 title: title1,
@@ -171,19 +169,19 @@ export default {
                         parameter: "value",
                         field: "关键字",
                         type: "String",
-                        describe: "自定义关键字"
+                        describe: "自定义关键字",
                     },
                     {
                         parameter: "color",
                         field: "关键字颜色",
                         type: "String",
-                        describe: "设置自定义关键字颜色"
-                    }
-                ]
+                        describe: "设置自定义关键字颜色",
+                    },
+                ],
             };
             tableData1[1].children = colorObj;
             tableData1[2].children = keyWordObj;
-        }
+        },
     },
     //生命周期 - 创建之前",数据模型未加载,方法未加载,html模板未加载
     beforeCreate() {},
@@ -263,11 +261,11 @@ export default {
     destroyed() {},
     //生命周期 - 销毁完成",
     //如果页面有keep-alive缓存功能，这个函数会触发",
-    activated() {}
+    activated() {},
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .title {
     font-size: x-large;
     text-align: left;
