@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.5.3（已发布）",
+                    descript: "优化：scss改为less",
+                    time: "2022-11-06",
+                    icon: "5.3",
+                },
+                {
                     title: "版本0.5.2（已发布）",
                     descript: "增加Gitee仓库信息组件",
                     time: "2022-10-06",
