@@ -30,6 +30,8 @@ import JVideoCover from "./JVideoCover";
 import J3DSwipe from "./J3DSwipe";
 import JScratchCard from "./JScratchCard";
 import JGiteeInfoTag from "./JGiteeInfoTag";
+import JMouseMenu from "./JMouseMenu";
+import "@/assets/icon/iconfont.css";
 
 // 存储组件列表
 const components = [
@@ -57,7 +59,8 @@ const components = [
     JVideoCover,
     J3DSwipe,
     JScratchCard,
-    JGiteeInfoTag
+    JGiteeInfoTag,
+    JMouseMenu
     // Toast
 ];
 

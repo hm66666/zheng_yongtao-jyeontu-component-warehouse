@@ -61,7 +61,7 @@
                     :key="tableId + '-' + index + 'tr1'"
                     :style="getPadding(1) + 'border-top: 1px solid skyblue;'"
                 >
-                    <td :colspan="title.length">
+                    <td :colspan="title.length" style="white-space: break-spaces;">
                         {{ item.children.text }}
                     </td>
                 </tr>
@@ -84,30 +84,30 @@ export default {
     props: {
         tableId: {
             type: String,
-            default: "1",
+            default: "1"
         },
         showTitle: {
             type: Boolean,
-            default: true,
+            default: true
         },
         title: {
             //表格头
             type: Array,
             default() {
                 return [];
-            },
+            }
         },
         tableData: {
             //表格数据
             type: Array,
             default() {
                 return [];
-            },
-        },
+            }
+        }
     },
     data() {
         return {
-            expendList: [],
+            expendList: []
         };
     },
     methods: {
@@ -170,7 +170,7 @@ export default {
                         columnStyle: "", // 列样式
                         fixed: false, //是否固定
                         sort: false, // 是否支持排序
-                        sortWay: "asc", //asc:升序,desc:降序
+                        sortWay: "asc" //asc:升序,desc:降序
                     };
                     title.push(obj);
                 }
@@ -216,12 +216,12 @@ export default {
                 res += camelTo_(item[0]) + ":" + item[1] + ";";
             }
             return res;
-        },
+        }
     },
     mounted() {
         this.initTitle();
         this.initTable();
-    },
+    }
 };
 </script>
 

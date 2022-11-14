@@ -179,7 +179,7 @@
             "selected": false,
             "icon": "icon-xialajiantouxiao",
             "open": false,
-            "hide": false,
+            "hide": true,
             "component": "views/componentShowViews/JDropDownBoxView.vue",
             "children": []
         },
@@ -325,6 +325,18 @@
             "open": false,
             "hide": false,
             "component": "views/componentShowViews/JGiteeInfoTagView.vue",
+            "children": []
+        },
+        {
+            "id": 31,
+            "name": "JMouseMenu",
+            "path": "/JMouseMenu",
+            "label": "右键菜单栏",
+            "selected": false,
+            "icon": "icon-lunbotu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JMouseMenuView.vue",
             "children": []
         },
         {
