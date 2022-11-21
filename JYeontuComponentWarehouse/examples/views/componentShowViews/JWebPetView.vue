@@ -8,7 +8,7 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <div style="display: flex">
+                <div class="pet-name-content">
                     <span
                         :class="{
                             'pet-name-item': true,
@@ -22,7 +22,7 @@
                     </span>
                 </div>
                 <j-web-pet
-                    petSize="50px"
+                    petSize="100px"
                     :name="petName"
                     :defaultAction="defaultAction"
                 ></j-web-pet>
@@ -50,8 +50,17 @@ export default {
     },
     data() {
         return {
-            petName: "皮卡丘",
-            petNameList: ["皮卡丘", "奇犽"],
+            petName: "日向雏田",
+            petNameList: [
+                "皮卡丘",
+                "奇犽",
+                "白一护",
+                "橘一护",
+                "喵老师",
+                "蓝染",
+                "迪达拉",
+                "日向雏田",
+            ],
             defaultAction: "run",
             code: "",
             tableTitle: [
@@ -165,6 +174,10 @@ export default {
     // width: 50%;
     .content-body {
         text-align: center;
+    }
+    .pet-name-content {
+        display: flex;
+        flex-wrap: wrap;
     }
     .pet-name-item {
         padding: 2px 5px;
