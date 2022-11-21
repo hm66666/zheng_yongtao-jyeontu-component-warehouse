@@ -110,10 +110,10 @@ export default {
             this.mouseEventListen();
             this.autoRunToTarget();
         },
-        autoRunToTarget(action = this.nowAction) {
+        autoRunToTarget(action = this.nowAction, x = "", y = "") {
             if (action.isMove) {
-                const x = getRandomNum(0, window.innerWidth);
-                const y = getRandomNum(0, window.innerHeight);
+                if (!x) x = getRandomNum(0, window.innerWidth);
+                if (!y) y = getRandomNum(0, window.innerHeight);
                 this.runToTarget(action, action.min, x, y, this.step, () => {
                     this.autoRunToTarget(action);
                 });
@@ -267,15 +267,11 @@ export default {
                 ![...target.classList].includes("pet-menu-item") &&
                 target != this.showImg;
             if (isMove) {
-                this.runToTarget(
+                this.menuShow = false;
+                this.autoRunToTarget(
                     this.nowAction,
-                    -1,
                     e.pageX - window.scrollX,
-                    e.pageY - window.scrollY,
-                    this.step,
-                    () => {
-                        this.autoRunToTarget(this.nowAction);
-                    }
+                    e.pageY - window.scrollY
                 );
             }
         },
