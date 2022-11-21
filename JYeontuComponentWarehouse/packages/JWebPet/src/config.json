@@ -1,7 +1,7 @@
 {
     "皮卡丘": {
         "imgRootPath": "皮卡丘/",
-        "defaultImg": "皮卡丘/8.img",
+        "defaultImg": "皮卡丘/0.png",
         "actionList": [
             {
                 "name": "run",
@@ -58,39 +58,34 @@
             {
                 "name": "run",
                 "min": 1,
-                "max": 50,
-                "isMove": false
-            },
-            {
-                "name": "drink",
-                "min": 13,
-                "max": 15
-            },
-            {
-                "name": "balloon",
-                "min": 16,
-                "max": 17
-            },
-            {
-                "name": "peristalsis",
-                "min": 18,
-                "max": 20,
+                "max": 4,
                 "isMove": true
             },
             {
-                "name": "eat",
-                "min": 22,
-                "max": 25
+                "name": "fly",
+                "min": 7,
+                "max": 10,
+                "isMove": true
             },
             {
-                "name": "electricity",
+                "name": "sit",
                 "min": 26,
-                "max": 30
+                "max": 32
+            },
+            {
+                "name": "angry",
+                "min": 33,
+                "max": 41
+            },
+            {
+                "name": "airBall",
+                "min": 42,
+                "max": 50
             },
             {
                 "name": "followMouse",
                 "min": 1,
-                "max": 2
+                "max": 6
             }
         ],
         "step": 20,

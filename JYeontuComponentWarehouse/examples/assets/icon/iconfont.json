@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "26267572",
+      "name": "gitee",
+      "font_class": "gitee",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "1721666",
+      "name": "皮卡丘",
+      "font_class": "pikachu",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "5484326",
+      "name": "后窗刮水器",
+      "font_class": "houchuangguashuiqi",
+      "unicode": "e797",
+      "unicode_decimal": 59287
+    },
+    {
+      "icon_id": "26525876",
+      "name": "鼠标右键",
+      "font_class": "mouseR",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
       "icon_id": "1251375",
       "name": "watch",
       "font_class": "watch",
