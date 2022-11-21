@@ -24,7 +24,7 @@
                 </div>
             </span>
             <audio
-                id="pikachuAudio"
+                id="webPetAudio"
                 class="pikachu-audio"
                 controls="controls"
                 height="100"
@@ -45,7 +45,7 @@ export default {
     props: {
         name: {
             type: String,
-            default: "奇犽",
+            default: "皮卡丘",
         },
         step: {
             type: Number,
@@ -54,6 +54,16 @@ export default {
         petSize: {
             type: String,
             default: "50px",
+        },
+        defaultAction: {
+            type: String,
+            default: "",
+        },
+    },
+    watch: {
+        name() {
+            this.initData();
+            this.init();
         },
     },
     data() {
@@ -66,7 +76,6 @@ export default {
             actionList: [],
             imgRootPath: "",
             menuShow: false,
-            firstActionName: "",
             isRunToTarget: null,
         };
     },
@@ -83,23 +92,26 @@ export default {
                     return item.name;
                 }) || [];
             this.menuList = list;
+            clearTimeout(this.isRunToTarget);
+            this.isRunToTarget = null;
+            this.menuShow = false;
         },
         init() {
             this.nowAction =
                 this.actionList.find((item) => {
-                    return item.name == this.firstActionName;
+                    return item.name == this.defaultAction;
                 }) || {};
             this.showImg = document.getElementById("showImg");
             this.showImg.style.width = this.petSize;
             this.showImg.style.height = this.petSize;
+            this.showImg.style.right = this.petSize;
+            this.showImg.style.top = "50%";
+            this.showImg.style.transform = "";
             this.mouseEventListen();
+            this.autoRunToTarget();
         },
         autoRunToTarget(action = this.nowAction) {
-            this.followTimeSet && clearTimeout(this.isRunToTarget);
-            if (action.name == "followMouse") {
-                this.isFollowMouse = !this.isFollowMouse;
-                this.nowAction = this.isFollowMouse ? action : {};
-            } else if (action.isMove) {
+            if (action.isMove) {
                 const x = getRandomNum(0, window.innerWidth);
                 const y = getRandomNum(0, window.innerHeight);
                 this.runToTarget(action, action.min, x, y, this.step, () => {
@@ -109,15 +121,20 @@ export default {
                 this.playImg(action);
             }
         },
-        clickPet() {
+        clickPet(e) {
             this.canDrag = true;
             clearTimeout(this.isRunToTarget);
+            this.startClickX = e.pageX - window.scrollX;
+            this.startClickY = e.pageY - window.scrollY;
+            window.addEventListener("mouseover", this.mouseoverHandler, false);
+            window.addEventListener("mouseup", this.mouseupHandler, false);
         },
         menuClick(menuItem) {
             this.showImg.style.transform = "";
             if (this.nowAction.name == menuItem) {
                 this.nowAction = {};
                 this.showImg.setAttribute("src", this.imgSrc);
+                this.menuShow = false;
                 return;
             }
             const action = this.actionList.find((item) => {
@@ -125,7 +142,7 @@ export default {
             });
             this.nowAction = action;
             this.nowInd = action.min;
-            this.pikachuAudioPlay(true);
+            this.webPetAudioPlay(true);
             this.autoRunToTarget();
             this.menuShow = false;
         },
@@ -189,13 +206,12 @@ export default {
             this.showImg.style.top = nowY + addY + "px";
             const disX = Math.abs(this.showImg.offsetLeft + w - x);
             const disY = Math.abs(this.showImg.offsetTop + h - y);
+            clearTimeout(this.isRunToTarget);
             if (disX > w || disY > h) {
-                clearTimeout(this.isRunToTarget);
                 this.isRunToTarget = setTimeout(() => {
                     this.runToTarget(action, ind + 1, x, y, step, cb);
                 }, 500);
             } else {
-                clearTimeout(this.isRunToTarget);
                 this.isRunToTarget = null;
                 cb && cb();
             }
@@ -217,87 +233,70 @@ export default {
                 this.playImg(action, ind + 1);
             }, 500);
         },
-        mouseEventListen() {
-            window.addEventListener("mousemove", (e) => {
-                if (!this.isFollowMouse) return;
-                this.isFollowMouse = false;
-                const action = this.nowAction;
-                this.followTimeSet && clearTimeout(this.followTimeSet);
-                this.followTimeSet = setTimeout(() => {
-                    this.isFollowMouse = true;
-                }, 500);
+        mouseoverHandler(e) {
+            if (!this.canDrag) return;
+            const w = this.showImg.offsetWidth / 2;
+            const h = this.showImg.offsetHeight / 2;
+            this.showImg.style.left = e.pageX - window.scrollX - w + "px";
+            this.showImg.style.top = e.pageY - window.scrollY - h + "px";
+        },
+        mouseupHandler(e) {
+            const endClickX = e.pageX - window.scrollX;
+            const endClickY = e.pageY - window.scrollY;
+            const { target } = e;
+            if (
+                target == this.showImg &&
+                (Math.abs(this.startClickX - endClickX) < 10 ||
+                    Math.abs(this.startClickY - endClickY) < 10)
+            ) {
+                this.showMenu();
+            } else {
+                this.menuShow = false;
+            }
+            this.canDrag = false;
+            window.removeEventListener(
+                "mouseover",
+                this.mouseoverHandler,
+                false
+            );
+            window.removeEventListener("mouseup", this.mouseupHandler, false);
+        },
+        clickHandler(e) {
+            const { target } = e;
+            const isMove =
+                ![...target.classList].includes("pet-menu-item") &&
+                target != this.showImg;
+            if (isMove) {
                 this.runToTarget(
-                    action,
-                    action.min,
+                    this.nowAction,
+                    -1,
                     e.pageX - window.scrollX,
                     e.pageY - window.scrollY,
                     this.step,
                     () => {
-                        this.runToTarget(
-                            action,
-                            action.min,
-                            e.pageX - window.scrollX,
-                            e.pageY - window.scrollY,
-                            this.step
-                        );
+                        this.autoRunToTarget(this.nowAction);
                     }
                 );
-            });
-            window.addEventListener("mouseover", (e) => {
-                if (!this.canDrag) return;
-                const w = this.showImg.offsetWidth / 2;
-                const h = this.showImg.offsetHeight / 2;
-                this.showImg.style.left = e.pageX - window.scrollX - w + "px";
-                this.showImg.style.top = e.pageY - window.scrollY - h + "px";
-            });
-            window.addEventListener("mousedown", (e) => {
-                this.startClickX = e.pageX - window.scrollX;
-                this.startClickY = e.pageY - window.scrollY;
-            });
-            window.addEventListener("mouseup", (e) => {
-                const endClickX = e.pageX - window.scrollX;
-                const endClickY = e.pageY - window.scrollY;
-                const { target } = e;
-                const action = this.nowAction;
-                if (
-                    target == this.showImg &&
-                    (Math.abs(this.startClickX - endClickX) < 10 ||
-                        Math.abs(this.startClickY - endClickY) < 10)
-                ) {
-                    this.showMenu();
-                } else {
-                    this.menuShow = false;
-                    if (![...target.classList].includes("active-item")) {
-                        this.runToTarget(
-                            this.nowAction,
-                            -1,
-                            e.pageX - window.scrollX,
-                            e.pageY - window.scrollY,
-                            this.step,
-                            () => {
-                                this.autoRunToTarget(action);
-                            }
-                        );
-                    }
-                }
-                this.canDrag = false;
-            });
+            }
         },
-        pikachuAudioPlay(playNow = false) {
-            const pikachuAudio = document.getElementById("pikachuAudio");
+        mouseEventListen() {
+            window.addEventListener("click", this.clickHandler, false);
+        },
+        webPetAudioPlay(playNow = false) {
+            const webPetAudio = document.getElementById("webPetAudio");
             if (
                 !playNow &&
-                (!pikachuAudio.paused ||
+                (!webPetAudio.paused ||
                     Math.floor(Math.random() * 100) % 10 != 0)
             )
                 return;
             if (!this.nowAction.audio) return;
-            pikachuAudio.setAttribute(
+            webPetAudio.setAttribute(
                 "src",
                 require("@/assets/audio/" + this.nowAction.audio)
             );
             try {
-                pikachuAudio.play();
+                webPetAudio.play();
             } catch (e) {}
         },
     },
@@ -311,21 +310,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.j-pet-mask {
-    position: fixed;
-    user-select: none;
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-}
 .pet-img {
     position: fixed;
-    right: 50px;
-    top: 50%;
     z-index: 2147483647;
-    width: 50px;
-    height: 50px;
 }
 .pet-menu {
     position: fixed;

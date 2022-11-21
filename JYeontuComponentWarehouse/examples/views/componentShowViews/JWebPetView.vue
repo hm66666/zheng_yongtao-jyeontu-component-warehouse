@@ -8,7 +8,24 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <j-web-pet petSize="100px"></j-web-pet>
+                <div style="display: flex">
+                    <span
+                        :class="{
+                            'pet-name-item': true,
+                            'active-pet-name-item': petNameItem == petName,
+                        }"
+                        v-for="(petNameItem, petNameIndex) in petNameList"
+                        :key="petNameIndex"
+                        @click="petName = petNameItem"
+                    >
+                        {{ petNameItem }}
+                    </span>
+                </div>
+                <j-web-pet
+                    petSize="50px"
+                    :name="petName"
+                    :defaultAction="defaultAction"
+                ></j-web-pet>
             </div>
         </template>
         <template v-slot:right-p>
@@ -33,6 +50,9 @@ export default {
     },
     data() {
         return {
+            petName: "皮卡丘",
+            petNameList: ["皮卡丘", "奇犽"],
+            defaultAction: "run",
             code: "",
             tableTitle: [
                 {
@@ -145,6 +165,15 @@ export default {
     // width: 50%;
     .content-body {
         text-align: center;
+    }
+    .pet-name-item {
+        padding: 2px 5px;
+        margin: 8px;
+        border: 1px solid rgb(190, 134, 29);
+        cursor: pointer;
+    }
+    .active-pet-name-item {
+        background: rgb(190, 134, 29);
     }
 }
 .header {
