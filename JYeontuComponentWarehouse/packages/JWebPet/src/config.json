@@ -1,0 +1,99 @@
+{
+    "皮卡丘": {
+        "imgRootPath": "皮卡丘/",
+        "defaultImg": "皮卡丘/8.img",
+        "actionList": [
+            {
+                "name": "run",
+                "min": 1,
+                "max": 2,
+                "isMove": true,
+                "audio": "Pikachu.mp3"
+            },
+            {
+                "name": "drink",
+                "min": 13,
+                "max": 15,
+                "audio": "Pikachu.mp3"
+            },
+            {
+                "name": "balloon",
+                "min": 16,
+                "max": 17,
+                "audio": "Pikachu.mp3"
+            },
+            {
+                "name": "peristalsis",
+                "min": 18,
+                "max": 20,
+                "isMove": true,
+                "audio": "Pikachu.mp3"
+            },
+            {
+                "name": "eat",
+                "min": 22,
+                "max": 25,
+                "audio": "Pikachu.mp3"
+            },
+            {
+                "name": "electricity",
+                "min": 26,
+                "max": 30,
+                "audio": "electricity.mp3"
+            },
+            {
+                "name": "followMouse",
+                "min": 1,
+                "max": 2,
+                "audio": "Pikachu.mp3"
+            }
+        ],
+        "step": 20,
+        "firstActionName": "run"
+    },
+    "奇犽": {
+        "imgRootPath": "奇犽/shime",
+        "defaultImg": "奇犽/shime1.png",
+        "actionList": [
+            {
+                "name": "run",
+                "min": 1,
+                "max": 50,
+                "isMove": false
+            },
+            {
+                "name": "drink",
+                "min": 13,
+                "max": 15
+            },
+            {
+                "name": "balloon",
+                "min": 16,
+                "max": 17
+            },
+            {
+                "name": "peristalsis",
+                "min": 18,
+                "max": 20,
+                "isMove": true
+            },
+            {
+                "name": "eat",
+                "min": 22,
+                "max": 25
+            },
+            {
+                "name": "electricity",
+                "min": 26,
+                "max": 30
+            },
+            {
+                "name": "followMouse",
+                "min": 1,
+                "max": 2
+            }
+        ],
+        "step": 20,
+        "firstActionName": "run"
+    }
+}

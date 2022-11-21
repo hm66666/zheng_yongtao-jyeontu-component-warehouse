@@ -340,6 +340,18 @@
             "children": []
         },
         {
+            "id": 32,
+            "name": "JWebPetView",
+            "path": "/JWebPetView",
+            "label": "web桌宠",
+            "selected": false,
+            "icon": "icon-lunbotu",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JWebPetView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",
