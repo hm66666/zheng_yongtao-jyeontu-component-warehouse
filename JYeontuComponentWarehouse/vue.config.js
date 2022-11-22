@@ -12,8 +12,8 @@ module.exports = {
         index: {
             entry: "examples/main.js",
             template: "public/index.html",
-            filename: "index.html"
-        }
+            filename: "index.html",
+        },
     },
     configureWebpack: {
         module: {
@@ -27,10 +27,10 @@ module.exports = {
                 //         name: "img/[name].[hash:7].[ext]"
                 //     }
                 // }
-            ]
-        }
+            ],
+        },
     },
-    chainWebpack: config => {
+    chainWebpack: (config) => {
         // 用@设置自定义地址
         // 配置快捷路径，@为路径名字，resolve是原路径地址
         config.resolve.alias
@@ -41,8 +41,8 @@ module.exports = {
             .use("url-loader")
             .loader("url-loader")
 
-            .tap(options =>
-                Object.assign(options, { limit: 20000, esModule: false })
+            .tap((options) =>
+                Object.assign(options, { limit: 102400, esModule: false })
             );
         // gzip 压缩配置
         if (process.env.NODE_ENV === "production") {
@@ -52,12 +52,12 @@ module.exports = {
                     new CompressionPlugin({
                         test: /\.(js|css)(\?.*)?$/i, // 需要压缩的文件正则
                         threshold: 10240, // 对超过10k的数据进行压缩
-                        deleteOriginalAssets: false // 是否删除原文件
-                    })
-                ]
+                        deleteOriginalAssets: false, // 是否删除原文件
+                    }),
+                ],
             };
         }
-    }
+    },
     // cdn使用了cdn 可以忽略打包第三方库
     // configureWebpack: {
     //   externals: {

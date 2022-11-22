@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.5.6（已发布）",
+                    descript: "fix：修复桌宠组件部分图片无法显示问题",
+                    time: "2022-11-22",
+                    icon: "5.6",
+                },
+                {
                     title: "版本0.5.5（已发布）",
                     descript: "增加：添加桌宠组件",
                     time: "2022-11-22",
