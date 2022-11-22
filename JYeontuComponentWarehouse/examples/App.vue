@@ -18,7 +18,7 @@
             </div>
             <i
                 class="menuBtn el-icon-menu drawer-left-content"
-                @click="drawer = true"
+                @click="drawer = !drawer"
                 type="primary"
                 style="margin-left: 10px"
             >
@@ -105,6 +105,7 @@ body {
     }
     #leftMenu {
         font-size: small !important;
+        padding: 1rem !important;
     }
     #routerViewContent {
         font-size: small !important;
@@ -114,6 +115,8 @@ body {
         position: fixed;
         top: 1rem;
         display: inline-block !important;
+        z-index: 999999;
+        color: #fff;
     }
 }
 body {
