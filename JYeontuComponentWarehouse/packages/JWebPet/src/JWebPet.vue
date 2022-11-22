@@ -209,6 +209,8 @@ export default {
             if (y < nowY) addY = -addY;
             this.showImg.style.left = nowX + addX + "px";
             this.showImg.style.top = nowY + addY + "px";
+            this.showImg.style.right = "";
+            this.showImg.style.bottom = "";
             const disX = Math.abs(this.showImg.offsetLeft + w - x);
             const disY = Math.abs(this.showImg.offsetTop + h - y);
             clearTimeout(this.isRunToTarget);
@@ -244,6 +246,8 @@ export default {
             const h = this.showImg.offsetHeight / 2;
             this.showImg.style.left = e.pageX - window.scrollX - w + "px";
             this.showImg.style.top = e.pageY - window.scrollY - h + "px";
+            this.showImg.style.right = "";
+            this.showImg.style.bottom = "";
         },
         mouseupHandler(e) {
             const endClickX = e.pageX - window.scrollX;

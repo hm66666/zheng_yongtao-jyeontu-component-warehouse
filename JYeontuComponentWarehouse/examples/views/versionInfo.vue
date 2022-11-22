@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.5.7（已发布）",
+                    descript: "fix：修复桌宠组件定位不准问题",
+                    time: "2022-11-22",
+                    icon: "5.7",
+                },
+                {
                     title: "版本0.5.6（已发布）",
                     descript: "fix：修复桌宠组件部分图片无法显示问题",
                     time: "2022-11-22",
