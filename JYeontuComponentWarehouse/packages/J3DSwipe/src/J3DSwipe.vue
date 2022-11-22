@@ -121,16 +121,17 @@ export default {
             } else {
                 this.angle = this.angle - 360 / this.imgList.length;
             }
-            spinner.setAttribute(
-                "style",
-                "-webkit-transform: rotateY(" +
-                    this.angle +
-                    "deg); -moz-transform: rotateY(" +
-                    this.angle +
-                    "deg); transform: rotateY(" +
-                    this.angle +
-                    "deg);"
-            );
+            spinner &&
+                spinner.setAttribute(
+                    "style",
+                    "-webkit-transform: rotateY(" +
+                        this.angle +
+                        "deg); -moz-transform: rotateY(" +
+                        this.angle +
+                        "deg); transform: rotateY(" +
+                        this.angle +
+                        "deg);"
+                );
         },
     },
 };
