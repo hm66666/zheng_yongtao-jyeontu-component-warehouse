@@ -53,13 +53,18 @@ export default {
                     type: "router",
                     value: "blog",
                     click: "clickBlog",
+                    url: "http://jyeontu.xyz/JYeontuBlog/#/home",
                 },
             ],
         };
     },
     methods: {
         goRoute(item) {
-            this.$router.push(item.value);
+            if (item.url) {
+                window.open(item.url, "_blank");
+            } else {
+                this.$router.push(item.value);
+            }
         },
         getTime() {
             let day = getToday("yyyy-mm-dd hh:MM:ss");
