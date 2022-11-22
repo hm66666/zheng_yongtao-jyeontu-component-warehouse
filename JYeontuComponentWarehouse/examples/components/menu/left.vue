@@ -161,7 +161,7 @@ export default {
     color: white;
     text-align: left;
     padding: 0.5rem 1rem;
-    padding-top: 0;
+    padding-top: 60px;
     font-size: large;
     font-weight: bold;
     z-index: 99;

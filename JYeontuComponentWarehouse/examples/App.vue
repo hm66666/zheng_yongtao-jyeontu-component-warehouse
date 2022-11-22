@@ -62,7 +62,7 @@ export default {
             c.style.marginTop = parseInt(bHeight) + "px";
             c.style.marginLeft = parseInt(aWidth) + "px";
             c.style.padding = "2rem";
-            a.style.marginTop = parseInt(bHeight) + "px";
+            a.style.paddingTop = parseInt(bHeight) + "px";
             // console.log(aWidth,bWidth);
         },
     },
@@ -105,7 +105,7 @@ body {
     }
     #leftMenu {
         font-size: small !important;
-        padding: 1rem !important;
+        // padding: 1rem !important;
     }
     #routerViewContent {
         font-size: small !important;
