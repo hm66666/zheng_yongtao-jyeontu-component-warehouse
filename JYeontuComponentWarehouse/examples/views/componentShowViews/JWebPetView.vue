@@ -8,6 +8,14 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
+                <div class="pet-input-item">
+                    <span class="pet-item-label">petSize：</span
+                    ><input @blur="petSizeBlur" :value="petSize" />
+                </div>
+                <div class="pet-input-item">
+                    <span class="pet-item-label">step：</span
+                    ><input @blur="stepBlur" :value="step" />
+                </div>
                 <div class="pet-name-content">
                     <span
                         :class="{
@@ -22,8 +30,9 @@
                     </span>
                 </div>
                 <j-web-pet
-                    petSize="100px"
+                    :petSize="petSize"
                     :name="petName"
+                    :step="Number(step)"
                     :defaultAction="defaultAction"
                 ></j-web-pet>
             </div>
@@ -50,7 +59,9 @@ export default {
     },
     data() {
         return {
-            petName: "日向雏田",
+            petName: "皮卡丘",
+            petSize: "50px",
+            step: 20,
             petNameList: [
                 "皮卡丘",
                 "奇犽",
@@ -107,28 +118,29 @@ export default {
             ],
             tableData: [
                 {
-                    parameter: "title",
-                    field: "标题",
+                    parameter: "n",
+                    field: "名称",
                     type: "String",
-                    describe: "左上角显示标题",
+                    describe:
+                        "目前可选的有：皮卡丘、奇犽、白一护、橘一护、喵老师、蓝染、迪达拉、日向雏田",
                 },
                 {
-                    parameter: "closable",
-                    field: "点击遮罩关闭弹窗",
-                    type: "Boolean",
-                    describe: "默认为false",
+                    parameter: "step",
+                    field: "移动步长（px)",
+                    type: "Number",
+                    describe: "默认为20",
                 },
                 {
-                    parameter: "close",
-                    field: "弹窗关闭时回调函数",
-                    type: "function",
-                    describe: "",
+                    parameter: "petSize",
+                    field: "桌宠尺寸（petSize * petSize）",
+                    type: "String",
+                    describe: "默认为50px",
                 },
                 {
-                    parameter: "show",
-                    field: "弹窗打开时回调函数",
-                    type: "function",
-                    describe: "",
+                    parameter: "defaultAction",
+                    field: "默认行为",
+                    type: "String",
+                    describe: "如run、action1、action2",
                 },
             ],
         };
@@ -136,26 +148,112 @@ export default {
     created() {
         this.code = `
 <template>
-    <div>
+    <div class="content">
+        <div class="pet-input-item">
+            <span class="pet-item-label">petSize：</span
+            ><input @blur="petSizeBlur" :value="petSize" />
+        </div>
+        <div class="pet-input-item">
+            <span class="pet-item-label">step：</span
+            ><input @blur="stepBlur" :value="step" />
+        </div>
+        <div class="pet-name-content">
+            <span
+                :class="{
+                    'pet-name-item': true,
+                    'active-pet-name-item': petNameItem == petName,
+                }"
+                v-for="(petNameItem, petNameIndex) in petNameList"
+                :key="petNameIndex"
+                @click="petName = petNameItem"
+            >
+                {{ petNameItem }}
+            </span>
+        </div>
+        <j-web-pet
+            :petSize="petSize"
+            :name="petName"
+            :step="Number(step)"
+            :defaultAction="defaultAction"
+        ></j-web-pet>
     </div>
 </template>
 <script>
     export default {
         data(){
             return {
+                petName: "皮卡丘",
+                petSize: "50px",
+                step: 20,
+                petNameList: [
+                    "皮卡丘",
+                    "奇犽",
+                    "白一护",
+                    "橘一护",
+                    "喵老师",
+                    "蓝染",
+                    "迪达拉",
+                    "日向雏田",
+                ],
+                defaultAction: "run",
             }
         },
         mounted() {
 
         },
         methods:{
+            petSizeBlur(e) {
+                this.petSize = e.target.value;
+            },
+            stepBlur(e) {
+                this.step = e.target.value;
+            },
         }
     }
 <\/script>
+<style scoped lang="less">
+.content {
+    margin: auto auto;
+    .content-body {
+        text-align: center;
+    }
+    .pet-input-item {
+        display: flex;
+        margin: 8px;
+        .pet-item-label {
+            width: 20%;
+            text-align: center;
+        }
+        input {
+            width: 50%;
+        }
+    }
+    .pet-name-content {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .pet-name-item {
+        padding: 2px 5px;
+        margin: 8px;
+        border: 1px solid rgb(190, 134, 29);
+        cursor: pointer;
+    }
+    .active-pet-name-item {
+        background: rgb(190, 134, 29);
+    }
+}
+</style>
     `;
     },
     mounted() {},
-    methods: {},
+    methods: {
+        petSizeBlur(e) {
+            this.petSize = e.target.value;
+        },
+        stepBlur(e) {
+            this.step = e.target.value;
+        },
+    },
 };
 </script>
 <style scoped lang="less">
@@ -174,6 +272,17 @@ export default {
     // width: 50%;
     .content-body {
         text-align: center;
+    }
+    .pet-input-item {
+        display: flex;
+        margin: 8px;
+        .pet-item-label {
+            width: 20%;
+            text-align: center;
+        }
+        input {
+            width: 50%;
+        }
     }
     .pet-name-content {
         display: flex;

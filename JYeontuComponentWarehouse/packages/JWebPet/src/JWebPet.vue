@@ -65,6 +65,10 @@ export default {
             this.initData();
             this.init();
         },
+        petSize() {
+            this.showImg.style.width = this.petSize;
+            this.showImg.style.height = this.petSize;
+        },
     },
     data() {
         return {
@@ -114,7 +118,7 @@ export default {
             if (action.isMove) {
                 if (!x) x = getRandomNum(0, window.innerWidth);
                 if (!y) y = getRandomNum(0, window.innerHeight);
-                this.runToTarget(action, action.min, x, y, this.step, () => {
+                this.runToTarget(action, action.min, x, y, () => {
                     this.autoRunToTarget(action);
                 });
             } else {
@@ -170,7 +174,8 @@ export default {
                     window.innerWidth - this.showImg.offsetLeft + "px";
             this.menuShow = this.canDrag && !this.menuShow;
         },
-        runToTarget(action, ind, x, y, step = this.step, cb = null) {
+        runToTarget(action, ind, x, y, cb = null) {
+            const step = this.step;
             if (!action || JSON.stringify(action) == "{}") return;
             if (!action.isMove) return;
             this.nowAction = action;
@@ -209,7 +214,7 @@ export default {
             clearTimeout(this.isRunToTarget);
             if (disX > w || disY > h) {
                 this.isRunToTarget = setTimeout(() => {
-                    this.runToTarget(action, ind + 1, x, y, step, cb);
+                    this.runToTarget(action, ind + 1, x, y, cb);
                 }, 500);
             } else {
                 this.isRunToTarget = null;
@@ -252,6 +257,7 @@ export default {
                 this.showMenu();
             } else {
                 this.menuShow = false;
+                this.autoRunToTarget();
             }
             this.canDrag = false;
             window.removeEventListener(
