@@ -103,10 +103,10 @@ export default {
                             cursor: pointer;
                             margin-top: 1rem;">`;
                 let iconColor = router.iconColor;
+                if (menu[i].iconColor) {
+                    iconColor = menu[i].iconColor;
+                }
                 if (menu[i].icon.split("-")[0] === "el") {
-                    if (menu[i].iconColor) {
-                        iconColor = menu[i].iconColor;
-                    }
                     temp += `<i class="${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
                 } else if (menu[i].icon.split("-")[0] === "icon") {
                     temp += `<i class="iconfont ${menu[i].icon}" style="margin-right: 5px;color:${iconColor};"></i>`;
