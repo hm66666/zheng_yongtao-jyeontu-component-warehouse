@@ -422,6 +422,31 @@
                     "children": []
                 }
             ]
+        },
+        {
+            "id": 35,
+            "name": "nodePlugs",
+            "path": "/nodePlugs",
+            "label": "node插件",
+            "selected": false,
+            "icon": "icon-youxiyouxiji",
+            "open": false,
+            "component": "",
+            "children": [
+                {
+                    "id": 3501,
+                    "name": "JWebPetView",
+                    "path": "/JWebPetView",
+                    "label": "web桌宠",
+                    "selected": false,
+                    "icon": "icon-pikachu",
+                    "iconColor": "#ff8b00",
+                    "open": false,
+                    "hide": false,
+                    "component": "views/componentShowViews/JWebPetView.vue",
+                    "children": []
+                }
+            ]
         }
     ]
 }
