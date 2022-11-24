@@ -1,5 +1,8 @@
 {
     "皮卡丘": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "皮卡丘/",
         "defaultImg": "皮卡丘/0.png",
         "actionList": [
@@ -44,6 +47,9 @@
         ]
     },
     "奇犽": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "奇犽/shime",
         "defaultImg": "奇犽/shime1.png",
         "actionList": [
@@ -77,6 +83,9 @@
         ]
     },
     "白一护": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "白一护/shime",
         "defaultImg": "白一护/shime1.png",
         "actionList": [
@@ -115,6 +124,9 @@
         ]
     },
     "橘一护": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "橘一护/shime",
         "defaultImg": "橘一护/shime1.png",
         "actionList": [
@@ -148,6 +160,9 @@
         ]
     },
     "喵老师": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "喵老师/shime",
         "defaultImg": "喵老师/shime1.png",
         "actionList": [
@@ -182,6 +197,9 @@
         ]
     },
     "蓝染": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "蓝染/shime",
         "defaultImg": "蓝染/shime1.png",
         "actionList": [
@@ -215,6 +233,9 @@
         ]
     },
     "迪达拉": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "迪达拉/shime",
         "defaultImg": "迪达拉/shime1.png",
         "actionList": [
@@ -254,6 +275,9 @@
         ]
     },
     "日向雏田": {
+        "baseAddress": "http://jyeontu.xyz/img/",
+        "imgType": "png",
+        "isLink": true,
         "imgRootPath": "日向雏田/shime",
         "defaultImg": "日向雏田/shime1.png",
         "actionList": [

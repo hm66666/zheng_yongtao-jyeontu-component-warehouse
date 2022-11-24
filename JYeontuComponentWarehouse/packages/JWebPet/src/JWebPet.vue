@@ -88,8 +88,16 @@ export default {
             this.webPetConfig = config[this.name];
             this.actionList = this.webPetConfig.actionList;
             this.imgRootPath = this.webPetConfig.imgRootPath;
-            this.imgSrc = require("@/assets/img/" +
-                this.webPetConfig.defaultImg);
+            if (this.showImg) {
+                if (this.webPetConfig.isLink) {
+                    this.imgSrc =
+                        this.webPetConfig.baseAddress +
+                        this.webPetConfig.defaultImg;
+                } else {
+                    this.imgSrc = require("@/assets/img/" +
+                        this.webPetConfig.defaultImg);
+                }
+            }
             this.uid = "j-web-pet-" + getUId();
             const list =
                 this.actionList.map((item) => {
@@ -195,11 +203,26 @@ export default {
             const cos = Math.cos((deg * Math.PI) / 180);
             let addX = Math.abs(step * cos);
             let addY = Math.abs(step * sin);
-            this.showImg &&
-                this.showImg.setAttribute(
-                    "src",
-                    require("@/assets/img/" + this.imgRootPath + ind + ".png")
-                );
+            if (this.showImg) {
+                if (this.webPetConfig.isLink) {
+                    this.showImg.setAttribute(
+                        "src",
+                        this.webPetConfig.baseAddress +
+                            this.imgRootPath +
+                            ind +
+                            "." +
+                            this.webPetConfig.imgType
+                    );
+                } else {
+                    this.showImg.setAttribute(
+                        "src",
+                        require("@/assets/img/" +
+                            this.imgRootPath +
+                            ind +
+                            ".png")
+                    );
+                }
+            }
             if (x > nx) {
                 this.showImg.style.transform = `rotate(${deg}deg) rotateY(180deg)`;
             } else {
@@ -230,11 +253,26 @@ export default {
             if (!ind || ind < min || ind > max) {
                 ind = min;
             }
-            this.showImg &&
-                this.showImg.setAttribute(
-                    "src",
-                    require("@/assets/img/" + this.imgRootPath + ind + ".png")
-                );
+            if (this.showImg) {
+                if (this.webPetConfig.isLink) {
+                    this.showImg.setAttribute(
+                        "src",
+                        this.webPetConfig.baseAddress +
+                            this.imgRootPath +
+                            ind +
+                            "." +
+                            this.webPetConfig.imgType
+                    );
+                } else {
+                    this.showImg.setAttribute(
+                        "src",
+                        require("@/assets/img/" +
+                            this.imgRootPath +
+                            ind +
+                            ".png")
+                    );
+                }
+            }
             clearTimeout(this.isRunToTarget);
             this.isRunToTarget = setTimeout(() => {
                 this.playImg(action, ind + 1);
