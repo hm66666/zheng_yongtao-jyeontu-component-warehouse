@@ -118,7 +118,7 @@ export default {
             ],
             tableData: [
                 {
-                    parameter: "n",
+                    parameter: "name",
                     field: "名称",
                     type: "String",
                     describe:

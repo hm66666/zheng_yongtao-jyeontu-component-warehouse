@@ -75,6 +75,9 @@ export default {
 </script>
 
 <style lang="less">
+code {
+    overflow: scroll !important;
+}
 body {
     overflow-x: hidden;
 }
