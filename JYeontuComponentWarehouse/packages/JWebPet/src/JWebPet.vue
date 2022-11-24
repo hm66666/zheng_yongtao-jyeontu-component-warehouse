@@ -30,7 +30,7 @@
                 height="100"
                 width="100"
             >
-                <source src="@/assets/audio/Pikachu.mp3" type="audio/mp3" />
+                <source src="" type="audio/mp3" />
             </audio>
         </div>
     </div>
@@ -335,10 +335,19 @@ export default {
             )
                 return;
             if (!this.nowAction.audio) return;
-            webPetAudio.setAttribute(
-                "src",
-                require("@/assets/audio/" + this.nowAction.audio)
-            );
+            if (this.isLink) {
+                webPetAudio.setAttribute(
+                    "src",
+                    this.webPetConfig.baseAddress +
+                        this.webPetConfig.audioPath +
+                        this.nowAction.audio
+                );
+            } else {
+                webPetAudio.setAttribute(
+                    "src",
+                    require("@/assets/audio/" + this.nowAction.audio)
+                );
+            }
             try {
                 webPetAudio.play();
             } catch (e) {}

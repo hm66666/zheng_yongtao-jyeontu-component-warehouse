@@ -1,9 +1,10 @@
 {
     "皮卡丘": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "皮卡丘/",
+        "imgRootPath": "img/皮卡丘/",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "皮卡丘/0.png",
         "actionList": [
             {
@@ -47,10 +48,11 @@
         ]
     },
     "奇犽": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "奇犽/shime",
+        "imgRootPath": "img/奇犽/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "奇犽/shime1.png",
         "actionList": [
             {
@@ -83,10 +85,11 @@
         ]
     },
     "白一护": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "白一护/shime",
+        "imgRootPath": "img/白一护/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "白一护/shime1.png",
         "actionList": [
             {
@@ -124,10 +127,11 @@
         ]
     },
     "橘一护": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "橘一护/shime",
+        "imgRootPath": "img/橘一护/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "橘一护/shime1.png",
         "actionList": [
             {
@@ -160,10 +164,11 @@
         ]
     },
     "喵老师": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "喵老师/shime",
+        "imgRootPath": "img/喵老师/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "喵老师/shime1.png",
         "actionList": [
             {
@@ -197,10 +202,11 @@
         ]
     },
     "蓝染": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "蓝染/shime",
+        "imgRootPath": "img/蓝染/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "蓝染/shime1.png",
         "actionList": [
             {
@@ -233,10 +239,11 @@
         ]
     },
     "迪达拉": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "迪达拉/shime",
+        "imgRootPath": "img/迪达拉/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "迪达拉/shime1.png",
         "actionList": [
             {
@@ -275,10 +282,11 @@
         ]
     },
     "日向雏田": {
-        "baseAddress": "http://jyeontu.xyz/img/",
+        "baseAddress": "http://jyeontu.xyz/",
         "imgType": "png",
         "isLink": true,
-        "imgRootPath": "日向雏田/shime",
+        "imgRootPath": "img/日向雏田/shime",
+        "audioPath": "audio/皮卡丘/",
         "defaultImg": "日向雏田/shime1.png",
         "actionList": [
             {
