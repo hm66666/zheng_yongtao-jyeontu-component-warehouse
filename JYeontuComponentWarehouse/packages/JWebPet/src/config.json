@@ -5,7 +5,7 @@
         "isLink": true,
         "imgRootPath": "img/皮卡丘/",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "皮卡丘/0.png",
+        "defaultImg": "img/皮卡丘/0.png",
         "actionList": [
             {
                 "name": "run",
@@ -53,7 +53,7 @@
         "isLink": true,
         "imgRootPath": "img/奇犽/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "奇犽/shime1.png",
+        "defaultImg": "img/奇犽/shime1.png",
         "actionList": [
             {
                 "name": "run",
@@ -90,7 +90,7 @@
         "isLink": true,
         "imgRootPath": "img/白一护/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "白一护/shime1.png",
+        "defaultImg": "img/白一护/shime1.png",
         "actionList": [
             {
                 "name": "action1",
@@ -132,7 +132,7 @@
         "isLink": true,
         "imgRootPath": "img/橘一护/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "橘一护/shime1.png",
+        "defaultImg": "img/橘一护/shime1.png",
         "actionList": [
             {
                 "name": "action1",
@@ -169,7 +169,7 @@
         "isLink": true,
         "imgRootPath": "img/喵老师/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "喵老师/shime1.png",
+        "defaultImg": "img/喵老师/shime1.png",
         "actionList": [
             {
                 "name": "run",
@@ -207,7 +207,7 @@
         "isLink": true,
         "imgRootPath": "img/蓝染/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "蓝染/shime1.png",
+        "defaultImg": "img/蓝染/shime1.png",
         "actionList": [
             {
                 "name": "action1",
@@ -244,7 +244,7 @@
         "isLink": true,
         "imgRootPath": "img/迪达拉/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "迪达拉/shime1.png",
+        "defaultImg": "img/迪达拉/shime1.png",
         "actionList": [
             {
                 "name": "run",
@@ -287,7 +287,7 @@
         "isLink": true,
         "imgRootPath": "img/日向雏田/shime",
         "audioPath": "audio/皮卡丘/",
-        "defaultImg": "日向雏田/shime1.png",
+        "defaultImg": "img/日向雏田/shime1.png",
         "actionList": [
             {
                 "name": "run",
