@@ -335,7 +335,7 @@ export default {
             )
                 return;
             if (!this.nowAction.audio) return;
-            if (this.isLink) {
+            if (this.webPetConfig.isLink) {
                 webPetAudio.setAttribute(
                     "src",
                     this.webPetConfig.baseAddress +
