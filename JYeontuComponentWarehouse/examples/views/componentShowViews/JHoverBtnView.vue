@@ -16,6 +16,14 @@
                     @hoverBtnClick="hoverBtnClick()"
                 >
                 </j-hover-btn>
+                <j-hover-btn
+                    bgColor="skyblue"
+                    :width="80"
+                    text="悬浮按钮2"
+                    :btn-style="btnStyle2"
+                    @hoverBtnClick="hoverBtnClick()"
+                >
+                </j-hover-btn>
             </div>
         </template>
         <template v-slot:right-p>
@@ -51,6 +59,11 @@ export default {
             btnStyle: {
                 fontSize: "small",
                 top: "60vh",
+                left: "90vw",
+            },
+            btnStyle2: {
+                fontSize: "small",
+                top: "40vh",
                 left: "90vw",
             },
             tableTitle: [
@@ -163,6 +176,14 @@ export default {
             :btn-style = "btnStyle" 
             @hoverBtnClick = "hoverBtnClick()">
         </j-hover-btn>
+        <j-hover-btn
+            bgColor="skyblue"
+            :width="80"
+            text="悬浮按钮2"
+            :btn-style="btnStyle2"
+            @hoverBtnClick="hoverBtnClick()"
+        >
+        </j-hover-btn>
     </div>
 </template>
 <script>
@@ -173,6 +194,11 @@ export default {
                 "fontSize":'small',
                 "top":'60vh',
                 "left":'90vw'
+                },
+                btnStyle2: {
+                    fontSize: "small",
+                    top: "40vh",
+                    left: "90vw",
                 },
             }
         },

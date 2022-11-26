@@ -2,7 +2,7 @@
     <div
         class="j-hover-btn"
         :style="getStyle()"
-        id="j-hover-btn"
+        :id="uid"
         @mousedown="itemClick"
     >
         {{ text }}
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { camelTo_ } from "../../utils/strTool";
+import { camelTo_, getUId } from "../../utils/strTool";
 export default {
     name: "JHoverBtn",
     props: {
@@ -57,7 +57,11 @@ export default {
             startY: "",
             clickStatus: false,
             isClick: true,
+            uid: "",
         };
+    },
+    created() {
+        this.setId();
     },
     mounted() {
         this.preventEvent();
@@ -65,6 +69,9 @@ export default {
         window.addEventListener("mouseover", this.handleMouseover);
     },
     methods: {
+        setId() {
+            this.uid = getUId() + "j-hover-btn";
+        },
         getStyle(res = "") {
             res += "background-color:" + this.bgColor + ";";
             res += "width:" + this.width + "px;";
@@ -82,10 +89,10 @@ export default {
         },
         //阻止默认事件
         preventEvent() {
-            document.getElementById("j-hover-btn").ondragstart = function () {
+            document.getElementById(this.uid).ondragstart = function () {
                 return false;
             };
-            document.getElementById("j-hover-btn").onselectstart = function () {
+            document.getElementById(this.uid).onselectstart = function () {
                 return false;
             };
         },
@@ -118,7 +125,7 @@ export default {
                     if (!this.autoHide) return;
                     const width = document.body.offsetWidth;
                     const height = document.body.offsetHeight;
-                    const dom = document.getElementById("j-hover-btn");
+                    const dom = document.getElementById(this.uid);
                     if (endX < this.width / 2) {
                         dom.style.left = -(this.width - this.showWidth) + "px";
                     } else if (endX > width - this.width / 2) {
@@ -135,7 +142,7 @@ export default {
             if (this.clickStatus) {
                 const endX = event.pageX - window.scrollX,
                     endY = event.pageY - window.scrollY;
-                const dom = document.getElementById("j-hover-btn");
+                const dom = document.getElementById(this.uid);
                 if (
                     Math.abs(endX - this.startX) > this.clickDis ||
                     Math.abs(endY - this.startY) > this.clickDis

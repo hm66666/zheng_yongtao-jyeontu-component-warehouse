@@ -42,7 +42,7 @@ module.exports = {
             .loader("url-loader")
 
             .tap((options) =>
-                Object.assign(options, { limit: 102400, esModule: false })
+                Object.assign(options, { limit: 10240, esModule: false })
             );
         // gzip 压缩配置
         if (process.env.NODE_ENV === "production") {
