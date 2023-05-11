@@ -7,22 +7,23 @@
 -->
 <template>
     <div class="j-comment" @click="showVEmojiPicker = false">
-        <div id="v-emoji-picker" @click.stop="() => {}">
+        <div :id="'v-emoji-picker-' + uid" @click.stop="() => {}">
             <VEmojiPicker v-show="showVEmojiPicker" @select="selectEmoji" />
         </div>
         <textarea
             v-if="withCommentContent"
             v-model="commentText"
-            id="j-comment-content"
+            :id="'j-comment-content-' + uid"
             placeholder="请输入评论"
             class="j-comment-content"
             @input="commentInput"
         ></textarea>
         <div v-if="withCommentContent" class="j-comment-content-btns">
             <img
+                alt=""
                 v-if="useEmoji"
                 @click.stop="showEmoji"
-                id="comment-emoji"
+                :id="'comment-emoji-' + uid"
                 style="width: 20px; height: 20px; cursor: pointer"
                 src="../img/表情.png"
             />
@@ -36,7 +37,11 @@
         >
             <div class="j-comment-header">
                 <div class="j-comment-header-pre">
-                    <img class="j-comment-header-img" :src="item.avatar" />
+                    <img
+                        alt=""
+                        class="j-comment-header-img"
+                        :src="item.avatar"
+                    />
                     <span class="j-comment-header-nickname"
                         >{{ item.nickname
                         }}<span
@@ -53,6 +58,7 @@
             </div>
             <div class="j-comment-footer">
                 <img
+                    alt=""
                     class="j-comment-icon"
                     src="../img/评论.png"
                     @click="replyClick(item, index)"
@@ -77,17 +83,18 @@
             <textarea
                 v-if="item.showReply"
                 v-model="replyText"
-                :id="'reply-' + index"
+                :id="'reply-' + index + '-' + uid"
                 :placeholder="replyText == '' ? '回复' + item.nickname : ''"
                 class="j-comment-reply-content focused"
                 @input="replyInput"
             ></textarea>
             <div v-if="item.showReply" class="j-comment-reply-btns">
                 <img
+                    alt=""
                     v-if="useEmoji"
                     class="emoji-btn"
                     @click.stop="showEmoji"
-                    :id="'emoji-reply-' + index"
+                    :id="'emoji-reply-' + index + '-' + uid"
                     style="width: 20px; height: 20px; cursor: pointer"
                     src="../img/表情.png"
                 />
@@ -105,6 +112,7 @@
                     <div class="j-comment-header">
                         <div class="j-comment-header-pre">
                             <img
+                                alt=""
                                 class="j-comment-header-img"
                                 :src="children.avatar"
                             />
@@ -132,6 +140,7 @@
                     </div>
                     <div class="j-comment-footer">
                         <img
+                            alt=""
                             class="j-comment-icon"
                             src="../img/评论.png"
                             @click="
@@ -178,7 +187,7 @@
                     <textarea
                         v-if="children.showReply"
                         v-model="replyText"
-                        :id="'reply-' + index + '-' + childrenIndex"
+                        :id="'reply-' + index + '-' + childrenIndex + '-' + uid"
                         :placeholder="
                             replyText == '' ? '回复' + children.nickname : ''
                         "
@@ -187,10 +196,18 @@
                     ></textarea>
                     <div v-if="children.showReply" class="j-comment-reply-btns">
                         <img
+                            alt=""
                             v-if="useEmoji"
                             class="emoji-btn"
                             @click.stop="showEmoji"
-                            :id="'emoji-reply-' + index + '-' + childrenIndex"
+                            :id="
+                                'emoji-reply-' +
+                                index +
+                                '-' +
+                                childrenIndex +
+                                '-' +
+                                uid
+                            "
                             style="width: 20px; height: 20px; cursor: pointer"
                             src="../img/表情.png"
                         />
@@ -232,6 +249,7 @@
 
 <script>
 import { VEmojiPicker } from "v-emoji-picker";
+import { getUId } from "../../utils/strTool";
 export default {
     name: "JComment",
     props: {
@@ -289,9 +307,11 @@ export default {
             showVEmojiPicker: false,
             emojiTextId: "",
             scrollTop: 0,
+            uid: "",
         };
     },
     created() {
+        this.setId();
         this.initData();
         this.initListen();
     },
@@ -302,12 +322,16 @@ export default {
     },
     computed: {},
     methods: {
+        setId() {
+            this.uid = getUId();
+        },
         initListen() {
             window.onscroll = function () {
                 var scrollTop =
                     document.documentElement.scrollTop ||
                     document.body.scrollTop;
-                let v = document.getElementById("v-emoji-picker");
+                let v = document.getElementById("v-emoji-picker-" + this.uid);
+                if (!v) return;
                 v.style.top =
                     parseInt(v.style.top) - (scrollTop - this.scrollTop) + "px";
                 this.scrollTop = scrollTop;
@@ -354,8 +378,7 @@ export default {
             return strObj;
         },
         showEmoji(el) {
-            let v = document.getElementById("v-emoji-picker");
-            const srcElement = el.srcElement;
+            let v = document.getElementById("v-emoji-picker-" + this.uid);
             v.style.left = el.x + 5 + "px";
             v.style.top = el.y + 5 + "px";
             this.scrollTop =
@@ -366,8 +389,10 @@ export default {
         selectEmoji(emoji) {
             // 选择emoji后调用的函数
             let input = null;
-            if (this.emojiTextId === "comment-emoji") {
-                input = document.getElementById("j-comment-content");
+            if (this.emojiTextId === "comment-emoji-" + this.uid) {
+                input = document.getElementById(
+                    "j-comment-content-" + this.uid
+                );
             } else {
                 let id = this.emojiTextId.split("emoji-");
                 input = document.getElementById(id[1]);
@@ -382,7 +407,7 @@ export default {
             input.focus();
             input.selectionStart = startPos + emoji.data.length;
             input.selectionEnd = startPos + emoji.data.length;
-            if (this.emojiTextId === "comment-emoji")
+            if (this.emojiTextId === "comment-emoji-" + this.uid)
                 this.commentText = resultText;
             else {
                 this.replyText = resultText;
@@ -425,11 +450,12 @@ export default {
             const flag = isChildren ? !children.showReply : !item.showReply;
             this.showVEmojiPicker = false;
             this.hideAll();
-            let ref = "reply-" + index;
+            let ref = "reply-" + index + "-" + this.uid;
             if (isChildren) {
                 children.showReply = flag;
                 if (children.showReply)
-                    ref = "reply-" + index + "-" + childrenIndex;
+                    ref =
+                        "reply-" + index + "-" + childrenIndex + "-" + this.uid;
             } else {
                 item.showReply = flag;
             }
