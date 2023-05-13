@@ -7,7 +7,11 @@
 -->
 <template>
     <div class="j-comment" @click="showVEmojiPicker = false">
-        <div :id="'v-emoji-picker-' + uid" @click.stop="() => {}">
+        <div
+            class="v-emoji-picker"
+            :id="'v-emoji-picker-' + uid"
+            @click.stop="() => {}"
+        >
             <VEmojiPicker v-show="showVEmojiPicker" @select="selectEmoji" />
         </div>
         <textarea
@@ -326,11 +330,15 @@ export default {
             this.uid = getUId();
         },
         initListen() {
+            const that = this;
+            window.onclick = (e) => {
+                this.showVEmojiPicker = false;
+            };
             window.onscroll = function () {
                 var scrollTop =
                     document.documentElement.scrollTop ||
                     document.body.scrollTop;
-                let v = document.getElementById("v-emoji-picker-" + this.uid);
+                let v = document.getElementById("v-emoji-picker-" + that.uid);
                 if (!v) return;
                 v.style.top =
                     parseInt(v.style.top) - (scrollTop - this.scrollTop) + "px";
@@ -383,7 +391,7 @@ export default {
             v.style.top = el.y + 5 + "px";
             this.scrollTop =
                 document.documentElement.scrollTop || document.body.scrollTop;
-            this.showVEmojiPicker = !this.showVEmojiPicker;
+            this.showVEmojiPicker = el.target.id !== this.emojiTextId;
             this.emojiTextId = el.target.id;
         },
         selectEmoji(emoji) {
@@ -592,7 +600,7 @@ export default {
     width: 80%;
     padding: 1rem;
     position: relative;
-    #v-emoji-picker {
+    .v-emoji-picker {
         position: fixed;
     }
     .j-comment-content {
