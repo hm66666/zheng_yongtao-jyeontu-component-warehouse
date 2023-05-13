@@ -391,7 +391,8 @@ export default {
             v.style.top = el.y + 5 + "px";
             this.scrollTop =
                 document.documentElement.scrollTop || document.body.scrollTop;
-            this.showVEmojiPicker = el.target.id !== this.emojiTextId;
+            this.showVEmojiPicker =
+                el.target.id !== this.emojiTextId || !this.showVEmojiPicker;
             this.emojiTextId = el.target.id;
         },
         selectEmoji(emoji) {
