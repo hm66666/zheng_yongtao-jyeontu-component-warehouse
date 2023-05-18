@@ -171,15 +171,21 @@ export default {
             cursor: pointer;
             border-radius: 10%;
             background-color: orange;
-            padding: 0.25rem 0.3rem;
+            padding: 0.25rem 1.5rem 0.3rem 0.5rem;
             margin-right: 0.25rem;
             margin-top: 0.2rem;
+            position: relative;
             .delete-tag-btn {
+                position: absolute;
                 color: rgb(241, 81, 81);
                 border: rgb(250, 82, 82) 1px solid;
-                width: 1rem;
-                height: 1rem;
+                width: 0.8rem;
+                height: 0.8rem;
+                text-align: center;
+                line-height: 0.7rem;
                 border-radius: 50%;
+                top: 0.2rem;
+                right: 0.2rem;
                 display: inline-block;
                 &:hover {
                     color: red;
