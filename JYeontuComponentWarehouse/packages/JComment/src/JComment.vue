@@ -6,7 +6,11 @@
  * @Description: 
 -->
 <template>
-    <div class="j-comment" @click="showVEmojiPicker = false">
+    <div
+        class="j-comment"
+        @click="showVEmojiPicker = false"
+        :id="'JComment-' + uid"
+    >
         <div
             class="v-emoji-picker"
             :id="'v-emoji-picker-' + uid"
@@ -317,6 +321,8 @@ export default {
     created() {
         this.setId();
         this.initData();
+    },
+    mounted() {
         this.initListen();
     },
     watch: {
@@ -330,20 +336,41 @@ export default {
             this.uid = getUId();
         },
         initListen() {
-            const that = this;
+            // const that = this;
             window.onclick = (e) => {
                 this.showVEmojiPicker = false;
             };
-            window.onscroll = function () {
-                var scrollTop =
-                    document.documentElement.scrollTop ||
-                    document.body.scrollTop;
-                let v = document.getElementById("v-emoji-picker-" + that.uid);
-                if (!v) return;
-                v.style.top =
-                    parseInt(v.style.top) - (scrollTop - this.scrollTop) + "px";
+            let v = document.getElementById("JComment-" + this.uid);
+            while (v.parentElement) {
+                v = v.parentElement;
+                const onscroll = v.onscroll;
+                v.onscroll = (e) => {
+                    onscroll && onscroll(e);
+                    this.onscroll(e);
+                };
+            }
+            // window.onscroll = this.onscroll;
+        },
+        onscroll(e) {
+            const v = document.getElementById("v-emoji-picker-" + this.uid);
+            if (!v) return;
+            const scrollingElement = v;
+            // v.srcElement.scrollingElement || v.srcElement;
+            let pScrollTop = 0;
+            let parentElement = scrollingElement.parentElement;
+            while (parentElement) {
+                pScrollTop += parentElement.scrollTop;
+                parentElement = parentElement.parentElement;
+            }
+            var scrollTop = scrollingElement.scrollTop + pScrollTop;
+            if (Math.abs(this.scrollTop - scrollTop) > 300) {
                 this.scrollTop = scrollTop;
-            };
+                this.showVEmojiPicker = false;
+                return;
+            }
+            v.style.top =
+                parseInt(v.style.top) - (scrollTop - this.scrollTop) + "px";
+            this.scrollTop = scrollTop;
         },
         // 表情转码
         utf16toEntities(str) {
@@ -386,11 +413,19 @@ export default {
             return strObj;
         },
         showEmoji(el) {
-            let v = document.getElementById("v-emoji-picker-" + this.uid);
+            const scrollingElement =
+                el.srcElement.scrollingElement || el.srcElement;
+            let pScrollTop = 0;
+            let parentElement = scrollingElement.parentElement;
+            while (parentElement) {
+                pScrollTop += parentElement.scrollTop;
+                parentElement = parentElement.parentElement;
+            }
+            var scrollTop = scrollingElement.scrollTop + pScrollTop;
+            const v = document.getElementById("v-emoji-picker-" + this.uid);
             v.style.left = el.x + 5 + "px";
             v.style.top = el.y + 5 + "px";
-            this.scrollTop =
-                document.documentElement.scrollTop || document.body.scrollTop;
+            this.scrollTop = scrollTop;
             this.showVEmojiPicker =
                 el.target.id !== this.emojiTextId || !this.showVEmojiPicker;
             this.emojiTextId = el.target.id;

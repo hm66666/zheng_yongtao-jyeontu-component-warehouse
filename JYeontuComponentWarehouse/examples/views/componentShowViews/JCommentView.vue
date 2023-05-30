@@ -17,6 +17,15 @@
                     @submitComment="submitComment"
                 >
                 </j-comment>
+                <j-comment
+                    :key-map="keyMap"
+                    :showNumber="2"
+                    :comment-datas="commentDatas"
+                    :orderBy="'create_time'"
+                    :useEmoji="true"
+                    @submitComment="submitComment"
+                >
+                </j-comment>
             </div>
             <div>
                 <j-table :title="tableTitle" :tableData="tableData"> </j-table>
@@ -312,6 +321,8 @@ export default {
 }
 .content {
     margin: auto auto;
+    height: 60vh;
+    overflow: scroll;
     // width: 50%;
 }
 .header {
