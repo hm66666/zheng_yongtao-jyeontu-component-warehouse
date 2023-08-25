@@ -1,6 +1,6 @@
 <template>
-    <div class="contribution-panel">
-        <table class="contribution-table">
+    <div class="contribution-panel" :id="'contribution-panel-' + uid">
+        <table class="contribution-table" :id="'contribution-table-' + uid">
             <tr
                 v-for="(rowItem, rowInd) in rowTil"
                 :key="'row-' + rowInd"
@@ -8,23 +8,40 @@
             >
                 <template v-for="colInd in column + 1">
                     <td
+                        v-if="rowInd != 0 || !hideTd.includes(colInd)"
                         :key="'row-' + rowInd + '-col-' + colInd"
                         :class="{
-                            block: getDateByInd(rowInd - 1, colInd - 2) != '',
+                            block: getDateByInd(rowInd - 1, colInd - 2),
                             'text-content': colInd == 1,
                             'contribution-table-td': true,
                         }"
-                        :title="getDateByInd(rowInd - 1, colInd - 2)"
+                        :style="getBackground(rowInd - 1, colInd - 2)"
+                        :title="getTitle(rowInd - 1, colInd - 2)"
+                        :colspan="getColSpan(rowInd, colInd)"
                     >
-                        <span v-if="colInd === 1">{{ rowItem }}</span>
-                        <span v-else-if="rowInd === 0">{{
-                            getMonthText(rowInd, colInd - 2)
+                        <span v-if="colInd === 1" style="font-size: xx-small">{{
+                            rowItem
                         }}</span>
+                        <span
+                            v-else-if="rowInd === 0"
+                            style="word-break: keep-all; font-size: xx-small"
+                            >{{ getMonthText(rowInd, colInd) }}</span
+                        >
                         <span v-else></span>
                     </td>
                 </template>
             </tr>
         </table>
+        <div class="color-tip-panel">
+            <span>少</span>
+            <span
+                v-for="(colorItem, colorInd) in colorRuleSort"
+                :key="'color' + colorInd"
+                :style="'background:' + colorItem.color"
+                class="color-block"
+            ></span>
+            <span>多</span>
+        </div>
     </div>
 </template>
 
@@ -86,29 +103,21 @@ export default {
                 ];
             },
         },
+        contributions: {
+            type: Array,
+            default: () => {
+                return [];
+            },
+        },
     },
     data() {
         return {
-            width: 400,
-            height: 200,
-            contributions: [
-                { date: "2023-08-01", count: 10 },
-                { date: "2023-08-02", count: 5 },
-                { date: "2023-08-03", count: 7 },
-                // 更多贡献度数据...
-            ],
             uid: "",
             dateList: [],
-            rowTil: [
-                "",
-                "周一",
-                "周二",
-                "周三",
-                "周四",
-                "周五",
-                "周六",
-                "周日",
-            ],
+            rowTil: ["", "周一", "", "", "周四", "", "", "周日"],
+            showMonths: {},
+            hideTd: [],
+            monthTextMap: {},
         };
     },
     computed: {
@@ -119,40 +128,103 @@ export default {
         firstInd() {
             return new Date(this.dateList[0].date).getDay();
         },
+        colorRuleSort() {
+            return this.colorRule.sort((a, b) => {
+                return a.min - b.min;
+            });
+        },
     },
     created() {
         this.setId();
         this.getDateList();
+        this.initMonthTd();
     },
+    mounted() {},
     methods: {
         setId() {
             this.uid = getUId();
         },
-        getMonthText(row, col) {
-            const date = this.getDateByInd(row, col);
-            if (date === "") return "";
-            const month = Number(date.split("-")[1]);
-            const day = Number(date.split("-")[2]);
-            if (day > 10) return "";
-            const monthMap = [
-                "一月",
-                "二月",
-                "三月",
-                "四月",
-                "五月",
-                "六月",
-                "七月",
-                "八月",
-                "九月",
-                "十月",
-                "十一月",
-                "十二月",
-            ];
-            return monthMap[month - 1];
+        getBackground(rowInd, colInd) {
+            const color = this.getColor(rowInd, colInd);
+            if (!color) return "";
+            return "background:" + color;
+        },
+        getColor(rowInd, colInd) {
+            const date = this.getDateByInd(rowInd, colInd);
+            if (!date) return "";
+            const count = this.getCount(date);
+            const rule =
+                this.colorRule.find((item) => {
+                    const min = item.min;
+                    let max = item.max;
+                    if (max === undefined) max = Infinity;
+                    return min <= count && max >= count;
+                }) || {};
+            return rule.color || "";
+        },
+        getTitle(rowInd, colInd) {
+            const date = this.getDateByInd(rowInd, colInd);
+            if (!date) return "";
+            return this.getCount(date) + "个贡献：" + date;
+        },
+        getCount(date) {
+            const countItem = this.contributions.find(
+                (item) => item.date === date
+            );
+            if (!countItem) return 0;
+            return countItem.count || 0;
+        },
+        initMonthTd() {
+            const rowInd = 0;
+            for (let colInd = 1; colInd <= this.column; colInd++) {
+                const date = this.getDateByInd(rowInd, colInd - 2);
+                if (date === "") continue;
+                const month = Number(date.split("-")[1]);
+                const day = Number(date.split("-")[2]);
+                if (day > 10) continue;
+                let len = 1;
+                let col = colInd;
+                while (col++) {
+                    const d = this.getDateByInd(rowInd, col - 2);
+                    if (d === "") break;
+                    const m = Number(d.split("-")[1]);
+                    if (m != month) break;
+                    this.hideTd.push(col);
+                    len++;
+                }
+                const monthMap = [
+                    "一月",
+                    "二月",
+                    "三月",
+                    "四月",
+                    "五月",
+                    "六月",
+                    "七月",
+                    "八月",
+                    "九月",
+                    "十月",
+                    "十一月",
+                    "十二月",
+                ];
+                this.monthTextMap[colInd] = {
+                    colSpan: len,
+                    text: monthMap[month - 1],
+                };
+                colInd = col - 1;
+            }
+        },
+        getMonthText(rowInd, colInd) {
+            if (rowInd != 0) return "";
+            if (!this.monthTextMap[colInd]) return "";
+            return this.monthTextMap[colInd].text;
+        },
+        getColSpan(rowInd, colInd) {
+            if (rowInd != 0) return 1;
+            if (!this.monthTextMap[colInd]) return 1;
+            return this.monthTextMap[colInd].colSpan;
         },
         getDateByInd(row, col) {
-            if (row < 0) return "";
-            // const num = row * this.column + col - this.firstInd;
+            if (row < 0 || col < 0) return "";
             const num = col * 7 + row - this.firstInd + 1;
             if (num < 0 || num >= this.dateList.length) return "";
             return this.dateList[num].date;
@@ -217,16 +289,33 @@ export default {
         .contribution-table-tr {
             .block {
                 background: #eeeeee;
-                width: 10px;
-                height: 10px;
-                min-width: 10px;
-                min-height: 10px;
+                width: 15px;
+                height: 15px;
+                min-width: 15px;
+                min-height: 15px;
+                border: solid 1px #eeeeee;
+                &:hover {
+                    border: solid 1px rgb(78, 78, 78);
+                }
             }
             .text-content {
                 min-width: 2.5em;
             }
             .contribution-table-td {
+                text-align: center;
             }
+        }
+    }
+    .color-tip-panel {
+        text-align: right;
+        margin-top: 1rem;
+        span {
+            margin-left: 3px;
+        }
+        .color-block {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
         }
     }
 }
