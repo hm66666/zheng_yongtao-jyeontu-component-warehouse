@@ -92,37 +92,70 @@ export default {
         },
         initCodeContent() {
             this.code = `
-            <template>
-                <j-contribution-panel>
-                </j-contribution-panel>
-            </template>
+<template>
+    <j-contribution-panel :contributions="contributions">
+    </j-contribution-panel>
+</template>
+export default {
+    data() {
+        return {
+            contributions: [],
+        }
+    },
+    created() {
+        this.initContributions();
+    },
+    methods:{
+        initContributions() {
+            const currentDate = new Date();
+            // 获取一年前的日期
+            const oneYearAgoDate = new Date();
+            oneYearAgoDate.setFullYear(currentDate.getFullYear() - 1);
+            // 处理闰年情况
+            if (
+                currentDate.getMonth() === 1 &&
+                currentDate.getDate() === 29 &&
+                !this.isLeapYear(oneYearAgoDate.getFullYear())
+            ) {
+                // 如果当前是闰年的2月29日，而一年前的那一年不是闰年，则将一年前的日期设置为2月28日
+                oneYearAgoDate.setDate(28);
+            }
+            // 格式化一年前的日期
+            const formattedDate = oneYearAgoDate.toISOString().slice(0, 10);
+            this.startDate = formattedDate;
+            const dataList = this.getDateList();
+            dataList.forEach((data) => {
+                this.contributions.push({
+                    date: data.date,
+                    count: Math.floor(Math.random() * 100),
+                });
+            });
+        },
+    }
+}
             `;
         },
         initTableData() {
             this.tableData = [
                 {
-                    parameter: "imgList",
-                    field: "图片列表",
+                    parameter: "startDate",
+                    field: "面板起始日期",
+                    type: "String",
+                    describe: "默认为当前时间一年前的日期",
+                },
+                {
+                    parameter: "colorRule",
+                    field: "面板贡献次数与颜色呈现规则",
                     type: "Array",
-                    describe: "需要展示的图片列表数组，本地图片需要require引入",
+                    describe:
+                        '默认：[{"min":0,"max":0,"color":"#EEEEEE"},{"min":1,"max":8,"color":"#D6E685"},{"min":9,"max":15,"color":"#8CC665"},{"min":16,"max":20,"color":"#44A340"},{"min":21,"color":"#1E6823"}]',
                 },
                 {
-                    parameter: "column",
-                    field: "展示图片列数",
-                    type: "Number",
-                    describe: "设置展示图片列数",
-                },
-                {
-                    parameter: "imgMargin",
-                    field: "图片边距",
-                    type: "Number",
-                    describe: "图片边距",
-                },
-                {
-                    parameter: "imgClick",
-                    field: "图片点击回调事件",
-                    type: "function",
-                    describe: "图片点击回调事件",
+                    parameter: "contributions",
+                    field: "具体日期及贡献次数列表",
+                    type: "Array",
+                    describe:
+                        '如：[{count:6，date:"2022-09-04"},{count:10，date:"2022-09-05"}]',
                 },
             ];
         },
