@@ -356,6 +356,18 @@
             "children": []
         },
         {
+            "id": 33,
+            "name": "JContributionPanel",
+            "path": "/JContributionPanel",
+            "label": "贡献度面板",
+            "selected": false,
+            "icon": "icon-mouseR",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JContributionPanelView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",

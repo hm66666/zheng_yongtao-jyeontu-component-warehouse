@@ -7,12 +7,18 @@
 -->
 <template>
     <div class="home">
-        <img class="head-img" src="@/assets/logo.png" />
         <div class="per-link" v-for="item in myLink" :key="item.name">
             <span class="link-name">{{ item.name }}：</span>
-            <span class="link-address" @click="toAddress(item.address)">{{
-                item.address
-            }}</span>
+            <span
+                class="link-address"
+                v-if="item.address"
+                @click="toAddress(item.address)"
+                >{{ item.address }}</span
+            >
+            <span class="link-address" v-if="item.text">{{ item.text }}</span>
+            <div>
+                <img alt="" v-if="item.image" :src="item.image" />
+            </div>
         </div>
     </div>
 </template>
@@ -43,6 +49,11 @@ export default {
                 {
                     name: "个人博客",
                     address: "http://jyeontu.xyz/JYeontuBlog/#/home",
+                },
+                {
+                    name: "微信公众号",
+                    text: "『前端也能这么有趣』",
+                    image: require("../../assets/gzhCode.jpg"),
                 },
             ],
         };

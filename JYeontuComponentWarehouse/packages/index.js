@@ -32,6 +32,7 @@ import JScratchCard from "./JScratchCard";
 import JGiteeInfoTag from "./JGiteeInfoTag";
 import JMouseMenu from "./JMouseMenu";
 import JWebPet from "./JWebPet";
+import JContributionPanel from "./JContributionPanel";
 import "@/assets/icon/iconfont.css";
 
 // 存储组件列表
@@ -63,6 +64,7 @@ const components = [
     JGiteeInfoTag,
     JMouseMenu,
     JWebPet,
+    JContributionPanel,
     // Toast
 ];
 

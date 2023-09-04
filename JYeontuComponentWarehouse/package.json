@@ -11,7 +11,8 @@
         "debug": "set port=8081 && vue-cli-service serve --env dev --debug",
         "build": "vue-cli-service build",
         "lint": "eslint --ext .js,.vue packages",
-        "lib": "vue-cli-service build --target lib --name jvuewhell --dest lib packages/index.js"
+        "lib": "vue-cli-service build --target lib --name jvuewhell --dest lib packages/index.js",
+        "pub": "npm publish --access public --registry https://registry.npmjs.org"
     },
     "lint-staged": {
         "*.{ts,tsx,js,vue}": "eslint --fix"
