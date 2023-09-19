@@ -3,7 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 贡献度面板（JContributionPanel）
-                <div class="j-detail">贡献度面板，支持版本^0.6.4</div>
+                <div class="j-detail">贡献度面板，支持版本 ^0.6.4</div>
             </div>
         </template>
         <template v-slot:mid-p>

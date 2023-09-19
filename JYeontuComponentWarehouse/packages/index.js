@@ -33,6 +33,7 @@ import JGiteeInfoTag from "./JGiteeInfoTag";
 import JMouseMenu from "./JMouseMenu";
 import JWebPet from "./JWebPet";
 import JContributionPanel from "./JContributionPanel";
+import JDragUpload from "./JDragUpload";
 import "@/assets/icon/iconfont.css";
 
 // 存储组件列表
@@ -65,6 +66,7 @@ const components = [
     JMouseMenu,
     JWebPet,
     JContributionPanel,
+    JDragUpload,
     // Toast
 ];
 

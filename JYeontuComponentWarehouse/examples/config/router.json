@@ -368,6 +368,18 @@
             "children": []
         },
         {
+            "id": 34,
+            "name": "JDragUploadView",
+            "path": "/JDragUploadView",
+            "label": "拖拽上传",
+            "selected": false,
+            "icon": "icon-mouseR",
+            "open": false,
+            "hide": false,
+            "component": "views/componentShowViews/JDragUploadView.vue",
+            "children": []
+        },
+        {
             "id": 8,
             "name": "utilsTools",
             "path": "",

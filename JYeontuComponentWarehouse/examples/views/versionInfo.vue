@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.6.5（已发布）",
+                    descript: "增加：拖拽上传组件",
+                    time: "2023-09-19",
+                    icon: "6.5",
+                },
+                {
                     title: "版本0.6.4（已发布）",
                     descript: "增加：贡献度面板组件",
                     time: "2023-09-05",
