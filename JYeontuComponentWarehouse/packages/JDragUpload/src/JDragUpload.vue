@@ -59,7 +59,6 @@ export default {
             this.uploadFile(file);
         },
         uploadFile(file) {
-            // 在这里编写你的上传文件逻辑
             this.$emit("uploadFile", file);
         },
     },

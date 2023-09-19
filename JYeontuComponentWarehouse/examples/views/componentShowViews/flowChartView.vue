@@ -11,24 +11,25 @@
             </div>
             <div class="table-body">
                 <div>
-                    <j-table :title="title" :tableData="tableData"> </j-table>
+                    <j-table :title="tableTitle" :tableData="tableData">
+                    </j-table>
                 </div>
             </div>
         </div>
-        <!-- <j-code-height-light :code="code"></j-code-height-light> -->
-        <!-- <j-code-height-light :code="code" class="footer">
-            </j-code-height-light> -->
         <pre v-highlight>
-            <code class="vue" v-text="code">
+            <code class="vue">
+                <div v-text="code"></div>
             </code>
         </pre>
     </div>
 </template>
 
 <script>
+import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "flowChartView",
     components: {},
+    mixins: [mixinForView],
     data() {
         return {
             chartData: {

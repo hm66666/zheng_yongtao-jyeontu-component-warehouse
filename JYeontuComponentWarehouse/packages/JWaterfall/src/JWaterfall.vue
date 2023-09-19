@@ -49,13 +49,15 @@ export default {
             img.src = this.imgList[img.num];
             img.style.width = "100%";
             // 当图片加载完后
-            img.onload = this.loadHandler;
+            img.onload = (that) => {
+                this.loadHandler(that, img);
+            };
         },
         imgClick(img) {
-            // console.log("img: ", img.srcElement.src);
             this.$emit("imgClick", img.srcElement.src);
         },
-        loadHandler(that) {
+        loadHandler(that, ele) {
+            if (!that.path) return;
             const img = that.path[0];
             const minHeight = this.minHeight;
             const arr = this.arr;

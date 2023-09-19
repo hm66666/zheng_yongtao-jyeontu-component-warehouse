@@ -53,7 +53,6 @@ export default {
         reSizeWidth() {
             let a = document.getElementById("leftMenu");
             let aWidth = a.offsetWidth;
-            let aHeight = a.offsetHeight;
             let b = document.getElementById("topMenu");
             let bWidth = b.offsetWidth;
             let bHeight = b.offsetHeight;
@@ -63,13 +62,10 @@ export default {
             c.style.marginLeft = parseInt(aWidth) + "px";
             c.style.padding = "2rem";
             a.style.paddingTop = parseInt(bHeight) + "px";
-            // console.log(aWidth,bWidth);
         },
     },
     mounted() {
-        // setTimeout(() => {
         this.reSizeWidth();
-        // }, 1000)
     },
 };
 </script>

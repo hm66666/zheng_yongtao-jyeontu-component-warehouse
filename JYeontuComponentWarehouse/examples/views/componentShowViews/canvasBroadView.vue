@@ -20,14 +20,13 @@
         </template>
         <template v-slot:right-p>
             <div>
-                <j-table :title="title1" :tableData="tableData1"> </j-table>
+                <j-table :title="tableTitle" :tableData="tableData1"> </j-table>
             </div>
         </template>
         <template v-slot:footer-p>
-            <!-- <j-code-height-light :code="code" class="footer">
-            </j-code-height-light> -->
             <pre v-highlight>
-                <code class="vue" v-text="code">
+                <code class="vue">
+                    <div v-text="code"></div>
                 </code>
             </pre>
         </template>
@@ -35,58 +34,15 @@
 </template>
 
 <script>
-import splitHorizontal from "@/components/pages/splitHorizontal.vue";
+import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "canvasBroadView",
-    components: {
-        splitHorizontal,
-    },
+    components: {},
+    mixins: [mixinForView],
     data() {
         return {
             width: -1,
             height: -1,
-            title1: [
-                {
-                    title: "参数", //展示列名
-                    key: "parameter", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "20vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false, // 是否支持排序
-                },
-                {
-                    title: "字段名", //展示列名
-                    key: "field", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "30vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false, // 是否支持排序
-                },
-                {
-                    title: "数据类型", //展示列名
-                    key: "type", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "15vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false, // 是否支持排序
-                },
-                {
-                    title: "描述", //展示列名
-                    key: "describe", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "35vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false, // 是否支持排序
-                },
-            ],
             tableData1: [
                 {
                     parameter: "height",
@@ -159,12 +115,6 @@ export default {
 <style lang="less" scoped="scoped">
 .broad-title {
     line-height: 3rem;
-}
-.broad-contain {
-    .canvas-baroad {
-        // height: 300px;
-        // width: 600px;
-    }
 }
 .title {
     font-size: x-large;

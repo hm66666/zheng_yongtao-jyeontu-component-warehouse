@@ -22,9 +22,7 @@
                             <div class="menu-slot-header">🌝JYeontu</div>
                         </template>
                         <template v-slot:footer>
-                            <div class="menu-slot">
-                                🦁🐼
-                            </div>
+                            <div class="menu-slot">🦁🐼</div>
                         </template>
                     </j-mouse-menu>
                 </div>
@@ -45,9 +43,7 @@
                             </ul>
                         </template>
                         <template v-slot:footer>
-                            <div class="menu-slot">
-                                🦁🐼
-                            </div>
+                            <div class="menu-slot">🦁🐼</div>
                         </template>
                     </j-mouse-menu>
                 </div>
@@ -65,83 +61,41 @@
         </template>
         <template v-slot:footer-p>
             <pre v-highlight>
-                <code class="vue" v-text="code">
+                <code class="vue">
+                    <div v-text="code"></div>
                 </code>
             </pre>
         </template>
     </split-horizontal>
 </template>
 <script>
-import splitHorizontal from "@/components/pages/splitHorizontal.vue";
+import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "JMouseMenuView",
-    components: {
-        splitHorizontal
-    },
+    components: {},
+    mixins: [mixinForView],
     data() {
         return {
             code: "",
-            tableTitle: [
-                {
-                    title: "参数", //展示列名
-                    key: "parameter", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "20vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                },
-                {
-                    title: "字段名", //展示列名
-                    key: "field", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "30vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                },
-                {
-                    title: "数据类型", //展示列名
-                    key: "type", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "15vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                },
-                {
-                    title: "描述", //展示列名
-                    key: "describe", //字段名
-                    type: "", // 列类型
-                    readOnly: true, //是否只读
-                    width: "35vw", //列宽度
-                    columnStyle: "", // 列样式
-                    fixed: false, //是否固定
-                    sort: false // 是否支持排序
-                }
-            ],
             tableData: [
                 {
                     parameter: "domId",
                     field: "修改右键菜单的dom节点id",
                     type: "String",
                     describe:
-                        "修改右键菜单的dom节点id，在改节点上右键点击会展示自定义的菜单列表"
+                        "修改右键菜单的dom节点id，在改节点上右键点击会展示自定义的菜单列表",
                 },
                 {
                     parameter: "menu",
                     field: "需要展示的菜单栏列表",
                     type: "Boolean",
-                    describe: "具体参数如下"
+                    describe: "具体参数如下",
                 },
                 {
                     parameter: "menuClick",
                     field: "菜单点击事件",
                     type: "Function",
-                    describe: "会将点击的对象作为参数回调"
+                    describe: "会将点击的对象作为参数回调",
                 },
                 {
                     parameter: "header",
@@ -150,9 +104,8 @@ export default {
                     describe: "展开可查看例子",
                     children: {
                         type: "text",
-                        text:
-                            '\n<template v-slot:header>\n\t<div class="menu-slot-header">🌝JYeontu</div>\n</template>'
-                    }
+                        text: '\n<template v-slot:header>\n\t<div class="menu-slot-header">🌝JYeontu</div>\n</template>',
+                    },
                 },
                 {
                     parameter: "body",
@@ -161,8 +114,8 @@ export default {
                     describe: "展开可查看例子",
                     children: {
                         type: "text",
-                        text: `\n<template v-slot:body>\n\t<ul>\n\t\t<li @click="alert('插槽1')">插槽1</li>\n\t\t<li @click="alert('插槽2')">插槽2</li>\n\t\t<li @click="alert('插槽3')">插槽3</li>\n\t</ul>\n</template>`
-                    }
+                        text: `\n<template v-slot:body>\n\t<ul>\n\t\t<li @click="alert('插槽1')">插槽1</li>\n\t\t<li @click="alert('插槽2')">插槽2</li>\n\t\t<li @click="alert('插槽3')">插槽3</li>\n\t</ul>\n</template>`,
+                    },
                 },
                 {
                     parameter: "footer",
@@ -171,34 +124,33 @@ export default {
                     describe: "展开可查看例子",
                     children: {
                         type: "text",
-                        text:
-                            '\n<template v-slot:footer>\n\t<div class="menu-slot">🦁🐼</div>\n</template>'
-                    }
-                }
+                        text: '\n<template v-slot:footer>\n\t<div class="menu-slot">🦁🐼</div>\n</template>',
+                    },
+                },
             ],
             myMenu: [
                 {
                     id: "1",
-                    label: "菜单1"
+                    label: "菜单1",
                 },
                 {
                     id: "2",
                     label: "菜单2",
-                    click: this.test
+                    click: this.test,
                 },
                 {
                     id: "3",
-                    label: "菜单3"
+                    label: "菜单3",
                 },
                 {
                     id: "4",
-                    label: "菜单4"
+                    label: "菜单4",
                 },
                 {
                     id: "5",
-                    label: "菜单5"
-                }
-            ]
+                    label: "菜单5",
+                },
+            ],
         };
     },
     created() {
@@ -209,21 +161,21 @@ export default {
                     parameter: "id",
                     field: "菜单项id",
                     type: "String",
-                    describe: "菜单项id"
+                    describe: "菜单项id",
                 },
                 {
                     parameter: "label",
                     field: "菜单项展示内容",
                     type: "String",
-                    describe: "菜单项展示内容"
+                    describe: "菜单项展示内容",
                 },
                 {
                     parameter: "click",
                     field: "菜单点击事件",
                     type: "Function",
-                    describe: "菜单点击事件，未定义值回调menuClick"
-                }
-            ]
+                    describe: "菜单点击事件，未定义值回调menuClick",
+                },
+            ],
         };
         this.code = `
 <template>
@@ -340,8 +292,8 @@ export default {
         },
         alert(label) {
             alert("点击了：" + label);
-        }
-    }
+        },
+    },
 };
 </script>
 <style scoped lang="less">

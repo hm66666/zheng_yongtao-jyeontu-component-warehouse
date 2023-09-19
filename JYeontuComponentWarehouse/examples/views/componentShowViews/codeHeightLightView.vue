@@ -18,13 +18,12 @@
 </template>
 
 <script>
-import splitHorizontal from "@/components/pages/splitHorizontal.vue";
+import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "codeHeightLightView",
     //import引入的组件需要注入到对象中才能使用",
-    components: {
-        splitHorizontal,
-    },
+    components: {},
+    mixins: [mixinForView],
     data() {
         //这里存放数据",
         return {

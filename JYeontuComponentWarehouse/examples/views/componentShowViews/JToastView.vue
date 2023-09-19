@@ -12,22 +12,20 @@
             </div>
         </template>
         <template #footer-p>
-            <!-- <j-code-height-light :code="code" class="footer">
-            </j-code-height-light> -->
             <pre v-highlight>
-                <code class="vue" v-text="code">
+                <code class="vue">
+                    <div v-text="code"></div>
                 </code>
             </pre>
         </template>
     </split-horizontal>
 </template>
 <script>
-import splitHorizontal from "@/components/pages/splitHorizontal.vue";
+import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "JToastView",
-    components: {
-        splitHorizontal,
-    },
+    components: {},
+    mixins: [mixinForView],
     data() {
         return {
             code: "",

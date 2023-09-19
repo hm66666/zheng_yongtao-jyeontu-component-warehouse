@@ -29,10 +29,9 @@
             </div>
         </template>
         <template v-slot:footer-p>
-            <!-- <j-code-height-light :code="code" class="footer">
-            </j-code-height-light> -->
             <pre v-highlight>
-                <code class="vue" v-text="code">
+                <code class="vue">
+                    <div v-text="code"></div>
                 </code>
             </pre>
         </template>
@@ -40,13 +39,12 @@
 </template>
 
 <script>
-import splitHorizontal from "@/components/pages/splitHorizontal.vue";
+import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "JTableView",
     //import引入的组件需要注入到对象中才能使用",
-    components: {
-        splitHorizontal,
-    },
+    components: {},
+    mixins: [mixinForView],
     data() {
         //这里存放数据",
         return {
