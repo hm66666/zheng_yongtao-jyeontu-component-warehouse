@@ -3,7 +3,9 @@
         <template v-slot:header-p>
             <div class="j-title">
                 评论组件（JComment）
-                <div class="j-detail">评论组件</div>
+                <div class="j-detail">
+                    评论组件，最新改动版本0.6.6，尽量安装0.6.6或以上版本
+                </div>
             </div>
         </template>
         <template v-slot:mid-p>

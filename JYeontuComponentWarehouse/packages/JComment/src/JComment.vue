@@ -106,7 +106,9 @@
                     style="width: 20px; height: 20px; cursor: pointer"
                     src="../img/表情.png"
                 />
-                <button @click="submitReply(item.id)">发表</button>
+                <button @click="submitReply(item[keyMap.id || 'id'])">
+                    发表
+                </button>
             </div>
             <div
                 class="j-comment-childer"
@@ -362,7 +364,7 @@ export default {
                 pScrollTop += parentElement.scrollTop;
                 parentElement = parentElement.parentElement;
             }
-            var scrollTop = scrollingElement.scrollTop + pScrollTop;
+            const scrollTop = scrollingElement.scrollTop + pScrollTop;
             if (Math.abs(this.scrollTop - scrollTop) > 300) {
                 this.scrollTop = scrollTop;
                 this.showVEmojiPicker = false;
@@ -399,8 +401,8 @@ export default {
             let H;
             let L;
             let code;
-            for (let i = 0; i < arr.length; i += 1) {
-                code = arr[i];
+            for (const arrItem of arr) {
+                code = arrItem;
                 code = code.replace("&#", "").replace(";", "");
                 // 高位
                 H = Math.floor((code - 0x10000) / 0x400) + 0xd800;
@@ -421,7 +423,7 @@ export default {
                 pScrollTop += parentElement.scrollTop;
                 parentElement = parentElement.parentElement;
             }
-            var scrollTop = scrollingElement.scrollTop + pScrollTop;
+            const scrollTop = scrollingElement.scrollTop + pScrollTop;
             const v = document.getElementById("v-emoji-picker-" + this.uid);
             v.style.left = el.x + 5 + "px";
             v.style.top = el.y + 5 + "px";
@@ -516,7 +518,7 @@ export default {
             this.replyText = "";
             this.showComentDatas.map((item) => {
                 item.showReply = false;
-                item.showChildren &&
+                if (item.showChildren)
                     item.showChildren.map((item1) => {
                         item1.showReply = false;
                     });
@@ -619,10 +621,10 @@ export default {
                 let branchArr = cloneData.filter(
                     (child) => parent[id] == child[pid]
                 );
-                for (let i = 0; i < branchArr.length; i++) {
-                    branchArr.parent_nickname = parent.nickname;
+                for (const branchItem of branchArr) {
+                    branchItem.parent_nickname = parent.nickname;
                 }
-                branchArr.length > 0 ? (parent["children"] = branchArr) : "";
+                if (branchArr.length > 0) parent["children"] = branchArr;
                 return parent[pid] === null;
             });
         },
