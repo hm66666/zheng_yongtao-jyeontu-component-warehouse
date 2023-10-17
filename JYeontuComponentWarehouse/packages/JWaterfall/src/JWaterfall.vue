@@ -34,6 +34,7 @@ export default {
             let trueWidth = Math.floor(
                 (100 - this.column * this.imgMargin * 2) / this.column
             );
+            let trueWidthPx = 0;
             for (let i = 0; i < this.column; i++) {
                 let li = document.createElement("li");
                 li.style.listStyle = "none";
@@ -43,37 +44,53 @@ export default {
                 ul.appendChild(li);
                 this.arr.push(li);
                 this.minHeight.push(0);
+                trueWidthPx = li.offsetWidth;
             }
-            let img = new Image();
-            img.num = 0;
-            img.src = this.imgList[img.num];
-            img.style.width = "100%";
-            // 当图片加载完后
-            img.onload = (that) => {
-                this.loadHandler(that, img);
-            };
+            this.loadHandler(trueWidthPx);
         },
         imgClick(img) {
             this.$emit("imgClick", img.srcElement.src);
         },
-        loadHandler(that, ele) {
-            if (!that.path) return;
-            const img = that.path[0];
-            const minHeight = this.minHeight;
-            const arr = this.arr;
-            // 高度数组的最小值
-            const min = Math.min.apply(null, minHeight);
-            // 高度数组的最小值索引
-            const minIndex = minHeight.indexOf(min);
-            // 克隆一份图片
-            const im = img.cloneNode(true);
-            im.onclick = this.imgClick;
-            // 将图片假如对应最小值索引的容器中
-            arr[minIndex].appendChild(im);
-            // 更新最小值索引的容器的高度
-            minHeight[minIndex] += im.height;
-            img.num++;
-            img.src = this.imgList[img.num];
+        getImgPx(img, maxWidth) {
+            const image = new Image();
+            image.src = img;
+            return new Promise((resolve) => {
+                image.onload = () => {
+                    const width = image.width;
+                    const height = image.height;
+                    image.width = maxWidth;
+                    image.height = image.height * (maxWidth / width);
+                    resolve({ width, height, image });
+                };
+            });
+        },
+        getBase64(file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            return new Promise((resolve) => {
+                reader.onload = () => {
+                    resolve(reader.result);
+                };
+            });
+        },
+        async loadHandler(trueWidth) {
+            for (const src of this.imgList) {
+                const res = await this.getImgPx(src, trueWidth);
+                const { image } = res;
+                const minHeight = this.minHeight;
+                const arr = this.arr;
+                // 高度数组的最小值
+                const min = Math.min.apply(null, minHeight);
+                // 高度数组的最小值索引
+                const minIndex = minHeight.indexOf(min);
+                // 克隆一份图片
+                const im = image.cloneNode(true);
+                im.onclick = this.imgClick;
+                // 将图片假如对应最小值索引的容器中
+                arr[minIndex].appendChild(im);
+                // 更新最小值索引的容器的高度
+                minHeight[minIndex] += im.height;
+            }
         },
     },
 };
@@ -83,5 +100,6 @@ export default {
 #j-water-fall-content {
     margin: 0;
     padding: 0;
+    width: 100%;
 }
 </style>

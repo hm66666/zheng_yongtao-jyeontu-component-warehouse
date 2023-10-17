@@ -3,7 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 瀑布流照片容器（JWaterfall）
-                <div class="j-detail">瀑布流照片容器</div>
+                <div class="j-detail">瀑布流照片容器，支持版本^0.6.7</div>
             </div>
         </template>
         <template v-slot:left-p>
@@ -227,7 +227,7 @@ export default {
     margin: auto auto;
     height: 40vh;
     overflow-y: scroll;
-    // width: 50%;
+    width: 100%;
 }
 .header {
     min-height: 4rem;
