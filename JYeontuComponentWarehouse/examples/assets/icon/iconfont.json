@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "33762304",
+      "name": "组件库（包）",
+      "font_class": "a-zujiankubao",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "12723179",
+      "name": "波点面板",
+      "font_class": "bodianmianban",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "33987016",
+      "name": "上传图片",
+      "font_class": "shangchuantupian",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
       "icon_id": "26267572",
       "name": "gitee",
       "font_class": "gitee",

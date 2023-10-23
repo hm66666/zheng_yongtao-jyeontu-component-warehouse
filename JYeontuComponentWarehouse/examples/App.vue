@@ -65,7 +65,12 @@ export default {
         },
     },
     mounted() {
-        this.reSizeWidth();
+        const leftMenu = document.getElementById("leftMenu");
+        const resizeObserver = new ResizeObserver((entries) => {
+            this.reSizeWidth();
+        });
+        // 开始观察
+        resizeObserver.observe(leftMenu);
     },
 };
 </script>

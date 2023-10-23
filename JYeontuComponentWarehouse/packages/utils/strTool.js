@@ -3,7 +3,7 @@
  * @param {String} str 需要转换的字符串
  * @return {String} 小驼峰形式字符串
  **/
-export const _toLittleCamel = function(str) {
+export const _toLittleCamel = function (str) {
     let newStr = str.split("-");
     if (newStr.length <= 1) return str;
     let res = newStr[0];
@@ -17,12 +17,12 @@ export const _toLittleCamel = function(str) {
  * @param {String} str 需要转换的字符串
  * @return {String} 大驼峰形式字符串
  **/
-export const _toBigCamel = function(str) {
+export const _toBigCamel = function (str) {
     let newStr = str.split("-");
     if (newStr.length <= 1) return str;
     let res = "";
-    for (let i = 0; i < newStr.length; i++) {
-        res += newStr[i][0].toUpperCase() + newStr[i].substr(1);
+    for (const str of newStr) {
+        res += str[0].toUpperCase() + str.substr(1);
     }
     return res;
 };
@@ -31,7 +31,7 @@ export const _toBigCamel = function(str) {
  * @param {String} str 需要转换的字符串
  * @return {String} '-'连接形式字符串
  **/
-export const camelTo_ = function(str) {
+export const camelTo_ = function (str) {
     let res = "";
     for (let i = 0; i < str.length; i++) {
         if (str[i] >= "A" && str[i] <= "Z") {

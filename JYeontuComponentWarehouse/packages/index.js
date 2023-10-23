@@ -18,7 +18,6 @@ const components = modulesFiles.keys().reduce((components, modulePath) => {
 // 定义 install 方法，接收 Vue 作为参数。
 const install = function (Vue) {
     if (install.installed) return;
-
     // 遍历注册全局组件
     Object.values(components).forEach((component) => {
         // 如果组件提供了 install 方法，则使用 install 方法注册
