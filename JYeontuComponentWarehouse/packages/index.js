@@ -15,6 +15,8 @@ const components = modulesFiles.keys().reduce((components, modulePath) => {
     return components;
 }, {});
 
+const requireDirective = require.context(`./directives/`, false, /\.js$/);
+
 // 定义 install 方法，接收 Vue 作为参数。
 const install = function (Vue) {
     if (install.installed) return;
@@ -26,6 +28,11 @@ const install = function (Vue) {
         } else {
             Vue.component(component.name, component);
         }
+    });
+    requireDirective.keys().forEach((directiveFileName) => {
+        const moduleName = directiveFileName.replace(/^\.\/(.*)\.\w+$/, "$1");
+        const directiveConfig = requireDirective(directiveFileName);
+        Vue.directive(moduleName, directiveConfig.default);
     });
 };
 

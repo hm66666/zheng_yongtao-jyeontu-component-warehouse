@@ -17,7 +17,7 @@
             >
             <span class="link-address" v-if="item.text">{{ item.text }}</span>
             <div>
-                <img alt="" v-if="item.image" :src="item.image" />
+                <img v-rotate alt="" v-if="item.image" :src="item.image" />
             </div>
         </div>
     </div>
