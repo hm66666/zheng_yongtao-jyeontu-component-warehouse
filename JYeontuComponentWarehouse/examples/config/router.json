@@ -33,6 +33,7 @@
             "label": "版本介绍",
             "selected": false,
             "icon": "icon-banbenxinxi",
+            "iconColor": "#F2B405",
             "open": true,
             "component": "views/versionInfo.vue",
             "children": []
@@ -44,6 +45,7 @@
             "label": "组件列表",
             "selected": false,
             "icon": "icon-a-zujiankubao",
+            "iconColor": "#0CF3E4",
             "open": false,
             "component": "",
             "children": [
@@ -405,6 +407,7 @@
             "label": "游戏",
             "selected": false,
             "icon": "icon-youxiyouxiji",
+            "iconColor": "#94C5F5",
             "open": false,
             "component": "",
             "children": [
