@@ -1,82 +1,28 @@
-/*
- * @Author: zheng yong tao
- * @Date: 2022-02-20 21:41:33
- * @LastEditors: zheng yong tao
- * @LastEditTime: 2022-03-12 23:13:36
- * @Description:
- */
-import JCalendar from "./JCalendar";
-import JTable from "./JTable";
-import JCanvasBroad from "./JCanvasBroad";
-import JCodeHeightLight from "./JCodeHeightLight";
-import JFlowChart from "./JFlowChart";
-import JElectronicNumber from "./JElectronicNumber";
-import JNumRolling from "./JNumRolling";
-import JDialog from "./JDialog";
-import JHoverBtn from "./JHoverBtn";
-import JFloatDiv from "./JFloatDiv";
-import JSteps from "./JSteps";
-import JDropDownBox from "./JDropDownBox";
-import JTagList from "./JTagList";
-import JToast from "./JToast";
-import JWordCloud from "./JWordCloud";
-import JComment from "./JComment";
-import JToolTip from "./JToolTip";
-import JWaterfall from "./JWaterfall";
-import JBarrage from "./JBarrage";
-import JBarrageRain from "./JBarrageRain";
-import JAppsLock from "./JAppsLock";
-import JVideoCover from "./JVideoCover";
-import J3DSwipe from "./J3DSwipe";
-import JScratchCard from "./JScratchCard";
-import JGiteeInfoTag from "./JGiteeInfoTag";
-import JMouseMenu from "./JMouseMenu";
-import JWebPet from "./JWebPet";
-import JContributionPanel from "./JContributionPanel";
-import JDragUpload from "./JDragUpload";
 import "@/assets/icon/iconfont.css";
 
-// 存储组件列表
-const components = [
-    JCalendar,
-    JTable,
-    JCanvasBroad,
-    JCodeHeightLight,
-    JFlowChart,
-    JElectronicNumber,
-    JNumRolling,
-    JDialog,
-    JHoverBtn,
-    JFloatDiv,
-    JSteps,
-    JDropDownBox,
-    JTagList,
-    JToast,
-    JWordCloud,
-    JComment,
-    JToolTip,
-    JWaterfall,
-    JBarrage,
-    JBarrageRain,
-    JAppsLock,
-    JVideoCover,
-    J3DSwipe,
-    JScratchCard,
-    JGiteeInfoTag,
-    JMouseMenu,
-    JWebPet,
-    JContributionPanel,
-    JDragUpload,
-    // Toast
-];
+// 使用 require.context 动态导入所有组件
+const modulesFiles = require.context("./components/", true, /\.js$/);
 
-// 定义 install 方法，接收 Vue 作为参数。如果使用 use 注册插件，则所有的组件都将被注册
+const components = modulesFiles.keys().reduce((components, modulePath) => {
+    // 排除自身这个文件
+    if (modulePath === "./index.js") return components;
+
+    // 获取组件名和组件配置
+    const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, "$1");
+    const value = modulesFiles(modulePath);
+
+    components[moduleName] = value.default;
+    return components;
+}, {});
+
+// 定义 install 方法，接收 Vue 作为参数。
 const install = function (Vue) {
-    // 判断是否安装
     if (install.installed) return;
+
     // 遍历注册全局组件
-    components.forEach((component) => {
-        if (component.name === "JToast") {
+    Object.values(components).forEach((component) => {
+        // 如果组件提供了 install 方法，则使用 install 方法注册
+        if (typeof component.install === "function") {
             Vue.use(component);
         } else {
             Vue.component(component.name, component);
