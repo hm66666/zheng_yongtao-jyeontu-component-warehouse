@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.6.8（已发布）",
+                    descript: "添加：开启vue指令库",
+                    time: "2023-11-06",
+                    icon: "6.8",
+                },
+                {
                     title: "版本0.6.7（已发布）",
                     descript: "修复：修复瀑布流组件旧方法失效问题",
                     time: "2023-10-17",

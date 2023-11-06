@@ -402,6 +402,29 @@
         },
         {
             "id": 6,
+            "name": "directives",
+            "path": "/directives",
+            "label": "vue指令",
+            "selected": false,
+            "icon": "icon-youxiyouxiji",
+            "open": false,
+            "component": "",
+            "children": [
+                {
+                    "id": 601,
+                    "name": "rotate3D",
+                    "path": "/rotate3D",
+                    "label": "元素旋转",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/directivesViews/rotate3D.vue",
+                    "children": []
+                }
+            ]
+        },
+        {
+            "id": 7,
             "name": "games",
             "path": "/games",
             "label": "游戏",
@@ -412,7 +435,7 @@
             "component": "",
             "children": [
                 {
-                    "id": 601,
+                    "id": 701,
                     "name": "lineBlock",
                     "path": "/lineBlock",
                     "label": "连连看",

@@ -6,7 +6,8 @@ export default {
             startY,
             currentX = 0,
             currentY = 0;
-
+        el.style.display = "inline-block";
+        el.style.cursor = "pointer";
         // 绑定 mousedown 事件，在鼠标按下时开始拖拽
         el.addEventListener("mousedown", function (event) {
             event.preventDefault();
