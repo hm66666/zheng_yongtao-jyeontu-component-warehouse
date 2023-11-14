@@ -76,29 +76,28 @@ export default {
         </j-electronic-number>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-                numbers:[],
-                numberColor:'#8076a3',
-                numberSize:'1rem'
-            }
-        }
-        mounted(){
-            this.getTime();
-        },
-        methods:{
-            getTime(){
-            let day = getToday('yyyy-mm-dd hh:MM:ss');
-            this.numbers = [day];
-            setTimeout(()=>{
-                this.getTime();
-            },1000);
-            }
+
+export default {
+    data() {
+        return {
+            numbers:[],
+            numberColor:'#8076a3',
+            numberSize:'1rem'
         }
     }
-<\/script>
+    mounted(){
+        this.getTime();
+    },
+    methods:{
+        getTime(){
+        let day = getToday('yyyy-mm-dd hh:MM:ss');
+        this.numbers = [day];
+        setTimeout(()=>{
+            this.getTime();
+        },1000);
+        }
+    }
+}
 `;
     },
     mounted() {

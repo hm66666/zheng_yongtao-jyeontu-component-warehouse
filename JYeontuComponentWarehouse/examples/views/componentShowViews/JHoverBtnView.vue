@@ -142,29 +142,29 @@ export default {
         </j-hover-btn>
     </div>
 </template>
-<script>
-    export default {
-        data(){
-            return {
-                btnStyle:{
-                "fontSize":'small',
-                "top":'60vh',
-                "left":'90vw'
-                },
-                btnStyle2: {
-                    fontSize: "small",
-                    top: "40vh",
-                    left: "90vw",
-                },
-            }
-        },
-        methods:{
-            hoverBtnClick(){
-            alert('触发点击事件');
-            }
+
+export default {
+    data(){
+        return {
+            btnStyle:{
+            "fontSize":'small',
+            "top":'60vh',
+            "left":'90vw'
+            },
+            btnStyle2: {
+                fontSize: "small",
+                top: "40vh",
+                left: "90vw",
+            },
+        }
+    },
+    methods:{
+        hoverBtnClick(){
+        alert('触发点击事件');
         }
     }
-<\/script>
+}
+    
 `;
     },
     mounted() {},

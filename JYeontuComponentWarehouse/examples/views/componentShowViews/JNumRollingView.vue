@@ -101,32 +101,31 @@ export default {
         </j-num-rolling>
     </div>
 </template>
-<script>
-    export default {
-        data(){
-            return {
-            nums:'999999',
-            numStyle:{
-                border:'2px solid skyblue',
-                boxShadow:'10px 10px 5px #185D8C',
-                marginLeft:'0.5rem',
-            },
-            }
+
+export default {
+    data(){
+        return {
+        nums:'999999',
+        numStyle:{
+            border:'2px solid skyblue',
+            boxShadow:'10px 10px 5px #185D8C',
+            marginLeft:'0.5rem',
         },
-        mounted() {
-            this.autoChange();
-        },
-        methods:{
-            //自动增加数字，测试
-            autoChange(){
-            this.nums = parseFloat(this.nums) + 12345.67;
-            setTimeout(()=>{
-                this.autoChange();
-            },5000);
-            },
         }
+    },
+    mounted() {
+        this.autoChange();
+    },
+    methods:{
+        //自动增加数字，测试
+        autoChange(){
+        this.nums = parseFloat(this.nums) + 12345.67;
+        setTimeout(()=>{
+            this.autoChange();
+        },5000);
+        },
     }
-<\/script>
+}
 `;
     },
     mounted() {

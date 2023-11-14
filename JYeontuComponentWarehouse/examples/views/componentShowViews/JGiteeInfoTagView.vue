@@ -74,27 +74,26 @@ export default {
         ></j-gitee-info-tag>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-                repoList: [
-                {
-                    owner: "zheng_yongtao",
-                    repo: "jyeontu-component-warehouse"
-                },
-                {
-                    owner: "zheng_yongtao",
-                    repo: "me-and-my-doodle"
-                },
-                {
-                    owner: "peng_zhihui",
-                    repo: "HelloWord-Keyboard"
-                }]
-            }
+
+export default {
+    data() {
+        return {
+            repoList: [
+            {
+                owner: "zheng_yongtao",
+                repo: "jyeontu-component-warehouse"
+            },
+            {
+                owner: "zheng_yongtao",
+                repo: "me-and-my-doodle"
+            },
+            {
+                owner: "peng_zhihui",
+                repo: "HelloWord-Keyboard"
+            }]
         }
     }
-<\/script>
+}
             `;
         },
         initTableData() {

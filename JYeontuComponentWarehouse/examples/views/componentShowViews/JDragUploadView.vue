@@ -81,24 +81,24 @@ export default {
         </div>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-                fileName: "",
-                showImg: "",
-            }
-        },
-        methods: {
-            uploadFile(file) {
-                blobToBase64(file, (base64String) => {
-                    this.fileName = file.name;
-                    this.showImg = base64String;
-                });
-            },
+
+export default {
+    data() {
+        return {
+            fileName: "",
+            showImg: "",
         }
+    },
+    methods: {
+        uploadFile(file) {
+            blobToBase64(file, (base64String) => {
+                this.fileName = file.name;
+                this.showImg = base64String;
+            });
+        },
     }
-<\/script>
+}
+    
 <style scoped lang="less">
     .drag-upload-view {
         .show-img-box {

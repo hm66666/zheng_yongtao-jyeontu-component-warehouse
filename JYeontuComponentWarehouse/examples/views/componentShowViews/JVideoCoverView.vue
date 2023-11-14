@@ -95,17 +95,16 @@ export default {
         </div>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-                videoUrl: require("../../assets/video/202112250058.mp4"),
-                coverLongImg: require("../../assets/img/1659408054780.jpg")
-            }
+
+export default {
+    data() {
+        return {
+            videoUrl: require("../../assets/video/202112250058.mp4"),
+            coverLongImg: require("../../assets/img/1659408054780.jpg")
         }
     }
-<\/script>
-            `;
+}
+        `;
         },
         initTableData() {
             this.tableData = [

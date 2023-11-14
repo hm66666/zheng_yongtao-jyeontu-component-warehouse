@@ -143,43 +143,42 @@ export default {
         </button>
     </div>
 </template>
-<script>
-    export default {
-        data(){
-            return {
-            title:"我是标题",
-            btnList:[
-                {
-                    text:'取消',
-                    style:{
-                        backgroundColor:'orangered'
-                    },
-                    click:'close'
+
+export default {
+    data(){
+        return {
+        title:"我是标题",
+        btnList:[
+            {
+                text:'取消',
+                style:{
+                    backgroundColor:'orangered'
                 },
-                {
-                    text:'确认',
-                    style:{
-                        backgroundColor:'seagreen'
-                    },
-                    click:'confirm'
-                }
-            ]
-            }
-        },
-        mounted() {
-            
-        },
-        methods:{
-            showDialog() {
-                this.$refs["JDialog"].showDialog();
+                click:'close'
             },
-            confirm(){
-                console.log('confirm');
-                this.$refs.JDialog.closeDialog();
+            {
+                text:'确认',
+                style:{
+                    backgroundColor:'seagreen'
+                },
+                click:'confirm'
             }
+        ]
+        }
+    },
+    mounted() {
+        
+    },
+    methods:{
+        showDialog() {
+            this.$refs["JDialog"].showDialog();
+        },
+        confirm(){
+            console.log('confirm');
+            this.$refs.JDialog.closeDialog();
         }
     }
-<\/script>
+}
     `;
     },
     mounted() {},

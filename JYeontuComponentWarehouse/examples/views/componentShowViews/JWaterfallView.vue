@@ -176,7 +176,6 @@ export default {
     margin: auto auto;
     height: 40vh;
     overflow-y: scroll;
-    // width: 50%;
 }
 </style>
             `;

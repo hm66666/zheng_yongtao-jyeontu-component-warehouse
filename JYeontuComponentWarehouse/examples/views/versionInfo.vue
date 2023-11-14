@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.6.9 ~ 0.7.0（已发布）",
+                    descript: "添加：自动补全输入框",
+                    time: "2023-11-15",
+                    icon: "7.0",
+                },
+                {
                     title: "版本0.6.8（已发布）",
                     descript: "添加：开启vue指令库",
                     time: "2023-11-06",

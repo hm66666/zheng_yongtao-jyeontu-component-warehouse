@@ -96,16 +96,15 @@ export default {
         </j-canvas-broad>
     </div>
 </template>
-<script>
-    export default {
-        data(){
-            return {
-                width:-1,
-                height:-1,
-            }
+
+export default {
+    data(){
+        return {
+            width:-1,
+            height:-1,
         }
     }
-<\/script>
+}
 `;
     },
     methods: {},

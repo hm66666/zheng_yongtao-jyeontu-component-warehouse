@@ -352,6 +352,18 @@
                     "hide": false,
                     "component": "views/componentShowViews/JDragUploadView.vue",
                     "children": []
+                },
+                {
+                    "id": 425,
+                    "name": "JAutoCompleteInputView",
+                    "path": "/JAutoCompleteInputView",
+                    "label": "自动补全输入框",
+                    "selected": false,
+                    "icon": "icon-shangchuantupian",
+                    "open": false,
+                    "hide": false,
+                    "component": "views/componentShowViews/JAutoCompleteInputView.vue",
+                    "children": []
                 }
             ]
         },

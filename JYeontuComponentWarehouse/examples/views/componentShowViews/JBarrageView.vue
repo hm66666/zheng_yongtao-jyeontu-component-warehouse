@@ -138,91 +138,90 @@ export default {
         ></j-barrage>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-                showBtn: true,
-                full: true,
-                repetition: true,
-                time: 10,
-                barrageDate: [
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "red",
-                        position: "top" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "blue",
-                        position: "center" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "blue",
-                        position: "center" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    },
-                    {
-                        text: "111",
-                        color: "yellow",
-                        position: "bottom" //top,center,bottom
-                    }
-                ],
-            }
+
+export default {
+    data() {
+        return {
+            showBtn: true,
+            full: true,
+            repetition: true,
+            time: 10,
+            barrageDate: [
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "red",
+                    position: "top" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "blue",
+                    position: "center" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "blue",
+                    position: "center" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                },
+                {
+                    text: "111",
+                    color: "yellow",
+                    position: "bottom" //top,center,bottom
+                }
+            ],
         }
     }
-<\/script>
-            `;
+}
+        `;
         },
         initTableData() {
             this.tableData = [

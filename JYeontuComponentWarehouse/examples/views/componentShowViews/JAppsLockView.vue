@@ -61,20 +61,18 @@ export default {
         <j-apps-lock @commit="commit" size="5"></j-apps-lock>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-            }
-        },
-        methods:{
-            commit(password) {
-                this.$JToast(password);
-            }
+export default {
+    data() {
+        return {
+        }
+    },
+    methods:{
+        commit(password) {
+            this.$JToast(password);
         }
     }
-<\/script>
-            `;
+}
+        `;
         },
         initTableData() {
             this.tableData = [

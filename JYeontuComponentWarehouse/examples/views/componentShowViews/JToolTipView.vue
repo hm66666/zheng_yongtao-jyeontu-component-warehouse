@@ -88,25 +88,24 @@ export default {
         </p>
     </div>
 </template>
-<script>
-    export default {
-        data() {
-            return {
-                textStyle: {
-                    borderBottom: "1px dotted skyblue",
-                    fontSize: "large",
-                    color: "skyblue"
-                },
-                toolTipStyle: {
-                    backgroundColor: "grey",
-                    color: "skyblue",
-                    width: "100px"
-                },
-            }
+
+export default {
+    data() {
+        return {
+            textStyle: {
+                borderBottom: "1px dotted skyblue",
+                fontSize: "large",
+                color: "skyblue"
+            },
+            toolTipStyle: {
+                backgroundColor: "grey",
+                color: "skyblue",
+                width: "100px"
+            },
         }
     }
-<\/script>
-            `;
+}
+        `;
         },
         initTableData() {
             this.tableData = [

@@ -40,19 +40,18 @@ export default {
         </button>
     </div>
 </template>
-<script>
-    export default {
-        data(){
-            return {}
-        },
-        mounted() {},
-        methods:{
-            showToast() {
-                this.$JToast("测试Toast");
-            }
+
+export default {
+    data(){
+        return {}
+    },
+    mounted() {},
+    methods:{
+        showToast() {
+            this.$JToast("测试Toast");
         }
     }
-<\/script>
+}
 `;
     },
     mounted() {},
