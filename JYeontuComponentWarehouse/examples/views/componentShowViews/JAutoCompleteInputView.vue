@@ -3,7 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 自动补全输入框（JAutoCompleteInput）
-                <div class="j-detail">自动补全输入框，支持版本 ^0.7.0</div>
+                <div class="j-detail">自动补全输入框，支持版本 ^0.7.1</div>
             </div>
         </template>
         <template v-slot:left-p>

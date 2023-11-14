@@ -62,6 +62,7 @@ export default {
         },
         selectText(text) {
             this.inputVal = text;
+            this.handleInput();
         },
         handleInput() {
             this.selectList = this.trieTree.getWordsByPrefix(this.inputVal);
