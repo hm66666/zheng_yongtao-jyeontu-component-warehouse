@@ -12,6 +12,24 @@ export default {
         this.loadImage();
         this.loadImage2();
     },
+    data() {
+        return {
+            cutPath: [
+                [100, 100],
+                [120, 100],
+                [120, 80],
+                [140, 80],
+                [140, 100],
+                [160, 100],
+                [160, 120],
+                [140, 120],
+                [140, 140],
+                [120, 140],
+                [100, 120],
+                [80, 120],
+            ],
+        };
+    },
     methods: {
         loadImage() {
             const canvas = this.$refs.canvas;
@@ -23,12 +41,13 @@ export default {
 
                 // 绘制图片
                 ctx.drawImage(image, 0, 0);
-
+                const cutPath = this.cutPath;
                 // 创建镂空区域的路径
                 ctx.beginPath();
-                ctx.moveTo(100, 100);
-                ctx.lineTo(300, 150);
-                ctx.lineTo(200, 300);
+                ctx.moveTo(...cutPath[0]);
+                for (let i = 1; i < cutPath.length; i++) {
+                    ctx.lineTo(...cutPath[i]);
+                }
                 ctx.closePath();
 
                 // 在路径内部清除像素
@@ -47,10 +66,12 @@ export default {
                 canvas.height = image.height;
 
                 // 定义剪切路径
+                const cutPath = this.cutPath;
                 ctx.beginPath();
-                ctx.moveTo(100, 100);
-                ctx.lineTo(300, 150);
-                ctx.lineTo(200, 300);
+                ctx.moveTo(...cutPath[0]);
+                for (let i = 1; i < cutPath.length; i++) {
+                    ctx.lineTo(...cutPath[i]);
+                }
                 ctx.closePath();
                 ctx.clip();
 

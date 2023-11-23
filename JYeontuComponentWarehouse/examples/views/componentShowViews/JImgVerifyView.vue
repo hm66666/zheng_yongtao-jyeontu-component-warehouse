@@ -8,6 +8,7 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
+                <cut-img></cut-img>
                 <j-img-verify :title="tableTitle" :tableData="tableData">
                 </j-img-verify>
             </div>
@@ -30,7 +31,6 @@
 import { mixinForView } from "@/mixins/index.js";
 export default {
     name: "JImgVerifyView",
-    components: {},
     mixins: [mixinForView],
     data() {
         return {
