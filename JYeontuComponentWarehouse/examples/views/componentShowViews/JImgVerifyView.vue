@@ -8,7 +8,6 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <cut-img></cut-img>
                 <j-img-verify :title="tableTitle" :tableData="tableData">
                 </j-img-verify>
             </div>
