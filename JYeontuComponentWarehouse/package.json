@@ -1,6 +1,6 @@
 {
     "name": "@jyeontu/jvuewheel",
-    "version": "0.6.8",
+    "version": "0.6.9",
     "license": "MIT",
     "keyword": "vue components",
     "description": "vue组件库封装",

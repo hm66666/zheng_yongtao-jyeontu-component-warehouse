@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.6.9（已发布）",
+                    descript: "添加：图片滑块验证组件",
+                    time: "2023-11-30",
+                    icon: "6.9",
+                },
+                {
                     title: "版本0.6.8（已发布）",
                     descript: "添加：开启vue指令库",
                     time: "2023-11-06",

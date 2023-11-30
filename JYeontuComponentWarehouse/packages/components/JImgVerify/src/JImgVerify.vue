@@ -1,5 +1,12 @@
 <template>
-    <div class="canvas-container">
+    <div :id="uid" class="canvas-container">
+        <img
+            alt=""
+            src="../../../assets/img/刷新.png"
+            class="refresh-icon"
+            title=""
+            @click="init()"
+        />
         <canvas ref="canvas" class="canvas"> </canvas>
         <JSlider
             id="JSlider"
@@ -18,65 +25,45 @@
 </template>
 
 <script>
+import { getUId } from "../../../utils/strTool";
+import { getRandomNum } from "../../../utils/numsFormat";
 export default {
     name: "JImgVerify",
     props: {
-        width: {
-            type: String,
-            default: "499px",
-        },
-        height: {
-            type: String,
-            default: "246px",
-        },
-        cutPathObj: {
+        cutPathList: {
             type: Array,
             default: () => {
-                return [
-                    { x: 369, y: 150 },
-                    { x: 393, y: 145 },
-                    { x: 392, y: 119 },
-                    { x: 422, y: 118 },
-                    { x: 421, y: 135 },
-                    { x: 447, y: 140 },
-                    { x: 446, y: 154 },
-                    { x: 423, y: 155 },
-                    { x: 420, y: 172 },
-                    { x: 402, y: 173 },
-                    { x: 398, y: 158 },
-                    { x: 376, y: 165 },
-                    { x: 369, y: 149 },
-                ];
+                return [];
             },
         },
-        // cutPath: {
-        //     type: Array,
-        //     default: () => {
-        //         return [
-        //             [100, 100],
-        //             [120, 100],
-        //             [120, 80],
-        //             [140, 80],
-        //             [140, 100],
-        //             [160, 100],
-        //             [160, 120],
-        //             [140, 120],
-        //             [140, 140],
-        //             [120, 140],
-        //             [100, 120],
-        //             [80, 120],
-        //         ];
-        //     },
-        // },
         imgSrc: {
             type: String,
             default:
-                "https://d-ssl.dtstatic.com/uploads/blog/202304/13/20230413113305_72f55.thumb.300_300_c.jpeg_webp",
+                "https://c-ssl.duitang.com/uploads/blog/202111/18/20211118211415_aaab9.jpeg",
         },
         passDiff: {
             type: Number | String,
             default: 3,
         },
+        isRandomPath: {
+            type: Boolean,
+            default: true,
+        },
+        failedText: {
+            type: String,
+            default: "验证不通过",
+        },
+        fillStyle: {
+            type: String,
+            default: "#7AABD9",
+        },
+        strokeStyle: {
+            type: String,
+            default: "red",
+        },
+    },
+    created() {
+        this.setUid();
     },
     mounted() {
         this.init();
@@ -88,113 +75,191 @@ export default {
             originLeft: 0,
             startLeft: 0,
             cutPath: [],
+            width: 0,
+            height: 0,
+            sliderWidth: 0,
+            uid: "",
+            sliderInfo: {
+                maxX: "",
+                minX: "",
+            },
+            startSliding: false,
         };
     },
     computed: {},
     methods: {
+        setUid() {
+            this.uid = "JImgVerify-" + getUId();
+        },
+        getXObj(arr) {
+            const obj = {
+                minX: Infinity,
+                maxX: -Infinity,
+                minY: Infinity,
+                maxY: -Infinity,
+            };
+            arr.forEach((item) => {
+                obj.minX = Math.min(obj.minX, item.x);
+                obj.maxX = Math.max(obj.maxX, item.x);
+                obj.minY = Math.min(obj.minY, item.y);
+                obj.maxY = Math.max(obj.maxY, item.y);
+            });
+            return obj;
+        },
         init() {
+            const content = document.getElementById(this.uid);
+            this.width = content.offsetWidth + "px";
+            this.height = content.offsetHeight + "px";
             this.cutPath = [];
-            this.cutPathObj.forEach((item) => {
+            this.cutPathList.forEach((item) => {
                 this.cutPath.push([item.x, item.y]);
             });
             this.sliderValue = 0;
             this.canvasSliderLeft = 0;
             this.originLeft = 0;
             this.startLeft = 0;
-            this.loadImage();
-            this.loadImage2();
             this.initData();
         },
-        initData() {
+        async initData() {
+            const xObj = this.getXObj(this.cutPathList);
+            const difX = getRandomNum(
+                -xObj.minX + xObj.maxX - xObj.minX,
+                parseInt(this.width) - xObj.maxX
+            );
+            const difY = getRandomNum(
+                -xObj.minY + xObj.maxY - xObj.minY,
+                parseInt(this.height) - xObj.maxY
+            );
             let maxX = -Infinity,
                 minX = Infinity;
             this.cutPath.forEach((pos) => {
+                pos[0] += difX;
+                pos[1] += difY;
                 maxX = Math.max(maxX, pos[0]);
                 minX = Math.min(minX, pos[0]);
             });
             this.canvasSliderLeft = -(maxX + 10) + "px";
-            this.originLeft = -maxX; // + (maxX - minX);
-            this.startLeft = -maxX; // + (maxX - minX);
+            this.originLeft = -minX;
+            this.startLeft = -minX;
+            this.sliderWidth = maxX - minX;
+            this.sliderInfo = {
+                maxX,
+                minX,
+            };
+            this.$JLoading.show("加载中……");
+            await this.cutImgSlider();
+            await this.getImgSlider();
+            this.$JLoading.hide();
         },
         onSliderChange(sliderValue) {
+            if (!this.startSliding) {
+                this.startSliding = true;
+                this.$emit("start");
+            }
             const left = parseInt(this.width) * (sliderValue / 100);
-            this.startLeft = parseInt(this.originLeft) + parseInt(left);
+            this.startLeft = Math.min(
+                parseInt(this.originLeft) + parseInt(left),
+                parseInt(this.width) - this.sliderInfo.maxX
+            );
         },
         confirmSlider() {
             if (Math.abs(this.startLeft) <= this.passDiff) {
                 this.$JToast("验证通过");
-            } else {
-                this.$JToast("验证失败");
-                this.init();
+            } else if (this.failedText) {
+                this.$JToast(this.failedText);
             }
+            setTimeout(() => {
+                this.init();
+            }, 1000);
+            this.startSliding = false;
+            this.$emit("end", Math.abs(this.startLeft) <= this.passDiff);
         },
-        loadImage() {
-            const canvas = this.$refs.canvas;
-            const ctx = canvas.getContext("2d");
-            const image = new Image();
-            image.onload = () => {
-                image.width = parseInt(this.width);
-                image.height = parseInt(this.height);
-                canvas.width = image.width;
-                canvas.height = image.height;
-
-                // 绘制图片
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-                const cutPath = this.cutPath;
-                // 创建镂空区域的路径
-                ctx.beginPath();
-                ctx.moveTo(...cutPath[0]);
-                for (let i = 1; i < cutPath.length; i++) {
-                    ctx.lineTo(...cutPath[i]);
-                }
-                ctx.closePath();
-
-                // 在路径内部清除像素
-                ctx.globalCompositeOperation = "destination-out";
-                ctx.fill();
-            };
-            image.src = this.imgSrc;
+        cutImgSlider() {
+            return new Promise((resolve) => {
+                const canvas = this.$refs.canvas;
+                const ctx = canvas.getContext("2d");
+                const image = new Image();
+                image.onload = () => {
+                    image.width = parseInt(this.width);
+                    image.height = parseInt(this.height);
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    // 绘制图片
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    // 创建镂空区域的路径
+                    this.cutImg(ctx, this.cutPath, image, canvas);
+                    // 在路径内部清除像素
+                    if (this.fillStyle) {
+                        ctx.fillStyle = this.fillStyle; // 设置填充颜色
+                    } else {
+                        ctx.globalCompositeOperation = "destination-out";
+                    }
+                    ctx.fill();
+                    resolve();
+                };
+                image.src = this.imgSrc;
+            });
         },
-        loadImage2() {
-            const canvas = this.$refs.canvas2;
-            const ctx = canvas.getContext("2d");
-            const image = new Image();
-            image.onload = () => {
-                image.width = parseInt(this.width);
-                image.height = parseInt(this.height);
-                canvas.width = image.width;
-                canvas.height = image.height;
+        cutImg(ctx, cutPath, image, canvas) {
+            ctx.beginPath();
+            ctx.moveTo(...cutPath[0]);
+            for (let i = 1; i < cutPath.length; i++) {
+                ctx.lineTo(...cutPath[i]);
+            }
+            ctx.closePath();
+        },
+        getImgSlider() {
+            return new Promise((resolve) => {
+                const canvas = this.$refs.canvas2;
+                const ctx = canvas.getContext("2d");
+                const image = new Image();
+                image.onload = () => {
+                    image.width = parseInt(this.width);
+                    image.height = parseInt(this.height);
+                    canvas.width = image.width;
+                    canvas.height = image.height;
 
-                // 定义剪切路径
-                const cutPath = this.cutPath;
-                ctx.beginPath();
-                ctx.moveTo(...cutPath[0]);
-                for (let i = 1; i < cutPath.length; i++) {
-                    ctx.lineTo(...cutPath[i]);
-                }
-                ctx.closePath();
-                ctx.clip();
+                    // 定义剪切路径
+                    this.cutImg(ctx, this.cutPath, image, canvas);
+                    if (this.strokeStyle) {
+                        ctx.strokeStyle = this.strokeStyle;
+                    }
+                    ctx.stroke();
+                    ctx.clip();
 
-                // 绘制图片
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            };
-            image.src = this.imgSrc;
+                    // 绘制图片
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    resolve();
+                };
+                image.src = this.imgSrc;
+            });
         },
     },
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 .canvas-container {
     position: relative;
-}
-
-.canvas {
-    display: block;
-}
-.canvas-slider {
-    position: absolute;
-    top: 0;
-    left: 0;
+    width: 100%;
+    height: 100%;
+    .refresh-icon {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 0.3rem;
+        right: 0.6rem;
+        cursor: pointer;
+    }
+    .canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .canvas-slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 </style>
