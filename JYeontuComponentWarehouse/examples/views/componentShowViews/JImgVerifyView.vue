@@ -2,7 +2,7 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                图片滑块验证（JGiteeInfoTag）
+                图片滑块验证（JImgVerify）
                 <div class="j-detail">图片滑块验证，支持版本^0.6.9</div>
                 <div class="j-detail">
                     抠图工具：<a
@@ -59,19 +59,19 @@ export default {
             code: "",
             tableData: [],
             cutPathList: [
-                { x: 369, y: 150 },
-                { x: 393, y: 145 },
-                { x: 392, y: 119 },
-                { x: 422, y: 118 },
-                { x: 421, y: 135 },
-                { x: 447, y: 140 },
-                { x: 446, y: 154 },
-                { x: 423, y: 155 },
-                { x: 420, y: 172 },
-                { x: 402, y: 173 },
-                { x: 398, y: 158 },
-                { x: 376, y: 165 },
-                { x: 369, y: 149 },
+                { x: 378, y: 68 },
+                { x: 398, y: 67 },
+                { x: 398, y: 81 },
+                { x: 415, y: 80 },
+                { x: 415, y: 96 },
+                { x: 398, y: 96 },
+                { x: 398, y: 108 },
+                { x: 380, y: 108 },
+                { x: 379, y: 94 },
+                { x: 359.99999999999994, y: 94 },
+                { x: 359, y: 83 },
+                { x: 378, y: 82 },
+                { x: 376, y: 69 },
             ],
             imgSrc: require("../../assets/img/1701306017767.jpg"),
             passDiff: 3,
@@ -119,20 +119,20 @@ export default {
         data() {
             return {
                 cutPathList: [
-                    { x: 369, y: 150 },
-                    { x: 393, y: 145 },
-                    { x: 392, y: 119 },
-                    { x: 422, y: 118 },
-                    { x: 421, y: 135 },
-                    { x: 447, y: 140 },
-                    { x: 446, y: 154 },
-                    { x: 423, y: 155 },
-                    { x: 420, y: 172 },
-                    { x: 402, y: 173 },
-                    { x: 398, y: 158 },
-                    { x: 376, y: 165 },
-                    { x: 369, y: 149 },
-                ],
+                { x: 378, y: 68 },
+                { x: 398, y: 67 },
+                { x: 398, y: 81 },
+                { x: 415, y: 80 },
+                { x: 415, y: 96 },
+                { x: 398, y: 96 },
+                { x: 398, y: 108 },
+                { x: 380, y: 108 },
+                { x: 379, y: 94 },
+                { x: 359.99999999999994, y: 94 },
+                { x: 359, y: 83 },
+                { x: 378, y: 82 },
+                { x: 376, y: 69 },
+            ],
                 imgSrc: require("../../assets/img/1701306017767.jpg"),
                 passDiff: 3,
                 isRandomPath: true,
@@ -140,21 +140,14 @@ export default {
                 fillStyle: "#7AABD9",
                 strokeStyle: "red",
                 second: "",
-                secondTrim: null,
                 startTime: "",
             }
         },
         methods: {
             start() {
-                this.second = "0s";
                 this.startTime = new Date().getTime();
-                this.secondTrim = setInterval(() => {
-                    const second = this.second || 0;
-                    this.second = (parseFloat(second) + 1).toFixed(1) + "s";
-                }, 1000);
             },
             end() {
-                clearInterval(this.secondTrim);
                 const second = (new Date().getTime() - this.startTime) / 1000;
                 this.second = parseFloat(second).toFixed(1) + "s";
             },
@@ -224,15 +217,10 @@ export default {
             ];
         },
         start() {
-            this.second = "0s";
+            this.second = "";
             this.startTime = new Date().getTime();
-            this.secondTrim = setInterval(() => {
-                const second = this.second || 0;
-                this.second = (parseFloat(second) + 1).toFixed(1) + "s";
-            }, 1000);
         },
         end() {
-            clearInterval(this.secondTrim);
             const second = (new Date().getTime() - this.startTime) / 1000;
             this.second = parseFloat(second).toFixed(1) + "s";
         },
