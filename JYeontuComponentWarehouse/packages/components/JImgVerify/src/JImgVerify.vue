@@ -33,7 +33,21 @@ export default {
         cutPathList: {
             type: Array,
             default: () => {
-                return [];
+                return [
+                    { x: 378, y: 68 },
+                    { x: 398, y: 67 },
+                    { x: 398, y: 81 },
+                    { x: 415, y: 80 },
+                    { x: 415, y: 96 },
+                    { x: 398, y: 96 },
+                    { x: 398, y: 108 },
+                    { x: 380, y: 108 },
+                    { x: 379, y: 94 },
+                    { x: 359.99999999999994, y: 94 },
+                    { x: 359, y: 83 },
+                    { x: 378, y: 82 },
+                    { x: 376, y: 69 },
+                ];
             },
         },
         imgSrc: {
@@ -55,7 +69,7 @@ export default {
         },
         fillStyle: {
             type: String,
-            default: "#7AABD9",
+            default: "",
         },
         strokeStyle: {
             type: String,

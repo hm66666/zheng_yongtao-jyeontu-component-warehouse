@@ -3,7 +3,7 @@
         <template v-slot:header-p>
             <div class="j-title">
                 图片滑块验证（JImgVerify）
-                <div class="j-detail">图片滑块验证，支持版本^0.7.2</div>
+                <div class="j-detail">图片滑块验证，支持版本^0.7.3</div>
                 <div class="j-detail">
                     抠图工具：<a
                         href="http://jyeontu.xyz/JDemo/#/imgCut"
@@ -23,8 +23,8 @@
                         :passDiff="passDiff"
                         :isRandomPath="isRandomPath"
                         :failedText="failedText"
-                        :fillStyle="fillStyle"
                         :strokeStyle="strokeStyle"
+                        :imgSrc="imgSrc"
                         @start="start"
                         @end="end"
                     >
