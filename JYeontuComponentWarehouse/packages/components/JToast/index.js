@@ -1,5 +1,5 @@
 import JToast from "./src/JToast.vue";
-JToast.install = Vue => {
+JToast.install = (Vue) => {
     // 1.创建一个Vue的“子类”组件构造器
     const ToastConstructor = Vue.extend(JToast);
 
@@ -19,6 +19,17 @@ JToast.install = Vue => {
             instance.visible = false;
         }, duration);
     };
+    class JLoading {
+        show(msg) {
+            instance.message = msg;
+            instance.showLoading = true;
+        }
+        hide() {
+            instance.showLoading = false;
+            instance.visible = false;
+        }
+    }
+    Vue.prototype.$JLoading = new JLoading();
 };
 
 export default JToast;

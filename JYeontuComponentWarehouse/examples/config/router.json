@@ -364,6 +364,18 @@
                     "hide": false,
                     "component": "views/componentShowViews/JAutoCompleteInputView.vue",
                     "children": []
+                },
+                {
+                    "id": 426,
+                    "name": "JImgVerifyView",
+                    "path": "/JImgVerifyView",
+                    "label": "图片滑块验证",
+                    "selected": false,
+                    "icon": "icon-shangchuantupian",
+                    "open": false,
+                    "hide": false,
+                    "component": "views/componentShowViews/JImgVerifyView.vue",
+                    "children": []
                 }
             ]
         },

@@ -20,7 +20,11 @@
     </div>
 </template>
 
-<script></script>
+<script>
+export default {
+    name: "splitHorizontal",
+};
+</script>
 
 <style lang="less" scoped>
 .view-header {
