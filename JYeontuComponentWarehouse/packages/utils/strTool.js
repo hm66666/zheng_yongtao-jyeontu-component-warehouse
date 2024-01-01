@@ -60,3 +60,7 @@ export const getUId = (letterNums = 8, numberNums = 6) => {
         Math.ceil(Math.random() * Math.pow(10, numberNums));
     return uId;
 };
+
+export const formatNumberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};

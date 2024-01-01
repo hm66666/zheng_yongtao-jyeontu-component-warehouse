@@ -9,6 +9,7 @@
             style="position: fixed; left: 0px; top: 0px; visibility: hidden"
         >
             <img
+                alt=""
                 :src="selectedItem.icon"
                 v-if="selectedItem.icon !== ''"
                 :style="getIconStyle()"
@@ -54,6 +55,7 @@
                         :style="getItemStyle(item)"
                     >
                         <img
+                            alt=""
                             :src="item.icon"
                             v-if="item.icon !== ''"
                             :style="getIconStyle()"
@@ -157,19 +159,6 @@ export default {
         //鼠标抬起时
         handleMouseup(event) {
             const chartContent = document.getElementById("chartContent");
-            const dom = document.getElementById("moveDiv");
-            const w = chartContent.offsetWidth,
-                h = chartContent.offsetHeight,
-                l = chartContent.offsetLeft,
-                t = chartContent.offsetTop;
-            const x = event.pageX,
-                y = event.pageY;
-            dom.style.visibility = "hidden";
-            // if(x > l && x < (l + w) && y > t && y < (t + h)){
-
-            // }else{
-
-            // }
             if (this.vChartDataList[this.oldInd])
                 this.vChartDataList[this.oldInd].opacity = 1;
             chartContent.style.border = "none";
@@ -237,7 +226,6 @@ export default {
             let dom1 = document.getElementById(id); //展示的节点
             let d = document.getElementById("chartContent");
             d.style.border = "dashed 1px blue";
-            // this.vChartDataList.splice(num,1);
             this.oldInd = num;
             this.initData();
             this.operateDom = dom;
@@ -248,20 +236,17 @@ export default {
             dom.style.position = "fixed";
             dom.style.left = dom1.offsetLeft;
             dom.style.top = dom1.offsetTop;
-            // console.log(index1,index,num,this.vChartDataList[num].text,dom);
         },
         //初始化样式变量
         initStyle() {
             let chartContent = this.$refs.chartContent;
             let width = chartContent.offsetWidth - 40;
-            let height = chartContent.offsetHeight - 40;
             let itemWidth = Math.max(20, Math.floor(width / 7));
             if (this.chartData.width) {
                 itemWidth = this.chartData.width;
             }
             this.itemWidth = itemWidth;
             this.itemNum = Math.floor(width / (itemWidth + itemWidth / 5));
-            // console.log('initStyle',width,height,itemWidth);
         },
         //初始化数据
         initData() {
@@ -280,7 +265,6 @@ export default {
                 }
             }
             this.chartDataList = res;
-            // console.log('initData',res);
         },
         //重组class
         getClass(res, str) {
@@ -290,7 +274,6 @@ export default {
         //重组行样式
         getColumnStyle(index) {
             let res = {};
-            // res['margin-left'] = this.itemWidth / 5 + 'px;';
             if (index < this.chartDataList.lenth - 1 || index % 2 == 0)
                 return this.styleConcat(res);
             res["margin-left"] = "auto";
@@ -308,7 +291,6 @@ export default {
             }
             res.width = this.itemWidth + "px;";
             res["margin-right"] = this.itemWidth / 5 + "px;";
-            // res.height = this.itemWidth + 'px';
             return this.styleConcat(res);
         },
         //重组每个item的icon的样式
@@ -347,13 +329,10 @@ export default {
             ) {
                 if (index1 % 2 == 0) {
                     res["border-right"] = "1px solid black";
-                } else {
                 }
             }
             if (index1 % 2 == 1) {
                 if (index == this.chartDataList[index1].length - 1) return "";
-                else {
-                }
             }
             return this.styleConcat(res);
         },
@@ -374,7 +353,6 @@ export default {
     margin: 0 auto;
     width: 1.25rem;
     line-height: 1.5rem;
-    // word-break:break-all;
 }
 .radius {
     border-radius: 50% 50%;
@@ -391,15 +369,10 @@ export default {
             flex-direction: row;
             .chart-content-item {
                 display: flex;
-                .chart-content-line {
-                }
-                .chart-content-item-icon {
-                }
                 .chart-content-item-text {
                     margin: 0 auto;
                     width: 1.25rem;
                     line-height: 1.5rem;
-                    // word-break:break-all;
                 }
             }
         }

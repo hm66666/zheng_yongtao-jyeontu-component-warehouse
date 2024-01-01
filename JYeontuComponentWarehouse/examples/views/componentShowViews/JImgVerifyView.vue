@@ -15,7 +15,7 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <div style="width: 499px; height: 246px">
+                <div style="width: 500px; height: 498px">
                     <j-img-verify
                         :title="tableTitle"
                         :tableData="tableData"
@@ -60,19 +60,31 @@ export default {
             code: "",
             tableData: [],
             cutPathList: [
-                { x: 378, y: 68 },
-                { x: 398, y: 67 },
-                { x: 398, y: 81 },
-                { x: 415, y: 80 },
-                { x: 415, y: 96 },
-                { x: 398, y: 96 },
-                { x: 398, y: 108 },
-                { x: 380, y: 108 },
-                { x: 379, y: 94 },
-                { x: 359.99999999999994, y: 94 },
-                { x: 359, y: 83 },
-                { x: 378, y: 82 },
-                { x: 376, y: 69 },
+                { x: 251, y: 286 },
+                { x: 232, y: 266 },
+                { x: 224, y: 241 },
+                { x: 223, y: 215 },
+                { x: 246, y: 202 },
+                { x: 264, y: 210 },
+                { x: 276, y: 218 },
+                { x: 284, y: 228 },
+                { x: 298, y: 221 },
+                { x: 313, y: 208 },
+                { x: 326, y: 204 },
+                { x: 337, y: 206 },
+                { x: 344, y: 217 },
+                { x: 346, y: 239 },
+                { x: 340, y: 253 },
+                { x: 328, y: 270 },
+                { x: 320, y: 278 },
+                { x: 307, y: 286 },
+                { x: 299, y: 293 },
+                { x: 292, y: 298 },
+                { x: 286, y: 300 },
+                { x: 276, y: 300 },
+                { x: 267, y: 297 },
+                { x: 259, y: 291 },
+                { x: 250, y: 285 },
             ],
             imgSrc: require("../../assets/img/1701306017767.jpg"),
             passDiff: 3,
