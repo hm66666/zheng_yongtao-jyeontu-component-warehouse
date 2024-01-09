@@ -376,6 +376,18 @@
                     "hide": false,
                     "component": "views/componentShowViews/JImgVerifyView.vue",
                     "children": []
+                },
+                {
+                    "id": 428,
+                    "name": "JTurntableRaffleView",
+                    "path": "/JTurntableRaffleView",
+                    "label": "转盘抽奖",
+                    "selected": false,
+                    "icon": "icon-shangchuantupian",
+                    "open": false,
+                    "hide": false,
+                    "component": "views/componentShowViews/JTurntableRaffleView.vue",
+                    "children": []
                 }
             ]
         },
