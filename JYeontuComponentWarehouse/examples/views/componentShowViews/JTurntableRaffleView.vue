@@ -8,7 +8,12 @@
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <JTurntableRaffle width="400px" height="400px">
+                <JTurntableRaffle
+                    width="400px"
+                    height="400px"
+                    :prizes="prizes"
+                    @getPrize="getPrize"
+                >
                 </JTurntableRaffle>
             </div>
         </template>
@@ -34,6 +39,36 @@ export default {
     mixins: [mixinForView],
     data() {
         return {
+            prizes: [
+                {
+                    name: "奖品1",
+                    proportion: 2,
+                },
+                {
+                    name: "奖品2",
+                    proportion: 3,
+                },
+                {
+                    name: "奖品3",
+                    proportion: 3,
+                },
+                {
+                    name: "奖品4",
+                    proportion: 3,
+                },
+                {
+                    name: "奖品5",
+                },
+                {
+                    name: "奖品6",
+                },
+                {
+                    name: "奖品7",
+                },
+                {
+                    name: "奖品8",
+                },
+            ],
             code: "",
             textStyle: {
                 borderBottom: "1px dotted skyblue",
@@ -97,51 +132,64 @@ export default {
         initTableData() {
             this.tableData = [
                 {
-                    parameter: "tipText",
-                    field: "提示内容",
+                    parameter: "width",
+                    field: "转盘宽度",
                     type: "String",
-                    describe: "",
+                    describe: "默认为100%，可设置具体值",
                 },
                 {
-                    parameter: "textStyle",
-                    field: "文字样式",
-                    type: "Object",
-                    describe: "设置文字样式，如下划线样式",
-                    children: {
-                        type: "text",
-                        text: '{"border-bottom": "1px dotted black"}',
-                    },
+                    parameter: "height",
+                    field: "转盘高度",
+                    type: "String",
+                    describe: "默认为100%，可设置具体值",
                 },
                 {
-                    parameter: "toolTipStyle",
-                    field: "提示框内容样式",
+                    parameter: "prizes",
+                    field: "奖品列表",
                     type: "Object",
                     describe: "具体配置如下",
                     children: {
                         title: this.tableTitle,
                         data: [
                             {
-                                parameter: "backgroundColor",
-                                field: "提示框背景颜色",
+                                parameter: "name",
+                                field: "奖品名称",
                                 type: "String",
-                                describe: "默认为#062b45",
+                                describe: "",
+                            },
+                            {
+                                parameter: "proportion",
+                                field: "奖品占比",
+                                type: "Number",
+                                describe:
+                                    "默认为1,即奖品比例为：当前奖品的proportion / 所有奖品的proportion之和",
                             },
                             {
                                 parameter: "color",
-                                field: "提示框字体颜色",
+                                field: "奖品区域背景颜色",
                                 type: "String",
-                                describe: "默认为#fff",
-                            },
-                            {
-                                parameter: "width",
-                                field: "提示框宽度",
-                                type: "String",
-                                describe: "默认为100px",
+                                describe:
+                                    "可自定义区域背景颜色，不传的时候则随机生成",
                             },
                         ],
                     },
                 },
+                {
+                    parameter: "roundTime",
+                    field: "转盘转动时间",
+                    type: "Number",
+                    describe: "单位为秒，默认为5",
+                },
+                {
+                    parameter: "getPrize",
+                    field: "抽奖结果",
+                    type: "Fuction",
+                    describe: "抽奖结果回调函数，返回抽奖结果",
+                },
             ];
+        },
+        getPrize(prize) {
+            this.$JToast(`恭喜抽中${prize.name}`);
         },
     },
 };

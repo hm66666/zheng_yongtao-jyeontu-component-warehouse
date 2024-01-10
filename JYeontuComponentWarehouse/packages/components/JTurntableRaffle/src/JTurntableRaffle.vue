@@ -16,6 +16,7 @@
 <script>
 import { getUId } from "../../../utils/strTool";
 import { getRandomNum } from "../../../utils/numsFormat";
+import {COLORS} from "../../../utils/constant";
 export default {
     name: "JTurntableRaffle",
     props: {
@@ -27,40 +28,50 @@ export default {
             type: String,
             default: "100%",
         },
+        prizes:{
+            type:Array,
+            default:()=>[],
+        },
+        roundTime:{
+            type:String|Number,
+            default:5
+        }
     },
     data() {
         return {
             uid: "",
-            prizes: [
-                "奖品1",
-                "奖品2",
-                "奖品3",
-                "奖品4",
-                "奖品5",
-                "奖品6",
-                "奖品7",
-                "奖品8",
-                "奖品9",
-                "奖品10",
-                // "奖品11",
-                // "奖品12",
-            ],
             rotationAngle: 0,
             spinning: false,
             lastAngle: 0,
             colors: [],
+            proportionNum:0,
         };
     },
     created() {
         this.setUid();
+        this.initData();
     },
     mounted() {
         this.drawTurntable();
     },
     methods: {
+        initData(){
+            let proportionNum = 0;
+            this.prizes.forEach(prize=>{
+                proportionNum += prize.proportion || 1;
+            });
+            this.proportionNum = proportionNum;
+            this.colors = this.generateColorScheme();
+        },
         setUid() {
             this.uid = getUId();
-            this.colors = this.generateColorScheme();
+        },
+        shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         },
         generateColorScheme() {
             const colors = [];
@@ -86,32 +97,35 @@ export default {
             ctx.fillStyle = "#ff0000";
             ctx.fill();
             // 绘制扇区
-            const anglePerSlice = (2 * Math.PI) / this.prizes.length;
+            const anglePerSlice = (2 * Math.PI) / this.proportionNum;
+            let start = 0;
             for (let i = 0; i < this.prizes.length; i++) {
+                const prize = this.prizes[i];
                 ctx.save();
                 ctx.translate(centerX, centerY);
-                ctx.rotate(i * anglePerSlice); // 旋转画布
-                console.log(180 / Math.PI * i * anglePerSlice);
+                ctx.rotate(start * anglePerSlice - ((2 * Math.PI) / 4)); // 旋转画布
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
-                ctx.arc(0, 0, radius, 0, anglePerSlice);
-                ctx.closePath();
-                // ctx.fillStyle = i % 2 === 0 ? "#ffffff" : "#cccccc";
-                ctx.fillStyle = this.colors[i];
+                start += (prize.proportion || 1);
+                ctx.arc(0, 0, radius,0, anglePerSlice * (prize.proportion || 1));
+                ctx.fillStyle = prize.color || this.colors[i];
                 ctx.fill();
 
                 // 绘制奖品文本
                 ctx.textAlign = "center";
                 ctx.fillStyle = "#000000";
                 ctx.font = "16px Arial";
-                const textWidth = ctx.measureText(this.prizes[i]).width;
+                ctx.textBaseline = "middle"; // 文字的基准线设置为垂直居中
+                const textWidth = ctx.measureText(prize.name).width;
                 const textHeight = ctx.measureText(
-                    this.prizes[i]
+                    prize.name
                 ).hangingBaseline;
+                const x = (radius * Math.cos(anglePerSlice* (prize.proportion || 1) / 2)) - (textWidth / 2);
+                const y = (radius * Math.sin(anglePerSlice* (prize.proportion || 1) / 2)) - (textHeight / 2);
                 ctx.fillText(
-                    this.prizes[i],
+                    prize.name,
                     (radius - textWidth) / 2,
-                    textHeight + 10
+                    textHeight + 5
                 );
                 ctx.restore(); // 恢复画布状态
             }
@@ -123,18 +137,23 @@ export default {
                 this.lastAngle % 360
             }deg);transition: none;`;
             setTimeout(() => {
-                this.lastAngle = getRandomNum(5 * 360, 10 * 360);
-                canvas.style = `transform: rotateZ(${this.lastAngle}deg);transition: transform 5s ease-out;`;
+                let roundAngle = getRandomNum(7 * 360,8 * 360)
+                this.lastAngle = roundAngle;
+                canvas.style = `transform: rotateZ(${this.lastAngle}deg);transition: transform ${this.roundTime}s ease-out;`;
                 setTimeout(()=>{
-                    const index = Math.ceil((this.lastAngle % 360) / (360 / this.prizes.length));
-                    this.$JToast(`恭喜抽中${this.prizes[index]}`);
-                },5100);
+                    this.$emit('getPrize',this.getPrize());
+                },this.roundTime * 1000);
             }, 100);
         },
-        getPrize(targetAngle) {
-            const anglePerSlice = (2 * Math.PI) / this.prizes.length;
-            const index = Math.floor(targetAngle / anglePerSlice);
-            return this.prizes[index];
+        getPrize() {
+            const signAngle = 360 / this.proportionNum;
+            let index = Math.ceil(((this.lastAngle) % 360) / signAngle);
+            const tmp = [...this.prizes].reverse();
+            for(const prize of tmp){
+                index -= (prize.proportion || 1);
+                if(index <= 0) return prize;
+            }
+            return this.prizes[0];
         },
     },
 };
