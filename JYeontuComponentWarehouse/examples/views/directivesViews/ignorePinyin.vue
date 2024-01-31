@@ -2,21 +2,28 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                <span v-JRotate3D>元素旋转（v-JRotate3D）</span>
-                <div class="j-detail">给元素添加旋转属性</div>
+                <span v-JRotate3D
+                    >忽略拼音输入过程input事件（v-JIgnorePinyin）</span
+                >
+                <div class="j-detail">
+                    input输入框输入拼音过程中不触发input事件
+                </div>
             </div>
         </template>
         <template v-slot:left-p>
             <div class="content">
-                <img
-                    v-JRotate3D
-                    alt=""
-                    src="https://gitee.com/jyeontostore/img-bed/raw/master/img/1699276911873.jpg"
-                />
+                <div>
+                    <div>{{ inputText }}</div>
+                    <input @input="doInput" id="inputContent" />
+                </div>
+                <div>
+                    <div>{{ inputText1 }}</div>
+                    <input id="inputContent1" v-JIgnorePinyin="doInput1" />
+                </div>
             </div>
         </template>
         <template v-slot:right-p>
-            <div style="width: 100%" v-JRotate3D>
+            <div style="width: 100%">
                 <pre v-highlight>
                 <code class="vue">
                     <div v-text="code"></div>
@@ -29,7 +36,7 @@
 <script>
 import { mixinForView } from "@/mixins/index.js";
 export default {
-    name: "JRotate3DView",
+    name: "JIgnorePinyinView",
     components: {},
     mixins: [mixinForView],
     data() {
@@ -46,6 +53,8 @@ export default {
                 width: "100px",
             },
             tableData: [],
+            inputText: "",
+            inputText1: "",
         };
     },
     created() {
@@ -53,6 +62,15 @@ export default {
     },
     mounted() {},
     methods: {
+        doInput(event) {
+            const value = event.target.value;
+            this.inputText = value;
+            console.log("%c Line:68 🍫 value", "color:#f5ce50", value);
+        },
+        doInput1(value) {
+            this.inputText1 = value;
+            console.log("%c Line:72 🌮 value", "color:#42b983", value);
+        },
         initCodeContent() {
             this.code = `
     <div class="content">
@@ -81,6 +99,7 @@ export default {
 .content {
     margin: auto auto;
     // width: 50%;
+    display: flex;
 }
 .header {
     min-height: 4rem;

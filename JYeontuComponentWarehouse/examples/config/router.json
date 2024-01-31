@@ -444,6 +444,17 @@
                     "open": false,
                     "component": "views/directivesViews/rotate3D.vue",
                     "children": []
+                },
+                {
+                    "id": 602,
+                    "name": "ignorePinyin",
+                    "path": "/ignorePinyin",
+                    "label": "忽略拼音输入过程input事件",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/directivesViews/ignorePinyin.vue",
+                    "children": []
                 }
             ]
         },
