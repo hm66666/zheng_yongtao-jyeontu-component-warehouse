@@ -1,16 +1,18 @@
 export default {
     bind(el, binding) {
         let isComposing = false;
+        let value = "";
 
-        // 在compositionstart事件发生时暂停updateValue方法的执行
         el.addEventListener("compositionstart", () => {
             isComposing = true;
+            value = el.value;
         });
 
-        // 在compositionend事件发生时恢复updateValue方法的执行
         el.addEventListener("compositionend", () => {
             isComposing = false;
-            binding.value(el.value);
+            if (value !== el.value) {
+                binding.value(el.value);
+            }
         });
 
         // 添加自定义的input事件监听器

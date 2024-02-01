@@ -52,6 +52,8 @@ export default {
     flex-direction: row;
     .mid-p {
         width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .left-p {
         width: 42%;

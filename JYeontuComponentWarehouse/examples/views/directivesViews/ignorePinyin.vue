@@ -2,27 +2,39 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                <span v-JRotate3D
-                    >忽略拼音输入过程input事件（v-JIgnorePinyin）</span
-                >
+                <span>忽略拼音输入过程input事件（v-JIgnorePinyin）</span>
                 <div class="j-detail">
                     input输入框输入拼音过程中不触发input事件
                 </div>
             </div>
         </template>
-        <template v-slot:left-p>
-            <div class="content">
-                <div>
-                    <div>{{ inputText }}</div>
-                    <input @input="doInput" id="inputContent" />
-                </div>
-                <div>
-                    <div>{{ inputText1 }}</div>
-                    <input id="inputContent1" v-JIgnorePinyin="doInput1" />
+        <template v-slot:mid-p>
+            <div style="display: flex; width: 100%; flex-direction: column">
+                <div class="content">
+                    <div>
+                        <div class="input-text-title">正常情况</div>
+                        <div class="input-text-content">{{ inputText }}</div>
+                        <input
+                            placeholder="输入试试"
+                            class="input-text"
+                            @input="doInput"
+                        />
+                    </div>
+                    <div>
+                        <div class="input-text-title">
+                            忽略拼音输入过程input事件
+                        </div>
+                        <div class="input-text-content">{{ inputText1 }}</div>
+                        <input
+                            placeholder="输入试试"
+                            class="input-text"
+                            v-JIgnorePinyin="doInput1"
+                        />
+                    </div>
                 </div>
             </div>
         </template>
-        <template v-slot:right-p>
+        <template v-slot:footer-p>
             <div style="width: 100%">
                 <pre v-highlight>
                 <code class="vue">
@@ -73,13 +85,47 @@ export default {
         },
         initCodeContent() {
             this.code = `
-    <div class="content">
-        <img
-            v-rotate
-            alt=""
-            src="https://gitee.com/jyeontostore/img-bed/raw/master/img/1699276911873.jpg"
-        />
-    </div>
+            <div class="content">
+                <div>
+                    <div class="input-text-title">正常情况</div>
+                    <div class="input-text-content">{{ inputText }}</div>
+                    <input
+                        placeholder="输入试试"
+                        class="input-text"
+                        @input="doInput"
+                    />
+                </div>
+                <div>
+                    <div class="input-text-title">
+                        忽略拼音输入过程input事件
+                    </div>
+                    <div class="input-text-content">{{ inputText1 }}</div>
+                    <input
+                        placeholder="输入试试"
+                        class="input-text"
+                        v-JIgnorePinyin="doInput1"
+                    />
+                </div>
+            </div>
+            export default {
+                data() {
+                    return {
+                        inputText: "",
+                        inputText1: "",
+                    }
+                },
+                methods:{
+                    doInput(event) {
+                        const value = event.target.value;
+                        this.inputText = value;
+                        console.log("%c Line:68 🍫 value", "color:#f5ce50", value);
+                    },
+                    doInput1(value) {
+                        this.inputText1 = value;
+                        console.log("%c Line:72 🌮 value", "color:#42b983", value);
+                    },
+                }
+            }
             `;
         },
     },
@@ -100,6 +146,25 @@ export default {
     margin: auto auto;
     // width: 50%;
     display: flex;
+    .input-text-title {
+        font-weight: bold;
+        text-align: center;
+        padding: 1em 0;
+        width: 15em;
+    }
+    .input-text-content {
+        height: 4em;
+        border: 1px solid gray;
+        padding: 1em;
+        white-space: break-spaces;
+        word-break: break-all;
+        width: 15em;
+    }
+    .input-text {
+        line-height: 2em;
+        width: 15em;
+        width: 100%;
+    }
 }
 .header {
     min-height: 4rem;
