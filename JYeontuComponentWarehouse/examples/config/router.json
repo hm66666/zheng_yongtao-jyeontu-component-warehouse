@@ -455,6 +455,17 @@
                     "open": false,
                     "component": "views/directivesViews/ignorePinyin.vue",
                     "children": []
+                },
+                {
+                    "id": 603,
+                    "name": "JThousandView",
+                    "path": "/JThousandView",
+                    "label": "千分位分隔",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/directivesViews/JThousandView.vue",
+                    "children": []
                 }
             ]
         },

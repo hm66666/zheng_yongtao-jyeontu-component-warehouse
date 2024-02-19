@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.7.5（已发布）",
+                    descript: "添加：千分位分隔指令",
+                    time: "2024-02-19",
+                    icon: "7.5",
+                },
+                {
                     title: "版本0.7.4（已发布）",
                     descript: "添加：拼音输入过程input事件忽略指令",
                     time: "2024-02-01",
