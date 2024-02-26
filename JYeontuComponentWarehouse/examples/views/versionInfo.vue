@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.7.6（已发布）",
+                    descript: "添加：防抖指令",
+                    time: "2024-02-26",
+                    icon: "7.6",
+                },
+                {
                     title: "版本0.7.5（已发布）",
                     descript: "添加：千分位分隔指令",
                     time: "2024-02-19",

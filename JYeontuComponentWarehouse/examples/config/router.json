@@ -466,6 +466,17 @@
                     "open": false,
                     "component": "views/directivesViews/JThousandView.vue",
                     "children": []
+                },
+                {
+                    "id": 604,
+                    "name": "JDebounceView",
+                    "path": "/JDebounceView",
+                    "label": "防抖指令",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/directivesViews/JDebounceView.vue",
+                    "children": []
                 }
             ]
         },
