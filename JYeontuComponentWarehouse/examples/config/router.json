@@ -477,6 +477,17 @@
                     "open": false,
                     "component": "views/directivesViews/JDebounceView.vue",
                     "children": []
+                },
+                {
+                    "id": 605,
+                    "name": "JDragView",
+                    "path": "/JDragView",
+                    "label": "拖拽指令",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/directivesViews/JDragView.vue",
+                    "children": []
                 }
             ]
         },

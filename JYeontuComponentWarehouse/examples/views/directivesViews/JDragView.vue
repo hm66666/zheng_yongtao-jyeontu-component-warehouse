@@ -2,23 +2,23 @@
     <split-horizontal>
         <template v-slot:header-p>
             <div class="j-title">
-                <span v-JRotate3D>元素旋转（v-JRotate3D）</span>
+                <span v-JDrag>元素拖拽（v-JDrag）</span>
                 <div class="j-detail">
-                    给元素添加旋转属性，鼠标按住拖拽二维码、代码段、标题试试吧~
+                    给元素添加拖拽属性，鼠标按住拖拽二维码、代码段、标题试试吧~
                 </div>
             </div>
         </template>
         <template v-slot:left-p>
             <div class="content">
                 <img
-                    v-JRotate3D
+                    v-JDrag
                     alt=""
                     src="https://gitee.com/jyeontostore/img-bed/raw/master/img/1699276911873.jpg"
                 />
             </div>
         </template>
         <template v-slot:right-p>
-            <div style="width: 100%" v-JRotate3D>
+            <div style="width: 100%" v-JDrag>
                 <pre v-highlight>
                 <code class="vue">
                     <div v-text="code"></div>
@@ -31,7 +31,7 @@
 <script>
 import { mixinForView } from "@/mixins/index.js";
 export default {
-    name: "JRotate3DView",
+    name: "JDragView",
     components: {},
     mixins: [mixinForView],
     data() {
@@ -59,7 +59,7 @@ export default {
             this.code = `
     <div class="content">
         <img
-            v-JRotate3D
+            v-JDrag
             alt=""
             src="https://gitee.com/jyeontostore/img-bed/raw/master/img/1699276911873.jpg"
         />

@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.7.7（已发布）",
+                    descript: "添加：拖拽指令",
+                    time: "2024-03-30",
+                    icon: "7.7",
+                },
+                {
                     title: "版本0.7.6（已发布）",
                     descript: "添加：防抖指令",
                     time: "2024-02-26",
