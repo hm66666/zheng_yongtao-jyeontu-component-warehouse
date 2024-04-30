@@ -438,7 +438,7 @@
                     "id": 601,
                     "name": "rotate3D",
                     "path": "/rotate3D",
-                    "label": "元素旋转",
+                    "label": "元素3D旋转",
                     "selected": false,
                     "icon": "icon-zifuchuanchulimoban",
                     "open": false,
@@ -487,6 +487,17 @@
                     "icon": "icon-zifuchuanchulimoban",
                     "open": false,
                     "component": "views/directivesViews/JDragView.vue",
+                    "children": []
+                },
+                {
+                    "id": 606,
+                    "name": "JRotateView",
+                    "path": "/JRotateView",
+                    "label": "旋转指令",
+                    "selected": false,
+                    "icon": "icon-zifuchuanchulimoban",
+                    "open": false,
+                    "component": "views/directivesViews/JRotateView.vue",
                     "children": []
                 }
             ]

@@ -60,6 +60,12 @@ export default {
                     icon: "进",
                 },
                 {
+                    title: "版本0.7.8（已发布）",
+                    descript: "添加：旋转指令",
+                    time: "2024-05-01",
+                    icon: "7.8",
+                },
+                {
                     title: "版本0.7.7（已发布）",
                     descript: "添加：拖拽指令",
                     time: "2024-03-30",
